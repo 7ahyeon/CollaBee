@@ -1,82 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>장바구니</title>
+<title>콜라비</title>
 <%@ include file= "../common/bootstrap.jspf"%>
 <%@ include file= "../common/modal/changeAdressModal.jspf"%>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/cart.css">
 <style>
 	header {
 		margin-bottom:100px;
 	}
 	footer {
-		margin-top:100px;
+		margin-top:300px;
 	}
-	/* 	장바구니 상품 목록 영역 */
-	/* 전체 선택 */
-	.circle{
-		display: inline-block;
-		width: 20px; height: 20px;
-		border: 2px solid #999;
-		box-sizing: border-box;
-		border-radius: 10px;
-		position: relative; top: 4px;
-		cursor: pointer;
-		
-		background-image: url(https://blog.kakaocdn.net/dn/XTnSL/btrhtUIVtpB/5FungHN6IXVXG8bLbhE9Dk/img.png);
-		background-size: 70%;
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-	
-	input[type="checkbox"]:checked + .circle{
-		background-color: #9A30AE;
-		border-color: #9A30AE;
-		background-image: url(https://blog.kakaocdn.net/dn/t7a2D/btrhtVgLYmG/dUxzAkBy9hIZ4gHmyllQrk/img.png);
-	}
-	input[type="checkbox"] { position: absolute; left: -999em; }
-	
-	.bi-snow, .bi-droplet, .bi-chevron-down, .bi-x-circle, .bi-brightness-high {
-		margin: 0 10px;
-		font-size: 1.5rem;
-		font-weight: bold;
-	}
-	.text-secondary {
-		font-size:0.8rem;
-	}
-	.btn:active, .btn:focus {
-		text-decoration:none;
-		outline:none !important;
-		box-shadow:none !important;
-	}
-	.productImgCart {
-		padding:10px;
-	}
-	.card-body span {
-		vertical-align: middle;
-	}
-	span {
-		display: inline-block;
-	}
-	/* 구매 불가 안내 영역 */
-	.info-text {
-		display: none;
-		position: absolute;
-		right:10px;
-		top:45px;
-		background-color: white;
-	}
-	/* 결제 박스 영역 */
-	.quickPayMenu { 
-		position: absolute;
-		width: 280px;
-		height: 400px;
-		left: 30px;
-	}
-	
-	
 </style>
 </head>
 <body>
@@ -93,9 +32,138 @@
 		<div class="col-sm-2">
 		</div>
 	</div>
+
 	<div class="row">
 		<div class="col-sm-2">
 		</div>
+		
+<%-- 		<!-- 비회원 장바구니 -->
+		<c:if test="${empty id}">
+		
+		</c:if> --%>
+		
+		<!-- 회원 장바구니 -->
+	<%-- 	<c:if test="${not empty id}"> --%>
+		<!-- 장바구니 상품 비존재 -->
+		<c:if test="${empty cartList}">
+				<div class="col-sm-6" style="white-space: nowrap;">
+		
+			<div style="margin:5px 10px;">
+				<label>
+					<input type="checkbox" name="cb1" class="check-all">
+					<i class="circle"></i>
+					<span class="chk-text text-secondary" style="margin: 0 10px;">
+						전체 선택 (0/0)
+					</span>
+				</label>
+				<span class="text-secondary"> | </span>
+				<span id ="selectDelete" class="text-secondary" style="padding:0 0 0 10px;">
+					선택 삭제
+				</span>
+			</div>
+			<div class="font-weight-bold text-center" style="color:#999;border-top:1px solid black;padding:150px;font-size:0.95rem;">
+				장바구니에 담긴 상품이 없습니다.
+			</div>
+			<div style="margin:5px 10px;">
+				<label>
+					<input type="checkbox" name="cb1" class="check-all">
+					<i class="circle"></i>
+					<span class="chk-text text-secondary" style="margin: 0 10px;">
+						전체 선택 (0/0)
+					</span>
+					
+				</label>
+				<span class="text-secondary"> | </span>
+				<span id ="selectDelete" class="text-secondary" style="padding:0 0 0 10px;">
+					선택 삭제
+				</span>
+			</div>
+		</div>
+		
+		<!-- 결제 메뉴 -->
+		<div class="col-sm-2">
+			<div class="quickPayMenu">
+				
+				<div style="padding:15px">
+					<p class="font-weight-bold text-dark" style="margin-bottom: 10px;">
+						<i class="bi bi-geo-alt" style="font-size:1.2rem;margin:0"></i>
+						<span style="font-size:0.95rem;">
+							배송지
+						</span>
+					</p>
+					<p class="font-weight-bold text-dark" style="margin-bottom: 3px;">
+						<span style="font-size:0.95rem;">
+							제주특별자치도 제주시 특별자치도, 해안동 1100로 220-13
+						</span>
+					</p>
+					<p class="font-weight-bold" style="color:#9A30AE;margin-top: 0;margin-bottom: 10px;">
+						<span style="font-size:0.8rem;">샛별배송</span>
+					</p>
+					<p>
+						<button id="changeAddrBtn" type="button" class="btn bg-white font-weight-bold"
+							style="width:100%;border:1px solid #9A30AE;border-radius:3px;padding:10px;color:#9A30AE;font-size:0.75rem;"
+							data-toggle="modal" data-target="#changeAddressModal">
+							배송지 변경
+						</button>
+					</p>
+				</div>
+				
+				<div style="padding: 0 20px;">
+					<div class="d-flex flex-row justify-content-between text-secondary font-weight-bold" style="font-size:1rem;">
+						<div style="margin-bottom: 10px;">
+							상품금액
+						</div>
+						<div style="margin-bottom: 10px;">
+							0원
+						</div>
+					</div>
+					<div class="d-flex flex-row justify-content-between text-secondary font-weight-bold" style="font-size:1rem;">
+						<div style="margin-bottom: 10px;">
+							상품할인금액
+						</div>
+						<div style="margin-bottom: 10px;">
+							0원
+						</div>
+					</div>
+					<div class="d-flex flex-row justify-content-between text-secondary font-weight-bold" style="font-size:1rem;">
+						<div style="margin-bottom: 10px;">
+							배송비
+						</div>
+						<div style="margin-bottom: 10px;">
+							0원
+						</div>
+					</div>
+				</div>
+				
+				<div class=""style="padding: 20px 20px;">
+					<div class="d-flex flex-row justify-content-between text-dark font-weight-bold" style="font-size:1rem;">
+						<div style="margin-bottom: 10px;">
+							결제예정금액
+						</div>
+						<div style="margin-bottom: 10px;font-size: 1.2rem;">
+							0원
+						</div>
+					</div>
+				</div>
+				<div style="margin-top:10px;">
+					<button type="button" class="btn font-weight-bold disabled btn-secondary"
+							style="width:100%;border-radius:3px;padding:10px;color:white;font-size:1rem;">
+							상품을 담아주세요
+					</button>
+				</div>
+				<div>
+					<div>
+						<ul class="text-secondary" style="list-style: none;padding:20px 15px 15px 15px;font-size:0.7rem;font-weight:bold;line-height: 160%;">
+							<li>[주문완료]상태일 경우에만 주문 취소 가능합니다.</li>
+							<li>[마이콜라비>주문내역 상세페이지]에서 직접 취소하실 수 있습니다.</li>
+						</ul>
+					</div>
+				</div>				
+			</div>
+		</div>
+		</c:if>
+		<!-- 장바구니 상품 존재 -->
+		<c:if test="${not empty cartList}">
 		<div class="col-sm-6" style="white-space: nowrap;">
 		
 			<form action="#">
@@ -637,10 +705,12 @@
 				</div>				
 			</div>
 		</div>
+		</c:if>
+<%-- 		</c:if> --%>
 		<div class="col-sm-2">
 		</div>
-		
-	</div>
+			
+		</div>
 	<footer>
 		<%@ include file= "../common/footer.jspf"%>
 	</footer>

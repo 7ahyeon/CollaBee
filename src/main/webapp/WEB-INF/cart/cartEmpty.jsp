@@ -11,7 +11,7 @@
 		margin-bottom:100px;
 	}
 	footer {
-		margin-top:300px;
+		margin-top:400px;
 	}
 	
 	/* 	장바구니 상품 목록 영역 */

@@ -16,4 +16,5 @@ public class CartController {
 		System.out.println(">>장바구니 페이지");
 		return "/cart/cart";
 	}
+	
 }
