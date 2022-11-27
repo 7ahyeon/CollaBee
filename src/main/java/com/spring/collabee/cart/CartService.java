@@ -1,4 +1,4 @@
-package com.spring.collabee;
+package com.spring.collabee.cart;
 
 public interface CartService {
 	void insertCart(CartVO cartVo);

@@ -14,7 +14,7 @@ public class JDBCUtill {
 				Class.forName("oracle.jdbc.OracleDriver");
 				
 				return 	DriverManager.getConnection(
-						"jdbc:oracle:thin:192.168.18.23:1521:xe",
+						"jdbc:oracle:thin:@localhost:1521:xe",
 						"collabee", "collabee");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

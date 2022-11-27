@@ -6,11 +6,11 @@
   
   <settings>
   	<setting name="jdbcTypeForNull" value="NULL"/>
-  	<setting name="mapUnderscoreToCamelCase" value="true"/> <!-- 언더바 -> camelcase로 변경해줌 -->
+  	<setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
   
   <typeAliases>
-		<!-- <typeAlias alias="board" type="com.spring.biz.board.BoardVO"/> -->
+  	<typeAlias alias="cartMember" type="com.spring.collabee.cart.CartMemberVO"/>
   </typeAliases>
   
   

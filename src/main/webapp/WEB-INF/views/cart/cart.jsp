@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>콜라비</title>
-<%@ include file= "../common/bootstrap.jspf"%>
-<%@ include file= "../common/modal/changeAdressModal.jspf"%>
+<%@ include file= "../../common/bootstrap.jspf"%>
+<%@ include file= "../../common/modal/changeAdressModal.jspf"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/cart.css">
 <style>
 	header {
@@ -20,14 +20,14 @@
 </head>
 <body>
 	<header>
-		<%@ include file= "../common/header.jspf"%>
+		<%@ include file= "../../common/header.jspf"%>
 	</header>
-	
 	<div class="row">
 		<div class="col-sm-2">
 		</div>
 		<div class="col-sm-8  text-center" style="margin-bottom:20px;" >
-			<h3 style="font-weight: bolder;">장바구니</h3>
+			<h3 style="font-weight: bolder;">장바구니 </h3>
+			
 		</div>
 		<div class="col-sm-2">
 		</div>
@@ -93,7 +93,7 @@
 					</p>
 					<p class="font-weight-bold text-dark" style="margin-bottom: 3px;">
 						<span style="font-size:0.95rem;">
-							제주특별자치도 제주시 특별자치도, 해안동 1100로 220-13
+							${cartMember.address }
 						</span>
 					</p>
 					<p class="font-weight-bold" style="color:#9A30AE;margin-top: 0;margin-bottom: 10px;">
@@ -712,9 +712,11 @@
 			
 		</div>
 	<footer>
-		<%@ include file= "../common/footer.jspf"%>
+		<%@ include file= "../../common/footer.jspf"%>
 	</footer>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+	
 	$(function() {
 		
 		// 전체 선택 check box
@@ -727,8 +729,13 @@
 		var currentPosition = parseInt($(".quickPayMenu").css("top"));
 		$(window).scroll(function() {
 			var position = $(window).scrollTop();
-			var newPosition = position + currentPosition + "px";
-		    $(".quickPayMenu").stop().animate({"top":newPosition},800);
+			var newPosition = position + currentPosition - 100 + "px";
+			// 일정 위치에서 멈추기
+			if (Math.round( $(window).scrollTop()) + 200 > $(document).height() - $(window).height()) {
+				$(".quickPayMenu").stop().animate({"top":"50px"},800);
+			} else {
+	   			$(".quickPayMenu").stop().animate({"top":newPosition},800);
+			}
 		}).scroll();
 		
 		// 구매 불가 안내 hover
@@ -758,6 +765,41 @@
 				})
 			 }
 		})
+	}
+	function findAddr() {
+		new daum.Postcode({
+			oncomplete: function(data) {
+				var addr = '';
+	                
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우(R)
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+				$('#address_kakao').val(addr); // 주소 넣기
+				$('#address_detail').focus(); //상세입력 포커싱
+				console.log($('#address_kakao').value);
+			}
+		}).open();
+	}
+	function changeAddr() {
+		alert($('#address_kakao').val());
+		$.ajax("/cart/changeAddr.do", {
+			type: "post",
+			data: {
+				address : $('#address_kakao').val(),
+				addressDetail : $('#address_detail').val()
+			},
+			dataType: "json",
+			success: function(data){
+				alert("성공");
+				console.log(data);
+			},
+			error: function(){
+				alert("실패");
+			}
+		}); 
 	}
 </script>
 </body>

@@ -1,4 +1,4 @@
-package com.spring.collabee;
+package com.spring.collabee.cart;
 
 public class CartVO {
 	
