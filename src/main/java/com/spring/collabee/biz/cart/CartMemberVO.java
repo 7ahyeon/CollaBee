@@ -1,4 +1,4 @@
-package com.spring.collabee.cart;
+package com.spring.collabee.biz.cart;
 
 import java.sql.Date;
 

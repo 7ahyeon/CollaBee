@@ -1,10 +1,10 @@
-package com.spring.collabee.cart.impl;
+package com.spring.collabee.cart.biz.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.collabee.cart.CartMemberVO;
+import com.spring.collabee.biz.cart.CartMemberVO;
 
 @Repository
 public class CartMemberDAO {

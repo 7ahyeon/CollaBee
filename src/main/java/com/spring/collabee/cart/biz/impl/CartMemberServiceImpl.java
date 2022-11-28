@@ -1,10 +1,10 @@
-package com.spring.collabee.cart.impl;
+package com.spring.collabee.cart.biz.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.collabee.cart.CartMemberService;
-import com.spring.collabee.cart.CartMemberVO;
+import com.spring.collabee.biz.cart.CartMemberService;
+import com.spring.collabee.biz.cart.CartMemberVO;
 
 @Service("cartMemberService")
 public class CartMemberServiceImpl implements CartMemberService {

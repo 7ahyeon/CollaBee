@@ -92,8 +92,8 @@
 						</span>
 					</p>
 					<p class="font-weight-bold text-dark" style="margin-bottom: 3px;">
-						<span style="font-size:0.95rem;">
-							${cartMember.address }
+						<span class="addressView" style="font-size:0.95rem;">
+							${cartMember.address }&nbsp;${cartMember.addressDetail }
 						</span>
 					</p>
 					<p class="font-weight-bold" style="color:#9A30AE;margin-top: 0;margin-bottom: 10px;">
@@ -181,226 +181,160 @@
 					</span>
 				</div>
 				
-				<div class="accordion" id="accordionOne">
-					<div class="card"  style="border:none;">
-					
-					    <div class="card-header bg-white" id="headingOne" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
-				        	<p class="text-left" style="margin:0;">
-				        		<span>
-				        			<span style="margin-top:2px;">
-										<i class="bi bi-droplet" style="color: mediumaquamarine;"></i>
-				        			</span>
-									<span style="font-size:1.0rem;font-weight:bold;">
-										냉장 상품
-									</span>
-				        		</span>
-						    	<button class="btn btn-link float-right" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-									<span><i class="bi bi-chevron-down" style="color:black;"></i></span>
-						        </button>
-							</p>
-					    </div>
-					
-					    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionOne">
-
-							<!-- 할인가 없는 상품 -->
-						    <div class="card-body" style="padding:10px;">
-						    	<div class="d-flex  flex-row justify-content-between">
-						    		<div class="item">
-										<label>
-											<input type="checkbox" name="cb1" class="check-one">
-											<i class="circle"></i>
-											<span class="chk-text"></span>
-										</label>
-										<img class="productImgCart"  src="https://product-image.kurly.com/cdn-cgi/image/width=676,format=auto/product/image/5541028a-2e9d-4487-87dc-caa9fbc06d7f.jpg" width="80px" >
-							     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-							     			<a href="#" class="text-dark" style="text-decoration: none !important;">
-							     				무농약 제주 청레몬 450g (3~5입)
-							     			</a>
-							     		</span>
-						    		</div>
-						    		<div class="item"  style="margin-top:24px;">
-							     		<span class="btn-group" style="margin-right:50px;">
-								     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-								     		<input type="number" name="cnt" value="1" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-								     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
-								     			+
-								     		</button>
-							     		</span>
-							     		<span>
-								     		<span class="text-dark font-weight-bold">
-							     				&nbsp;&nbsp;&nbsp;
-							     				7,900원
-							     			</span>
-							     		</span>
-							     		<span style="margin:auto;">
-							     			<button class="button delBtn text-secondary"  onclick="delete_go(this)" style="border:none;background-color:white;">
-									     		<i class="bi bi-x"></i>
-							     			</button>
-							     		</span>
-						    		</div>
-						    	</div>
-					     	</div>
-					     	
-							<!-- 할인가 있는 상품 -->
-						    <div class="card-body" style="padding:10px;">
-						    	<div class="d-flex  flex-row justify-content-between">
-						    		<div class="item">
-										<label>
-											<input type="checkbox" name="cb2" class="check-one">
-											<i class="circle"></i>
-											<span class="chk-text"></span>
-										</label>
-										<img class="productImgCart"  src="https://img-cf.kurly.com/cdn-cgi/image/width=676,format=auto/shop/data/goods/160342712083l0.jpg" width="80px" >
-							     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-							     			<a href="#" class="text-dark" style="text-decoration: none !important;">
-							     				감홍 사과 1.3kg (4~6입)
-							     			</a>
-							     		</span>
-						    		</div>
-						    		<div class="item  "  style="margin-top:24px;">
-							     		<span class="btn-group" style="margin-right:50px;">
-								     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-								     		<input type="number" name="cnt" value="1" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-								     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
-								     			+
-								     		</button>
-							     		</span>
-							     		<span>
-								     		<span class="text-dark font-weight-bold">
-							     				&nbsp;
-							     				13,600원
-							     			</span>
-							     			<br>
-							     			<span class="text-secondary text-right">
-							     				&nbsp;&nbsp;
-								     			<del>
-								     				16,000원
-								     			</del>
-							     			</span>
-							     		</span>
-							     		<span style="margin:auto;">
-							     			<button class="button delBtn text-secondary" onclick="delete_go(this)" style="border:none;background-color:white;">
-									     		<i class="bi bi-x"></i>
-							     			</button>
-							     		</span>
-						    		</div>
-						    	</div>
-					     	</div>
-
-				    	</div>
-				    	
+				<c:if test="${not empty cartList1 }">
+					<div class="accordion" id="accordionOne">
+						<div class="card"  style="border:none;">
+						
+						    <div class="card-header bg-white" id="headingOne" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
+					        	<p class="text-left" style="margin:0;">
+					        		<span>
+					        			<span style="margin-top:2px;">
+											<i class="bi bi-droplet" style="color: mediumaquamarine;"></i>
+					        			</span>
+										<span style="font-size:1.0rem;font-weight:bold;">
+											냉장 상품
+										</span>
+					        		</span>
+							    	<button class="btn btn-link float-right" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										<span><i class="bi bi-chevron-down" style="color:black;"></i></span>
+							        </button>
+								</p>
+						    </div>
+						
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionOne">
+	
+								<c:forEach var="cartGoods" items="${cartList1 }" varStatus="status">
+								<!-- 할인가 없는 상품 -->
+							    <div class="card-body" style="padding:10px;">
+							    	<div class="d-flex  flex-row justify-content-between">
+							    		<div class="item">
+											<label>
+												<input type="checkbox" name="orderGoods" value="${cartGoods.productNum }" class="check-one">
+												<i class="circle"></i>
+												<span class="chk-text"></span>
+											</label>
+											<img class="productImgCart"  src="../../../resources/imgs/goods/${cartGoods.thumSysFilename }" width="80px" >
+								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
+								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+								     				${cartGoods.productName }
+								     			</a>
+								     		</span>
+							    		</div>
+							    		<div class="item"  style="margin-top:24px;">
+								     		<span class="btn-group" style="margin-right:50px;">
+									     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
+									     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
+									     			+
+									     		</button>
+								     		</span>
+								     		<span>
+									     		<span class="text-dark font-weight-bold">
+								     				${cartGoods.price }원
+								     				
+													<!-- 할인가 있는 상품 -->
+								     				<c:if test="${not empty saleprice }">
+							     					<span class="text-secondary text-right">
+										     			<del>
+										     				${cartGoods.salePrice }원
+										     			</del>
+									     			</span>
+								     				</c:if>
+								     			</span>
+								     		</span>
+								     		<span style="margin:auto;">
+								     			<button class="button delBtn text-secondary"  onclick="delete_go(this)" style="border:none;background-color:white;">
+										     		<i class="bi bi-x"></i>
+								     			</button>
+								     		</span>
+							    		</div>
+							    	</div>
+						     	</div>
+								</c:forEach>
+						     	
+					    	</div>
+					    	
+						</div>
 					</div>
-				</div>
-
-				<div class="accordion" id="accordionTwo">
-					<div class="card"  style="border:none;">
-					
-					    <div class="card-header bg-white" id="headingTwo" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
-				        	<p class="text-left" style="margin:0;">
-				        		<span>
-				        			<span style="margin-top:2px;">
-										<i class="bi bi-snow" style="color: LightSkyBlue;"></i>
-				        			</span>
-									<span style="font-size:1.0rem;font-weight:bold;">
-										냉동 상품
-									</span>
-				        		</span>
-						    	<button class="btn btn-link float-right" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-									<span class="iconTwo"><i class="bi bi-chevron-down" style="color:black;"></i></span>
-						        </button>
-							</p>
-					    </div>
-					
-					    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionTwo">
-
-							<!-- 할인가 없는 상품 -->
-						    <div class="card-body" style="padding:10px;">
-						    	<div class="d-flex  flex-row justify-content-between">
-						    		<div class="item">
-										<label>
-											<input type="checkbox" name="cb1" class="check-one">
-											<i class="circle"></i>
-											<span class="chk-text"></span>
-										</label>
-										<img class="productImgCart"  src="https://img-cf.kurly.com/cdn-cgi/image/width=676,format=auto/shop/data/goods/1648202670772l0.jpg" width="80px" >
-							     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-							     			<a href="#" class="text-dark" style="text-decoration: none !important;">
-							     				[밀클레버] 미니붕어빵 4종
-							     			</a>
-							     		</span>
-						    		</div>
-						    		<div class="item  "  style="margin-top:24px;">
-							     		<span class="btn-group" style="margin-right:50px;">
-								     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-								     		<input type="number" name="cnt" value="1" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-								     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
-								     			+
-								     		</button>
-							     		</span>
-								     		<span class="text-dark font-weight-bold">
-							     				&nbsp;&nbsp;&nbsp;
-							     				5,700원
-							     			</span>
-							     		<span style="margin:auto;">
-							     			<button class="button delBtn text-secondary" onclick="delete_go(this)" style="border:none;background-color:white;">
-									     		<i class="bi bi-x"></i>
-							     			</button>
-							     		</span>
-						    		</div>
-						    	</div>
-					     	</div>
-					     	
-							<!-- 할인가 있는 상품 -->
-						    <div class="card-body" style="padding:10px;">
-						    	<div class="d-flex flex-row justify-content-between">
-						    		<div class="item">
-										<label>
-											<input type="checkbox" name="cb2" class="check-one">
-											<i class="circle"></i>
-											<span class="chk-text"></span>
-										</label>
-										<img class="productImgCart"  src="https://img-cf.kurly.com/cdn-cgi/image/width=676,format=auto/shop/data/goods/1654596159551l0.jpg" width="80px" >
-							     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-							     			<a href="#" class="text-dark" style="text-decoration: none !important;">
-							     				[Eat's Nice] 수플레 팬케이크 4종
-							     			</a>
-							     		</span>
-						    		</div>
-						    		<div class="item  "  style="margin-top:24px;">
-							     		<span class="btn-group" style="margin-right:50px;">
-								     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-								     		<input type="number" name="cnt" value="1" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-								     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
-								     			+
-								     		</button>
-							     		</span>
-							     		<span>
-								     		<span class="text-dark font-weight-bold">
-							     				&nbsp;&nbsp;&nbsp;
-							     				5,115원
-							     			</span>
-							     			<br>
-							     			<span class="text-secondary text-right">
-							     				&nbsp;&nbsp;&nbsp;&nbsp;
-								     			<del>
-								     				5,500원
-								     			</del>
-							     			</span>
-							     		</span>
-							     		<span style="margin:auto;">
-							     			<button class="button delBtn text-secondary" onclick="delete_go(this)" style="border:none;background-color:white;">
-									     		<i class="bi bi-x"></i>
-							     			</button>
-							     		</span>
-						    		</div>
-						    	</div>
-					     	</div>
-
-				    	</div>
-				    	
+				</c:if>
+				<c:if test="${not empty cartList1 }">
+					<div class="accordion" id="accordionOne">
+						<div class="card"  style="border:none;">
+						
+						   <div class="card-header bg-white" id="headingTwo" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
+					        	<p class="text-left" style="margin:0;">
+					        		<span>
+					        			<span style="margin-top:2px;">
+											<i class="bi bi-snow" style="color: LightSkyBlue;"></i>
+					        			</span>
+										<span style="font-size:1.0rem;font-weight:bold;">
+											냉동 상품
+										</span>
+					        		</span>
+							    	<button class="btn btn-link float-right" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+										<span class="iconTwo"><i class="bi bi-chevron-down" style="color:black;"></i></span>
+							        </button>
+								</p>
+					    	</div>
+						
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionOne">
+	
+								<c:forEach var="cartGoods" items="${cartList1 }" varStatus="status">
+								<!-- 할인가 없는 상품 -->
+							    <div class="card-body" style="padding:10px;">
+							    	<div class="d-flex  flex-row justify-content-between">
+							    		<div class="item">
+											<label>
+												<input type="checkbox" name="orderGoods" value="${cartGoods.productNum }" class="check-one">
+												<i class="circle"></i>
+												<span class="chk-text"></span>
+											</label>
+											<img class="productImgCart"  src="../../../resources/imgs/goods/${cartGoods.thumSysFilename }" width="80px" >
+								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
+								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+								     				${cartGoods.productName }
+								     			</a>
+								     		</span>
+							    		</div>
+							    		<div class="item"  style="margin-top:24px;">
+								     		<span class="btn-group" style="margin-right:50px;">
+									     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
+									     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
+									     			+
+									     		</button>
+								     		</span>
+								     		<span>
+									     		<span class="text-dark font-weight-bold">
+								     				${cartGoods.price }원
+								     				
+													<!-- 할인가 있는 상품 -->
+								     				<c:if test="${not empty saleprice }">
+							     					<span class="text-secondary text-right">
+										     			<del>
+										     				${cartGoods.salePrice }원
+										     			</del>
+									     			</span>
+								     				</c:if>
+								     			</span>
+								     		</span>
+								     		<span style="margin:auto;">
+								     			<button class="button delBtn text-secondary"  onclick="delete_go(this)" style="border:none;background-color:white;">
+										     		<i class="bi bi-x"></i>
+								     			</button>
+								     		</span>
+							    		</div>
+							    	</div>
+						     	</div>
+								</c:forEach>
+						     	
+					    	</div>
+					    	
+						</div>
 					</div>
-					
-				</div>
+				</c:if>
+
+				
 				
 				<div class="accordion" id="accordionThree">
 					<div class="card"  style="border:none;">
@@ -784,19 +718,23 @@
 		}).open();
 	}
 	function changeAddr() {
-		alert($('#address_kakao').val());
-		$.ajax("/cart/changeAddr.do", {
-			type: "post",
-			data: {
+		var sendAddr = {
 				address : $('#address_kakao').val(),
 				addressDetail : $('#address_detail').val()
-			},
+			};
+		$.ajax({
+			type: "POST",
+			url: "changeAddr.do",
+			data: JSON.stringify(sendAddr),
+			contentType: "application/json",
 			dataType: "json",
 			success: function(data){
-				alert("성공");
-				console.log(data);
+				let addrHtml = data.address + " " + data.addressDetail;
+				$(".addressView").html(addrHtml);
 			},
 			error: function(){
+				
+				
 				alert("실패");
 			}
 		}); 
