@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,8 +38,8 @@ public class CartController {
 		return "/cart/cart";
 	}
 	
-	@RequestMapping(value = "/changeAddr.do", method = RequestMethod.POST)
-	public void changeAddr(@RequestParam Map<String, String> map) {
+	@PostMapping("/changeAddr.do")
+	public void changeAddr(@RequestBody Map<String, String> map) {
 		System.out.println(map.get("address"));
 	}
 	

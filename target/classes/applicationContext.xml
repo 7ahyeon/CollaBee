@@ -28,7 +28,7 @@
 		destroy-method="close">
 		<!-- 사용하는 DB 접속관련 정보입력 -->
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="url" value="jdbc:oracle:thin:@192.168.18.23:1521:xe"/>
 		<property name="username" value="collabee"/>	
 		<property name="password" value="collabee"/>	
 	</bean>

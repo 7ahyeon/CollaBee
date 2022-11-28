@@ -7,7 +7,8 @@ public class CartMemberVO {
 	private String id, password, name, email, phone, address, gender, birth;
 	private int grade;
 	private Date regdate;
-	private int emoney, memberState, agreeState, leaveDate;
+	private String memberState;
+	private int leaveDate;
 	private String addressDetail;
 	public int getMemberNum() {
 		return memberNum;
@@ -75,23 +76,11 @@ public class CartMemberVO {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
-	public int getEmoney() {
-		return emoney;
-	}
-	public void setEmoney(int emoney) {
-		this.emoney = emoney;
-	}
-	public int getMemberState() {
+	public String getMemberState() {
 		return memberState;
 	}
-	public void setMemberState(int memberState) {
+	public void setMemberState(String memberState) {
 		this.memberState = memberState;
-	}
-	public int getAgreeState() {
-		return agreeState;
-	}
-	public void setAgreeState(int agreeState) {
-		this.agreeState = agreeState;
 	}
 	public int getLeaveDate() {
 		return leaveDate;
@@ -109,10 +98,10 @@ public class CartMemberVO {
 	public String toString() {
 		return "CartMemberVO [memberNum=" + memberNum + ", id=" + id + ", password=" + password + ", name=" + name
 				+ ", email=" + email + ", phone=" + phone + ", address=" + address + ", gender=" + gender + ", birth="
-				+ birth + ", grade=" + grade + ", regdate=" + regdate + ", emoney=" + emoney + ", memberState="
-				+ memberState + ", agreeState=" + agreeState + ", leaveDate=" + leaveDate + ", addressDetail="
-				+ addressDetail + "]";
+				+ birth + ", grade=" + grade + ", regdate=" + regdate + ", memberState=" + memberState + ", leaveDate="
+				+ leaveDate + ", addressDetail=" + addressDetail + "]";
 	}
+	
 	
 	
 }
