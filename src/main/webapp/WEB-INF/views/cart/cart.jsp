@@ -257,7 +257,7 @@
 						</div>
 					</div>
 				</c:if>
-				<c:if test="${not empty cartList1 }">
+				<c:if test="${not empty cartList2 }">
 					<div class="accordion" id="accordionOne">
 						<div class="card"  style="border:none;">
 						
