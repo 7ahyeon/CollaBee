@@ -2,43 +2,51 @@ package com.spring.collabee.biz.cart;
 
 public class CartVO {
 	
-	private int product_num, storage_num;
-	private String thum_sys_filename, product_name;
-	private int count, price, saleprice, stock;
+	private int productNum, storageNum, categoryNum;
+	private String thumSysFilename, productName;
+	private int count, price, saleprice, stock, memberNum;
 	
 	public CartVO() {
 	}
 
-	public int getProduct_num() {
-		return product_num;
+	public int getProductNum() {
+		return productNum;
 	}
 
-	public void setProduct_num(int product_num) {
-		this.product_num = product_num;
+	public void setProductNum(int productNum) {
+		this.productNum = productNum;
 	}
 
-	public int getStorage_num() {
-		return storage_num;
+	public int getStorageNum() {
+		return storageNum;
 	}
 
-	public void setStorage_num(int storage_num) {
-		this.storage_num = storage_num;
+	public void setStorageNum(int storageNum) {
+		this.storageNum = storageNum;
 	}
 
-	public String getThum_sys_filename() {
-		return thum_sys_filename;
+	public int getCategoryNum() {
+		return categoryNum;
 	}
 
-	public void setThum_sys_filename(String thum_sys_filename) {
-		this.thum_sys_filename = thum_sys_filename;
+	public void setCategoryNum(int categoryNum) {
+		this.categoryNum = categoryNum;
 	}
 
-	public String getProduct_name() {
-		return product_name;
+	public String getThumSysFilename() {
+		return thumSysFilename;
 	}
 
-	public void setProduct_name(String product_name) {
-		this.product_name = product_name;
+	public void setThumSysFilename(String thumSysFilename) {
+		this.thumSysFilename = thumSysFilename;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 	public int getCount() {
@@ -73,11 +81,12 @@ public class CartVO {
 		this.stock = stock;
 	}
 
-	@Override
-	public String toString() {
-		return "CartVO [product_num=" + product_num + ", storage_num=" + storage_num + ", thum_sys_filename="
-				+ thum_sys_filename + ", product_name=" + product_name + ", count=" + count + ", price=" + price
-				+ ", saleprice=" + saleprice + ", stock=" + stock + "]";
+	public int getMemberNum() {
+		return memberNum;
+	}
+
+	public void setMemberNum(int memberNum) {
+		this.memberNum = memberNum;
 	}
 
 	

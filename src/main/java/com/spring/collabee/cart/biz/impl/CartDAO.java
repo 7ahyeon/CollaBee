@@ -26,6 +26,9 @@ public class CartDAO {
 
 	public void deleteCart(CartVO vo) {
 	}
+	public int getCartCount(CartMemberVO vo) {
+		return mybatis.selectOne("cartDAO.getCartCount", vo);
+	}
 
 	public List<CartVO> getCartList(CartMemberVO vo) {
 		return mybatis.selectList("cartDAO.getCartList", vo);

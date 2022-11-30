@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
 	}
 </style>
 </head>
-<body>
+<body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
 	<header>
 		<%@ include file= "../../common/header.jspf"%>
 	</header>
@@ -36,21 +37,14 @@
 	<div class="row">
 		<div class="col-sm-2">
 		</div>
-		
-<%-- 		<!-- 비회원 장바구니 -->
-		<c:if test="${empty id}">
-		
-		</c:if> --%>
-		
-		<!-- 회원 장바구니 -->
-	<%-- 	<c:if test="${not empty id}"> --%>
+
 		<!-- 장바구니 상품 비존재 -->
 		<c:if test="${empty cartList}">
 				<div class="col-sm-6" style="white-space: nowrap;">
 		
 			<div style="margin:5px 10px;">
 				<label>
-					<input type="checkbox" name="cb1" class="check-all">
+					<input type="checkbox" name="cb1" class="check_all">
 					<i class="circle"></i>
 					<span class="chk-text text-secondary" style="margin: 0 10px;">
 						전체 선택 (0/0)
@@ -66,7 +60,7 @@
 			</div>
 			<div style="margin:5px 10px;">
 				<label>
-					<input type="checkbox" name="cb1" class="check-all">
+					<input type="checkbox" name="cb1" class="check_all">
 					<i class="circle"></i>
 					<span class="chk-text text-secondary" style="margin: 0 10px;">
 						전체 선택 (0/0)
@@ -153,7 +147,7 @@
 				</div>
 				<div>
 					<div>
-						<ul class="text-secondary" style="list-style: none;padding:20px 15px 15px 15px;font-size:0.7rem;font-weight:bold;line-height: 160%;">
+						<ul class="text-secondary" style="list-style: none;padding:20px 15px 15px 15px;font-size:0.7rem;font-weight:bold;line-height: 250%;">
 							<li>[주문완료]상태일 경우에만 주문 취소 가능합니다.</li>
 							<li>[마이콜라비>주문내역 상세페이지]에서 직접 취소하실 수 있습니다.</li>
 						</ul>
@@ -166,19 +160,18 @@
 		<c:if test="${not empty cartList}">
 		<div class="col-sm-6" style="white-space: nowrap;">
 		
-			<form action="#">
 				<div style="margin:5px 10px;">
 					<label>
-						<input type="checkbox" name="cb1" class="check-all">
+						<input type="checkbox" name="cb1" class="check_all">
 						<i class="circle"></i>
-						<span class="chk-text text-secondary" style="margin: 0 10px;">
-							전체 선택 (6/6)
+						<span class="chk-text text-secondary" style="margin: 0 10px;cursor: pointer;">
+							전체 선택 (6/${cartCount })
 						</span>
 					</label>
 					<span class="text-secondary"> | </span>
-					<span id ="selectDelete" class="text-secondary" style="padding:0 0 0 10px;">
+					<button type="button" class="btn text-secondary selectDelete">
 						선택 삭제
-					</span>
+					</button> 
 				</div>
 				
 				<c:if test="${not empty cartList1 }">
@@ -209,14 +202,20 @@
 							    	<div class="d-flex  flex-row justify-content-between">
 							    		<div class="item">
 											<label>
-												<input type="checkbox" name="orderGoods" value="${cartGoods.productNum }" class="check-one">
+												<input type="checkbox" name="orderGoods" value="${cartGoods.productNum }" class="check_one" data-productNum="${cartGoods.productNum }" >
 												<i class="circle"></i>
 												<span class="chk-text"></span>
 											</label>
-											<img class="productImgCart"  src="../../../resources/imgs/goods/${cartGoods.thumSysFilename }" width="80px" >
+											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.categoryNum }/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
-								     				${cartGoods.productName }
+								     				<c:if test="${cartGoods.productName.length() > 30 }">
+								     					${cartGoods.productName.substring(0,25) }<br>
+								     					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
+								     				</c:if>
+								     				<c:if test="${cartGoods.productName.length() <= 30 }">
+								     					${cartGoods.productName }
+								     				</c:if>
 								     			</a>
 								     		</span>
 							    		</div>
@@ -230,20 +229,23 @@
 								     		</span>
 								     		<span>
 									     		<span class="text-dark font-weight-bold">
-								     				${cartGoods.price }원
+								     				<c:if test="${cartGoods.saleprice == 0 }">
+								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price }" /> 원
+								     				</c:if>
 								     				
 													<!-- 할인가 있는 상품 -->
-								     				<c:if test="${not empty saleprice }">
+								     				<c:if test="${cartGoods.saleprice != 0 }">
+								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.saleprice }" /> 원
 							     					<span class="text-secondary text-right">
 										     			<del>
-										     				${cartGoods.salePrice }원
+										     				<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price }" /> 원
 										     			</del>
 									     			</span>
 								     				</c:if>
 								     			</span>
 								     		</span>
 								     		<span style="margin:auto;">
-								     			<button class="button delBtn text-secondary"  onclick="delete_go(this)" style="border:none;background-color:white;">
+								     			<button class="button delBtn text-secondary" name="${cartGoods.productName }" value="${cartGoods.productNum }" style="border:none;background-color:white;">
 										     		<i class="bi bi-x"></i>
 								     			</button>
 								     		</span>
@@ -258,7 +260,7 @@
 					</div>
 				</c:if>
 				<c:if test="${not empty cartList2 }">
-					<div class="accordion" id="accordionOne">
+					<div class="accordion" id="accordionTwo">
 						<div class="card"  style="border:none;">
 						
 						   <div class="card-header bg-white" id="headingTwo" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
@@ -277,22 +279,29 @@
 								</p>
 					    	</div>
 						
-						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionOne">
+						    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionTwo">
 	
-								<c:forEach var="cartGoods" items="${cartList1 }" varStatus="status">
+								<c:forEach var="cartGoods" items="${cartList2 }" varStatus="status">
+	
 								<!-- 할인가 없는 상품 -->
 							    <div class="card-body" style="padding:10px;">
 							    	<div class="d-flex  flex-row justify-content-between">
 							    		<div class="item">
 											<label>
-												<input type="checkbox" name="orderGoods" value="${cartGoods.productNum }" class="check-one">
+												<input type="checkbox" name="orderGoods" value="${cartGoods.productNum }" class="check_one" data-productNum="${cartGoods.productNum }" >
 												<i class="circle"></i>
 												<span class="chk-text"></span>
 											</label>
-											<img class="productImgCart"  src="../../../resources/imgs/goods/${cartGoods.thumSysFilename }" width="80px" >
+											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.categoryNum }/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
-								     				${cartGoods.productName }
+								     				<c:if test="${cartGoods.productName.length() > 30 }">
+								     					${cartGoods.productName.substring(0,25) }<br>
+								     					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
+								     				</c:if>
+								     				<c:if test="${cartGoods.productName.length() <= 30 }">
+								     					${cartGoods.productName }
+								     				</c:if>
 								     			</a>
 								     		</span>
 							    		</div>
@@ -306,20 +315,23 @@
 								     		</span>
 								     		<span>
 									     		<span class="text-dark font-weight-bold">
-								     				${cartGoods.price }원
+								     				<c:if test="${cartGoods.saleprice == 0 }">
+								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price }" /> 원
+								     				</c:if>
 								     				
 													<!-- 할인가 있는 상품 -->
-								     				<c:if test="${not empty saleprice }">
+								     				<c:if test="${cartGoods.saleprice != 0 }">
+								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.saleprice }" /> 원
 							     					<span class="text-secondary text-right">
 										     			<del>
-										     				${cartGoods.salePrice }원
+										     				<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price }" /> 원
 										     			</del>
 									     			</span>
 								     				</c:if>
 								     			</span>
 								     		</span>
 								     		<span style="margin:auto;">
-								     			<button class="button delBtn text-secondary"  onclick="delete_go(this)" style="border:none;background-color:white;">
+								     			<button class="button delBtn text-secondary" name="${cartGoods.productName }" value="${cartGoods.productNum }" style="border:none;background-color:white;">
 										     		<i class="bi bi-x"></i>
 								     			</button>
 								     		</span>
@@ -333,120 +345,93 @@
 						</div>
 					</div>
 				</c:if>
-
-				
-				
+				<c:if test="${not empty cartList3 }">
 				<div class="accordion" id="accordionThree">
-					<div class="card"  style="border:none;">
-					
-					    <div class="card-header bg-white" id="headingThree" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
-				        	<p class="text-left" style="margin:0;">
-				        		<span>
-				        			<span style="margin-top:2px;">
-										<i class="bi bi-brightness-high" style="color: orange;"></i>
-				        			</span>
-									<span style="font-size:1.0rem;font-weight:bold;">
-										상온 상품
-									</span>
-				        		</span>
-						    	<button class="btn btn-link float-right" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-									<span><i class="bi bi-chevron-down" style="color:black;"></i></span>
-						        </button>
-							</p>
-					    </div>
-					
-					    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionThree">
+						<div class="card"  style="border:none;">
+						
+						    <div class="card-header bg-white" id="headingThree" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
+					        	<p class="text-left" style="margin:0;">
+					        		<span>
+					        			<span style="margin-top:2px;">
+											<i class="bi bi-brightness-high" style="color: orange;"></i>
+					        			</span>
+										<span style="font-size:1.0rem;font-weight:bold;">
+											상온 상품
+										</span>
+					        		</span>
+							    	<button class="btn btn-link float-right" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+										<span><i class="bi bi-chevron-down" style="color:black;"></i></span>
+							        </button>
+								</p>
+						    </div>
+						
+						    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionThree">
 
-							<!-- 할인가 없는 상품 -->
-						    <div class="card-body" style="padding:10px;">
-						    	<div class="d-flex  flex-row justify-content-between">
-						    		<div class="item">
-										<label>
-											<input type="checkbox" name="cb1" class="check-one">
-											<i class="circle"></i>
-											<span class="chk-text"></span>
-										</label>
-										<img class="productImgCart"  src="https://img-cf.kurly.com/cdn-cgi/image/width=676,format=auto/shop/data/goods/1653067210853l0.jpeg" width="80px" >
-							     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-							     			<a href="#" class="text-dark" style="text-decoration: none !important;">
-							     				[네오플램] NEW FIKA 쿡웨어 팬
-							     			</a>
-							     		</span>
-						    		</div>
-						    		<div class="item  "  style="margin-top:24px;">
-							     		<span class="btn-group" style="margin-right:50px;">
-								     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-								     		<input type="number" name="cnt" value="1" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-								     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
-								     			+
-								     		</button>
-							     		</span>
-							     		<span>
-								     		<span class="text-dark font-weight-bold">
-							     				&nbsp;
-							     				29,900원
-							     			</span>
-							     		</span>
-							     		<span style="margin:auto;">
-							     			<button class="button delBtn text-secondary"  onclick="delete_go(this)" style="border:none;background-color:white;">
-									     		<i class="bi bi-x"></i>
-							     			</button>
-							     		</span>
-						    		</div>
-						    	</div>
-					     	</div>
-					     	
-							<!-- 할인가 있는 상품 -->
-						    <div class="card-body" style="padding:10px;">
-						    	<div class="d-flex  flex-row justify-content-between">
-						    		<div class="item">
-										<label>
-											<input type="checkbox" name="cb2" class="check-one">
-											<i class="circle"></i>
-											<span class="chk-text"></span>
-										</label>
-										<img class="productImgCart"  src="https://product-image.kurly.com/cdn-cgi/image/width=676,format=auto/product/image/dd588ab0-d450-4805-85c3-5e5b463a3a18.jpg" width="80px" >
-							     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-							     			<a href="#" class="text-dark" style="text-decoration: none !important;">
-							     				[로얄코펜하겐] 베라왕 다이아몬드 모자이크 
-							     				<br>
-							     				고블렛 와인클라스 2P 세트
-							     			</a>
-							     		</span>
-						    		</div>
-						    		<div class="item  "  style="margin-top:24px;">
-							     		<span class="btn-group" style="margin-right:50px;">
-								     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-								     		<input type="number" name="cnt" value="1" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-								     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
-								     			+
-								     		</button>
-							     		</span>
-							     		<span>
-								     		<span class="text-dark font-weight-bold">
-							     				154,000원
-							     			</span>
-							     			<br>
-							     			<span class="text-secondary text-right">
-								     			<del>
-								     				220,000원
-								     			</del>
-							     			</span>
-							     		</span>
-							     		<span style="margin:auto;">
-							     			<button class="button delBtn text-secondary"  onclick="delete_go(this)" style="border:none;background-color:white;">
-									     		<i class="bi bi-x"></i>
-							     			</button>
-							     		</span>
-						    		</div>
-						    	</div>
-					     	</div>
-
-				    	</div>
-				    	
+								<c:forEach var="cartGoods" items="${cartList3 }" varStatus="status">
+	
+								<!-- 할인가 없는 상품 -->
+							    <div class="card-body" style="padding:10px;">
+							    	<div class="d-flex  flex-row justify-content-between">
+							    		<div class="item">
+											<label>
+												<input type="checkbox" name="orderGoods" value="${cartGoods.productNum }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												<i class="circle"></i>
+												<span class="chk-text"></span>
+											</label>
+											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.categoryNum }/${cartGoods.thumSysFilename }" width="80px" >
+								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
+								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+								     				<c:if test="${cartGoods.productName.length() > 25 }">
+								     					${cartGoods.productName.substring(0,25) }<br>
+								     					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
+								     				</c:if>
+								     				<c:if test="${cartGoods.productName.length() <= 25 }">
+								     					${cartGoods.productName }
+								     				</c:if>
+								     			</a>
+								     		</span>
+							    		</div>
+							    		<div class="item"  style="margin-top:24px;">
+								     		<span class="btn-group" style="margin-right:50px;">
+									     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
+									     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
+									     			+
+									     		</button>
+								     		</span>
+								     		<span>
+									     		<span class="text-dark font-weight-bold">
+								     				<c:if test="${cartGoods.saleprice == 0 }">
+								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price }" /> 원
+								     				</c:if>
+								     				
+													<!-- 할인가 있는 상품 -->
+								     				<c:if test="${cartGoods.saleprice != 0 }">
+								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.saleprice }" /> 원
+							     					<span class="text-secondary text-right">
+										     			<del>
+										     				<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price }" /> 원
+										     			</del>
+									     			</span>
+								     				</c:if>
+								     			</span>
+								     		</span>
+								     		<span style="margin:auto;">
+								     			<button class="button delBtn text-secondary" name="${cartGoods.productName }" value="${cartGoods.productNum }" style="border:none;background-color:white;">
+										     		<i class="bi bi-x"></i>
+								     			</button>
+								     		</span>
+							    		</div>
+							    	</div>
+						     	</div>
+								</c:forEach>
+						     	
+					    	</div>
+					    	
+						</div>
 					</div>
-					
-				</div>
+				</c:if>
+				
 				
 				<div class="accordion" id="accordionFour">
 					<div class="card"  style="border:none;">
@@ -522,24 +507,6 @@
 					</div>
 					
 				</div>
-				
-				
-				
-				<div style="margin:5px 10px;">
-					<label>
-						<input type="checkbox" name="cb1" class="check-all">
-						<i class="circle"></i>
-						<span class="chk-text text-secondary" style="margin: 0 10px;">
-							전체 선택 (6/6)
-						</span>
-					</label>
-					<span class="text-secondary"> | </span>
-					<span id ="selectDelete" class="text-secondary" style="padding:0 0 0 10px;">
-						선택 삭제
-					</span>
-				</div>
-				
-			</form>
 			
 		</div>
 		
@@ -555,8 +522,8 @@
 						</span>
 					</p>
 					<p class="font-weight-bold text-dark" style="margin-bottom: 3px;">
-						<span style="font-size:0.95rem;">
-							제주특별자치도 제주시 특별자치도, 해안동 1100로 220-13
+						<span class="addressView" style="font-size:0.95rem;">
+							${cartMember.address }&nbsp;${cartMember.addressDetail }
 						</span>
 					</p>
 					<p class="font-weight-bold" style="color:#9A30AE;margin-top: 0;margin-bottom: 10px;">
@@ -629,7 +596,7 @@
 				</div>
 				<div>
 					<div>
-						<ul class="text-secondary" style="list-style: none;padding:20px 15px 15px 15px;font-size:0.7rem;font-weight:bold;line-height: 160%;">
+						<ul class="text-secondary" style="list-style: none;padding:20px 15px 15px 15px;font-size:0.7rem;font-weight:bold;line-height: 250%;">
 							<li>쿠폰/적립금은 주문서에서 사용 가능합니다.</li>
 							<li>[주문완료]상태일 경우에만 주문 취소 가능합니다.</li>
 							<li>[마이콜라비>주문내역 상세페이지]에서 직접 취소하실 수 있습니다.</li>
@@ -640,7 +607,7 @@
 			</div>
 		</div>
 		</c:if>
-<%-- 		</c:if> --%>
+
 		<div class="col-sm-2">
 		</div>
 			
@@ -654,10 +621,118 @@
 	$(function() {
 		
 		// 전체 선택 check box
-		$('.check-all').click( function() {
-			$('.check-one').prop('checked', this.checked);
-			$('.check-all').prop('checked', this.checked);
+		$(".check_all").click(function() {
+			var chk = $(".check_all").prop("checked");
+			if (chk) {
+				//전체 선택
+				$(".check_one").prop("checked", true);
+				$(".check_all").prop("checked", true);
+			} else {
+				//전체 선택 해제
+				$(".check_one").prop("checked", false);
+				$(".check_all").prop("checked", false);
+			}
 		});
+		// 개별 선택시 전체 선택 check box 해제
+		$(".check_one").click(function(){
+			$(".check_all").prop("checked", false);
+		});
+		
+		// 선택 삭제 
+		$(".selectDelete").click(function(){
+			Swal.fire({
+				title: '',
+				text: '선택한 상품을 삭제하시겠습니까?',
+				showCancelButton: true,
+				confirmButtonColor: '#9A30AE',
+				cancelButtonColor: '#FFCD4A',
+				confirmButtonText: 'YES'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					
+					select_delete();
+					
+					Swal.fire({
+						icon: 'success',
+						title: '삭제되었습니다.',
+						showConfirmButton: false,
+						timer: 1500
+					});
+				 }
+			})
+		});
+		
+		function select_delete() {
+			var chkArr = new Array();
+			$("input[class='check_one']:checked").each(function(){
+				chkArr.push($(this).attr("data-productNum"));
+			});
+			
+			$.ajax({
+				type: "POST",
+				url: "delectCart.do",
+				data: { chbox : chkArr },
+				success: function(result){
+					alert("성공");
+					if (result == 1) {
+						location.reload();
+					}
+				},
+				error: function(){
+					alert("실패");
+				}
+			}); 
+		}
+		
+		// 개별 삭제
+		$(".delBtn").click(function(){
+			var productNum = $(this).prop('value');
+			var productName = $(this).prop('name');
+			if (productName.length > 22) {
+				var productName1 = productName.substring(0, 22);
+				var productName2 = productName.substring(22,productName.length+1);
+				var productN = productName1 + '<br/>' + productName2;
+			} else {
+				var productN = productName;
+			}
+				Swal.fire({
+					title: '',
+					html:  productN + '을(를) 삭제하시겠습니까?',
+					showCancelButton: true,
+					confirmButtonColor: '#9A30AE',
+					cancelButtonColor: '#FFCD4A',
+					confirmButtonText: 'YES'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						delete_one(productNum);
+						Swal.fire({
+							icon: 'success',
+							title: '삭제되었습니다.',
+							showConfirmButton: false,
+							timer: 1500
+						});
+					 }
+				})
+		});
+		
+		function delete_one(productNum) {
+			var chkArr = new Array();
+			chkArr.push(productNum);
+			$.ajax({
+				type: "POST",
+				url: "delectCart.do",
+				data: { chbox : chkArr },
+				success: function(result){
+					alert("성공");
+					if (result == 1) {
+						location.reload();
+					}
+				},
+				error: function(){
+					alert("실패");
+				}
+			}); 
+		}
 		
 		// 결제 박스
 		var currentPosition = parseInt($(".quickPayMenu").css("top"));

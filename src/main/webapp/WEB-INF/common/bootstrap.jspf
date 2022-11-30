@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/font.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/common.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/footer.css" type="text/css">

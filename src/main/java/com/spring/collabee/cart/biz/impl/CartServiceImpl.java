@@ -14,6 +14,9 @@ public class CartServiceImpl implements CartService {
 	
 	@Autowired
 	private CartDAO cartDao;
+	
+	public CartServiceImpl() {
+	}
 
 	@Override
 	public void insertCart(CartVO vo) {
@@ -22,12 +25,18 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public void updateCart(CartVO vo) {
+		
 	}
 
 	@Override
 	public void deleteCart(CartVO vo) {
+		
 	}
 
+	@Override
+	public int getCartCount(CartMemberVO vo) {
+		return cartDao.getCartCount(vo);
+	}
 	@Override
 	public List<CartVO> getCartList(CartMemberVO vo) {
 		return cartDao.getCartList(vo);
@@ -45,12 +54,13 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public List<CartVO> getCartList3(CartMemberVO vo) {
-		return cartDao.getCartList3(vo);
+		return null;
 	}
 
 	@Override
 	public List<CartVO> getCartList4(CartMemberVO vo) {
-		return cartDao.getCartList4(vo);
+		return null;
 	}
 
+	
 }
