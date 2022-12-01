@@ -11,7 +11,6 @@
 
 	<typeAliases>
 		<typeAlias alias="cart" type="com.spring.collabee.biz.cart.CartVO"/>
-		<typeAlias alias="cartMember" type="com.spring.collabee.biz.cart.CartMemberVO"/>
 		<typeAlias alias="memberVO" type="com.spring.collabee.biz.member.MemberVO"/>
 		<typeAlias alias="faq" type="com.spring.collabee.biz.faq.FaqVO"/>
 		<typeAlias alias="inquiry" type="com.spring.collabee.biz.inquiry.InquiryVO"/>

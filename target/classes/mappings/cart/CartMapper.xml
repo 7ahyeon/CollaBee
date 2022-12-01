@@ -4,13 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cartDAO">
 	
-	<select id="getMember" parameterType="cartMember" resultType="cartMember">
+	<select id="getMember" parameterType="memberVO" resultType="memberVO">
 		SELECT * 
 		FROM MEMBER
 		WHERE MEMBER_NUM = #{memberNum}
 	</select>
 	
-	<update id="getAddress" parameterType="cartMember">
+	<update id="getAddress" parameterType="memberVO">
 		UPDATE MEMBER
 		SET ADDRESS = #{address},
 			ADDRESS_DETAIL = #{addressDetail}
@@ -18,7 +18,7 @@
 	</update>
 	
 	<!-- 회원 장바구니 -->
-	<select id="getCartList" parameterType="cartMember" resultType="cart">
+	<select id="getCartList" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
 		FROM CART C, PRODUCT P, CATEGORY CT, DIVISION D
@@ -28,7 +28,7 @@
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
 	
-	<select id="getCartCount" parameterType="cartMember" resultType="int">
+	<select id="getCartCount" parameterType="memberVO" resultType="int">
 		SELECT COUNT(*) COUNT
 		FROM CART C, PRODUCT P
 		WHERE C.PRODUCT_NUM = P.PRODUCT_NUM
@@ -37,7 +37,7 @@
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
 	
-	<select id="getCartList1" parameterType="cartMember" resultType="cart">
+	<select id="getCartList1" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
 		FROM CART C, PRODUCT P, CATEGORY CT, DIVISION D
@@ -50,7 +50,7 @@
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
 	
-	<select id="getCartList2" parameterType="cartMember" resultType="cart">
+	<select id="getCartList2" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
 		FROM CART C, PRODUCT P, CATEGORY CT, DIVISION D
@@ -63,7 +63,7 @@
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>	
 	
-	<select id="getCartList3" parameterType="cartMember" resultType="cart">
+	<select id="getCartList3" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
 		FROM CART C, PRODUCT P, CATEGORY CT, DIVISION D
@@ -76,14 +76,14 @@
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
 		
-	<select id="getCartList4" parameterType="cartMember" resultType="cart">
+	<select id="getCartList4" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
 		FROM CART C, PRODUCT P, CATEGORY CT, DIVISION D
 		WHERE C.PRODUCT_NUM = P.PRODUCT_NUM
 		AND P.DIVISION_NUM = D.DIVISION_NUM
 		AND D.CATEGORY_NUM = CT.CATEGORY_NUM
-		AND NOT P.PRODUCT_DEL = 'N' OR P.STOCK = 0
+		AND (NOT P.PRODUCT_DEL = 'N' OR P.STOCK = 0)
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>	
 	

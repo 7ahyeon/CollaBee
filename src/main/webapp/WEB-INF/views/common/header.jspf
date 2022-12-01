@@ -41,7 +41,11 @@
 	            <ul>
 	                <li><button><i class="fa-regular fa-bell"></i></button></li>
 	                <li><button><i class="fa-regular fa-heart"></i></button></li>
-	                <li><button><i class="fa-solid fa-cart-shopping"></i></button></li>
+	                <li>
+	                	<button onclick="location.href='../cart/cart.do'">
+	                		<i class="fa-solid fa-cart-shopping"></i>
+	                	</button>
+	                </li>
 	            </ul>
 	        </div>
 	    </div>
