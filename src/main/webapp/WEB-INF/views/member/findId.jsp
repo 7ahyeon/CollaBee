@@ -42,11 +42,15 @@ $(function(){ //document load
       return (email != '' && email != 'undefined' && regex.test(email));
     }
 
-  });
+});
 
-  function emailAuth () {
-    alert("이메일 인증");
-
+  function findId () {
+    //alert("아이디 찾기");
+    var name = document.getElementById("name");
+    var email = document.getElementById("email");
+    var showResult = document.getElementById("showResult"); // 아이디 확인
+    let findIdFrm = document.findIdFrm;
+    
     if (name.value == "") {
         alert("이름을 입력하세요.");
         name.focus();
@@ -59,18 +63,52 @@ $(function(){ //document load
         return false;
     }
 
-    let emailFrm = document.emailAuthFrm;
     //전달 데이터확인
-    console.log("-" + document.emailAuthFrm.name.value + "-");
-    console.log("-" + document.emailAuthFrm.email.value + "-");
+    //console.log("-" + document.findIdFrm.name.value + "-");
+    //console.log("-" + document.findIdFrm.email.value + "-");
 
-    //emailFrm.action = "idEmailAuth.do"; //랜덤번호 만들기
-    //emailFrm.submit();
+    let mvo = { name: name.value, email: email.value }
+   
+	$.ajax("findIdAjax.do", {
+		type: "post",
+		data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+		contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+		dataType: "json", //서버로부터 응답받는 데이터형식
+		success: function(data) {
+			console.log(data);
+			
+			if (data.id == null) {
+				alert("정보를 다시 입력해주세요");
+				findIdFrm.reset();
+				name.focus();
+				return false;
+			} else {
+				//alert("아이디 찾음");				
+				document.getElementById("emailAuthArea").classList.add('hide');
+				document.getElementById("resultArea").classList.remove('hide');
+				showResult.setAttribute("value", data.id);
+				return false;
+			}
+
+		},
+		error: function() {
+			alert("실패");
+		}
+		
+	});
+    
+  }// findId()
+  
+  function loginPageGo() {
+	location.href = "../member/login.do";  
   }
+  
+  
 </script>
 
 </head>
 <body>
+\${member } : ${member }
  	<header>
      <%@ include file= "../common/header.jspf"%>
     </header>
@@ -84,6 +122,7 @@ $(function(){ //document load
               <div>
                   <h4 class="text-center" style="font-weight: bold; padding-bottom: 50px;">아이디 찾기</h4>
               </div>
+              
               <div id="authBox" style="width: 400px; margin: auto;">
                 <!-- <div class="menuBox text-center" style="text-align: center; margin: auto;">
                     <div class="menu" id="emailAuth"><button type="button" class="btn text-center emainAuth"><b>이메일 인증</b></button></div>
@@ -91,8 +130,8 @@ $(function(){ //document load
               -->
       
                 <div class="emailAuthArea" id="emailAuthArea">
-                  <form name="emailAuthFrm">
-
+                  
+                  <form name="findIdFrm" method="post">
                     <div class="form-group">
                         <label for="name" >이름</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력해주세요">
@@ -105,15 +144,22 @@ $(function(){ //document load
                     </div>
 
                     <div class="text-center">
-                      <div><button type="button" id="authbtn" onclick="emailAuth()">확인</button></div>
+                      <div><button type="button" id="authbtn" onclick="findId()">확인</button></div>
                     </div>
-
                   </form>
                 </div>
-
+		
+				<div class="resultArea hide" id="resultArea">
+					<div class="text-center">아이디는</div>
+					<div><input type="text" id="showResult" readonly class="form-control-plaintext text-center" value=""></div>
+					
+					<div class="text-center">
+                      <div><button type="button" id="authbtn" onclick="loginPageGo()">확인</button></div>
+                    </div>
+				</div>
 
               </div>
-            </div>
+            </div> <!--  <div class="col-sm-8"> -->
             
             <div class="col-sm-2"></div>
         </div>

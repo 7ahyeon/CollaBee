@@ -11,6 +11,52 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/picklist.css">
    	
 <script>
+$(function(){
+/* 	if (${loginMember } == null) {
+		alert("로그인 정보가 없습니다.");
+		locatin.href = "../member/login.do";
+	} else {
+		 */
+	var id = document.getElementById("id");
+	var password = document.getElementById("password");	
+	var infoChkFrm = document.infoChkFrm;
+	
+
+});
+
+	function infoChk () {
+		let mvo = { id : id.value , password : password.value }; 
+		const infoChkFrm = document.infoChkFrm;
+		
+		$.ajax("../member/loginAjax.do", {
+			type: "post",
+			data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+			contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+			dataType: "json", //서버로부터 응답받는 데이터형식
+			success: function(data) {
+				console.log(data);
+				
+				if (data == null) {
+					alert("비밀번호가 일치하지 않습니다.");
+					password.reset();
+					password.focus();
+					return false;
+				} else {
+					alert("비밀번호가 일치합니당");
+					infoChkFrm.action = "modify.do";
+					infoChkFrm.submit();
+					return false;
+				}
+
+			},
+			error: function() {
+				alert("실패");
+			}
+			
+		});
+		infoChkFrm.submit();
+	}
+
 
 </script>
 <style>
@@ -83,10 +129,10 @@
 				
 				
  			<div class="mypage-top4" style="padding: 15px;">
-             <form action="" name="infoUserChkFrm" style="text-align: center;">
+             <form name="infoChkFrm" method="post" style="text-align: center;">
                 <div class="form-group">
                   <div class="title"><label for="id">아이디</label></div>
-                  <div class="content"><input type="text" class="form-control" id="id" name="id" value="사용자아이디" disabled style="background-color: white;"></div>
+                  <div class="content"><input type="text" class="form-control readBox" id="id" name="id" value="${loginMember.id }" disabled></div>
                 </div>
                 <div class="form-group">
                   <div class="title"><label for="password">비밀번호<span class="text-danger font-weight-bold">*</span></label></div>
@@ -94,7 +140,7 @@
                 </div>
                 <div class="underline"></div>
                 <div class="text-center" style="margin-top: 40px;">
-                  <div style="padding-left: 80px;"><button type="button" onclick="infoUserChk()" class="btn text-center" id="#purpleBtn"><b>확인</b></button></div>
+                  <div style="padding-left: 80px;"><button type="button" onclick="infoChk()" class="btn text-center" id="#purpleBtn"><b>확인</b></button></div>
                 </div> 
               </form>
             

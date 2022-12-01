@@ -7,9 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>콜라비</title>
-<%@ include file= "../../common/bootstrap.jspf"%>
-<%@ include file= "../../common/modal/changeAdressModal.jspf"%>
+<%@ include file= "../common/bootstrap.jspf"%>
+<%@ include file= "../common/modal/changeAdressModal.jspf"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/cart.css">
+ 
 <style>
 	header {
 		margin-bottom:100px;
@@ -21,7 +22,7 @@
 </head>
 <body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
 	<header>
-		<%@ include file= "../../common/header.jspf"%>
+		<%@ include file= "../common/header.jspf"%>
 	</header>
 	<div class="row">
 		<div class="col-sm-2">
@@ -677,7 +678,7 @@
 			
 		</div>
 	<footer>
-		<%@ include file= "../../common/footer.jspf"%>
+		<%@ include file= "../common/footer.jspf"%>
 	</footer>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+Session에 저장된 \${loginMember } : ${loginMember }
 <!-- 마이페이지 윗부분 -->
 			<div id="mypage-cover" style="height: 392px;">
                 <div class="d-flex align-items-stretch" id="mypage-top">
@@ -11,7 +11,7 @@
                         <img src="# alt="그림" style="width: 48px; height: 48px;">
                       </div>
                       <div style="display: inline-block; width: 156px;">
-                        <span class="align-left" id="user-name"><b>000님</b></span>
+                        <span class="align-left" id="user-name"><b>${loginMember.name }님</b></span>
                       </div>
                     </div>
                       

@@ -51,24 +51,84 @@
       }
 
 </style>
+<% String findIdLocation = "findId.do";  %>
+<% String findPwLocation = "findPw.do";  %>
 
 <script>
+$(function(){
+	var id = document.getElementById("id");
+	var password = document.getElementById("password");	
+    var loginFrm = document.getElementsByName("loginFrm");
+    
+    var mvo = $("#mvo").val();
+	console.log('${mvo.memberState }');
+/* 		
+	if('${mvo.memberState }'=="실패"){
+		alert("로그인실패");
+		id.focus();
+	} */
+    
+});
+
+	/* function login() {
+  		//alert("> [로그인] 버튼 클릭 메인페이지로 이동");
+  		console.log("id : " + id.value + ", pw : " + password.value);
+		location.href = "login.do";
+		loginFrm.submit();
+	} */
+	
 	function login() {
-  	  alert("> [로그인] 버튼 클릭 메인페이지로 이동");
+		var id = document.getElementById("id");
+		var password = document.getElementById("password");	
+		
+		let mvo = { id : id.value , password : password.value }; 
+		console.log(mvo);
+		console.log(JSON.stringify(mvo)); // JS객체를 JSON 문자열로 바꿔줄 수 있음
+		
+		$.ajax("loginAjax.do", {
+			type: "post",
+			data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+			contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+			dataType: "json", //서버로부터 응답받는 데이터형식
+			success: function(data) {
+				console.log(data);
+				
+				if (data.memberState == null) {
+					alert("로그인실패");
+					loginFrm.reset();
+					id.focus();
+					return false;
+				} else {
+					loginFrm.action = "login.do";
+					loginFrm.submit();
+					return false;
+				}
+
+			},
+			error: function() {
+				alert("실패");
+			}
+			
+		});
 	}
+	
 	function signup() {
-	  alert("> [회원가입] 버튼 클릭");
-	  location.href = "";
+	  location.href = "../member/signup.do";
 	}
+	
+		
 </script>
 
 </head>
 <body>
-
-  <header>
+  	<header>
       <%@ include file= "../common/header.jspf"%>
     </header>
+<b>Session에 저장된 \${loginMember } : ${loginMember }</b>
+	
+    
     <div id="container">
+    
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
@@ -77,22 +137,23 @@
               </div>
 
                 <div class="form-group">
-                  <form action="" method="post">
+                  <form name="loginFrm" method="post">
                     <div class="col-xs-8 col-xs-offset-4 text-center">
-                      <div><input type="text" name="id" placeholder="아이디를 입력해주세요"></div>
-                      <div><input type="password" name="password" placeholder="비밀번호를 입력해주세요"></div>
+	                   <div><input type="hidden" id="mvo" value="${mvo}"></div>
+                      <div><input type="text" name="id" id="id" placeholder="아이디를 입력해주세요"></div>
+                      <div><input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요"></div>
                     </div>
                     <div id="findArea" class="text-right" style="margin-bottom: 20px;">
-                      <a href="/member/findId.html" class="text-dark"><small>아이디 찾기</small></a>
+                      <a href="<%= findIdLocation %>" class="text-dark"><small>아이디 찾기</small></a>
                       <span class="text-dark"><small>|</small></span>
-                      <a href="/member/findPw.html" class="text-dark"><small>비밀번호 찾기</small></a>
+                      <a href="<%= findPwLocation %>" class="text-dark"><small>비밀번호 찾기</small></a>
                     </div>
                     <div class="form-group">
                       <div class="text-center">
-                          <button type="submit" class="btn text-center" id="fillbtn" style="width: 340px; height: 54px;" onclick="login()"><b>로그인</b></button>
+                          <button type="button" class="btn text-center" id="fillbtn" style="width: 340px; height: 54px;" onclick="login()"><b>로그인</b></button>
                       </div>  
                       <div class="text-center">
-                          <button type="submit" class="btn text-center" id="borderbtn" style="width: 340px; height: 54px;" onclick="signup()"><b>회원가입</b></button>
+                          <button type="button" class="btn text-center" id="borderbtn" style="width: 340px; height: 54px;" onclick="signup()"><b>회원가입</b></button>
                       </div>  
                     </div>
 

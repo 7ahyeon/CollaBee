@@ -22,12 +22,5 @@
     <typeAlias alias="inquiry" type="com.spring.collabee.inquiry.InquiryVO"/>
   </typeAliases>
   
-   
-  <mappers>
-    <mapper resource="mappings/collections/collections.xml"/>
-  </mappers>
-  
-  
-  
   
 </configuration>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>주문서</title>
-<%@ include file= "../../common/bootstrap.jspf"%>
+<%@ include file= "../common/bootstrap.jspf"%>
 <style>
 	header {
 		margin-bottom:100px;
@@ -93,11 +93,11 @@
 </style>
 </head>
 <body style="width: 1900px;">
-<%@ include file= "../../common/modal/agreeModal1.jspf"%>
-<%@ include file= "../../common/modal/agreeModal2.jspf"%>
-<%@ include file= "../../common/modal/agreeModal3.jspf"%>
+<%@ include file= "../common/modal/agreeModal1.jspf"%>
+<%@ include file= "../common/modal/agreeModal2.jspf"%>
+<%@ include file= "../common/modal/agreeModal3.jspf"%>
 	<header>
-		<%@ include file= "../../common/header.jspf"%>
+		<%@ include file= "../common/header.jspf"%>
 	</header>
 	
 	<div class="row">
@@ -900,7 +900,7 @@
 		</div>
 	</div>
 	<footer>
-		<%@ include file= "../../common/footer.jspf"%>
+		<%@ include file= "../common/footer.jspf"%>
 	</footer>
 <script>
 	// 주문 상품 목록

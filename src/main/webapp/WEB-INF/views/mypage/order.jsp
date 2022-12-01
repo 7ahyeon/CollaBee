@@ -105,6 +105,7 @@
 </script>
 
 <body>
+Session에 저장된 \${loginMember } : ${loginMember }
    <header>
     <%@ include file= "../common/header.jspf"%>
    </header>

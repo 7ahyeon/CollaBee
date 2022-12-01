@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>주문 완료</title>
-<%@ include file= "../../common/bootstrap.jspf"%>
+<%@ include file= "../common/bootstrap.jspf"%>
 <style>
 	header {
 		margin-bottom:100px;
@@ -22,7 +22,7 @@
 </head>
 <body>
 	<header>
-		<%@ include file= "../../common/header.jspf"%>
+		<%@ include file= "../common/header.jspf"%>
 	</header>
 	
 	<div class="row">
@@ -144,7 +144,7 @@
 		</div>
 	</div>
 	<footer>
-		<%@ include file= "../../common/footer.jspf"%>
+		<%@ include file= "../common/footer.jspf"%>
 	</footer>
 </body>
 </html>

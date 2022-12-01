@@ -45,7 +45,12 @@ $(function(){ //document load
   });
 
   function emailAuth () {
-    alert("이메일 인증");
+    alert("비밀번호찾기");
+
+    var id = document.getElementById("id");
+    var email = document.getElementById("email");
+    var showResult = document.getElementById("showResult"); // 비번 확인 창
+    let emailFrm = document.emailAuthFrm;
 
     if (id.value == "") {
       alert("아이디 입력하세요.");
@@ -58,14 +63,46 @@ $(function(){ //document load
         email.focus();
         return false;
     }
-
-    let emailFrm = document.emailAuthFrm;
+	
     //전달 데이터확인
     console.log("아이디 : -" + document.emailAuthFrm.id.value + "-");
     console.log("이메일 : -" + document.emailAuthFrm.email.value + "-");
 
-    //emailFrm.action = "pwdEmailAuth.do"; //랜덤번호 만들기
-    //emailFrm.submit();
+    
+    let mvo = { id: id.value, email: email.value }
+    
+	$.ajax("findPwAjax.do", {
+		type: "post",
+		data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+		contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+		dataType: "json", //서버로부터 응답받는 데이터형식
+		success: function(data) {
+			console.log(data);
+			
+			if (data.password == null) {
+				alert("정보를 다시 입력해주세요");
+				emailFrm.reset();
+				id.focus();
+				return false;
+			} else {
+				//alert("아이디 찾음");				
+				document.getElementById("emailAuthArea").classList.add('hide');
+				document.getElementById("resultArea").classList.remove('hide');
+				showResult.setAttribute("value", data.password);
+				return false;
+			}
+
+		},
+		error: function() {
+			alert("실패");
+		}
+		
+	});
+    
+  }// emailAuth ()
+  
+   function loginPageGo() {
+	location.href = "../member/login.do";  
   }
   
 </script>
@@ -109,8 +146,17 @@ $(function(){ //document load
                     </div>
 
                   </form>
-                </div>
-
+                </div> <!-- eamilAuthArea -->
+			
+				<div class="resultArea hide" id="resultArea">
+					<div class="text-center">비밀번호 확인</div>
+					<div><input type="text" id="showResult" readonly class="form-control-plaintext text-center" value=""></div>
+					
+					<div class="text-center">
+                      <div><button type="button" id="authbtn" onclick="loginPageGo()">확인</button></div>
+                    </div>
+				</div>
+				
 
               </div>
             </div>
