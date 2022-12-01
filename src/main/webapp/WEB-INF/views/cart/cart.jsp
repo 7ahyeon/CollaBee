@@ -432,6 +432,70 @@
 					</div>
 				</c:if>
 				
+				<c:if test="${not empty cartList4 }">
+					<div class="accordion" id="accordionFour">
+						<div class="card"  style="border:none;">
+						
+						    <div class="card-header bg-white" id="headingFour" style="border:none;border-top:1px solid black;text-decoration:none;margin:0;padding:0;">
+					        	<div class="d-flex justify-content-between text-left" style="margin:0;">
+					        		<div>
+					        			<span style="margin-top:2px;">
+											<i class="bi bi-x-circle" style="color:firebrick;"></i>
+					        			</span>
+										<span style="font-size:1.0rem;font-weight:bold;color:firebrick;">
+											구매 불가 상품
+										</span>
+					        		</div>
+				        			<div class="info-title text-right text-secondary font-weight-bold" style="font-size:0.8rem;margin-top:15px;">
+				        				구매 불가 안내
+				        				<i class="bi bi-question-circle" style="font-size:0.9rem;margin-left:2px;"></i>
+				        			</div>
+								</div>
+						    </div>
+							<div class="info-text text-secondary" style="font-size:0.7rem;border:1px solid #999;padding:15px 15px 0 0;border-radius:5px;">
+								<ul>
+									<li>품절, 판매 종료시 구매가 불가합니다.</li>
+									<li>재입고시 구매 가능합니다.</li>
+								</ul>
+							</div>
+						    <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordionFour">
+
+								<c:forEach var="cartGoods" items="${cartList4 }" varStatus="status">
+	
+								<div class="card-body" style="padding:10px;">
+									<div class="d-flex  flex-row justify-content-between">
+										<div class="item" style="margin-left:30px;">
+											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.categoryNum }/${cartGoods.thumSysFilename }"  width="80px"
+											style="opacity:0.5;">
+											<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
+												<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+									 				<c:if test="${cartGoods.productName.length() > 25 }">
+									 					${cartGoods.productName.substring(0,25) }<br>
+									 					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
+									 				</c:if>
+									 				<c:if test="${cartGoods.productName.length() <= 25 }">
+									 					${cartGoods.productName }
+									 				</c:if>
+									 			</a>
+											</span>
+										</div>
+										<div class="item  "  style="margin-top:24px;">
+											<span style="margin:auto;">
+												<button class="button delBtn text-secondary" name="${cartGoods.productName }" value="${cartGoods.productNum }" style="border:none;background-color:white;">
+										     		<i class="bi bi-x"></i>
+								     			</button>
+											</span>
+										</div>
+									</div>
+								</div>
+								</c:forEach>
+						     	
+					    	</div>
+					    	
+						</div>
+					</div>
+				</c:if>
+				
 				
 				<div class="accordion" id="accordionFour">
 					<div class="card"  style="border:none;">
