@@ -1,4 +1,4 @@
-package com.spring.collabee.faq;
+package com.spring.collabee.biz.faq;
 
 import java.util.List;
 

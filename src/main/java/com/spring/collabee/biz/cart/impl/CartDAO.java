@@ -1,4 +1,4 @@
-package com.spring.collabee.cart.biz.impl;
+package com.spring.collabee.biz.cart.impl;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.spring.collabee.inquiry.impl;
+package com.spring.collabee.biz.inquiry.impl;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.collabee.faq.FaqVO;
-import com.spring.collabee.inquiry.InquiryVO;
+import com.spring.collabee.biz.faq.FaqVO;
+import com.spring.collabee.biz.inquiry.InquiryVO;
 
 
 @Repository

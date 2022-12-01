@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.collabee.board.BoardService;
-import com.spring.collabee.board.BoardVO;
+import com.spring.collabee.biz.board.BoardService;
+import com.spring.collabee.biz.board.BoardVO;
 
 
 @RequestMapping("/board")

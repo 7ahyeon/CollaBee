@@ -8,9 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.collabee.faq.FaqVO;
-import com.spring.collabee.inquiry.InquiryService;
-import com.spring.collabee.inquiry.InquiryVO;
+import com.spring.collabee.biz.faq.FaqVO;
+import com.spring.collabee.biz.inquiry.InquiryService;
+import com.spring.collabee.biz.inquiry.InquiryVO;
 
 @RequestMapping("/inquiry")
 @Controller

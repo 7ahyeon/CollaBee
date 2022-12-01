@@ -1,4 +1,4 @@
-package com.spring.collabee.cart.biz.impl;
+package com.spring.collabee.biz.cart.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

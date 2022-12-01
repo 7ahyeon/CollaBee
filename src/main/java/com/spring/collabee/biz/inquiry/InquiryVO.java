@@ -1,4 +1,4 @@
-package com.spring.collabee.inquiry;
+package com.spring.collabee.biz.inquiry;
 
 import java.sql.Date;
 

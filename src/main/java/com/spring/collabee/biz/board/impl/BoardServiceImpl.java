@@ -1,12 +1,12 @@
-package com.spring.collabee.board.impl;
+package com.spring.collabee.biz.board.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.collabee.board.BoardService;
-import com.spring.collabee.board.BoardVO;
+import com.spring.collabee.biz.board.BoardService;
+import com.spring.collabee.biz.board.BoardVO;
 
 
 @Service("boardService")

@@ -8,9 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.collabee.board.BoardVO;
-import com.spring.collabee.faq.FaqService;
-import com.spring.collabee.faq.FaqVO;
+import com.spring.collabee.biz.board.BoardVO;
+import com.spring.collabee.biz.faq.FaqService;
+import com.spring.collabee.biz.faq.FaqVO;
 
 
 @RequestMapping("/faq")

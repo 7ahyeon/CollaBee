@@ -1,4 +1,4 @@
-package com.spring.collabee.board.impl;
+package com.spring.collabee.biz.board.impl;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.collabee.board.BoardVO;
+import com.spring.collabee.biz.board.BoardVO;
 
 
 @Repository

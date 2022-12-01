@@ -1,4 +1,4 @@
-package com.spring.collabee.common;
+package com.spring.collabee.biz.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

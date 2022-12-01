@@ -1,13 +1,12 @@
-package com.spring.collabee.inquiry.impl;
+package com.spring.collabee.biz.inquiry.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import com.spring.collabee.inquiry.InquiryService;
-import com.spring.collabee.inquiry.InquiryVO;
+import com.spring.collabee.biz.inquiry.InquiryService;
+import com.spring.collabee.biz.inquiry.InquiryVO;
 
 
 

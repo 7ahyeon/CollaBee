@@ -1,4 +1,4 @@
-package com.spring.collabee.board;
+package com.spring.collabee.biz.board;
 
 import java.sql.Date;
 

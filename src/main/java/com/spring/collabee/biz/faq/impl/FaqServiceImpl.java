@@ -1,12 +1,12 @@
-package com.spring.collabee.faq.impl;
+package com.spring.collabee.biz.faq.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.collabee.faq.FaqService;
-import com.spring.collabee.faq.FaqVO;
+import com.spring.collabee.biz.faq.FaqService;
+import com.spring.collabee.biz.faq.FaqVO;
 
 
 
