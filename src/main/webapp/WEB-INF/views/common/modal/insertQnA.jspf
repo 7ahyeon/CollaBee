@@ -1,0 +1,82 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<style>
+	label.form-check-label1:before {
+        content: "\f058";
+        font: var(--fa-font-solid);
+        color: lightgray;
+    }
+
+    input#flexCheckDefault1:checked + label.form-check-label1:before {
+        content:"\f058";
+        color: purple;
+    }
+    
+    #flexCheckDefault1 {
+        display: none;
+    }
+</style>
+<!-- The Modal -->
+<div class="modal" id="myModal2">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h1 class="modal-title">상품문의하기</h1>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+      
+      <div style="padding: 16px 0px; border-bottom: 1px solid lightgray;">
+          <div style="display: flex; margin-left: 20px; float: left; margin-right: 20px;">
+          <img src="image/1.jpg" alt="크림파스타" style="width: 72px; height: 72px; border-radius: 4px;">
+          </div>
+          <div style="display: flex; float: left; margin-top: 25px;">
+              <span>[최현석의 쵸이닷] 어쩌구구구</span>
+          </div>
+      </div>  
+
+      <!-- Modal body -->
+      <div class="modal-body" style="margin-left: 10px;">
+          <div style="float: left; margin-right: 20px;">
+          <div style="float: left; margin-right: 30px;">
+              <span>제목</span>
+          </div>
+          <div class="form-group" style="float: left;">
+          <input type="text" class="form-control" name="subject" placeholder="제목을 입력해 주세요" 
+          data-testid="input-box" height="42" style="border-radius: 0.2em; width: 670px; height: 30px;">
+          </div>
+          </div>    
+          <div style="float: left; margin-top: 10px;">
+          <div style="float: left; margin-right: 30px;">
+              <span>내용</span>    
+          </div>
+          <div style="float: left;">
+          <textarea class="form-control" rows="5" id="comment" name="text" inputmode="text" 
+          aria-label="textarea-message" name="content" class="textarea" style="border-radius: 0.2em; 
+          width: 670px; height: 250px;" placeholder="상품문의 작성 전 확인해 주세요">
+          </textarea>
+          </div>
+          </div>    
+      </div>
+
+      <!-- Modal footer -->
+      <div style="margin-left: 20px;">
+          <div class="form-check" style="inline-block;">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+              <label id="aa" class="form-check-label1" for="flexCheckDefault1">
+              비밀글로 문의하기
+              </label>
+          </div>
+         
+      </div>  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" style="background-color: white; 
+        border: 1px solid lightgray; color: black;" data-dismiss="modal">취소</button>
+        <button type="button" style="background-color: #692498; color: white; 
+        width: 60px; height: 37px; border-radius: 0.2em;" disabled>등록</button>       
+      </div>
+
+    </div>
+  </div>
+</div>

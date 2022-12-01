@@ -19,15 +19,16 @@
 		<property name="maxUploadSize" value="10000000"/> <!--  업로드 용량등 -->
 	</bean>
 	
-	<!-- 예외처리를 위한 설정 -->
-	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<!-- 예외처리를 위한 설정 
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView" value="/common/error"></property>
 		<property name="exceptionMappings">
 			<props>
 				<prop key="java.lang.IllegalArgumentException">/common/illegalArgError.jsp</prop>
 			</props>
 		</property>
-	</bean> -->
+	</bean>
+	-->
 	
 	
 	<!-- 스프링 ViewResolver 등록 -->
@@ -35,5 +36,5 @@
 		  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views"></property>
 		<property name="suffix" value=".jsp"></property>
-	</bean> 
+	</bean>
 </beans>

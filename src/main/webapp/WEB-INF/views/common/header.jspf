@@ -1,0 +1,115 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+    <script>
+    function getJsonDivision(categoryNum) {
+		alert("getJsonDivision(frm) 실행~~");
+		
+		$.ajax("${pageContext.request.contextPath}/collections/getJsonDivision.do", {
+			type: "get",
+			data: categoryNum,
+			dataType: "json",
+			success: function(data){
+				alert("성공~~");
+				console.log(data);
+				
+				let dispHtml = "";
+				for (let division of data) {
+					dispHtml += "<a href='${pageContext.request.contextPath}/collections/categories.do' class='list-group-item list-group-item-action category-list'>";
+					dispHtml += division.division;
+					dispHtml += "</a>";
+				}
+				
+				$("#dispBody").html(dispHtml);
+				
+			},
+			error: function(){
+				alert("실패~~");
+			}
+		}); 
+	}
+    </script>
+
+	<div class="row">
+	    <div class="col-sm-2"></div>
+	    <div class="col-sm-8 header-top"> 
+	        <ul>
+	            <li><a href="join.html">회원가입</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
+	            <li><a href="join.html">로그인</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
+	            <li>
+	            	<div class="dropdown support">
+	            		고객센터 <i class="fa-solid fa-chevron-down"></i>
+	                    <div class="dropdown-menu support-detail">
+	                    <a class="dropdown-item" href="#">공지사항</a>
+	                    <a class="dropdown-item" href="#">자주하는 질문</a>
+	                    <a class="dropdown-item" href="#">1:1문의</a>
+	                    <a class="dropdown-item" href="#">대량주문 문의</a>
+	                    </div>
+	                </div>
+	            </li>
+	
+	        </ul>
+	    </div>
+	    <div class="col-sm-2"></div>
+	</div>
+	<div class="row">
+	    <div class="col-sm-2"></div>
+	    <div class="col-sm-8 header">
+	        <div><a href="../collections/main.do"><img class="main-logo" src="${pageContext.request.contextPath}/resources/imgs/logo/main_logo.png"></a></div>
+	        <div class="input-box"><input class="search-box" type="text" placeholder="검색어를 입력해주세요">
+	            <i class="fa-solid fa-magnifying-glass"></i>
+	        </div>
+	        <div>
+	            <ul>
+	                <li><button><i class="fa-regular fa-bell"></i></button></li>
+	                <li><button><i class="fa-regular fa-heart"></i></button></li>
+	                <li><button onclick="location.href='${pageContext.request.contextPath}/cart/cart.do'"><i class="fa-solid fa-cart-shopping"></i></button></li>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="col-sm-2"></div>
+	</div>
+	<div class="row navbar-layer">
+	    <div class="col-sm-2"></div>
+	    <div class="col-sm-8 navbar">
+	        <div class="left-side">
+	            <div class="dropdown category-button">
+	                <i class="fa-solid fa-bars"></i>&nbsp;&nbsp;
+	                카테고리
+	                <div class="dropdown-menu category-detail  overflow-auto" style="background-color: transparent; border: 0; z-index: 10;">
+	                    <div id="category-box" style="display: flex; background-color: 0;">
+	                        <div class="list-group" id="main-category">
+		                        <c:forEach var="categoryVO" items="${categories }" varStatus="status">
+		                            <a name="${categoryVO.categoryNum }" href="${pageContext.request.contextPath}/collections/categories.do?category='${categoryVO.categoryNum }'" class="list-group-item list-group-item-action category-list">
+		                            <img src="${pageContext.request.contextPath}/resources/imgs/icons_catetory/icon_maincategory_${status.index +1 }.png">${categoryVO.category }</a>
+	                            </c:forEach>
+	                        </div>
+	                        <div style="width: 300px; height: inherit; background-color: red;" id="sub-category">
+								<div class="list-group" id="main-category">
+	                        		<c:forEach var="divisionVO" items="${division }" varStatus="status">
+	                        			<c:if test="${divisionVO.categoryNum eq (status.index+1) }">
+				                            <a href="${pageContext.request.contextPath}/collections/categories.do" class="list-group-item list-group-item-action category-list">
+				                            	${divisionVO.division }
+				                            </a>
+			                            </c:if>
+		                            </c:forEach>
+	                        	</div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="center-side">
+	            <ul>
+	                <li><a href="${pageContext.request.contextPath}/collections/market-newproduct.do">신상품</a></li>
+	                <li><a href="${pageContext.request.contextPath}/collections/market-best.do">베스트</a></li>
+	                <li><a href="${pageContext.request.contextPath}/collections/event.do">이벤트</a></li>
+	            </ul>
+	
+	        </div>
+	        <div class="right-side">
+	            <a href="../collections/about_delivery.do"> <span>샛별・낮</span> 배송안내</a>
+	        </div>
+	    </div>
+	    <div class="col-sm-2"></div>
+	</div>

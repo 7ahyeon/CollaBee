@@ -22,6 +22,10 @@
 
 
 
+.search-box:focus {
+	outline: none;
+}
+
 
 /* navbar */
 
@@ -151,6 +155,8 @@
     border: 1px solid lightgray;
     border-radius: 20px;
 }
+
+
 
 .navbar .right-side span {
     color: var(--main-color);

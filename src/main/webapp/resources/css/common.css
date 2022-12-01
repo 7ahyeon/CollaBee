@@ -63,3 +63,9 @@ body {
     margin: auto; 
     padding-top: 50px;
 }
+
+a {
+	color: black;
+	text-decoration: none;		
+}
+}
