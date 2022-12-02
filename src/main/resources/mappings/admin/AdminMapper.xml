@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminGoodsDAO">
+
+	<select id="adminGoodsList" parameterType="goods" resultType="goods">
+		SELECT P.PRODUCT_NUM, P.PRODUCT_NAME, P.DESCRIPTION AS P_DESCRIPTION, P.PRICE
+			, P.DIS_RATE, P.SALEPRICE, P.REGDATE, P.COUNT, P.STOCK
+			, P.THUM_ORI_FILENAME, P.THUM_SYS_FILENAME, P.DETAILE_ORI_FILENAME
+			, P.DETAILE_SYS_FILENAME, DE.DELIVERY_TYPE, DE.DESCRIPTION AS DE_DESCRIPTION
+			, P.SELLER, P.PRODUCT_DEL, P.DIS_DATE, DI.DIVISION, C.CONDITION 
+		 FROM PRODUCT P, DIVISION DI, PACKAGE_CONDITION C, DELIVERY DE
+	    WHERE P.DIVISION_NUM = DI.DIVISION_NUM
+		  AND P.STORAGE_NUM = C.STORAGE_NUM
+		  AND P.DELIVERY_CODE = DE.DELIVERY_CODE
+		ORDER BY P.PRODUCT_NUM
+	</select>
+	
+	
+	<select id="adminGoodsSelect" parameterType="goods" resultType="goods">
+		SELECT P.PRODUCT_NUM, P.PRODUCT_NAME, P.DESCRIPTION AS P_DESCRIPTION, CA.CATEGORY, DI.DIVISION
+            , P.PRICE, P.DIS_RATE, P.SALEPRICE, P.REGDATE, P.COUNT, P.STOCK
+			, P.THUM_ORI_FILENAME, P.THUM_SYS_FILENAME, P.DETAILE_ORI_FILENAME
+			, P.DETAILE_SYS_FILENAME, C.CONDITION, DE.DELIVERY_TYPE, DE.DESCRIPTION AS DE_DESCRIPTION
+			, P.SELLER, P.PRODUCT_DEL, P.DIS_DATE
+		 FROM PRODUCT P, DIVISION DI, PACKAGE_CONDITION C, DELIVERY DE, CATEGORY CA
+	    WHERE P.DIVISION_NUM = DI.DIVISION_NUM
+		  AND P.STORAGE_NUM = C.STORAGE_NUM
+		  AND P.DELIVERY_CODE = DE.DELIVERY_CODE
+          AND DI.CATEGORY_NUM = CA.CATEGORY_NUM
+		ORDER BY P.PRODUCT_NUM
+	</select>
+	
+	
+	<insert id="adminGoodsInsert" parameterType="goods">
+	 	INSERT INTO PRODUCT (PRODUCT_NUM, PRODUCT_NAME, DESCRIPTION, PRICE, DIS_RATE, SALEPRICE, REGDATE, STOCK, 
+	 						 THUM_ORI_FILENAME, THUM_SYS_FILENAME, DETAILE_ORI_FILENAME, DETAILE_SYS_FILENAME,
+	 						 DELIVERY_CODE, DIS_DATE, DIVISION_NUM, STORAGE_NUM)
+		VALUES (PRODUCT_SEQ.NEXTVAL, #{productName}, #{pDescription}, #{price}, #{disRate}, #{saleprice}, #{regdate}, #{stock},
+        		#{thumOriFilename}, #{thumSysFilename}, #{detaileOriFilename}, #{detaileSysFilename}, #{deliveryCode}, #{disDate}, #{divisionNum}, #{storageNum})
+	</insert>  
+	
+	<!-- <update id="adminGoodsModify" parameterType="goods">
+		
+	</update>
+	
+	<delete id="adminGoodsDelete" parameterType="goods">
+		
+	</delete> -->
+	
+</mapper>
+
+
+
+
+
+

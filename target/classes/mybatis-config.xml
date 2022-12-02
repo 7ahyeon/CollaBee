@@ -12,9 +12,15 @@
 	<typeAliases>
 		<typeAlias alias="cart" type="com.spring.collabee.biz.cart.CartVO"/>
 		<typeAlias alias="memberVO" type="com.spring.collabee.biz.member.MemberVO"/>
+		<typeAlias alias="goods" type="com.spring.collabee.biz.goods.GoodsVO"/>
+	    <typeAlias alias="categories" type="com.spring.collabee.biz.collections.CategoriesVO"/>
+	    <typeAlias alias="coupons" type="com.spring.collabee.biz.coupons.CouponsVO"/>    	
+	    <typeAlias alias="division" type="com.spring.collabee.biz.collections.DivisionVO"/>
 		<typeAlias alias="faq" type="com.spring.collabee.biz.faq.FaqVO"/>
 		<typeAlias alias="inquiry" type="com.spring.collabee.biz.inquiry.InquiryVO"/>
 	    <typeAlias alias="board" type="com.spring.collabee.biz.board.BoardVO"/>
+	    <typeAlias alias="goodsReview" type="com.spring.collabee.biz.goods.GoodsReviewVO"/>
+   		<typeAlias alias="goodsQnA" type="com.spring.collabee.biz.goods.GoodsQnAVO"/>
   </typeAliases>
   
   

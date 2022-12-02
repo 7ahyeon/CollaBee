@@ -16,7 +16,13 @@
     position: relative;
 }
 
-.header-top .support-detail .navbar .left-side .category-detail {
+.header-top .support .support-detail{
+	z-index: 10;
+	position: absolute;
+	right: 500px;
+}
+
+.header-top .support-detail, .navbar .left-side .category-detail {
     z-index: 1;
 }
 

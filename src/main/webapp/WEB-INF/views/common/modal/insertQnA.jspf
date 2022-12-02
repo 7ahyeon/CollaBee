@@ -73,8 +73,10 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" style="background-color: white; 
         border: 1px solid lightgray; color: black;" data-dismiss="modal">취소</button>
-        <button type="button" style="background-color: #692498; color: white; 
-        width: 60px; height: 37px; border-radius: 0.2em;" disabled>등록</button>       
+        <input type="submit" value="등록" style="background-color: #692498; color: white; width: 60px; height: 37px; 
+        border-radius: 0.2em; text-align: center; border: none;">
+        <!-- <button type="button" style="background-color: #692498; color: white; 
+        width: 60px; height: 37px; border-radius: 0.2em;" disabled>등록</button> -->       
       </div>
 
     </div>

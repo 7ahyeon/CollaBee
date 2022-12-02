@@ -14,7 +14,47 @@
 	</select>
 	
 	<select id="getJsonDivision" parameterType="int" resultType="division">
-		SELECT DIVISION_NUM, DIVISION, CATEGORY_NUM FROM DIVISION WHERE CATEGORY_NUM = ${categoryNum }
+		SELECT DIVISION_NUM, DIVISION, CATEGORY_NUM FROM DIVISION WHERE CATEGORY_NUM = #{categoryNum }
+	</select>
+	
+	
+	
+	<select id="getJsonGoodsList" resultType="goods" parameterType="goods">
+		SELECT P.PRODUCT_NUM, P.PRODUCT_NAME, P.DESCRIPTION AS P_DESCRIPTION, P.PRICE
+		, P.DIS_RATE, P.SALEPRICE, P.REGDATE, P.COUNT, P.STOCK
+		, P.THUM_ORI_FILENAME, P.THUM_SYS_FILENAME, P.DETAILE_ORI_FILENAME
+		, P.DETAILE_SYS_FILENAME, DE.DELIVERY_TYPE, DE.DESCRIPTION AS DE_DESCRIPTION
+		, P.SELLER, P.PRODUCT_DEL, P.DIS_DATE, DI.DIVISION, C.CONDITION 
+		FROM PRODUCT P, DIVISION DI, PACKAGE_CONDITION C, DELIVERY DE
+		WHERE P.DIVISION_NUM = DI.DIVISION_NUM
+		    AND P.STORAGE_NUM = C.STORAGE_NUM
+		    AND P.DELIVERY_CODE = DE.DELIVERY_CODE
+		    <if test="categoryType != null">
+		    	AND DI.CATEGORY_NUM IN 
+		    	<foreach collection="typeList" item="type"  open="(" close=")" separator=",">
+					#{type}
+				</foreach>
+		    </if>
+		    <choose>
+			    <when test="priceStart != null and priceStart.equals('') and priceEnd != null">
+			    	<![CDATA[AND P.SALEPRICE < #{priceEnd }]]>
+			    </when>
+			    <when test="priceEnd != null and priceStart != null and priceEnd.equals('')">
+			    	AND P.SALEPRICE > #{priceStart }
+			    </when>
+			    <when test="priceStart != null and priceEnd != null">
+			    	AND P.SALEPRICE BETWEEN #{priceStart } AND #{priceEnd }
+			    </when>
+			    <otherwise>
+			    </otherwise>
+		    </choose>  
+		    <if test="benefitType != null">
+		    	<if test="benefitType.equals('discount')">
+		    		AND P.DIS_RATE != 0
+	    		</if>
+		    </if>
+		ORDER BY REGDATE DESC        
+
 	</select>
 	
 </mapper>

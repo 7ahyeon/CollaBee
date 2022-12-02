@@ -1,7 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-    
+<style>
+	.filebox .upload-name {
+        display: inline-block;
+        height: 40px;
+        padding: 0 10px;
+        vertical-align: middle;
+        border: 1px solid #dddddd;
+        width: 78%;
+        color: #999999;
+    }
+    .filebox label {
+        display: inline-block;
+        padding: 10px 20px;
+        color: #fff;
+        vertical-align: middle;
+        background-color: #999999;
+        cursor: pointer;
+        height: 40px;
+        margin: 10px;
+    }
+    .filebox input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+    }
+</style>
+
 <!-- The Modal -->
 <div class="modal" id="myModal">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -35,18 +64,27 @@
           width: 670px; height: 250px;" placeholder="후기를 작성해주세요."></textarea>
           </div>
           </div>
-          <div class="mb-3" style="width: 673px; margin-left: 61px; margin-top: 10px;">
+          <!-- 사진 첨부 -->
+          <div class="filebox" style="margin-left: 55px;">'
+              <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+              <label for="file" style="background-color: #692498;">파일찾기</label>
+              <input type="file" id="file" name="business_license_file" class="upload-hidden" multifile>
+          </div>
+          
+          <!-- <div class="mb-3" style="width: 673px; margin-left: 61px; margin-top: 10px;">
               <input class="form-control" type="file" id="formFileMultiple" multiple style="border: 1px solid lightgray;">
             <label for="formFileMultiple" class="form-label" style="background-color: #692498; color: white;"></label>   
-          </div>
+          </div> -->
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" style="background-color: white; border: 1px solid lightgray; color: black; 
         text-align: center;" class="btn btn-danger" data-dismiss="modal">취소</button>
-        <button type="button" style="background-color: #692498; color: white; width: 60px; height: 37px; 
-        border-radius: 0.2em; text-align: center;" disabled>등록</button>
+        <input type="submit" value="등록" style="background-color: #692498; color: white; width: 60px; height: 37px; 
+        border-radius: 0.2em; text-align: center; border: none;">
+        <!-- <button type="button" style="background-color: #692498; color: white; width: 60px; height: 37px; 
+        border-radius: 0.2em; text-align: center;" disabled>등록</button> -->
       </div>
 
     </div>

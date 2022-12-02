@@ -1,0 +1,152 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<style>
+	
+	.card .icon-cart-box {
+		position: relative;
+		bottom: 70px;
+		left: 210px;
+		opacity: 0.7;
+		background-color: var(--main-color); 
+		width: 50px;
+		height: 50px;
+		line-height: 40px;
+		text-align: center;
+		border-radius: 50%;
+		font-size: 20px;
+		z-index:10;
+		border: none;
+    }
+
+	#cart-modal button{
+	    width: 200px;
+	    height: 60px;
+	    border: solid 1px lightgray;
+	}
+	
+	.item-count-btn button {
+	    background-color: white;
+	    font-size: 20px;
+	    font-weight: 1200px;
+	    
+	}
+	
+	.item-count-btn * {
+	    height: 30px;
+	    line-height: 32px;
+	    font-weight: 700;
+	}
+	
+	.search-box:focus {
+	outline: none;
+	}
+	
+</style>
+
+<script>
+
+    let total;
+    let price;
+    let cnt;
+
+    function cartCal(param){
+    	
+    	
+        if ($(param).attr("name") == 'plus') {
+            cnt = Number($(param).prev().html()) + 1;
+        } else {
+            cnt = Number($(param).next().html()) - 1;
+        }
+        $("#cart-cnt").html(cnt);
+        $("#cart-total").html(cnt * Number($("#cart-price").html()));
+        
+    	check_under_one()
+    }
+
+    
+ 	// 모달 전달 데이터 처리 부분
+    let toModal_productnum="";
+    let toModal_productname="";
+    let toModal_saleprice="";
+    
+    $(document).ready(function() {     
+        $('#cart-modal').on('show.bs.modal', function(event) {    
+        	check_under_one()
+        	toModal_productnum = $(event.relatedTarget).data('productnum');
+        	toModal_productname = $(event.relatedTarget).data('productname');
+        	toModal_saleprice = $(event.relatedTarget).data('saleprice');
+        	
+        	$("#modal-productName").html(toModal_productname);
+        	$("#cart-price").html(toModal_saleprice);
+        	$("#cart-total").html(toModal_saleprice);
+        }); 
+        
+        // 모달 내부 내용을 input과 form으로 구현한 경우 모달이 닫힐 때 실행될 함수를 적는 부분
+        /* $("#cart-modal").on('hidden.bs.modal', function(event){
+       		$(this).find("#cart-modal-form")[0].reset();
+        });  */
+        
+    });
+    
+    function add_shoppingcart(){
+    	location.href="!!!!!!!!!!!! 장바구니 담는 요청?productNum="+toModal_productnum+"&count="+$("#cart-cnt").html();
+    }
+    
+    function close_modal_reset(){
+    	$("#cart-cnt").html(1);
+    }
+    
+   	function check_under_one() {
+   		if ($("#cart-cnt").html() == 1) {
+	    	console.log("1이다~");
+	    	$("#cart-modal-minus").css("color", "lightgray");
+	    	console.log($("button[name=minus]")[0]);
+	    	$("#cart-modal-minus").attr("disabled", "disabled");
+	    } else {
+	    	console.log("1아니다~");
+	    	$("#cart-modal-minus").css("color", "black");
+	    	$("#cart-modal-minus").removeAttr("disabled");
+	    }
+   	}
+    
+</script>
+
+<!-- 쇼핑카트 Modal -->
+    <div class="modal fade" id="cart-modal">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+            
+            <!-- Modal body -->
+            <div class="modal-body" style="padding:30px;">
+                <div style="padding: 10px 0px;">
+                    <span id="modal-productName" class="--font-mid --strong">한판모둠순대</span>
+                    <p class="--font-small --strong">적립제외상품</p>
+                    <div class="modal-line" style="display:flex; justify-content: space-between;margin-bottom:30px;">
+                        <span><span id="cart-price"> 4500 </span><span>원</span></span>
+                        <div class="item-count-btn" style="display: flex; width: 110px; height: 35px; border: solid 1px lightgray; border-radius: 5px;;">
+                            <button id="cart-modal-minus" style="height: 30px; border: 0; line-height: 28px;" name="minus" onclick="cartCal(this)">-</button>
+                            <div id="cart-cnt">1</div>
+                            <button style="height: 30px; border: 0; line-height: 28px;" name="plus" onclick="cartCal(this)">+</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-line" style="display:flex; justify-content: space-between;margin-bottom:30px;">
+                    <p class="--font-mid --strong"> 합계 </p>
+                    <div><span id="cart-total" class="--strong" style="font-size: 25px; position:relative; top: 2px;"> 4500</span><span class="--strong --font-large" style="margin-left:5px;">원</span></div>
+                </div>
+
+                <h6>로그인 후, 회원할인가와 적립혜택 제공</h6>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <button type="button" class="btn" data-dismiss="modal" onclick="close_modal_reset()">취소</button>
+                    <button type="button" class="btn" data-dismiss="modal" style="background-color: #9A30AE; color: white;" onclick="add_shoppingcart()">장바구니담기</button>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            
+            </div>
+        </div>
+    </div>
