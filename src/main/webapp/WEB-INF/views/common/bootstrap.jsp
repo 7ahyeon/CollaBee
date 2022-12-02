@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/css/font.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/common.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/footer.css" type="text/css">
@@ -20,6 +24,4 @@
 <script src="${pageContext.request.contextPath }/resources/js/header.js" type="text/javascript"></script>
 
 <!-- favicon -->
-<link rel="icon" href="${pageContext.request.contextPath }/resources/imgs/member/favicon.png">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/css/font.css"/>
+<link rel="icon" href="${pageContext.request.contextPath }/resources/imgs/member_grade/favicon.png">

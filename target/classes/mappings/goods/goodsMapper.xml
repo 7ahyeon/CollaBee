@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoodsDAO">
+
+	<!-- 상품 -->
+	<select id="getGoods" resultType="goods">
+		SELECT P.PRODUCT_NUM PRODUCT_NUM, P.PRODUCT_NAME PRODUCT_NAME, P.DESCRIPTION AS P_DESCRIPTION, P.PRICE PRICE
+		, P.DIS_RATE DIS_RATE, P.SALEPRICE SALEPRICE, P.REGDATE REGDATE, P.COUNT COUNT, P.STOCK STOCK
+		, P.THUM_ORI_FILENAME THUM_ORI_FILENAME, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.DETAILE_ORI_FILENAME DETAILE_ORI_FILENAME
+		, P.DETAILE_SYS_FILENAME DETAILE_SYS_FILENAME, DE.DELIVERY_TYPE DELIVERY_TYPE, DE.DESCRIPTION AS DE_DESCRIPTION
+		, P.SELLER SELLER, P.PRODUCT_DEL PRODUCT_DEL, P.DIS_DATE DIS_DATE, DI.DIVISION DIVISION, C.CONDITION CONDITION
+		FROM PRODUCT P, DIVISION DI, PACKAGE_CONDITION C, DELIVERY DE
+		WHERE P.DIVISION_NUM = DI.DIVISION_NUM
+		    AND P.STORAGE_NUM = C.STORAGE_NUM
+		    AND P.DELIVERY_CODE = DE.DELIVERY_CODE
+            AND P.PRODUCT_NUM = 2
+	</select>	
+
+	<!-- 후기 전체 조회 -->
+	<select id="getReviewList" parameterType="goodsReview" resultType="goodsReview">
+		SELECT * 
+		FROM PRO_REVIEW
+		ORDER BY REVIEW_NUM DESC
+	</select>
+
+	<!-- 후기 1개 조회 -->
+	<select id="getReview" resultType="goodsReview">
+		SELECT *
+		FROM PRO_REVIEW
+		WHERE REVIEW_NUM = #{reviewNum}
+	</select>
+	<insert id="insertReview">
+		INSERT INTO PRO_REVIEW (REVIEW_NUM, ORDER_NUM, PRODUCT_NUM, MEMBER_NUM, R_CONTENT, 
+								R_ORI_FILENAME, R_SYS_FILENAME, R_DATE, REC)
+		VALUES ((SELECT NVL(MAX(REVIEW_NUM), 0) + 1 FROM PRO_REVIEW), #{orderNum}, #{productNum}, 
+				#{memberNum}, #{rContent}, #{rOriFilename}, #{rSysFilename}, SYSDATE, #{rec})
+	</insert>
+
+	<!-- 후기 수정 -->
+	
+	<!-- 문의 전체 조회 -->
+	<select id="getQnAList" parameterType="goodsQnA" resultType="goodsQnA">
+		SELECT * FROM PRO_QNA
+		ORDER BY PRO_QNA_NUM DESC
+	</select>	
+
+	<!-- 문의 1개 조회 -->
+	<select id="getQnA" resultType="goodsQnA">
+		SELECT * FROM PRO_QNA
+		WHERE PRO_QNA_NUM = #{proQnaNum}
+	</select>
+
+	<!-- 문의 입력 -->
+	<insert id="insertQnA">
+		INSERT INTO PRO_QNA (PRO_QNA_NUM, PRODUCT_NUM, MEMBER_NUM, 
+							Q_TITLE, Q_CONTENT, Q_DATE, Q_STATUS, Q_SECRET)
+		VALUES((SELECT NVL(MAX(PRO_QNA_NUM),0) + 1 FROM PRO_QNA), #{productNum}, #{memberNum},
+				#{qTitle}, #{qContent}, SYSDATE, #{qStatus}	, #{qSecret})		
+	</insert>
+
+	<!-- 문의 수정 -->
+	<update id="updateQnA">
+		UPDATE PRO_QNA
+		   SET Q_TITLE = #{qTitle},
+		   	   Q_CONTENT = #{qContent}
+		 WHERE PRO_QNA_NUM = #{proQnaNum}
+	</update>
+	
+	<!-- 문의 삭제 -->
+	<delete id="deleteQnA">
+		DELETE FROM PRO_QNA WHERE PRO_QNA_NUM = #{proQnaNum}
+	</delete>
+	
+</mapper>

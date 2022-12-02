@@ -1,51 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- [Header] Session에 저장된 \${loginMember } : ${loginMember } --%>
 
 	<div class="row">
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-8 header-top"> 
-	        <ul>
-	            <c:if test="${empty loginMember}">
-	            	<li><a href="join.html">회원가입</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
-		            <li><a href="../member/login.do">로그인</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
-	            </c:if>
-	            <c:if test="${not empty loginMember}">
-		            <li><a href="../member/logout.do">로그아웃</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
-	            </c:if>
-	            <li>
-	            	<div class="dropdown support">
-	            		고객센터 <i class="fa-solid fa-chevron-down"></i>
-	                    <div class="dropdown-menu support-detail">
-	                    <a class="dropdown-item" href="#">공지사항</a>
-	                    <a class="dropdown-item" href="#">자주하는 질문</a>
-	                    <a class="dropdown-item" href="#">1:1문의</a>
-	                    <a class="dropdown-item" href="#">대량주문 문의</a>
-	                    </div>
-	                </div>
-	            </li>
-	
-	        </ul>
+	    	<c:choose>
+   				<c:when test="${empty loginMember }">
+			        <ul>
+			            <li><a href="${pageContext.request.contextPath }/member/signup.do">회원가입</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
+			            <li><a href="../member/login.do">로그인</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
+			            <li>
+			            	<div class="dropdown support">
+			            		고객센터 <i class="fa-solid fa-chevron-down"></i>
+			                    <div class="dropdown-menu support-detail">
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/board/notice.do">공지사항</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/faq/faq.do">자주하는 질문</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/inquiry/inquiry.do">1:1문의</a>
+			                    </div>
+			                </div>
+			            </li>
+			
+			        </ul>
+		        </c:when>
+		        <c:otherwise>
+		        	<ul>
+			            <li><div class="dropdown support">
+			            		<button style="background-color: transparent; border: solid 1px #9A30AE; border-radius: 20px; font-size: 10px; height: 20px; color: #9A30AE; width: 50px; font-weight: 1000;">콜라비</button>
+			            		유석기 님 <i class="fa-solid fa-chevron-down"></i>
+			                    <div class="dropdown-menu support-detail">
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/order.do">주문내역</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/review.do">상품후기</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/inquiryProduct.do">상품문의</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/emoney.do">적립금</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/coupon.do">쿠폰</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/modify.do">개인정보수정</a>
+			                    <a class="dropdown-item" href="../member/logout.do">로그아웃</a>
+			                    </div>
+			                </div>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
+			            <li>
+			            	<div class="dropdown support">
+			            		고객센터 <i class="fa-solid fa-chevron-down"></i>
+			                    <div class="dropdown-menu support-detail">
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/board/notice.do">공지사항</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/faq/faq.do">자주하는 질문</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/inquiry/inquiry.do">1:1문의</a>
+			                    </div>
+			                </div>
+			            </li>
+			
+			        </ul>
+		        </c:otherwise>
+	        </c:choose>
+
 	    </div>
 	    <div class="col-sm-2"></div>
 	</div>
 	<div class="row">
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-8 header">
-	        <div> <img class="main-logo" src="../resources/imgs/메인로고/마켓콜라비로고.png"></div>
-	        <div class="input-box"><input type="text" placeholder="검색어를 입력해주세요">
+	        <div><a href="../collections/main.do"><img class="main-logo" src="${pageContext.request.contextPath}/resources/imgs/logo/main_logo.png"></a></div>
+	        <div class="input-box"><input class="search-box" type="text" placeholder="검색어를 입력해주세요">
+
 	            <i class="fa-solid fa-magnifying-glass"></i>
 	        </div>
 	        <div>
 	            <ul>
 	                <li><button><i class="fa-regular fa-bell"></i></button></li>
-	                <li><button><i class="fa-regular fa-heart"></i></button></li>
-	                <li>
-	                	<button onclick="location.href='../cart/cart.do'">
-	                		<i class="fa-solid fa-cart-shopping"></i>
-	                	</button>
-	                </li>
+	                <li><button onclick="location.href='${pageContext.request.contextPath }/mypage/picklist.do'"><i class="fa-regular fa-heart"></i></button></li>
+	                <li><button onclick="location.href='${pageContext.request.contextPath}/cart/cart.do'"><i class="fa-solid fa-cart-shopping"></i></button></li>
+
 	            </ul>
 	        </div>
 	    </div>
@@ -61,23 +87,15 @@
 	                <div class="dropdown-menu category-detail  overflow-auto" style="background-color: transparent; border: 0; z-index: 10;">
 	                    <div id="category-box" style="display: flex; background-color: 0;">
 	                        <div class="list-group" id="main-category">
-	                            <a href="newItems.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/채소.png">채소</a>
-	                            <a href="bestItems.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/과일,견과,쌀.png">과일・견과・쌀</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/수산,해산물,건어물.png">수산・해산물・건어물</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/정육,계란.png">정육・계란</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/국,반찬,메인요리.png">국・반찬・메인요리</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/샐러드,간편식.png">샐러드・간편식</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/면,양념,오일.png">면・양념・오일</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/생선,음료,우유,커피.png">생선・음료・우유・커피</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/간식,과자,떡.png">간식・과자・떡</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/베이커리,치즈,델리.png">베이커리・치즈・델리</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/건강식품.png">건강식품</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/와인.png">와인</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/전통주.png">전통주</a>
-	                            <a href="event.html" class="list-group-item list-group-item-action category-list"><img src="../resources/imgs/icons_catetory/생활용품,리빙,캠핑.png">생활용품・리빙・캠핑</a>
+		                        <c:forEach var="categoryVO" items="${categories }" varStatus="status">
+		                            <a name="${categoryVO.categoryNum }" href="${pageContext.request.contextPath}/collections/categories.do?category='${categoryVO.categoryNum }'" class="list-group-item list-group-item-action category-list">
+		                            <img src="${pageContext.request.contextPath}/resources/imgs/icons_catetory/icon_maincategory_${status.index +1 }.png">${categoryVO.category }</a>
+	                            </c:forEach>
 	                        </div>
-	                        <div style="width: 300px; height: inherit; background-color: red; display: none;" id="sub-category">
-	
+	                        <div style="width: 300px; height: inherit; background-color: red;" id="sub-category-box">
+								<div class="list-group" id="sub-category">
+	                        	</div>
+
 	                        </div>
 	                    </div>
 	                </div>
@@ -85,14 +103,16 @@
 	        </div>
 	        <div class="center-side">
 	            <ul>
-	                <li><a href="newItems.html">신상품</a></li>
-	                <li><a href="bestItems.html">베스트</a></li>
-	                <li><a href="event.html">이벤트</a></li>
+	                <li><a href="${pageContext.request.contextPath}/collections/market-newproduct.do">신상품</a></li>
+	                <li><a href="${pageContext.request.contextPath}/collections/market-best.do">베스트</a></li>
+	                <li><a href="${pageContext.request.contextPath}/collections/event.do">이벤트</a></li>
+
 	            </ul>
 	
 	        </div>
 	        <div class="right-side">
-	            <a> <span>샛별・낮</span> 배송안내</a>
+	            <a href="../collections/about_delivery.do"> <span>샛별・낮</span> 배송안내</a>
+
 	        </div>
 	    </div>
 	    <div class="col-sm-2"></div>

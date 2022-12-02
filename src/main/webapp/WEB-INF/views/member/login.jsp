@@ -10,6 +10,7 @@
 	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
 
 <style>
+
   .col-sm-8{
           padding-top: 50px;
           padding-bottom: 50px;
