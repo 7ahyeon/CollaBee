@@ -30,11 +30,12 @@ input[type="checkbox"] { position: absolute; left: -999em; }
 .text-secondary {
 	font-size:0.8rem;
 }
-.btn:active, .btn:focus {
+.btn:active, .btn:focus, input {
 	text-decoration:none;
 	outline:none !important;
 	box-shadow:none !important;
 }
+
 .productImgCart {
 	padding:10px;
 }

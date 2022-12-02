@@ -4,20 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cartDAO">
 	
-	<select id="getMember" parameterType="memberVO" resultType="memberVO">
-		SELECT * 
-		FROM MEMBER
-		WHERE MEMBER_NUM = #{memberNum}
-	</select>
-	
-	<update id="getAddress" parameterType="memberVO">
+	<!-- 배송지 변경 -->
+	<update id="updateAddress" parameterType="memberVO">
 		UPDATE MEMBER
 		SET ADDRESS = #{address},
 			ADDRESS_DETAIL = #{addressDetail}
 		WHERE MEMBER_NUM = #{memberNum}
 	</update>
 	
-	<!-- 회원 장바구니 -->
+	<!-- 회원 장바구니 전체 조회 -->
 	<select id="getCartList" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
@@ -27,7 +22,7 @@
 		AND D.CATEGORY_NUM = CT.CATEGORY_NUM
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
-	
+	<!-- 회원 장바구니 전체 수량 조회 -->
 	<select id="getCartCount" parameterType="memberVO" resultType="int">
 		SELECT COUNT(*) COUNT
 		FROM CART C, PRODUCT P
@@ -36,7 +31,7 @@
 		AND NOT P.STOCK = 0
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
-	
+	<!-- 회원 장바구니 냉장 상품 조회 -->
 	<select id="getCartList1" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
@@ -49,7 +44,7 @@
 		AND P.STORAGE_NUM = 1
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
-	
+	<!-- 회원 장바구니 냉동 상품 조회 -->
 	<select id="getCartList2" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
@@ -62,7 +57,7 @@
 		AND P.STORAGE_NUM = 2
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>	
-	
+	<!-- 회원 장바구니 상온 상품 조회 -->
 	<select id="getCartList3" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
@@ -75,7 +70,7 @@
 		AND P.STORAGE_NUM = 3
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>
-		
+	<!-- 회원 장바구니 구매 불가 상품 조회 -->	
 	<select id="getCartList4" parameterType="memberVO" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
 				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
@@ -86,5 +81,21 @@
 		AND (NOT P.PRODUCT_DEL = 'N' OR P.STOCK = 0)
 		AND C.MEMBER_NUM = #{memberNum}
 	</select>	
+	<!-- 회원 등급 / 적립 조회 -->
+	<select id="getCartMember" parameterType="memberVO" resultType="orderMember">
+		SELECT MS.GRADE_NAME GRADE_NAME, MS.SAVERATE SAVERATE
+		FROM MEMBER M, MEMBERSHIP MS
+		WHERE M.GRADE = MS.GRADE
+		AND M.MEMBER_NUM = #{memberNum}
+	</select>
 	
 </mapper>
+
+
+
+
+
+
+
+
+

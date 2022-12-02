@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- [Header] Session에 저장된 \${loginMember } : ${loginMember } --%>
-
 	<div class="row">
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-8 header-top"> 
@@ -29,7 +27,7 @@
 		        	<ul>
 			            <li><div class="dropdown support">
 			            		<button style="background-color: transparent; border: solid 1px #9A30AE; border-radius: 20px; font-size: 10px; height: 20px; color: #9A30AE; width: 50px; font-weight: 1000;">콜라비</button>
-			            		유석기 님 <i class="fa-solid fa-chevron-down"></i>
+			            		&nbsp;스누피 님 <i class="fa-solid fa-chevron-down"></i>
 			                    <div class="dropdown-menu support-detail">
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/order.do">주문내역</a>
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/review.do">상품후기</a>

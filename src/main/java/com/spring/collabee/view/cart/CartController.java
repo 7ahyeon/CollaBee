@@ -25,6 +25,7 @@ import com.spring.collabee.biz.cart.CartManagementVO;
 import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.member.MemberVO;
+import com.spring.collabee.biz.order.OrderMemberVO;
 
 @SessionAttributes({"cartList", "cartCount", "cartList1", "cartList2", "cartList3", "cartList4"})
 @RequestMapping("/cart")
@@ -57,6 +58,9 @@ public class CartController {
 		model.addAttribute("cartList2", cartList2);
 		model.addAttribute("cartList3", cartList3);
 		model.addAttribute("cartList4", cartList4);
+		
+		OrderMemberVO cartMember = cartService.getCartMember(mvo);
+		model.addAttribute("cartMember", cartMember);
 		
 		return "/cart/cart";
 	}

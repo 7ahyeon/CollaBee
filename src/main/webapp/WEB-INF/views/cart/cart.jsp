@@ -206,32 +206,39 @@
 							    	<div class="d-flex  flex-row justify-content-between">
 							    		<div class="item">
 											<label>
-												<input type="checkbox" name="orderGoods" value="${cartGoods.price * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												<c:if test="${cartGoods.saleprice == 0 }">
+													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }" 
+														value="${cartGoods.price * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												</c:if>
+												<c:if test="${cartGoods.saleprice != 0 }">
+													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }" 
+													data-saleprice="${(cartGoods.price - cartGoods.saleprice) * cartGoods.count }" value="${cartGoods.saleprice * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												</c:if>
 												<i class="circle"></i>
 												<span class="chk-text"></span>
 											</label>
 											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.categoryNum }/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
-								     				<c:if test="${cartGoods.productName.length() > 30 }">
-								     					${cartGoods.productName.substring(0,25) }<br>
-								     					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
+								     				<c:if test="${cartGoods.productName.length() > 39 }">
+								     					${cartGoods.productName.substring(0,39) }<br>
+								     					${cartGoods.productName.substring(39,cartGoods.productName.length()) }
 								     				</c:if>
-								     				<c:if test="${cartGoods.productName.length() <= 30 }">
+								     				<c:if test="${cartGoods.productName.length() <= 39 }">
 								     					${cartGoods.productName }
 								     				</c:if>
 								     			</a>
 								     		</span>
 							    		</div>
-							    		<div class="item"  style="margin-top:24px;">
-								     		<span class="btn-group" style="margin-right:50px;">
-									     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-									     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
+							    		<div class="item"  style="margin-top:35px;">
+								     		<span class="btn-group">
+									     		<button class="minusBtn button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<button class="plusBtn button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
 									     			+
 									     		</button>
 								     		</span>
-								     		<span>
+								     		<span class="text-right" style="width:200px;">
 									     		<span class="text-dark font-weight-bold">
 								     				<c:if test="${cartGoods.saleprice == 0 }">
 								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price * cartGoods.count }" /> 원
@@ -292,32 +299,39 @@
 							    	<div class="d-flex  flex-row justify-content-between">
 							    		<div class="item">
 											<label>
-												<input type="checkbox" name="orderGoods" value="${cartGoods.price * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												<c:if test="${cartGoods.saleprice == 0 }">
+													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }" 
+														value="${cartGoods.price * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												</c:if>
+												<c:if test="${cartGoods.saleprice != 0 }">
+													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }" 
+													data-saleprice="${(cartGoods.price - cartGoods.saleprice) * cartGoods.count }" value="${cartGoods.saleprice * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												</c:if>
 												<i class="circle"></i>
 												<span class="chk-text"></span>
 											</label>
 											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.categoryNum }/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
-								     				<c:if test="${cartGoods.productName.length() > 30 }">
-								     					${cartGoods.productName.substring(0,25) }<br>
-								     					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
+								     				<c:if test="${cartGoods.productName.length() > 39 }">
+								     					${cartGoods.productName.substring(0,39) }<br>
+								     					${cartGoods.productName.substring(39,cartGoods.productName.length()) }
 								     				</c:if>
-								     				<c:if test="${cartGoods.productName.length() <= 30 }">
+								     				<c:if test="${cartGoods.productName.length() <= 39 }">
 								     					${cartGoods.productName }
 								     				</c:if>
 								     			</a>
 								     		</span>
 							    		</div>
-							    		<div class="item"  style="margin-top:24px;">
-								     		<span class="btn-group" style="margin-right:50px;">
-									     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-									     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
+							    		<div class="item"  style="margin-top:35px;">
+								     		<span class="btn-group">
+									     		<button class="minusBtn button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<button class="plusBtn button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
 									     			+
 									     		</button>
 								     		</span>
-								     		<span>
+								     		<span class="text-right" style="width:200px;">
 									     		<span class="text-dark font-weight-bold">
 								     				<c:if test="${cartGoods.saleprice == 0 }">
 								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price * cartGoods.count }" /> 원
@@ -378,32 +392,39 @@
 							    	<div class="d-flex  flex-row justify-content-between">
 							    		<div class="item">
 											<label>
-												<input type="checkbox" name="orderGoods" value="${cartGoods.price * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												<c:if test="${cartGoods.saleprice == 0 }">
+													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }" 
+														value="${cartGoods.price * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												</c:if>
+												<c:if test="${cartGoods.saleprice != 0 }">
+													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }" 
+													data-saleprice="${(cartGoods.price - cartGoods.saleprice) * cartGoods.count }" value="${cartGoods.saleprice * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
+												</c:if>
 												<i class="circle"></i>
 												<span class="chk-text"></span>
 											</label>
 											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.categoryNum }/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
-								     				<c:if test="${cartGoods.productName.length() > 25 }">
-								     					${cartGoods.productName.substring(0,25) }<br>
-								     					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
+							     					<c:if test="${cartGoods.productName.length() > 39 }">
+								     					${cartGoods.productName.substring(0,39) }<br>
+								     					${cartGoods.productName.substring(39,cartGoods.productName.length()) }
 								     				</c:if>
-								     				<c:if test="${cartGoods.productName.length() <= 25 }">
+								     				<c:if test="${cartGoods.productName.length() <= 39 }">
 								     					${cartGoods.productName }
 								     				</c:if>
 								     			</a>
 								     		</span>
 							    		</div>
-							    		<div class="item"  style="margin-top:24px;">
-								     		<span class="btn-group" style="margin-right:50px;">
-									     		<button class="minus button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;">
-									     		<button class="plus button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;">
+							    		<div class="item"  style="margin-top:35px;">
+								     		<span class="btn-group">
+									     		<button class="minusBtn button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<button class="plusBtn button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
 									     			+
 									     		</button>
 								     		</span>
-								     		<span>
+								     		<span class="text-right" style="width:200px;">
 									     		<span class="text-dark font-weight-bold">
 								     				<c:if test="${cartGoods.saleprice == 0 }">
 								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price * cartGoods.count }" /> 원
@@ -535,23 +556,23 @@
 							상품금액
 						</div>
 						<div class="tot_price_temp" style="margin-bottom: 10px;">
-							<fmt:formatNumber pattern="###,###,###" value="0" /> 원
+							0 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between text-secondary font-weight-bold" style="font-size:1rem;">
 						<div style="margin-bottom: 10px;">
 							상품할인금액
 						</div>
-						<div style="margin-bottom: 10px;">
-							-68,785&nbsp;원
+						<div class="sale_price_temp" style="margin-bottom: 10px;">
+							0 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between text-secondary font-weight-bold" style="font-size:1rem;">
 						<div style="margin-bottom: 10px;">
 							배송비
 						</div>
-						<div style="margin-bottom: 10px;">
-							3000&nbsp;원
+						<div class="delivery_fee_temp" style="margin-bottom: 10px;">
+							0 원
 						</div>
 					</div>
 				</div>
@@ -561,20 +582,20 @@
 						<div style="margin-bottom: 10px;">
 							결제예정금액
 						</div>
-						<div style="margin-bottom: 10px;color:#9A30AE;font-size: 1.2rem;">
-							219,215&nbsp;원
+						<div class="total_price_temp" style="margin-bottom: 10px;color:#9A30AE;font-size: 1.2rem;">
+							0 원
 						</div>
 					</div>
 					<div class="text-right font-weight-bold text-dark" style="font-size:0.7rem;">
 						<div>
-							<button class="btn font-weight-bold" style="color:white;background-color: #FFCD4A;border-radius:15px;width:32px;padding:0.5px;font-size:0.6rem;">
+							<button class="btn font-weight-bold" style="color:white;background-color: #FFCD4A;border-radius:15px;width:32px;padding:0.5px;font-size:0.7rem;cursor:default;">
 								적립
 							</button>
-							<span>
-								최대 2,192원 적립<br>
+							<span class="save_emoney_temp">
+								최대 0 원 적립
 							</span>
-							<span class="text-secondary" style="font-size:0.7rem;">
-								콜 등급 적립 1%
+							<span class="memberGrade" data-severate="${cartMember.saverate }" style="font-size:0.7rem;color:#FFCD4A;">
+								 (${cartMember.gradeName } 등급 적립 ${cartMember.saverate }%)
 							</span>
 						</div>
 					</div>
@@ -615,21 +636,118 @@
 			var selectNumber = $('input:checkbox[name=orderGoods]:checked').length;
 			$(".selectNum").html(selectNumber);
 		}
+		// 숫자 1000단위 표기
+		function addComma(value){
+	        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	        return value; 
+		}
+		// 총 상품 금액 계산
 		function totPriceTemp() {
 			var totPrice = 0;
-			var selectBox = $('input:checkbox[name=orderGoods]').length;
-			for (var i = 0; i < selectBox; i++) {
-				if ($('input:checkbox[name=orderGoods]')[i].checked == true){
-					totPrice += parseInt($('input:checkbox[name=orderGoods]')[i].value);
+			$('input:checkbox[name=orderGoods]:checked').each(function(){
+				var tot = $(this).attr('data-price');
+				totPrice += parseInt(tot);
+			});
+			var totPriceTemp = String(totPrice);
+			totPriceTemp = addComma(totPriceTemp);
+			var totHtml = totPriceTemp + " 원";
+			$(".tot_price_temp").html(totHtml);
+		}
+		// 상품 할인 금액 계산
+		function salePriceTemp() {
+			var salePrice = 0;
+			$('input:checkbox[name=orderGoods]:checked').each(function(){
+				if ($(this).attr('data-saleprice') != null) {
+					var sale = $(this).attr('data-saleprice');
+					salePrice += parseInt(sale);
 				}
-				
+			});
+			var salePriceTemp = String(salePrice);
+			salePriceTemp = addComma(salePriceTemp);
+			var saleHtml = salePriceTemp + " 원";
+			$(".sale_price_temp").html(saleHtml);
+		}
+		// 결제 예정 금액 상품 금액 계산
+		function totalPriceTemp() {
+			
+			// 총 상품 금액 계산
+			var totPrice = 0;
+			$('input:checkbox[name=orderGoods]:checked').each(function(){
+				var tot = $(this).attr('data-price');
+				totPrice += parseInt(tot);
+			});
+			var totPriceTemp = String(totPrice);
+			totPriceTemp = addComma(totPriceTemp);
+			var totHtml = totPriceTemp + " 원";
+			$(".tot_price_temp").html(totHtml);
+			
+			// 상품 할인 금액 계산
+			var salePrice = 0;
+			$('input:checkbox[name=orderGoods]:checked').each(function(){
+				if ($(this).attr('data-saleprice') != null) {
+					var sale = $(this).attr('data-saleprice');
+					salePrice += parseInt(sale);
+				}
+			});
+			var salePriceTemp = String(salePrice);
+			salePriceTemp = addComma(salePriceTemp);
+			var seleHtml = "";
+			if (salePrice != 0) {
+				saleHtml = "-" + salePriceTemp + " 원";
+			} else {
+				saleHtml = salePriceTemp + " 원";
 			}
-			//여기부터
+			$(".sale_price_temp").html(saleHtml);
+			
+			// 결제 예정 금액(배송비 제외) 상품 금액 계산
+			var totalPrice = 0;
+			if (totPrice == 0 && salePrice == 0){
+				totalPrice = 0;
+			} else {
+				totalPrice = totPrice - salePrice;
+			}
+			
+			// 배송비 계산
+			var deliveryFee = 0;
+			if (totalPrice > 0 && totalPrice < 40000) {
+				deliveryFee = 3000;
+			}
+			
+			var deliveryFeeTemp = String(deliveryFee);
+			deliveryFeeTemp = addComma(deliveryFeeTemp);
+			var deliveryFeeHtml = deliveryFeeTemp + " 원";
+			
+			$(".delivery_fee_temp").html(deliveryFeeHtml);
+			
+			// 결제 예정 금액(배송비 포함) 상품 금액 계산
+			var totalPriceAll = 0;
+			totalPriceAll = totalPrice + deliveryFee;
+			
+			var totalPriceAllTemp = String(totalPriceAll);
+			totalPriceAllTemp = addComma(totalPriceAllTemp);
+			var totalHtml = totalPriceAllTemp + " 원";
+			$(".total_price_temp").html(totalHtml);
+			
+			// 적립 예정 금액
+			var saveEmoney = 0;
+			var saveRate = $(".memberGrade").attr("data-severate");
+			saveRate = parseInt(saveRate);
+			saveRate = (saveRate / 100);
+			
+			if (totalPrice != 0) {
+				saveEmoney = (totalPrice * saveRate);
+				saveEmoney = Math.round(saveEmoney);
+			}
+			var saveEmoneyTemp = String(saveEmoney);
+			saveEmoneyTemp = addComma(saveEmoneyTemp);
+			var saveEmoneyHtml = " 최대 " + saveEmoneyTemp + " 원 적립";
+			$(".save_emoney_temp").html(saveEmoneyHtml);
 		}
 		
 		// 장바구니 기본 설정 : 전체 선택
 		$(".check_all").prop("checked", true);
 		$(".check_one").prop("checked", true);
+		totalPriceTemp();
 		selectNumChange();
 		
 		// 전체 선택 check box
@@ -640,16 +758,19 @@
 				//전체 선택
 				$(".check_one").prop("checked", true);
 				$(".check_all").prop("checked", true);
+				
 			} else {
 				//전체 선택 해제
 				$(".check_one").prop("checked", false);
 				$(".check_all").prop("checked", false);
 			}
+			totalPriceTemp();
 			selectNumChange();
 		});
 		// 개별 선택시 전체 선택 check box 해제
 		$(".check_one").click(function(){
 			$(".check_all").prop("checked", false);
+			totalPriceTemp();
 			selectNumChange();
 		});
 		
