@@ -1,12 +1,69 @@
 package com.spring.collabee.view.order;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.WebUtils;
+
+import com.spring.collabee.biz.cart.CartService;
+import com.spring.collabee.biz.cart.CartVO;
+import com.spring.collabee.biz.member.MemberVO;
+import com.spring.collabee.biz.order.OrderVO;
+
+@SessionAttributes("orderGoods")
 @RestController
 @RequestMapping("/order")
 public class OrderAjaxController {
 	
+	@Autowired
+	private CartService cartService;
 	
+	public OrderAjaxController() {
+	}
 	
+	@RequestMapping(value="/cartToOrder.do", method = RequestMethod.POST)
+	public int cartToOrder(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam(value = "chbox[]") List<String> list, MemberVO mvo, CartVO cart, OrderVO ovo) {
+		// 쿠키 설정 / 로그인 여부 확인
+		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
+		mvo = (MemberVO) session.getAttribute("loginMember");
+		
+		int productNum = 0;
+		OrderVO order = (OrderVO) session.getAttribute("nmember");
+		if (mvo == null) {
+			// 비회원 주문
+			if ( order == null) {
+				cart.setNmemberNum(cookie.getValue());
+				ovo.setNmemberNum(cookie.getValue());
+			} else {
+				ovo = order;
+				System.out.println("-----------비회원 정보" + ovo.toString());
+				cart.setNmemberNum(ovo.getNmemberNum());
+			}
+		} else {
+			// 회원 주문
+			cart.setMemberNum(mvo.getMemberNum());
+		}
+		List<CartVO> orderGoods = new ArrayList<CartVO>();
+		
+		for (String i : list) {
+			productNum = Integer.parseInt(i);
+			cart.setProductNum(productNum);
+			System.out.println(productNum);
+			orderGoods.add(cartService.checkCartList(cart));
+		}
+		model.addAttribute("orderGoods", orderGoods);
+		return 1;
+	}
 }

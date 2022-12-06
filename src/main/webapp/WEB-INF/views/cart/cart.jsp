@@ -200,7 +200,7 @@
 							    		<div class="item">
 											<label>
 												<c:if test="${cartGoods.saleprice == 0 }">
-													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }" 
+													<input type="checkbox" name="orderGoods" data-price="${cartGoods.price * cartGoods.count }"
 														value="${cartGoods.price * cartGoods.count }" class="check_one" data-productNum="${cartGoods.productNum }" >
 												</c:if>
 												<c:if test="${cartGoods.saleprice != 0 }">
@@ -231,13 +231,13 @@
 							    		<div class="item"  style="margin-top:35px;">
 								     		<span class="btn-group">
 									     		<button class="minusBtn button font-weight-bold" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;background-color:white;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" data-productNum="${cartGoods.productNum }" data-stock="${cartGoods.stock }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<input type="number" name="cnt" value="${cartGoods.count }" data-productNum="${cartGoods.productNum }" data-price="${cartGoods.price }" data-saleprice="${cartGoods.saleprice }" data-stock="${cartGoods.stock }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
 									     		<button class="plusBtn button font-weight-bold" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;background-color:white;">
 									     			+
 									     		</button>
 								     		</span>
 								     		<span class="text-right" style="width:200px;">
-									     		<span class="text-dark font-weight-bold">
+									     		<span class="price text-dark font-weight-bold">
 								     				<c:if test="${cartGoods.saleprice == 0 }">
 								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price * cartGoods.count }" /> 원
 								     				</c:if>
@@ -329,13 +329,13 @@
 							    		<div class="item"  style="margin-top:35px;">
 								     		<span class="btn-group">
 									     		<button class="minusBtn button font-weight-bold" style="background-color:white;border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" data-productNum="${cartGoods.productNum }" data-stock="${cartGoods.stock }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<input type="number" name="cnt" value="${cartGoods.count }" data-productNum="${cartGoods.productNum }"  data-price="${cartGoods.price }" data-saleprice="${cartGoods.saleprice }" data-stock="${cartGoods.stock }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
 									     		<button class="plusBtn button font-weight-bold" style="background-color:white;border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
 									     			+
 									     		</button>
 								     		</span>
 								     		<span class="text-right" style="width:200px;">
-									     		<span class="text-dark font-weight-bold">
+									     		<span class="price text-dark font-weight-bold">
 								     				<c:if test="${cartGoods.saleprice == 0 }">
 								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price * cartGoods.count }" /> 원
 								     				</c:if>
@@ -429,12 +429,12 @@
 									     		<button class="minusBtn button font-weight-bold" style="background-color:white;border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">
 									     			-
 									     		</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" data-stock="${cartGoods.stock }" data-productNum="${cartGoods.productNum }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<input type="number" name="cnt" value="${cartGoods.count }" data-stock="${cartGoods.stock }"  data-price="${cartGoods.price }" data-saleprice="${cartGoods.saleprice }" data-productNum="${cartGoods.productNum }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
 									     		<button class="plusBtn button font-weight-bold" style="background-color:white;border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
 									     			+
 									     		</button>
 								     		</span>
-								     		<span class="text-right" style="width:200px;">
+								     		<span class="price text-right" style="width:200px;">
 									     		<span class="text-dark font-weight-bold">
 								     				<c:if test="${cartGoods.saleprice == 0 }">
 								     					<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price * cartGoods.count }" /> 원
@@ -608,7 +608,7 @@
 					</div>
 				</div>
 				<div style="margin-top:10px;">
-					<button id="orderBtn" type="button" onclick="location.href='order.jsp'" class="btn font-weight-bold"
+					<button id="nOrderBtn" type="button" class="orderBtn btn font-weight-bold"
 							style="width:100%;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:10px;color:white;font-size:1rem;">
 							주문하기
 					</button>
@@ -1203,7 +1203,7 @@
 					</div>
 				</div>
 				<div style="margin-top:10px;">
-					<button id="orderBtn" type="button" onclick="location.href='order.jsp'" class="btn font-weight-bold"
+					<button id="orderBtn" type="button" class="orderBtn btn font-weight-bold"
 							style="width:100%;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:10px;color:white;font-size:1rem;">
 							주문하기
 					</button>
@@ -1390,10 +1390,9 @@
 				contentType: "application/json",
 				dataType: "json",
 				success: function(data){
-					alert("성공");
+					
 				},
 				error: function(){
-					alert("수량 변경 실패");
 				}
 			}); 
 		}
@@ -1438,11 +1437,19 @@
 			var goodsNum = $(this).parent("span").find("input").attr("data-productNum");
 			goodsNum = parseInt(goodsNum);
 			
+			var goodsPrice = $(this).parent("span").find("input").attr("data-price");
+			var goodsSaleprice = $(this).parent("span").find("input").attr("data-saleprice");
+			goodsPrice = parseInt(goodsPrice);
+			goodsSaleprice = parseInt(goodsSaleprice);
+			
+
 			// 수량 변경
 			if (goodsCount != 1) {
 				--goodsCount;
 				changegoodsCount(goodsNum, goodsCount);
 				$(this).parent("span").find("input").val(goodsCount);
+				
+				
 			}
 			if (goodsCount == 1) {
 				//  수량 1개일 시 마이너스 버튼 비활성화
@@ -1521,13 +1528,11 @@
 				url: "delectCart.do",
 				data: { chbox : chkArr },
 				success: function(result){
-					alert("성공");
 					if (result == 1) {
 						location.reload();
 					}
 				},
 				error: function(){
-					alert("선택 삭제 실패");
 				}
 			}); 
 		}
@@ -1571,13 +1576,11 @@
 				url: "delectCart.do",
 				data: { chbox : chkArr },
 				success: function(result){
-					alert("성공");
 					if (result == 1) {
 						location.reload();
 					}
 				},
 				error: function(){
-					alert("하나 삭제 실패");
 				}
 			}); 
 		}
@@ -1601,6 +1604,45 @@
 		}, function(){
 			$('.info-text').css('display', 'none');
 		});
+		
+		
+		
+		// 주문하기
+		$(".orderBtn").click(function(){
+			var selectNumber = $('input:checkbox[name=orderGoods]:checked').length;
+			if (selectNumber == 0) {
+				Swal.fire({
+					icon: 'warning',
+					title: '주문하실 상품을 선택해주세요.',
+					showConfirmButton: false,
+					timer: 1500
+				});
+			} else {
+				// 체크 상품 넘겨주기
+				var chkArr = new Array();
+				$("input[class='check_one']:checked").each(function(){
+					chkArr.push($(this).attr("data-productNum"));
+				});
+				
+				$.ajax({
+					type: "POST",
+					url: "../order/cartToOrder.do",
+					data: { chbox : chkArr },
+					success: function(result){
+						if (result == 1) {
+							alert("주문하기 성공");
+							location.href='../order/order.do';
+						} else if (result == 0) {
+							alert("아무것도 없소");
+						}
+					},
+					error: function(){
+						alert("주문하기 실패");
+					}
+				}); 
+			}
+		});
+		
 		
 	});
 	

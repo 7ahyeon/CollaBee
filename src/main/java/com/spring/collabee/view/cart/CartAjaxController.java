@@ -34,8 +34,12 @@ public class CartAjaxController {
 	@Autowired
 	private CartService cartService;
 	
+	public CartAjaxController() {
+	}
+	
+	
 	@RequestMapping(value="/cartAdd.do", method = RequestMethod.POST)
-	public int cart(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, MemberVO mvo, @RequestBody Map<String, Object> map, CartVO cart) {
+	public int cartAdd(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, MemberVO mvo, @RequestBody Map<String, Object> map, CartVO cart) {
 		// 쿠키 설정 / 로그인 여부 확인
 		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
 		mvo = (MemberVO) session.getAttribute("loginMember");
@@ -57,10 +61,8 @@ public class CartAjaxController {
 			response.addCookie(cartCookie);
 			
 			model.addAttribute("nmember", nmemberNum);
-			System.out.println("----------------------비회원 장바구니 생성: " + nmemberNum);
 			// 비회원 상품 추가
 			cart.setNmemberNum(nmemberNum);
-			System.out.println(cart.toString());
 			cartService.insertCart(cart);
 			
 			return 1;
@@ -68,7 +70,6 @@ public class CartAjaxController {
 		} else if (cookie != null && mvo == null) {
 			// 비회원 장바구니 상품 추가
 			String nmemberNum = cookie.getValue();
-			System.out.println("----------------------비회원 장바구니 존재 : " + nmemberNum);
 			
 			// 비회원 데이터 유지기간 최대 3일 
 			cookie.setPath("/");
@@ -77,7 +78,6 @@ public class CartAjaxController {
 			
 			// 비회원 상품 추가
 			cart.setNmemberNum(nmemberNum);
-			System.out.println(cart.toString());
 			// 장바구니 상품 존재 여부 확인
 			CartVO confirm = cartService.checkCartList(cart);
 			if (confirm == null) {
@@ -105,10 +105,8 @@ public class CartAjaxController {
 				}
 			}
 		} else if (mvo != null) {
-			System.out.println("------------------------------회원 장바구니 추가 : " + mvo.getName());
 			//회원 장바구니 상품 추가
 			cart.setMemberNum(mvo.getMemberNum());
-			System.out.println(cart.toString());
 			// 장바구니 상품 존재 여부 확인
 			CartVO confirm = cartService.checkCartList(cart);
 			if (confirm == null) {

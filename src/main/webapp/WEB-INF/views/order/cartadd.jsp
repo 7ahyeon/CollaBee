@@ -17,7 +17,7 @@
 			function insertCart() {
 				
 				// 상품 번호
-				var goodsNum = 10;
+				var goodsNum = 4;
 				// 상품 개수
 				var goodsCount = 2;
 				
