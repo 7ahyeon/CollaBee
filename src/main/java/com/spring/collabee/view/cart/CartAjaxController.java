@@ -16,62 +16,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.spring.collabee.biz.cart.CartManagementVO;
 import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.member.MemberVO;
+import com.spring.collabee.biz.order.OrderMemberVO;
 
+@SessionAttributes("nmember")
 @RestController
 @RequestMapping("/cart")
 public class CartAjaxController {
 
 	@Autowired
 	private CartService cartService;
-
+	
 	/*
-	 * @RequestMapping(value = "/cart.do", method = RequestMethod.POST) public int
-	 * cart(HttpSession session, HttpServletRequest request, HttpServletResponse
-	 * response, CartManagementVO cmvo, CartVO vo) {
+	 * @RequestMapping(value="/cart.do") public int cart(HttpSession session,
+	 * HttpServletRequest request, HttpServletResponse response, Model model,
+	 * CartManagementVO cmvo, MemberVO mvo) { Cookie cookie =
+	 * WebUtils.getCookie(request, "cartCookie"); mvo = (MemberVO)
+	 * session.getAttribute("loginMember");
 	 * 
-	 * Cookie cookie = WebUtils.getCookie(request, "cartCookie");
+	 * if (cookie == null && mvo == null) { // 비회원 상품 추가 없이 장바구니 첫 클릭시 쿠키 생성 String
+	 * nmemberNum = RandomStringUtils.random(6, true, true); Cookie cartCookie = new
+	 * Cookie("cartCookie", nmemberNum);
 	 * 
-	 * if (cookie == null && session.getAttribute("loginMember") == null ) { // 비회원
-	 * 상품 담기 전 장바구니 첫 클릭시 쿠키 생성
+	 * // 비회원 데이터 유지기간 최대 3일 cartCookie.setPath("/"); cartCookie.setMaxAge(60 * 60 *
+	 * 24 * 3); response.addCookie(cartCookie); cmvo.setNmemberNum(nmemberNum);
+	 * model.addAttribute("nmember", cmvo);
 	 * 
-	 * String nmemberNum = RandomStringUtils.random(6, true, true); Cookie
-	 * cartCookie = new Cookie("cartCookie", nmemberNum); cartCookie.setPath("/");
-	 * // 쿠키 유효기간 1일 설정 cartCookie.setMaxAge(60 * 60 * 24 * 1);
-	 * response.addCookie(cartCookie);
+	 * } else if (cookie != null && mvo == null) { // 비회원 장바구니 클릭 후 상품 추가 String
+	 * cookieVal = cookie.getValue(); cmvo.setNmemberNum(cookieVal);
 	 * 
-	 * // 쿠키 비회원번호로 등록 cmvo.setNmemberNum(nmemberNum);
-	 * //this.cartService.insertCart(cmvo);
+	 * cookie.setPath("/"); // 비회원 데이터 유지기간 최대 3일 cookie.setMaxAge(60 * 60 * 24 *
+	 * 3); response.addCookie(cookie);
 	 * 
+	 * // 비회원 상품 추가
 	 * 
-	 * } else if (cookie != null && session.getAttribute("loginMember") == null) {
-	 * // 비회원 장바구니 클릭 전 상품 담기시 쿠키 생성 String ckValue = cookie.getValue();
-	 * cmvo.setNmemberNum(ckValue);
+	 * } else if (mvo != null) { //회원 장바구니 추가
 	 * 
-	 * if (cartService.cartCheck(cmvo) != 0) { return 2; }
-	 * 
-	 * 
-	 * // 쿠키 유효기간 1일 재설정 cookie.setPath("/"); cookie.setMaxAge(60 * 60 * 24 * 1);
-	 * response.addCookie(cookie);
-	 * 
-	 * //cartService.insertCart(cmvo);
-	 * 
-	 * } else if (session.getAttribute("loginMember") != null) { // 회원 장바구니 상품 담기
-	 * MemberVO mvo = (MemberVO)session.getAttribute("loginMember");
-	 * cmvo.setMemberNum(mvo.getMemberNum());
-	 * 
-	 * if (cartService.cartCheck(cmvo) != 0) { return 2; }
-	 * 
-	 * //cartService.insertCart(cmvo); } return 1;
+	 * }
 	 * 
 	 * }
 	 */
-
+	
+	@RequestMapping(value = "/updateCart.do", method = RequestMethod.POST)
+	public int updateCart(HttpSession session, @RequestBody Map<String, Object> map, CartVO cart) {
+		MemberVO mvo = (MemberVO) session.getAttribute("loginMember");
+		String productNum = String.valueOf(map.get("productNum"));
+		String count = String.valueOf(map.get("count"));
+		
+		cart.setProductNum(Integer.parseInt(productNum));
+		cart.setMemberNum(mvo.getMemberNum());
+		cart.setCount(Integer.parseInt(count));
+		
+		System.out.println(cart.toString());
+		cartService.updateCart(cart);
+		
+		return 1;
+	}
+	
 	@RequestMapping(value = "/changeAddr.do", method = RequestMethod.POST)
 	public MemberVO changeAddr(HttpSession session, @RequestBody Map<String, Object> map) {
 

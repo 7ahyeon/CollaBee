@@ -3,7 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cartDAO">
+
+	<!-- 장바구니 상품 조회 -->
+	<select id="checkCartList" parameterType="cart" resultType="cart">
+		SELECT C.PRODUCT_NUM PRODUCT_NUM, P.STORAGE_NUM STORAGE_NUM, CT.CATEGORY_NUM CATEGORY_NUM, P.THUM_SYS_FILENAME THUM_SYS_FILENAME, P.PRODUCT_NAME PRODUCT_NAME, 
+				C.COUNT COUNT, P.PRICE PRICE, P.SALEPRICE SALEPRICE, P.STOCK STOCK
+		FROM CART C, PRODUCT P, CATEGORY CT, DIVISION D
+		WHERE C.PRODUCT_NUM = P.PRODUCT_NUM
+		AND P.DIVISION_NUM = D.DIVISION_NUM
+		AND D.CATEGORY_NUM = CT.CATEGORY_NUM
+		AND C.MEMBER_NUM = #{memberNum}
+		AND C.PRODUCT_NUM = #{productNum}
+	</select>
 	
+	<insert id="insertCart" parameterType="cart">
+		INSERT INTO CART (MEMBER_NUM, PRODUCT_NUM, COUNT)
+		VALUES (#{memberNum}, #{productNum}, #{count})
+	</insert>
+		
+	<!-- 장바구니 수량 변경 -->
+	<update id="updateCart" parameterType="cart">
+		UPDATE CART
+		SET COUNT = #{count}
+		WHERE PRODUCT_NUM = #{productNum}
+		AND MEMBER_NUM = #{memberNum}
+	</update>
 	<!-- 배송지 변경 -->
 	<update id="updateAddress" parameterType="memberVO">
 		UPDATE MEMBER
@@ -21,6 +45,7 @@
 		AND P.DIVISION_NUM = D.DIVISION_NUM
 		AND D.CATEGORY_NUM = CT.CATEGORY_NUM
 		AND C.MEMBER_NUM = #{memberNum}
+		ORDER BY C.ADD_DATE
 	</select>
 	<!-- 회원 장바구니 전체 수량 조회 -->
 	<select id="getCartCount" parameterType="memberVO" resultType="int">
@@ -43,6 +68,7 @@
 		AND NOT P.STOCK = 0
 		AND P.STORAGE_NUM = 1
 		AND C.MEMBER_NUM = #{memberNum}
+		ORDER BY C.ADD_DATE
 	</select>
 	<!-- 회원 장바구니 냉동 상품 조회 -->
 	<select id="getCartList2" parameterType="memberVO" resultType="cart">
@@ -56,6 +82,7 @@
 		AND NOT P.STOCK = 0
 		AND P.STORAGE_NUM = 2
 		AND C.MEMBER_NUM = #{memberNum}
+		ORDER BY C.ADD_DATE
 	</select>	
 	<!-- 회원 장바구니 상온 상품 조회 -->
 	<select id="getCartList3" parameterType="memberVO" resultType="cart">
@@ -69,6 +96,7 @@
 		AND NOT P.STOCK = 0
 		AND P.STORAGE_NUM = 3
 		AND C.MEMBER_NUM = #{memberNum}
+		ORDER BY C.ADD_DATE
 	</select>
 	<!-- 회원 장바구니 구매 불가 상품 조회 -->	
 	<select id="getCartList4" parameterType="memberVO" resultType="cart">
@@ -80,6 +108,7 @@
 		AND D.CATEGORY_NUM = CT.CATEGORY_NUM
 		AND (NOT P.PRODUCT_DEL = 'N' OR P.STOCK = 0)
 		AND C.MEMBER_NUM = #{memberNum}
+		ORDER BY C.ADD_DATE
 	</select>	
 	<!-- 회원 등급 / 적립 조회 -->
 	<select id="getCartMember" parameterType="memberVO" resultType="orderMember">

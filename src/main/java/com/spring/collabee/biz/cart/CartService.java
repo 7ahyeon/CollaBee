@@ -12,9 +12,10 @@ public interface CartService {
 	void deleteCart(CartVO vo);
 	
 	void updateAddress(MemberVO vo);
-	
 	int getCartCount(MemberVO vo);
 	OrderMemberVO getCartMember(MemberVO vo);
+
+	CartVO checkCartList(CartVO vo);
 	
 	List<CartVO> getCartList(MemberVO vo);
 	List<CartVO> getCartList1(MemberVO vo);

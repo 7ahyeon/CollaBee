@@ -228,13 +228,18 @@
 								     					${cartGoods.productName }
 								     				</c:if>
 								     			</a>
+								     			<c:if test="${cartGoods.stock <= 5 }">
+								     				<p class="text-danger text-left" style="font-size:0.8rem;">
+								     					재고 ${cartGoods.stock + 1 }개 미만
+								     				</p>
+								     			</c:if>
 								     		</span>
 							    		</div>
 							    		<div class="item"  style="margin-top:35px;">
 								     		<span class="btn-group">
-									     		<button class="minusBtn button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
-									     		<button class="plusBtn button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
+									     		<button class="minusBtn button font-weight-bold" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;background-color:white;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" data-productNum="${cartGoods.productNum }" data-stock="${cartGoods.stock }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<button class="plusBtn button font-weight-bold" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;background-color:white;">
 									     			+
 									     		</button>
 								     		</span>
@@ -321,13 +326,18 @@
 								     					${cartGoods.productName }
 								     				</c:if>
 								     			</a>
+								     			<c:if test="${cartGoods.stock <= 5 }">
+								     				<p class="text-danger text-left" style="font-size:0.8rem;">
+								     					재고 ${cartGoods.stock + 1 }개 미만
+								     				</p>
+								     			</c:if>
 								     		</span>
 							    		</div>
 							    		<div class="item"  style="margin-top:35px;">
 								     		<span class="btn-group">
-									     		<button class="minusBtn button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
-									     		<button class="plusBtn button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
+									     		<button class="minusBtn button font-weight-bold" style="background-color:white;border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" data-productNum="${cartGoods.productNum }" data-stock="${cartGoods.stock }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<button class="plusBtn button font-weight-bold" style="background-color:white;border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
 									     			+
 									     		</button>
 								     		</span>
@@ -414,13 +424,20 @@
 								     					${cartGoods.productName }
 								     				</c:if>
 								     			</a>
+								     			<c:if test="${cartGoods.stock <= 5 }">
+								     				<p class="text-danger text-left" style="font-size:0.8rem;">
+								     					재고 ${cartGoods.stock + 1 }개 미만
+								     				</p>
+								     			</c:if>
 								     		</span>
 							    		</div>
 							    		<div class="item"  style="margin-top:35px;">
 								     		<span class="btn-group">
-									     		<button class="minusBtn button text-dark font-weight-bold bg-white" style="border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">-</button>
-									     		<input type="number" name="cnt" value="${cartGoods.count }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
-									     		<button class="plusBtn button text-dark font-weight-bold bg-white" style="border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
+									     		<button class="minusBtn button font-weight-bold" style="background-color:white;border-radius:2px 0 0 2px;border: 1px solid lightgray;font-size:0.9rem;padding: 0 8px;">
+									     			-
+									     		</button>
+									     		<input type="number" name="cnt" value="${cartGoods.count }" data-stock="${cartGoods.stock }" data-productNum="${cartGoods.productNum }" readonly="readonly" style="text-align:center;width:45px;height:26px;padding:0 0 0 11px;border:1px solid lightgray;border-left:none;border-right:none;cursor:default;">
+									     		<button class="plusBtn button font-weight-bold" style="background-color:white;border-radius:0 2px 2px 0;border: 1px solid lightgray;font-size:0.9rem;">
 									     			+
 									     		</button>
 								     		</span>
@@ -631,6 +648,7 @@
 <script>
 	
 	$(function() {
+		
 		// 선택 수량 변경
 		function selectNumChange(){
 			var selectNumber = $('input:checkbox[name=orderGoods]:checked').length;
@@ -774,6 +792,115 @@
 			selectNumChange();
 		});
 		
+		// 장바구니 수량 변경 ajax
+		function changegoodsCount(goodsNum, goodsCount) {
+			var updateGoods = {
+					productNum : goodsNum,
+					count : goodsCount
+			};
+			$.ajax({
+				type: "POST",
+				url: "updateCart.do",
+				data: JSON.stringify(updateGoods),
+				contentType: "application/json",
+				dataType: "json",
+				success: function(data){
+					alert("성공");
+				},
+				error: function(){
+					alert("수량 변경 실패");
+				}
+			}); 
+		}
+		
+		// 장바구니 기본 설정 : 수량
+		$("input[type=number]").each(function(){
+			// 수량
+			var cartCount = $(this).val();
+			cartCount = parseInt(cartCount);
+			// 재고
+			var cartStock = $(this).attr("data-stock");
+			var cartNum = $(this).attr("data-productNum");
+			cartStock = parseInt(cartStock);
+			
+			// 재고보다 수량이 많을시 장바구니 수량 자동 변경
+			if (cartCount > cartStock) {
+				cartCount = cartStock;
+				changegoodsCount(cartNum, cartCount);
+			}
+			
+			if (cartCount == 1) {
+				//  수량 1개일 시 마이너스 버튼 비활성화
+				$(this).parent("span").find(".plusBtn").attr("disabled", false);
+				$(this).parent("span").find(".minusBtn").attr("disabled", true);
+			} else if (cartCount == 10 || cartCount == cartStock) {
+				//  수량 10개일 시 / 재고와 같을 시 플러스 버튼 비활성화
+				$(this).parent("span").find(".plusBtn").attr("disabled", true);
+				$(this).parent("span").find(".minusBtn").attr("disabled", false);
+			} else {
+				// 그외 버튼 활성화
+				$(this).parent("span").find(".minusBtn").attr("disabled", false);
+				$(this).parent("span").find(".plusBtn").attr("disabled", false);
+			}
+		});
+		
+		// 상품 수량 변경 : 마이너스 버튼
+		$(".minusBtn").click(function(){
+			// 현재 수량
+			var goodsCount = $(this).parent("span").find("input").val();
+			goodsCount = parseInt(goodsCount);
+			// 상품 번호
+			var goodsNum = $(this).parent("span").find("input").attr("data-productNum");
+			goodsNum = parseInt(goodsNum);
+			
+			// 수량 변경
+			if (goodsCount != 1) {
+				--goodsCount;
+				changegoodsCount(goodsNum, goodsCount);
+				$(this).parent("span").find("input").val(goodsCount);
+			}
+			if (goodsCount == 1) {
+				//  수량 1개일 시 마이너스 버튼 비활성화
+				$(this).parent("span").find(".minusBtn").attr("disabled", true);
+				$(this).parent("span").find(".plusBtn").attr("disabled", false);
+			} else {
+				// 그외 버튼 활성화
+				$(this).parent("span").find(".minusBtn").attr("disabled", false);
+				$(this).parent("span").find(".plusBtn").attr("disabled", false);
+			}
+			
+		});
+		
+		// 상품 수량 변경 : 플러스 버튼
+		$(".plusBtn").click(function(){
+			// 현재 수량
+			var goodsCount = $(this).parent("span").find("input").val();
+			goodsCount = parseInt(goodsCount);
+			// 상품 번호
+			var goodsNum = $(this).parent("span").find("input").attr("data-productNum");
+			goodsNum = parseInt(goodsNum);
+			// 재고
+			var cartStock = $(this).parent("span").find("input").attr("data-stock");
+			cartStock = parseInt(cartStock);
+			
+			// 수량 변경
+			if (goodsCount != 10 && goodsCount != cartStock) {
+				++goodsCount;
+				changegoodsCount(goodsNum, goodsCount);
+				$(this).parent("span").find("input").val(goodsCount);
+			}
+			if (goodsCount == 10 || goodsCount == cartStock) {
+				//  수량 10개일 시 / 재고와 같을 시 플러스 버튼 비활성화
+				$(this).parent("span").find(".minusBtn").attr("disabled", false);
+				$(this).parent("span").find(".plusBtn").attr("disabled", true);
+			} else {
+				// 그외 버튼 활성화
+				$(this).parent("span").find(".minusBtn").attr("disabled", false);
+				$(this).parent("span").find(".plusBtn").attr("disabled", false);
+			}
+		});
+		
+		
 		// 선택 삭제 
 		$(".selectDelete").click(function(){
 			Swal.fire({
@@ -815,7 +942,7 @@
 					}
 				},
 				error: function(){
-					alert("실패");
+					alert("선택 삭제 실패");
 				}
 			}); 
 		}
@@ -865,7 +992,7 @@
 					}
 				},
 				error: function(){
-					alert("실패");
+					alert("하나 삭제 실패");
 				}
 			}); 
 		}
@@ -926,11 +1053,11 @@
 			},
 			error: function(){
 				
-				
-				alert("실패");
+				alert("주소 실패");
 			}
 		}); 
 	}
+	
 </script>
 </body>
 </html>

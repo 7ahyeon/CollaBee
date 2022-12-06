@@ -22,12 +22,13 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public void insertCart(CartVO vo) {
+		cartDao.insertCart(vo);
 		
 	}
 
 	@Override
 	public void updateCart(CartVO vo) {
-		
+		cartDao.updateCart(vo);
 	}
 
 	@Override
@@ -48,6 +49,11 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public OrderMemberVO getCartMember(MemberVO vo) {
 		return cartDao.getCartMember(vo);
+	}
+	
+	@Override
+	public CartVO checkCartList(CartVO vo) {
+		return cartDao.checkCartList(vo);
 	}
 	
 	@Override
@@ -74,6 +80,8 @@ public class CartServiceImpl implements CartService {
 	public List<CartVO> getCartList4(MemberVO vo) {
 		return cartDao.getCartList4(vo);
 	}
+
+	
 
 	
 

@@ -1,6 +1,6 @@
 package com.spring.collabee.biz.cart;
 
-public class CartVO {
+public class CartVO{
 	
 	private int productNum, storageNum, categoryNum;
 	private String thumSysFilename, productName;
@@ -87,6 +87,14 @@ public class CartVO {
 
 	public void setMemberNum(int memberNum) {
 		this.memberNum = memberNum;
+	}
+
+	@Override
+	public String toString() {
+		return "CartVO [productNum=" + productNum + ", storageNum=" + storageNum + ", categoryNum=" + categoryNum
+				+ ", thumSysFilename=" + thumSysFilename + ", productName=" + productName + ", count=" + count
+				+ ", price=" + price + ", saleprice=" + saleprice + ", stock=" + stock + ", memberNum=" + memberNum
+				+ "]";
 	}
 
 	

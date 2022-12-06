@@ -21,9 +21,11 @@ public class CartDAO {
 	}
 	
 	public void insertCart(CartVO vo) {
+		mybatis.insert("cartDAO.insertCart", vo);
 	}
 
 	public void updateCart(CartVO vo) {
+		mybatis.update("cartDAO.updateCart", vo);
 	}
 
 	public void deleteCart(CartVO vo) {
@@ -36,6 +38,10 @@ public class CartDAO {
 	}
 	public OrderMemberVO getCartMember(MemberVO vo) {
 		return mybatis.selectOne("cartDAO.getCartMember", vo);
+	}
+	
+	public CartVO checkCartList(CartVO vo) {
+		return mybatis.selectOne("cartDAO.checkCartList", vo);
 	}
 	public List<CartVO> getCartList(MemberVO vo) {
 		return mybatis.selectList("cartDAO.getCartList", vo);
