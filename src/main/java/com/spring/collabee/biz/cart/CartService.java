@@ -7,19 +7,26 @@ import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderMemberVO;
 
 public interface CartService {
+	List<CartVO> getCartNLogin(CartVO vo);
+	List<CartVO> getCartLogin(CartVO vo);
+	
+	void updateCartLogin(CartVO vo);
+	
+	void updateAddress(MemberVO vo);
+	OrderMemberVO getCartMember(MemberVO vo);
+
+	void updateNmLimit(CartVO vo);
+	CartVO checkCartList(CartVO vo);
+	
 	void insertCart(CartVO vo);
 	void updateCart(CartVO vo);
 	void deleteCart(CartVO vo);
 	
-	void updateAddress(MemberVO vo);
-	int getCartCount(MemberVO vo);
-	OrderMemberVO getCartMember(MemberVO vo);
-
-	CartVO checkCartList(CartVO vo);
+	int getCartCount(CartVO vo);
 	
-	List<CartVO> getCartList(MemberVO vo);
-	List<CartVO> getCartList1(MemberVO vo);
-	List<CartVO> getCartList2(MemberVO vo);
-	List<CartVO> getCartList3(MemberVO vo);
-	List<CartVO> getCartList4(MemberVO vo);
+	List<CartVO> getCartList(CartVO vo);
+	List<CartVO> getCartList1(CartVO vo);
+	List<CartVO> getCartList2(CartVO vo);
+	List<CartVO> getCartList3(CartVO vo);
+	List<CartVO> getCartList4(CartVO vo);
 }

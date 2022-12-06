@@ -1,6 +1,13 @@
 package com.spring.collabee.view.member;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.util.WebUtils;
 
+import com.spring.collabee.biz.cart.CartService;
+import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.member.MemberService;
 import com.spring.collabee.biz.member.MemberVO;
 
@@ -20,6 +30,9 @@ import com.spring.collabee.biz.member.MemberVO;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private CartService cartService;
 	
 	public MemberController() {
 		System.out.println("● MemberController 객체 생성");
@@ -32,7 +45,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("login.do")
-	public String login(MemberVO mvo, Model model) {
+	public String login(MemberVO mvo, Model model, HttpServletRequest request, HttpServletResponse response, CartVO cart) {
 		System.out.println("[POST]login() 실행");
 		System.out.println("id : " + mvo.getId() + ", pw : " + mvo.getPassword());
 		
@@ -40,6 +53,77 @@ public class MemberController {
 		System.out.println("Controlller db작업 결과값 : " + loginMember);
 
 		model.addAttribute("loginMember", loginMember);
+		
+		
+		// 비회원 장바구니 -> 회원 장바구니 이동
+		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
+		
+		if (cookie != null) {
+			List<CartVO> loginCart = new ArrayList<CartVO>();
+			List<CartVO> nLoginCart = new ArrayList<CartVO>();
+			
+			String nmemberNum = cookie.getValue();
+			cart.setMemberNum(loginMember.getMemberNum());
+			cart.setNmemberNum(nmemberNum);
+			
+			loginCart = cartService.getCartLogin(cart);
+			nLoginCart = cartService.getCartNLogin(cart);
+			System.out.println("-------------loginCart" + loginCart.toString());
+			System.out.println("-------------nloginCart" + nLoginCart.toString());
+			
+			if (nLoginCart != null && loginCart != null) {
+				List<CartVO> equalCart = new ArrayList<CartVO>();
+				List<CartVO> equalNCart = new ArrayList<CartVO>();
+
+				// 비회원/회원 장바구니 모두 존재
+				for (int n = 0; n < nLoginCart.size(); n++) {
+					for (int i = 0; i < loginCart.size(); i++) {
+						if (nLoginCart.get(n).getProductNum() == loginCart.get(i).getProductNum()) {
+							equalCart.add(loginCart.get(i));
+							equalNCart.add(nLoginCart.get(n));
+						}
+					}
+				}
+				// 중복 상품 존재시 재고 고려 수량 변경
+				if (equalCart != null) {
+					int goodsNum = 0;
+					int goodsStock = 0;
+					int goodsCount = 0;
+					
+					for (int e = 0; e < equalCart.size(); e++) {
+						goodsNum = equalCart.get(e).getProductNum();
+						cart.setProductNum(goodsNum);
+						goodsStock = equalCart.get(e).getStock();
+						System.out.println("로그인 수량 " + equalCart.get(e).getCount());
+						System.out.println("비회원 수량 " + equalNCart.get(e).getCount());
+						
+						goodsCount = equalCart.get(e).getCount() + equalNCart.get(e).getCount();
+						if (goodsStock >= goodsCount) {
+							
+						} else {
+							goodsCount = goodsStock;
+						}
+						System.out.println("수량 변경====" + goodsCount);
+						cart.setCount(goodsCount);
+						cart.setNmemberNum(null);
+						cartService.updateCart(cart);
+						cartService.deleteCart(cart);
+					}
+				}
+				// 비회원 장바구니 이동
+				cart.setNmemberNum(nmemberNum);
+				cartService.updateCartLogin(cart);
+				
+			} else if (nLoginCart != null && loginCart == null) {
+				// 비회원 장바구니 존재시 이동
+				cartService.updateCartLogin(cart);
+				System.out.println("---------------------------비회원 장바구니 존재시 이동");
+			}
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
+		
 		return "/mypage/order";
 
 	}

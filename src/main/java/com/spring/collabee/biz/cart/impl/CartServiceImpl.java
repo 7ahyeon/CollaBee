@@ -19,7 +19,41 @@ public class CartServiceImpl implements CartService {
 	
 	public CartServiceImpl() {
 	}
+	
+	@Override
+	public List<CartVO> getCartNLogin(CartVO vo) {
+		return cartDao.getCartNLogin(vo);
+	}
+	@Override
+	public List<CartVO> getCartLogin(CartVO vo) {
+		return cartDao.getCartLogin(vo);
+	}
 
+	@Override
+	public void updateCartLogin(CartVO vo) {
+		cartDao.updateCartLogin(vo);
+	}
+
+	@Override
+	public void updateAddress(MemberVO vo) {
+		cartDao.updateAddress(vo);
+	}
+	
+	@Override
+	public OrderMemberVO getCartMember(MemberVO vo) {
+		return cartDao.getCartMember(vo);
+	}
+	
+	@Override
+	public void updateNmLimit(CartVO vo) {
+		cartDao.updateNmLimit(vo);
+	}
+	
+	@Override
+	public CartVO checkCartList(CartVO vo) {
+		return cartDao.checkCartList(vo);
+	}
+	
 	@Override
 	public void insertCart(CartVO vo) {
 		cartDao.insertCart(vo);
@@ -33,57 +67,38 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public void deleteCart(CartVO vo) {
-		
+		cartDao.deleteCart(vo);
 	}
 	
 	@Override
-	public void updateAddress(MemberVO vo) {
-		cartDao.updateAddress(vo);
-	}
-
-	@Override
-	public int getCartCount(MemberVO vo) {
+	public int getCartCount(CartVO vo) {
 		return cartDao.getCartCount(vo);
 	}
 	
 	@Override
-	public OrderMemberVO getCartMember(MemberVO vo) {
-		return cartDao.getCartMember(vo);
-	}
-	
-	@Override
-	public CartVO checkCartList(CartVO vo) {
-		return cartDao.checkCartList(vo);
-	}
-	
-	@Override
-	public List<CartVO> getCartList(MemberVO vo) {
+	public List<CartVO> getCartList(CartVO vo) {
 		return cartDao.getCartList(vo);
 	}
 
 	@Override
-	public List<CartVO> getCartList1(MemberVO vo) {
+	public List<CartVO> getCartList1(CartVO vo) {
 		return cartDao.getCartList1(vo);
 	}
 
 	@Override
-	public List<CartVO> getCartList2(MemberVO vo) {
+	public List<CartVO> getCartList2(CartVO vo) {
 		return cartDao.getCartList2(vo);
 	}
 
 	@Override
-	public List<CartVO> getCartList3(MemberVO vo) {
+	public List<CartVO> getCartList3(CartVO vo) {
 		return cartDao.getCartList3(vo);
 	}
 
 	@Override
-	public List<CartVO> getCartList4(MemberVO vo) {
+	public List<CartVO> getCartList4(CartVO vo) {
 		return cartDao.getCartList4(vo);
 	}
-
 	
-
-	
-
 	
 }

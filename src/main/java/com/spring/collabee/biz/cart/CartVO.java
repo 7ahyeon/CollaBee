@@ -1,10 +1,14 @@
 package com.spring.collabee.biz.cart;
 
+import java.sql.Date;
+
 public class CartVO{
 	
 	private int productNum, storageNum, categoryNum;
 	private String thumSysFilename, productName;
 	private int count, price, saleprice, stock, memberNum;
+	private String nmemberNum;
+	private Date nmemberLimit;
 	
 	public CartVO() {
 	}
@@ -89,13 +93,30 @@ public class CartVO{
 		this.memberNum = memberNum;
 	}
 
+	public String getNmemberNum() {
+		return nmemberNum;
+	}
+
+	public void setNmemberNum(String nmemberNum) {
+		this.nmemberNum = nmemberNum;
+	}
+
+	public Date getNmemberLimit() {
+		return nmemberLimit;
+	}
+
+	public void setNmemberLimit(Date nmemberLimit) {
+		this.nmemberLimit = nmemberLimit;
+	}
+
 	@Override
 	public String toString() {
 		return "CartVO [productNum=" + productNum + ", storageNum=" + storageNum + ", categoryNum=" + categoryNum
 				+ ", thumSysFilename=" + thumSysFilename + ", productName=" + productName + ", count=" + count
 				+ ", price=" + price + ", saleprice=" + saleprice + ", stock=" + stock + ", memberNum=" + memberNum
-				+ "]";
+				+ ", nmemberNum=" + nmemberNum + ", nmemberLimit=" + nmemberLimit + "]";
 	}
+
 
 	
 	

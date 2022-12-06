@@ -20,6 +20,30 @@ public class CartDAO {
 	public CartDAO() {
 	}
 	
+	public List<CartVO> getCartNLogin(CartVO vo) {
+		return mybatis.selectList("cartDAO.getCartNLogin", vo);
+	}
+	public List<CartVO> getCartLogin(CartVO vo) {
+		return mybatis.selectList("cartDAO.getCartLogin", vo);
+	}
+	public void updateCartLogin(CartVO vo) {
+		mybatis.update("cartDAO.updateCartLogin", vo);
+	}
+
+	public void updateAddress(MemberVO vo) {
+		mybatis.update("cartDAO.updateAddress", vo);
+	}
+	
+	public OrderMemberVO getCartMember(MemberVO vo) {
+		return mybatis.selectOne("cartDAO.getCartMember", vo);
+	}
+	
+	public void updateNmLimit(CartVO vo) {
+		mybatis.update("cartDAO.updateNmLimit", vo);
+	}
+	public CartVO checkCartList(CartVO vo) {
+		return mybatis.selectOne("cartDAO.checkCartList", vo);
+	}
 	public void insertCart(CartVO vo) {
 		mybatis.insert("cartDAO.insertCart", vo);
 	}
@@ -29,37 +53,30 @@ public class CartDAO {
 	}
 
 	public void deleteCart(CartVO vo) {
-	}
-	public void updateAddress(MemberVO vo) {
-		mybatis.update("cartDAO.updateAddress", vo);
-	}
-	public int getCartCount(MemberVO vo) {
-		return mybatis.selectOne("cartDAO.getCartCount", vo);
-	}
-	public OrderMemberVO getCartMember(MemberVO vo) {
-		return mybatis.selectOne("cartDAO.getCartMember", vo);
+		mybatis.delete("cartDAO.deleteCart", vo);
 	}
 	
-	public CartVO checkCartList(CartVO vo) {
-		return mybatis.selectOne("cartDAO.checkCartList", vo);
+	public int getCartCount(CartVO vo) {
+		return mybatis.selectOne("cartDAO.getCartCount", vo);
 	}
-	public List<CartVO> getCartList(MemberVO vo) {
+	
+	public List<CartVO> getCartList(CartVO vo) {
 		return mybatis.selectList("cartDAO.getCartList", vo);
 	}
 	
-	public List<CartVO> getCartList1(MemberVO vo) {
+	public List<CartVO> getCartList1(CartVO vo) {
 		return mybatis.selectList("cartDAO.getCartList1", vo);
 	}
 
-	public List<CartVO> getCartList2(MemberVO vo) {
+	public List<CartVO> getCartList2(CartVO vo) {
 		return mybatis.selectList("cartDAO.getCartList2", vo);
 	}
 
-	public List<CartVO> getCartList3(MemberVO vo) {
+	public List<CartVO> getCartList3(CartVO vo) {
 		return mybatis.selectList("cartDAO.getCartList3", vo);
 	}
 
-	public List<CartVO> getCartList4(MemberVO vo) {
+	public List<CartVO> getCartList4(CartVO vo) {
 		return mybatis.selectList("cartDAO.getCartList4", vo);
 	}
 }

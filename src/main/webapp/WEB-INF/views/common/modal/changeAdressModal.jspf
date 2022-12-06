@@ -31,7 +31,7 @@
 			            <th class="text-dark">주소</th>
 			            <td>
 			            	<input id="address_kakao" name="address" type="text"
-							 	style="width:450px;padding:5px;border:1px solid lightgray;" readonly />
+							 	style="width:450px;padding:5px;border:1px solid lightgray;" onclick="findAddr()" readonly />
 							 <button type="button" id="addressSearch" onclick="findAddr()" class="btn bg-white font-weight-bold"
 								style="border:1px solid #9A30AE;border-radius:3px;color:#9A30AE;font-size:1rem;" >
 							 주소 검색</button>

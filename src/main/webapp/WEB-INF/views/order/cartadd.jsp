@@ -29,7 +29,7 @@
 				// 장바구니 상품 존재 여부 확인 후 추가
 				$.ajax({
 					type: "POST",
-					url: "checkCartList.do",
+					url: "../cart/cartAdd.do",
 					data: JSON.stringify(sendCart),
 					contentType: "application/json",
 					dataType: "json",
@@ -39,8 +39,10 @@
 							alert("장바구니 추가 성공 알림 보내기");
 						} else if (result == 2) {
 							alert("이미 장바구니에 있는 상품 수량 추가 알림 보내기");
-						} else if (result == 0) {
+						} else if (result == 3) {
 							alert("이미 최대 수량입니다");
+						} else if (result == 0) {
+							alert("오류");
 						}
 					},
 					error: function(){
