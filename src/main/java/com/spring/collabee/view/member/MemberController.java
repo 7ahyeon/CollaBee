@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("login.do")
-	public String login(MemberVO mvo, Model model, HttpServletRequest request, HttpServletResponse response, CartVO cart) {
+	public String login(MemberVO mvo, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response, CartVO cart) {
 		System.out.println("[POST]login() 실행");
 		System.out.println("id : " + mvo.getId() + ", pw : " + mvo.getPassword());
 		
@@ -68,8 +69,6 @@ public class MemberController {
 			
 			loginCart = cartService.getCartLogin(cart);
 			nLoginCart = cartService.getCartNLogin(cart);
-			System.out.println("-------------loginCart" + loginCart.toString());
-			System.out.println("-------------nloginCart" + nLoginCart.toString());
 			
 			if (nLoginCart != null && loginCart != null) {
 				List<CartVO> equalCart = new ArrayList<CartVO>();
@@ -94,8 +93,6 @@ public class MemberController {
 						goodsNum = equalCart.get(e).getProductNum();
 						cart.setProductNum(goodsNum);
 						goodsStock = equalCart.get(e).getStock();
-						System.out.println("로그인 수량 " + equalCart.get(e).getCount());
-						System.out.println("비회원 수량 " + equalNCart.get(e).getCount());
 						
 						goodsCount = equalCart.get(e).getCount() + equalNCart.get(e).getCount();
 						if (goodsStock >= goodsCount) {
@@ -103,11 +100,13 @@ public class MemberController {
 						} else {
 							goodsCount = goodsStock;
 						}
-						System.out.println("수량 변경====" + goodsCount);
+						cart.setMemberNum(0);
+						cartService.deleteCart(cart);
+						
 						cart.setCount(goodsCount);
 						cart.setNmemberNum(null);
+						cart.setMemberNum(loginMember.getMemberNum());
 						cartService.updateCart(cart);
-						cartService.deleteCart(cart);
 					}
 				}
 				// 비회원 장바구니 이동
@@ -117,8 +116,8 @@ public class MemberController {
 			} else if (nLoginCart != null && loginCart == null) {
 				// 비회원 장바구니 존재시 이동
 				cartService.updateCartLogin(cart);
-				System.out.println("---------------------------비회원 장바구니 존재시 이동");
 			}
+
 			cookie.setPath("/");
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);

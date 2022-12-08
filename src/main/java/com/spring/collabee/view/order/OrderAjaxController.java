@@ -40,15 +40,13 @@ public class OrderAjaxController {
 		mvo = (MemberVO) session.getAttribute("loginMember");
 		
 		int productNum = 0;
-		OrderVO order = (OrderVO) session.getAttribute("nmember");
 		if (mvo == null) {
 			// 비회원 주문
-			if ( order == null) {
+			if ( session.getAttribute("nmember") == null) {
 				cart.setNmemberNum(cookie.getValue());
 				ovo.setNmemberNum(cookie.getValue());
 			} else {
-				ovo = order;
-				System.out.println("-----------비회원 정보" + ovo.toString());
+				ovo = (OrderVO) session.getAttribute("nmember");
 				cart.setNmemberNum(ovo.getNmemberNum());
 			}
 		} else {
@@ -56,13 +54,13 @@ public class OrderAjaxController {
 			cart.setMemberNum(mvo.getMemberNum());
 		}
 		List<CartVO> orderGoods = new ArrayList<CartVO>();
-		
+		System.out.println("--------카트 정보" + cart.toString());
 		for (String i : list) {
 			productNum = Integer.parseInt(i);
 			cart.setProductNum(productNum);
-			System.out.println(productNum);
 			orderGoods.add(cartService.checkCartList(cart));
 		}
+		System.out.println("-------카트 물건" + orderGoods.toString());
 		model.addAttribute("orderGoods", orderGoods);
 		return 1;
 	}

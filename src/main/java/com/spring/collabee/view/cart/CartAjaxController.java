@@ -39,7 +39,7 @@ public class CartAjaxController {
 	
 	
 	@RequestMapping(value="/cartAdd.do", method = RequestMethod.POST)
-	public int cartAdd(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, MemberVO mvo, @RequestBody Map<String, Object> map, CartVO cart) {
+	public int cartAdd(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, MemberVO mvo, @RequestBody Map<String, Object> map, CartVO cart, OrderVO ovo) {
 		// 쿠키 설정 / 로그인 여부 확인
 		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
 		mvo = (MemberVO) session.getAttribute("loginMember");
@@ -60,7 +60,8 @@ public class CartAjaxController {
 			cartCookie.setMaxAge(60 * 60 * 24 * 3);
 			response.addCookie(cartCookie);
 			
-			model.addAttribute("nmember", nmemberNum);
+			ovo.setNmemberNum(nmemberNum);
+			model.addAttribute("nmember", ovo);
 			// 비회원 상품 추가
 			cart.setNmemberNum(nmemberNum);
 			cartService.insertCart(cart);

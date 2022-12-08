@@ -6,96 +6,20 @@
 <meta charset="UTF-8">
 <title>주문서</title>
 <%@ include file= "../common/bootstrap.jspf"%>
+<%@ include file= "../common/modal/agreeModal1.jspf"%>
+<%@ include file= "../common/modal/agreeModal2.jspf"%>
+<%@ include file= "../common/modal/agreeModal3.jspf"%>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/order.css">
 <style>
 	header {
 		margin-bottom:100px;
 	}
 	footer {
-		margin-top:100px;
-	}
-	span {
-		display: inline-block;
-	}
-	.card {
-		white-space: nowrap;
-	}
-	.btn:active, .btn:focus {
-		text-decoration:none;
-		outline:none !important;
-		box-shadow:none !important;
-	}
-	/* 배송지 변경 안내 영역 */
-	.info-text {
-		display: none;
-		position: absolute;
-		right:10px;
-		top:45px;
-		background-color: white;
-	}
-	/* 배송 시간 선택 */
-	.deliveryTable { 
-		width:100%;
-        border : 1px solid #9A30AE;
-        border-collapse: collapse;
-        text-align: center;
-        margin : auto;
-    }
-    .deliveryTable th {
-    	padding:10px;
-        border : 1px solid #9A30AE;
-        font-size:0.9rem;
-        background-color: #9A30AE;
-        color:white;
-    }
-    .deliveryTable td {
-    	padding:10px;
-        border : 1px solid #9A30AE;
-        font-size:0.8rem;
-    }
-    input[type="radio"] {
-    	accent-color:#9A30AE;
-    	cursor: pointer;
-    	margin:0 5px 0 0;
-    }
-    .payPick {
-    	display: none !important;
-    }
-	/* 개인정보 수집/제공 결제진행필수*/
-	/* 전체 선택 */
-	.circle{
-		display: inline-block;
-		width: 20px; height: 20px;
-		border: 2px solid #999;
-		box-sizing: border-box;
-		border-radius: 10px;
-		position: relative; top: 4px;
-		cursor: pointer;
-		
-		background-image: url(https://blog.kakaocdn.net/dn/XTnSL/btrhtUIVtpB/5FungHN6IXVXG8bLbhE9Dk/img.png);
-		background-size: 70%;
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-	
-	input[type="checkbox"]:checked + .circle{
-		background-color: #9A30AE;
-		border-color: #9A30AE;
-		background-image: url(https://blog.kakaocdn.net/dn/t7a2D/btrhtVgLYmG/dUxzAkBy9hIZ4gHmyllQrk/img.png);
-	}
-	input[type="checkbox"] { position: absolute; left: -999em; }
-	/* 결제 박스 영역 */
-	.quickPayMenu { 
-		position: absolute;
-		width: 280px;
-		height: 400px;
-		left: 30px;
+		margin-top:300px;
 	}
 </style>
 </head>
-<body style="width: 1900px;">
-<%@ include file= "../common/modal/agreeModal1.jspf"%>
-<%@ include file= "../common/modal/agreeModal2.jspf"%>
-<%@ include file= "../common/modal/agreeModal3.jspf"%>
+<body  style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
 	<header>
 		<%@ include file= "../common/header.jspf"%>
 	</header>
@@ -103,7 +27,7 @@
 	<div class="row">
 		<div class="col-sm-2">
 		</div>
-		<div class="col-sm-8  text-center" >
+		<div class="col-sm-8  text-center" style="margin-bottom:20px;">
 			<h3 style="font-weight: bolder;">주문서</h3>
 		</div>
 		<div class="col-sm-2">
@@ -128,13 +52,14 @@
 			    </div>
 				<div class="orderInfo text-center text-dark font-weight-bold" style="padding:35px;font-size:1rem;white-space: nowrap;">
 					<span>
-						무농약 제주 청레몬 450g (3~5입) 외
+						
 					</span>
 					<span style="color:#9A30AE;">
 						5개
 					</span>
 					 상품을 주문합니다.
 				</div>
+			    <c:forEach var="goods" items="${orderGoods }" varStatus="status">
 				<!-- 할인가 없는 상품 -->
 			    <div class="card-body product" style="display: none;padding:25px 10px 10px 5px;">
 			    	<div class="d-flex  flex-row justify-content-between">
@@ -195,130 +120,8 @@
 			    		</div>
 			    	</div>
 		     	</div>
-
-		     	
-			     	
-				<!-- 할인가 없는 상품 -->
-			    <div class="card-body product" style="display: none;padding:25px 10px 10px 5px;">
-			    	<div class="d-flex  flex-row justify-content-between">
-			    		<div class="item">
-							<img src="https://img-cf.kurly.com/cdn-cgi/image/width=676,format=auto/shop/data/goods/1648202670772l0.jpg" width="80px" >
-				     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-			     				[밀클레버] 미니붕어빵 4종
-				     		</span>
-			    		</div>
-			    		<div class="item" style="margin-top:38px;">
-				     		<span style="margin:0 100px 0 100px;">
-					     		<span class="text-dark font-weight-bold">
-				     				1개
-				     			</span>
-				     		</span>
-				     		<span>
-					     		<span class="text-dark font-weight-bold">
-				     				&nbsp;&nbsp;&nbsp;
-				     				5,700원
-				     			</span>
-				     		</span>
-			    		</div>
-			    	</div>
-		     	</div>
-				
-				<!-- 할인가 있는 상품 -->
-			    <div class="card-body product" style="display: none;padding:10px;">
-			    	<div class="d-flex  flex-row justify-content-between">
-			    		<div class="item">
-							<img src="https://img-cf.kurly.com/cdn-cgi/image/width=676,format=auto/shop/data/goods/1654596159551l0.jpg" width="80px" >
-				     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-			     				[Eat's Nice] 수플레 팬케이크 4종
-				     		</span>
-			    		</div>
-			    		<div class="item" style="margin-top:37px;">
-				    		<span style="margin:0 100px 0 100px;">
-					     		<span class="text-dark font-weight-bold">
-				     				1개
-				     			</span>
-				     			<br>
-				     			<span class="text-secondary">
-				     				&nbsp;
-				     			</span>
-				    		</span>
-				     		<span>
-					     		<span class="text-dark font-weight-bold">
-				     				&nbsp;&nbsp;&nbsp;
-				     				5,115원
-				     			</span>
-				     			<br>
-					     		<span class="text-secondary text-right">
-					     			&nbsp;&nbsp;&nbsp;&nbsp;
-					     			<del>
-					     				5,500원
-					     			</del>
-				     			</span>
-				     		</span>
-			    		</div>
-			    	</div>
-		     	</div>
-				<!-- 할인가 없는 상품 -->
-			    <div class="card-body product" style="display: none;padding:25px 10px 10px 5px;">
-			    	<div class="d-flex  flex-row justify-content-between">
-			    		<div class="item">
-							<img src="https://img-cf.kurly.com/cdn-cgi/image/width=676,format=auto/shop/data/goods/1653067210853l0.jpeg" width="80px" >
-				     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-			     				[네오플램] NEW FIKA 쿡웨어 팬
-				     		</span>
-			    		</div>
-			    		<div class="item" style="margin-top:38px;">
-				     		<span style="margin:0 100px 0 100px;">
-					     		<span class="text-dark font-weight-bold">
-				     				1개
-				     			</span>
-				     		</span>
-				     		<span>
-					     		<span class="text-dark font-weight-bold">
-				     				&nbsp;
-				     				29,900원
-				     			</span>
-				     		</span>
-			    		</div>
-			    	</div>
-		     	</div>
-				
-				<!-- 할인가 있는 상품 -->
-			    <div class="card-body product" style="display: none;padding:10px;">
-			    	<div class="d-flex  flex-row justify-content-between">
-			    		<div class="item">
-							<img src="https://product-image.kurly.com/cdn-cgi/image/width=676,format=auto/product/image/dd588ab0-d450-4805-85c3-5e5b463a3a18.jpg" width="80px" >
-				     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-			     				[로얄코펜하겐] 베라왕 다이아몬드 모자이크 
-			     				<br>
-			     				고블렛 와인클라스 2P 세트
-				     		</span>
-			    		</div>
-			    		<div class="item" style="margin-top:37px;">
-				    		<span style="margin:0 100px 0 100px;">
-					     		<span class="text-dark font-weight-bold">
-				     				1개
-				     			</span>
-				     			<br>
-				     			<span class="text-secondary">
-				     				&nbsp;
-				     			</span>
-				    		</span>
-				     		<span>
-					     		<span class="text-dark font-weight-bold">
-				     				154,000원
-				     			</span>
-				     			<br>
-					     		<span class="text-secondary text-right">
-					     			<del>
-					     				220,000원
-					     			</del>
-				     			</span>
-				     		</span>
-			    		</div>
-			    	</div>
-		     	</div>
-		     	
+				</c:forEach>
+			     			     	
 	    	</div>
 	    	
 	    	<div class="card" style="border:none;margin-top:50px;">
@@ -984,7 +787,7 @@
 	}
 	function orderCompleteGo() {
 		if ( $('#cb1').is(':checked') && $('#cb2').is(':checked') && $('#cb3').is(':checked') ) {
-			location.href='orderComplete.jsp';
+			location.href='orderComplete.do';
 		} else {
 			Swal.fire({
 				title: '',

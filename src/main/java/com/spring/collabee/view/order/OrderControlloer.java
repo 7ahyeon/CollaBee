@@ -26,6 +26,11 @@ public class OrderControlloer {
 		return "/order/order";
 	}
 	
+	@RequestMapping("/orderComplete.do")
+	public String orderComplete() {
+		return "/order/orderComplete";
+	}
+	
 	@RequestMapping("/cartadd.do")
 	public String cartadd() {
 		return "/order/cartadd";
