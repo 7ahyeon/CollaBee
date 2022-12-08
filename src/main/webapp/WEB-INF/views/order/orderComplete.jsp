@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주문 완료</title>
+<title>콜라비</title>
 <%@ include file= "../common/bootstrap.jspf"%>
 <style>
 	header {

@@ -14,7 +14,38 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	
-	<dependencies>		
+	<dependencies>	
+	<!-- 카카오 로그인 Access Token용 -->
+	<dependency> 
+		<groupId>com.google.code.gson</groupId> 
+	    <artifactId>gson</artifactId> 
+	    <version>2.8.7</version> 
+	</dependency>
+	
+	
+	<!-- 이메일 인증용 -->
+	<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+	<dependency>
+	    <groupId>javax.mail</groupId>
+	    <artifactId>mail</artifactId>
+	    <version>1.4.7</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>${org.springframework-version}</version>
+     </dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjrt</artifactId>
+	    <version>1.6.10</version>
+	    <scope>runtime</scope>
+	</dependency>
+	
 	<dependency>
 	    <groupId>xerces</groupId>
 	    <artifactId>xercesImpl</artifactId>

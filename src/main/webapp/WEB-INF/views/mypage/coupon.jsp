@@ -4,28 +4,65 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage 쿠폰- 마켓콜라비</title>
+<title>콜라비</title>
 	<%@ include file= "../common/bootstrap.jspf"%>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/coupon.css">
    	
-<script>
-    function emoneyload() {
-        alert("적립금 페이지로 이동");
-    }
-    function couponload() {
-        alert("쿠폰 페이지로 이동");
-    }
-    function inquiry() {
-        alert("1:1문의  페이지로 이동");
-	}
-</script>
 </head>
+
+<script>
+$(function(){	
+	var mvo = { memberNum : ${loginMember.getMemberNum()} };
+	console.log(mvo); 
+	alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
+
+	$.ajax("couponAjax.do",{ //COUPONBOX 뷰에서 가져오기
+		type: "post",
+		data: JSON.stringify(mvo),
+		contentType: "application/json",
+		dataType: "json",
+		success: function(data){
+			//alert("성공"); 
+			console.log(data);
+			//console.log(data[0].issueDate);
+			
+			let htmlTag = "";
+			let couponBox = data.Array;
+			$.each(data, function(index, couponBox){ 
+				console.log("couponBox.issueDate :" + couponBox.issueDate);
+				htmlTag += '<li class="d-flex emoney-row">';				
+				htmlTag += '<div class="coupon-num">' + couponBox.couponNum + '</div>';
+				htmlTag += '<div class="coupon-name">' + couponBox.couponName + '</div>';
+				htmlTag += '<div class="dis-price">' + couponBox.disPrice + '</div>';
+				htmlTag += '<div class="coupon-date">' + couponBox.couponDate + '</div>';				
+				if (couponBox.usageState == 'Y') {
+					htmlTag += '<div class="usage-state minusPoint">' + couponBox.usageState + '</div>';									
+				}
+				if (couponBox.usageState == 'N') {
+					htmlTag += '<div class="usage-state plusPoint">' + couponBox.usageState + '</div>';
+				}
+				htmlTag += '</li>';
+			});
+			$("#ul").html(htmlTag);
+		
+		},
+		erroer: function(){
+			alert("쿠폰 목록 불러오기 실패");
+		}
+	}); //ajax끝 
+	
+});
+
+</script>
+
+
  <body style="width: 1900px;">
  
    <header>
-      <%@ include file= "../common/header.jspf"%>
+  	 <%@ include file= "../common/header.jspf" %>
+      <%-- <jsp:include page="../common/header.jspf" flush="true" /> --%>
    </header>
    
     <div id="container">
@@ -35,7 +72,7 @@
             
             <div class="col-sm-8" style="background-color:#F7F7F7;">
 	             <!-- 마이페이지 상단 --> 
-			   <%@ include file="../common/mypage/mypageTop.jsp" %>
+			   <jsp:include page="../common/mypage/mypageTop.jsp" flush="true" />
             </div> 
 
             <div class="col-sm-2" style="background-color: #F7F7F7;"></div>
@@ -47,7 +84,7 @@
 			<div class="col-sm-2"></div>
 			
 			<!-- 마이페이지네비메뉴 -->
-		   <%@ include file="../common/mypage/mypageSide.jsp" %>			
+		   <jsp:include page="../common/mypage/mypageSide.jsp" flush="true" />			
 			<!-- 마이페이지 콘텐츠 영역 -->
 			<div class="col-sm-6"> 
 			
@@ -69,17 +106,11 @@
                   <div class="coupon-date">사용기간</div>
                   <div class="usage-state">사용여부</div>
                 </div>
-                <ul style="padding: 0px;">
-                  <!-- 데이터 있는만큼 반복 페이지당 10개-->     
-                  <li class="d-flex emoney-row">
-                    <div class="coupon-num">cpu221123-zkwi-09</div>
-                    <div class="coupon-name">[블랙위크]롯데카드 10% 쿠폰(최대 10만원)</div>
-                    <div class="dis-price">5000</div>
-                    <div class="coupon-date">22.11.25 24시까지</div>
-                    <div class="usage-state plusPoint">미사용</div>
-                    <!-- <div class="usage-state minusPoint">사용</div> -->
-                  </li>
-                  <!-- 반복 끝-->
+                <ul id ="ul" style="padding: 0px;">
+                <!--
+                	데이터 있는만큼 반복 페이지당 10개    
+               		coupon목록 들어가는 곳 
+               		->
                 </ul>
                 
                 <!--페이징처리-->
@@ -118,7 +149,7 @@
 	</div>
 
     <footer>
-    	<%@ include file= "../common/footer.jspf"%>
+    	<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
  </body>

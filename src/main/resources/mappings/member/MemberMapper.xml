@@ -3,13 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberDAO">
-	<!--  
-	void signup(MemberVO mvo);	//회원가입
-	void modify(MemberVO mvo);	//회원정보수정
-	void leave(MemberVO mvo);		//회원탈퇴
-	MemberVO getMember(MemberVO mvo);	//회원정보조회
-	List<MemberVO> getMemberList(MemberVO mvo); //회원정보검색(관리자)
-	 -->
+
 	<insert id="signup" parameterType="memberVO" >
 		INSERT INTO MEMBER (MEMBER_NUM, ID, PASSWORD, NAME, EMAIL, PHONE, ADDRESS, GENDER, BIRTH, ADDRESS_DETAIL)
 		VALUES (NVL((SELECT MAX(MEMBER_NUM) FROM MEMBER ), 0) + 1,
@@ -18,21 +12,21 @@
 	
 	<update id="modify" parameterType="memberVO">
 		UPDATE MEMBER
-		SET PASSWORD = #{password}, NAME = ${name}, EMAIL = #{email}, PHONE = #{phone}, ADDRESS = #{address}, 
-		    ADDRESS_DETAIL = #{addressDetail}' , GENDER = #{gender}, BIRTH = #{birth}
+		SET PASSWORD = #{password}, NAME = #{name}, EMAIL = #{email}, PHONE = #{phone}, ADDRESS = #{address}, 
+		    ADDRESS_DETAIL = #{addressDetail} , GENDER = #{gender}, BIRTH = #{birth}
 		WHERE ID = #{id}
 	</update>
 	
 	<update id="leave" parameterType="memberVO">
 		UPDATE MEMBER
-		SET MEMBERSTATE = 'L'
+		SET MEMBER_STATE = 'L', LEAVE_DATE = SYSDATE
 		WHERE ID = #{id}
 	</update>
 	
 	<select id="getMember" parameterType="String" resultType="memberVO">
 		SELECT *
 		FROM MEMBER
-		WHERE ID = #{id}
+		WHERE ID = #{id} OR EMAIL= #{email}
 	</select> 
 	
 	
@@ -48,6 +42,13 @@
 		FROM MEMBER
 		WHERE EMAIL = #{email}
 	</select>
+	
+	<select id="confirmModifyEmail" parameterType="memberVO" resultType="memberVO">
+		SELECT *
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+	</select>
+	
 	
 	<select id="login" parameterType="memberVO" resultType="memberVO">
 		SELECT *

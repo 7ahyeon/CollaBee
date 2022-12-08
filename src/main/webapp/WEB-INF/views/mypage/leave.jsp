@@ -4,25 +4,52 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage 회원 탈퇴 - 마켓콜라비</title>
+<title>콜라비</title>
   	<%@ include file= "../common/bootstrap.jspf"%>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
 	
 	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
+	
 <script>
-  function leaveCollabee () {
-    alert("탈퇴 회원 상태 변경 및 탈퇴일자 체크");
-    document.leaveFrm.action= "leaveCollabee.do";
-    document.leaveFrm.submit();
-  }
+$(function(){
+	if (${empty loginMember}) {
+		alert("로그인 정보가 없습니다. 로그인화면으로 이동합니다.");
+		location.href = "../member/login.do";
+	} 	
+});
 
+	function leaveCollabee () {
+		alert("탈퇴버튼 클릭");
+		let leaveFrm = document.leaveFrm;
+		var memberPassword = ${loginMember.password};
+		var password = String(document.getElementById("password").value);
+		/*
+		console.log("memberPassword : " + memberPassword);
+		console.log("탈퇴.password : " + password);
+		console.log("=====>타입체크 session, 입력");
+		console.log(typeof memberPassword);
+		console.log(typeof password);
+		*/
+		if (String(memberPassword) != password) {
+		    alert("비밀번호가 다릅니다");
+		    return false;
+		}
+		if (String(memberPassword) == password) {
+			alert("탈퇴 회원 상태 변경 실행");
+			leaveFrm.action= "leaveCollabee.do?id=${loginMember.id}";
+			leaveFrm.submit();	
+		}
+ 
+  }//leaveCollabee()
+  
   function cancellation () {
     alert("탈퇴취소 회원정보수정[modify.html] 페이지 이동 ");
-    location.href="/info/modify.html";
+    location.href="info.do";
   }
 
 </script> 
+
 <style>
 	.btn:active, .btn:focus {
 	  outline:none !important;
@@ -110,11 +137,11 @@
   
 </head>
   
-<body style="width: 1800px">
+<body>
     <header>
-      <%@ include file= "../common/header.jspf"%>
+      <jsp:include page="../common/header.jspf" flush="true" />
     </header>
-   
+\${loginMember } : ${loginMember }
     <div id="container">
         <div class="row" id="mypage-top">
             <div class="col-sm-2"></div> 
@@ -132,30 +159,31 @@
                         <li class="">1. 회원 탈퇴 시 고객님의 정보는 상품 반품 및 A/S를 위해 전자상거래 등에서의 소비자 보호에 관한 법률에 의거한 고객정보 보호정책에따라 관리 됩니다.</li>
                         <li class="">2. 탈퇴 시 고객님께서 보유하셨던 적립금은 모두 삭제 됩니다.</li>
                         <li class="">3. 회원 탈퇴 후 30일간 재가입이 불가능합니다.</li>
-                        <li class="">4. 회원 탈퇴 시 컬리패스 해지는 별도로 고객행복센터(1644-1107)를 통해서 가능합니다. 직접 해지를 요청하지 않으면 해지 처리가 되지 않습니다.</li>
                       </ul>
                     </div>
                 </div>
 
-                <form name="leaveFrm">
+                <form name="leaveFrm" method="post">
 
                   <div class="form-group">
                     <div class="d-flex leaveRow">
                       <div class="title"><label for="password">비밀번호 입력</label></div>
-                      <div class="content"><input type="password" placeholder="현재 비밀번호를 입력해주세요" style="width: 332px; height: 46px; padding: 10px"></div>
+                      <div class="content"><input type="password" id="password" name="password" placeholder="현재 비밀번호를 입력해주세요" style="width: 332px; height: 46px; padding: 10px"></div>
                     </div>
                   </div>
+                <!-- 
                   <div class="form-group">
                     <div class="d-flex leaveRow">
                       <div class="title">무엇이 불편하셨나요?</div>
                       <div class="content"><textarea placeholder="고객님의 진심어린 충고? 지적? 부탁드립니다?"></textarea></div>
                     </div>
-                  </div>          
+                  </div>
+                  -->          
                   <div class="form-group">
                     <div class="col-xs-8 col-xs-offset-4 text-center">
                         <button type="button" onclick="cancellation()" class="btn text-center" id="whiteBtn"><small><b>취소</b></small></button>
                         <button type="button" onclick="leaveCollabee()" class="btn text-center" id="purpleBtn"><small><b>탈퇴</b></small></button>
-                      </div>  
+                    </div>  
                   </div>
 
                 </form>
@@ -167,12 +195,10 @@
         </div>
       </div>
 
-        
-    </div>    
     
     
     <footer>
-    	<%@ include file= "../common/footer.jspf"%>
+    	<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
   </body>
 </html>

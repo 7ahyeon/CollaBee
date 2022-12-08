@@ -20,11 +20,11 @@ public class MemberDAO {
 	
 	
 	public MemberDAO() {
-		System.out.println(">>MemberDAO mybatis() 객체생성");
+		System.out.println(">> MemberDAO mybatis() 객체생성");
 	}
 	
-	public void signup(MemberVO mvo) {
-		mybatis.insert("memberDAO.signup", mvo); // 매퍼연결, 파라미터 	
+	public int signup(MemberVO mvo) {
+		return mybatis.insert("memberDAO.signup", mvo); // 매퍼연결, 파라미터 	
 	}
 
 	public int modify(MemberVO mvo) {
@@ -35,8 +35,8 @@ public class MemberDAO {
 		return mybatis.update("memberDAO.leave", mvo);
 	}
 
-	public MemberVO getMember(String id) {
-		return mybatis.selectOne("memberDAO.getMember", id);
+	public MemberVO getMember(String idOrEamil) {
+		return mybatis.selectOne("memberDAO.getMember", idOrEamil);
 	}
 
 	public List<MemberVO> getMemberList(MemberVO mvo) {
@@ -74,6 +74,10 @@ public class MemberDAO {
 
 	public MemberVO oldPwChk(MemberVO mvo) {
 		return mybatis.selectOne("memberDAO.oldPwChk", mvo);
+	}
+
+	public MemberVO confirmModifyEmail(MemberVO mvo) {
+		return mybatis.selectOne("memberDAO.confirmModifyEmail", mvo);
 	}
 
 

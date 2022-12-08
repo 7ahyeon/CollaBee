@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage 비밀번호 재확인 - 마켓콜라비</title>
+<title>콜라비</title>
 	<%@ include file= "../common/bootstrap.jspf"%> 
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
@@ -12,16 +12,9 @@
    	
 <script>
 $(function(){
-/* 	if (${loginMember } == null) {
-		alert("로그인 정보가 없습니다.");
-		locatin.href = "../member/login.do";
-	} else {
-		 */
 	var id = document.getElementById("id");
 	var password = document.getElementById("password");	
 	var infoChkFrm = document.infoChkFrm;
-	
-
 });
 
 	function infoChk () {
@@ -90,7 +83,7 @@ $(function(){
 <body style="width: 1900px;">
  
    <header>
-      <%@ include file= "../common/header.jspf"%>
+    <jsp:include page="../common/header.jspf" flush="true" />
    </header>
    
     <div id="container">
@@ -100,7 +93,7 @@ $(function(){
             
             <div class="col-sm-8" style="background-color:#F7F7F7;">
 	             <!-- 마이페이지 상단 --> 
-	              <%@ include file="../common/mypage/mypageTop.jsp" %>
+	             <jsp:include page="../common/mypage/mypageTop.jsp" flush="true" />
             </div> 
 
             <div class="col-sm-2" style="background-color: #F7F7F7;"></div>
@@ -112,7 +105,7 @@ $(function(){
 			<div class="col-sm-2"></div>
 			
 			<!-- 마이페이지네비메뉴 -->
-			<%@ include file="../common/mypage/mypageSide.jsp" %>
+			<jsp:include page="../common/mypage/mypageSide.jsp" flush="true" />
 			
 			<!-- 마이페이지 콘텐츠 영역 -->
 			<div class="col-sm-6"> 
@@ -132,7 +125,7 @@ $(function(){
              <form name="infoChkFrm" method="post" style="text-align: center;">
                 <div class="form-group">
                   <div class="title"><label for="id">아이디</label></div>
-                  <div class="content"><input type="text" class="form-control readBox" id="id" name="id" value="${loginMember.id }" disabled></div>
+                  <div class="content"><b><input type="text" class="form-control-plaintext" id="id" name="id" value="${loginMember.id }" disabled></b></div>
                 </div>
                 <div class="form-group">
                   <div class="title"><label for="password">비밀번호<span class="text-danger font-weight-bold">*</span></label></div>
@@ -157,7 +150,7 @@ $(function(){
 	</div>
 
     <footer>
- 	   <%@ include file= "../common/footer.jspf"%>
+		<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
  </body>

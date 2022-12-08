@@ -4,13 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage 상품 후기- 마켓콜라비</title>
+<title>콜라비</title>
 	<%@ include file= "../common/bootstrap.jspf"%>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">	
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/review.css">
-
-	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
 
 <script>
   $(function(){
@@ -24,25 +22,20 @@
     $('#beforeWrite').attr('style', "border-bottom:none; color: #692498");
     $('#written').attr('style', "background-color: #FEF7FF;");
 
-    $('#beforeWrite').click(function(){
-    	alert("작성가능한 리뷰 클릭ㅋ");
-      beforeWriteArea.classList.remove('hide'); //보이기
-      writtenArea.classList.add('hide'); //숨김
-      $('#beforeWrite').attr('style', "border-bottom:none; color: #692498");
-      $('#written').attr('style', "background-color: #FEF7FF;");
-    });
-    $('#written').click(function(){
-      writtenArea.classList.remove('hide'); //보이기
-      beforeWriteArea.classList.add('hide');// 숨김
-      $('#written').attr('style', "border-bottom:none; color: #692498");
-      $('#beforeWrite').attr('style', "background-color: #FEF7FF;");
-    });
     
   });
-
-  function writeReview() {
-
-  }
+   $('#beforeWrite').click(function(){
+     beforeWriteArea.classList.remove('hide'); //보이기
+     writtenArea.classList.add('hide'); //숨김
+     $('#beforeWrite').attr('style', "border-bottom:none; color: #692498");
+     $('#written').attr('style', "background-color: #FEF7FF;");
+   });
+   $('#written').click(function(){
+     writtenArea.classList.remove('hide'); //보이기
+     beforeWriteArea.classList.add('hide');// 숨김
+     $('#written').attr('style', "border-bottom:none; color: #692498");
+     $('#beforeWrite').attr('style', "background-color: #FEF7FF;");
+   });
   function modifyReview() {
     alert("리뷰 수정 팝업?");
   }
@@ -208,10 +201,11 @@
 </style>
 
 </head>
- <body style="width: 1900px;">
+ <body>
  
    <header>
-		<%@ include file= "../common/header.jspf"%>
+<%-- 		<jsp:include page="../common/header.jspf" flush="true" /> --%>
+		<%@ include file= "../common/header.jspf" %>
    </header>
    
     <div id="container">
@@ -221,7 +215,7 @@
             
             <div class="col-sm-8" style="background-color:#F7F7F7;">
 	             <!-- 마이페이지 상단 --> 
-	             <%@ include file="../common/mypage/mypageTop.jsp" %>
+	             <jsp:include page="../common/mypage/mypageTop.jsp" flush="true" />
             </div> 
 
             <div class="col-sm-2" style="background-color: #F7F7F7;"></div>
@@ -233,7 +227,7 @@
 			<div class="col-sm-2"></div>
 			
 			<!-- 마이페이지네비메뉴 -->
-	  		 <%@ include file="../common/mypage/mypageSide.jsp" %>
+	  		 <jsp:include page="../common/mypage/mypageSide.jsp" flush="true" />
 			
 			<!-- 마이페이지 콘텐츠 영역 -->
 			<div class="col-sm-6"> 
@@ -277,48 +271,63 @@
                     </div>
                     <div class="review-deadline minusPoint" style="width: 135px; margin-top: 20px; margin-right:20px;">12.17까지 작성 가능</div>
                     <div class="write_review" style="margin-top: 13px;">
-                      <button type="button" class="trigger btn font-weight-bold" id = "writeReviewBtn" style="border: 1px solid lightgray; width: 100px; height: 36px; font-size: small; color: #666666;">후기작성</button> 
+                  <!--  <button type="button" class="trigger btn font-weight-bold" id = "writeReviewBtn" style="border: 1px solid lightgray; width: 100px; height: 36px; font-size: small; color: #666666;">후기작성</button> --> 
+                      <button type="button" class="trigger btn font-weight-bold" id = "writeReviewBtn" data-toggle="modal" data-target="#reviewModal"  style="border: 1px solid lightgray; width: 100px; height: 36px; font-size: small; color: #666666;">후기작성</button> 
                     </div>
                   </li>
                 </div>
-        <!-- 후기작성 팝업 영역 -->
-                <div class="review-modal"> 
-                  <div class="modal-content"> 
-            
-                      <h3 class="proReviewTitle">후기 작성</h3> 
-          
-                      <form action="" method="get" style="margin: 0px;">
+                
+                <!-- 후기작성 모달창 시작 The Modal -->
+				<div class="modal fade" id="reviewModal">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+				    
+				      	<!-- Modal Header -->
+						<div class="modal-header">
+						  <h4 class="modal-title">상품 후기</h4>
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+				
+						<!-- Modal body -->
+						<div class="modal-body">
+						   <form action="" method="get" style="margin: 0px;">
                           <div class="productInfo d-flex align-content-between" style="margin-bottom: 20px;">
                               <div class="writeProImg" style="margin: 0px 20px"><img src="#"></div>
                               <div class="writeProName">[도제]촉촉한 생식빵 2cm //제품명</div>
                           </div>
                           <div class="writeArea d-flex">
                               <div>
-                                  <label for="R_content"style="width: 80px; text-align: left;  margin: 0px; margin-right: 20px; border: 1px solid #692498;" >내용</label> 
+                                  <label for="R_content"style="width: 80px; text-align: left;  margin: 0px; margin-right: 20px;" >내용</label> 
                               </div>
                               <div>
                                   <textarea type="text" name="R_content" placeholder="상품 특성에 맞는 후기를 작성해주세요. 예)레시피, 겉포장 속 실제 구성품 사진, 플레이팅, 화장품 사용자의 피부타입 등 (최소10글자 이상)" required="required"></textarea>
                               </div>
                           </div>
-                        <div class="filebox d-flex align-content-between" style="border: 1px solid #692498; margin-top:20px">
+                        <div class="filebox d-flex align-content-between" style="margin-top:20px">
                           <div style="width: 80px; text-align: left; margin-top: 15px border: 1px solid #692498;">사진첨부</div>
                             <div class="fileIconBox">
-                              <label for="file"><img src="" style="width: 60px; height: 60px; border: 1px solid #692498;" alt="카메라" ></label>
+                              <label for="file"><img src="https://cdn-icons-png.flaticon.com/512/1829/1829371.png" style="width: 60px; height: 60px; " alt="카메라" ></label>
                             </div>
                               <div>
                             <input type="file" id="file"> 
                           </div>
                         </div>
                         <div class="buttonBox" style="text-align: center;">
-                          <input type="button" id="cancel" value="취소"> 
-                          <input type="button" id="write_review" value="보내기" onclick="writeProReview()"> 
+                          <input type="button" id="cancel"  class="close" data-dismiss="modal" value="취소"> 
+                          <input type="button" id="write_review" value="작성하기" onclick="writeProReview()"> 
                         </div>
                         </form> 
-          
-                  </div> 
-              </div>
-
-            </div> <!-- beforeWriteArea 닫힘 -->
+						</div>
+				
+						<!-- Modal footer -->
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				      </div>
+				      
+				    </div>
+				  </div>
+				</div>
+                <!-- 후기 작성 모달창 끝 -->
 
              <!-- 작성한 후기 영역 -->
                <div class="writtenArea hide">
@@ -354,7 +363,7 @@
 	</div>
 
     <footer>
-		<%@ include file= "../common/footer.jspf"%>
+		<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
   <script>

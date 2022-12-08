@@ -18,8 +18,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public void signup(MemberVO mvo) {
-		memberDAO.signup(mvo);
+	public int signup(MemberVO mvo) {
+		return memberDAO.signup(mvo);
 	}
 
 	@Override
@@ -82,6 +82,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberVO oldPwChk(MemberVO mvo) {
 		return memberDAO.oldPwChk(mvo);
+	}
+
+	@Override
+	public MemberVO confirmModifyEmail(MemberVO mvo) {
+		System.out.println("confirmModifyEmail VO : " +memberDAO.confirmModifyEmail(mvo));
+		return memberDAO.confirmModifyEmail(mvo);
 	}
 
 

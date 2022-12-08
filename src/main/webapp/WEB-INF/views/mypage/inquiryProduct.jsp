@@ -4,18 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage - 마켓콜라비</title>
+<title>콜라비</title>
   	<%@ include file= "../common/bootstrap.jspf"%>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/inquiryProduct.css">
 
-	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
 </head>
  <body style="width: 1900px;">
  
    <header>
-      <%@ include file= "../common/header.jspf"%>
+      <jsp:include page="../common/header.jspf" flush="true" />
    </header>
    
     <div id="container">
@@ -25,7 +24,7 @@
             
             <div class="col-sm-8" style="background-color:#F7F7F7;">
 	             <!-- 마이페이지 상단 --> 
-               <%@ include file="../common/mypage/mypageTop.jsp" %>
+               <jsp:include page="../common/mypage/mypageTop.jsp" flush="true" />
             </div> 
 
             <div class="col-sm-2" style="background-color: #F7F7F7;"></div>
@@ -37,7 +36,7 @@
 			<div class="col-sm-2"></div>
 			
 			<!-- 마이페이지네비메뉴 -->
-			 <%@ include file="../common/mypage/mypageSide.jsp" %>
+			 <jsp:include page="../common/mypage/mypageSide.jsp" flush="true" />
 			
 			<!-- 마이페이지 콘텐츠 영역 -->
 			<div class="col-sm-6"> 
@@ -168,7 +167,7 @@
 	</div>
 
     <footer>
-    	<%@ include file= "../common/footer.jspf"%>
+    	<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
  </body>

@@ -4,12 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마켓콜라비</title>
+<title>콜라비</title>
 	<%@ include file="../common/bootstrap.jspf" %> 
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/memberCSS/signup.css">
 
 	<%-- <script src="${pageContext.request.contextPath }/resources/js/signupScript.js"></script> --%>
+
 </head>
 <!-- 카카오지도 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -26,7 +27,7 @@ $(function(){ //document load
                 document.querySelector("input[name=addressDetail]").focus(); //상세입력 포커싱
             }
         }).open();
-    });
+    }); // 카카오지도 끝
 	
 	
     // 회원가입 항목 
@@ -37,7 +38,10 @@ $(function(){ //document load
     var email = document.getElementById("email");
     var phone = document.getElementById("phone");
     var address = document.getElementById("address");
+    var addressDetail = document.getElementById("addressDetail");
     var agree1 = document.getElementById("agree1");
+	var gender = document.querySelector("input[name=gender]").value;	
+
     var signupFrm = document.getElementsByName("signupFrm");
 
     // 아이디 성공, 실패 메시지
@@ -110,14 +114,14 @@ $(function(){ //document load
     let matchmessage = document.querySelector('.match-message');
 
     password2.onkeyup = function () {
-    if ( isMatch(password.value, password2.value) ) {
-        mismatchmessage.classList.add('hide')
-        matchmessage.classList.remove('hide')
-    }
-    else {
-        mismatchmessage.classList.remove('hide')
-        matchmessage.classList.add('hide')
-    }
+	    if ( isMatch(password.value, password2.value) ) {
+	        mismatchmessage.classList.add('hide')
+	        matchmessage.classList.remove('hide')
+	    }
+	    else {
+	        mismatchmessage.classList.remove('hide')
+	        matchmessage.classList.add('hide')
+	    }
     }
 
     //비밀번호 값과 비밀번호 확인값 일치 확인
@@ -129,13 +133,45 @@ $(function(){ //document load
         }
     }
 
+   	// 이메일 형식
+   	 email.onkeyup = function () {
+	 //  	var emailReg = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;	   
+   	//	let failureMsg = document.querySelector('.failure-message-message');
+	   // var email = document.getElementById("email");
+	    console.log ("email : " + email.value);
+	 /*    
+	    if (!emailReg.test(email)){
+   			failureMsg.classList.remove('hide');
+   		} */
+   	}
+    
+   	phone.onkeyup = function () {
+   	  console.log ("phone : " + phone.value);
+   	}
+   	
+   	addressDetail.onkeyup = function () {
+   	  console.log ("address : " + address.value);
+   	  console.log ("addressDetail : " + addressDetail.value);  		
+   	}
+   	
+   	
+	var year= document.getElementById("birthYear");
+	var month= document.getElementById("birthMonth");
+	var day= document.getElementById("birthDay");
+	
+	day.onkeyup = function () {
+		var birthday = year.value + month.value + day.value;
+		console.log("birth :  " + birthday);	
+	}
+   	
+   	
     // 휴대폰 번호만 입력
     let numberchkmessage = document.querySelector('.numberchk-message');
 
     $("input[onlyNumber]").on('keyup', function(){
         $(this).val($(this).val().replace(/[^0-9]/g, ""));
     });
-
+	
 
     //전체동의 클릭
     $("#allchk").click(function(){
@@ -157,12 +193,76 @@ $(function(){ //document load
     
 }); 
 
+//이메일 중복검사
+function confirmEmail () {
+	 var email = document.getElementById("email");	
+
+	if (email.value == ""){ //script 파일에 있는 jquery 객체임
+		alert("이메일을 입력하세요");
+		email.focus(); 
+		return false;
+	} else {
+		let mvo = { email: email.value }  ;
+		
+		console.log(JSON.stringify(mvo));
+
+		$.ajax("signUpConfirmEmailAjax.do",{
+			type: "post",
+			data: JSON.stringify(mvo),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data){
+					alert("성공"); 
+					console.log("data: " + data);
+					
+					//중복확인결과
+				
+				    let failureMsg = document.querySelector('.failure-message-message');
+				    let duplicateMsg = document.querySelector('.duplicateEamil-message');
+				    let availableMsg = document.querySelector('.availableEmail-message');
+				    var email = document.getElementById("email");
+				    
+				    if(data.result == "duplicate"){
+						console.log("이메일 중복");
+						duplicateMsg.classList.remove('hide');
+						email.value = ""; //input 태그 초기화
+						email.focus();
+						return false;
+					}
+					if(data.result == "available"){
+						console.log("사용가능 이메일");
+					 	availableMsg.classList.remove('hide');
+						duplicateMsg.classList.add('hide'); 
+						return false;
+					}
+			},
+			erroer: function(){
+				alert("실패");
+			}
+		}); //ajax끝
+	}// else 끝
+}
+
+
    // 회원가입 폼 유효성 검사 및 데이터 전송
 	function signupChk() { 
-		alert("회원가입클릭");	    
-		const signupFrm = document.signupFrm;
-		console.log("signupFrm : " + signupFrm.value);
+		//alert("회원가입클릭");	    
+		var id = document.getElementById("id");
+	    var password = document.getElementById("password");
+	    var name = document.getElementById("name");
+	    var email = document.getElementById("email");
+	    var phone = document.getElementById("phone");
+	    var address = document.getElementById("address");
+	    var addressDetail = document.getElementById("addressDetail");
+		var gender = document.querySelector("input[name=gender]").value;	
 		
+		var year= document.getElementById("birthYear");
+		var month= document.getElementById("birthMonth");
+		var day= document.getElementById("birthDay");
+		var birthday = year.value + month.value + day.value;
+		console.log("birth :  " + birthday);
+
+
         if (id.value == "") { //해당 입력값이 없을 경우 같은말: if(!uid.value)
             alert("아이디를 입력하세요.");
             id.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
@@ -191,11 +291,11 @@ $(function(){ //document load
         }
 
         //이름 정규식 한글/2자 이상	
-/*         var regname = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
+       /* var regname = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
         
-        if(!regname.test(name.value)) {    
+       if(!regname.test(name.value)) {    
            return false;
-        } */
+        }*/ 
 
         if (name.value == "") {
             alert("이름을 입력하세요.");
@@ -216,6 +316,9 @@ $(function(){ //document load
             return false;
         }
 
+        
+
+        
         //(필수)체크박스 미체크시 
         if (!agree1.checked || !agree2.checked || !agree4.checked) { 
             alert("약관 동의를 체크하세요.");
@@ -223,61 +326,55 @@ $(function(){ //document load
             return false;
         }
 
-        
-        //입력 값 전송
-        signupFrm.action = "signup.do"; 
-        signupFrm.submit(); 
-	}	
-
-</script>
-
-<script>	
-
-function confirmEmail () {
-	 var email = document.getElementById("email");	
-
-	if (email.value == ""){ //script 파일에 있는 jquery 객체임
-		alert("이메일을 입력하세요");
-		email.focus(); 
-		return false;
-	} else {
-		let mvo = { email: email.value }   
-		console.log("mvo : " + mvo.email)
-
-		$.ajax("confirmEmailAjax.do",{
+        console.log("mvo만들기");
+        //입력 값 전송     
+        var mvo = {	id: id.value, password: password.value, name: name.value,
+        			email: email.value , phone:phone.value , address: address.value,
+        			gender: gender , birth: birthday, 
+        			addressDetail: addressDetail.value };
+    
+ 		console.log("mvo: " + mvo);
+ 		console.log("JSON.stringify(mvo) : " + JSON.stringify(mvo));
+    	
+   	
+ 		$.ajax("signupAjax.do",{
 			type: "post",
 			data: JSON.stringify(mvo),
 			contentType: "application/json",
 			dataType: "json",
 			success: function(data){
-					/* alert("성공"); */
 					console.log("data: " +data);
-					
-					//중복확인결과
-				    let duplicateMsg = document.querySelector('.duplicateEmail-message');
-				    let availableMsg = document.querySelector('.availableEmail-message');
-	
-				    if(data == false){
-						console.log("이메일 중복");
-						alert("이메일 중복");
-						email.value = "";
-						email.focus();
-						return false;
+					let signupFrmArea = document.querySelector('.signupFrmArea');
+					let signupResultArea = document.querySelector('.signupResultArea');
+
+					if (data == false) {
+						alert("알수없는 오류로 회원가입에 실패했습니다.");
 					}
-					if(data == true){
-						console.log("사용가능 이메일");
-					/* 	availableMsg.classList.remove('hide');
-						duplicateMsg.classList.add('hide'); */
-						return false;
+					if (data == true) {
+						signupResultArea.classList.remove('hide');
+						signupFrmArea.classList.add('hide');
+						$('input[name=signupId]').attr('value','id.value');
 					}
 			},
 			erroer: function(){
 				alert("실패");
 			}
 		}); //ajax끝
-	}// else 끝
-}
+        
+        
+	}	
 
+   function login () {
+	   alert("로그인버튼클릭");
+	   location.href="/login.do";
+   }
+   
+   
+</script>
+
+
+
+<script>	
 
 	
 </script>
@@ -285,7 +382,8 @@ function confirmEmail () {
 <body>
 \${confirmIdResult} : ${confirmIdResult}
 	<header>
-        <%@ include file= "../common/header.jspf" %> 
+		<%@ include file="../common/header.jspf" %> 
+		<%-- <jsp:include page="../common/header.jspf" flush="true" /> --%>
     </header>
     
     <div id="container">
@@ -294,8 +392,9 @@ function confirmEmail () {
             <div class="col-2"></div>
             
             <div class="col-8">
-                <div id="container">
+                <div id="content-container">
                     
+                <div class="signupFrmArea"> <!-- 회원가입폼 -->       
                    <div id="container">
                         <h4 class="text-center" style="padding-bottom: 50px; color: #666666; font-weight: bold;">회원가입</h4>
                     </div>
@@ -378,7 +477,7 @@ function confirmEmail () {
                             <div class="form-group form-inline" style="height: 150px">
                                 <div class="form1"><small><b>주소</b></small><span class="text-danger">*</span></div>
                                 <div class="form2">
-                                	<input type="text" readonly class="form-control noBorder"  id="address" name="address" style="width: 333px; margin-bottom: 20px">
+                                	<input type="text" readonly class="form-control"  id="address" name="address" style="width: 333px; margin-bottom: 20px; background-color: white;">
                                 	<input type="text" class="form-control"  id="addressDetail" name="addressDetail" required="required" placeholder="" style="width: 333px;">
                                 </div>
                                 <div class="form3" id="address_kakao"><button type="button" class="chk-button"><small><b>주소찾기</b></small></button></div>
@@ -388,9 +487,9 @@ function confirmEmail () {
                                 <div class="form1"><small><b>성별</b></small></div>
                                     <div class="form2">
                                         <label class="form-check-label" style="width: 333px;">
-                                            <div class="genchk"><input type="radio" class="form-check-input" name="gender" value="1">남 자</div>
-                                            <div class="genchk"><input type="radio" class="form-check-input" name="gender" value="2">여 자</div>
-                                            <div class="genchk"><input type="radio" class="form-check-input" name="gender" value="0" checked>선택안함</div>
+                                            <div class="genchk"><input type="radio" class="form-check-input" name="gender" value="male">남 자</div>
+                                            <div class="genchk"><input type="radio" class="form-check-input" name="gender" value="female">여 자</div>
+                                            <div class="genchk"><input type="radio" class="form-check-input" name="gender" value="no_select" checked>선택안함</div>
                                         </label>
                                     </div>
                                 </div>
@@ -402,19 +501,19 @@ function confirmEmail () {
                         <div class="d-flex align-content-between">
                           <div class="birth">
                             <div>
-                              <input data-testid="input-box" name="birthYear" placeholder="YYYY" type="text" class="birthFrmGroup" value="">
+                              <input data-testid="input-box" id="birthYear" name="birthYear" placeholder="YYYY" type="text" class="birthFrmGroup" value="">
                             </div>
                           </div>
                           <div><span class="bi-slash-lg"></span></div>
                           <div class="d-flex align-content-between">
                             <div>
-                              <input data-testid="input-box" name="birthMonth" placeholder="MM" type="text" class="birthFrmGroup" value="">
+                              <input data-testid="input-box" id="birthMonth" name="birthMonth" placeholder="MM" type="text" class="birthFrmGroup" value="">
                             </div>
                           </div>
                             <div><span class="bi-slash-lg"></span></div>
                             <div class="css-1dkwuq4 e1uzxhvi6">
                               <div>
-                                <input data-testid="input-box" name="birthDay" placeholder="DD" type="text" class="birthFrmGroup" value="">
+                                <input data-testid="input-box" id="birthDay" name="birthDay" placeholder="DD" type="text" class="birthFrmGroup" value="">
                               </div>
                             </div>
                         </div>
@@ -560,9 +659,21 @@ function confirmEmail () {
 
                         </form>
                     </div>
-
-                </div>    
-            </div>
+				</div> <!-- signupFrmcontainer-->  
+				
+				<div class="signupResultArea text-center hide">
+					<h3>회원가입 성공</h3>
+					<br>
+					<div><div>아이디</div><div><input type="text" name="signupId" class="form-control-plaintext" value="" readonly></div></div>
+					<br>
+					<div class="col-xs-8 col-xs-offset-4 text-center">
+                         <button type="button" onclick="login()" class="btn text-center" style="background-color: #692498; color: white; width: 240px; height: 56px;"><b>콜라비와 쇼핑하기</b></button>
+                    </div>  
+				</div>
+				
+                </div> <!-- content-container -->
+           
+            </div><!-- col-8 -->
             
             <div class="col-2"></div>
           
@@ -571,7 +682,7 @@ function confirmEmail () {
     </div>
     
     <footer>
-	    <%@ include file= "../common/footer.jspf"%>
+		<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
 </body>

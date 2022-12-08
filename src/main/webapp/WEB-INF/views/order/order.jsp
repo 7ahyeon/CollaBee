@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주문서</title>
+<title>콜라비</title>
 <%@ include file= "../common/bootstrap.jspf"%>
 <%@ include file= "../common/modal/agreeModal1.jspf"%>
 <%@ include file= "../common/modal/agreeModal2.jspf"%>

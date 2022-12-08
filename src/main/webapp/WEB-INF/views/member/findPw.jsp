@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
+<title>콜라비</title>
 	<%@ include file= "../common/bootstrap.jspf"%>
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/memberCSS/findPw.css">
@@ -13,8 +13,11 @@
 $(function(){ //document load
     var id = document.getElementById("id");
     var email = document.getElementById("email");
+    var code;
+   	var findPassword;
     
-    // 아아디, 이메일 확인메시지
+    
+    // 아이디, 이메일 확인메시지
     let failid =  document.querySelector('.idmismatch-message');
     let failemail =  document.querySelector('.emailmismatch-message');
 
@@ -50,7 +53,6 @@ $(function(){ //document load
     var id = document.getElementById("id");
     var email = document.getElementById("email");
     var showResult = document.getElementById("showResult"); // 비번 확인 창
-    let emailFrm = document.emailAuthFrm;
 
     if (id.value == "") {
       alert("아이디 입력하세요.");
@@ -65,42 +67,84 @@ $(function(){ //document load
     }
 	
     //전달 데이터확인
-    console.log("아이디 : -" + document.emailAuthFrm.id.value + "-");
-    console.log("이메일 : -" + document.emailAuthFrm.email.value + "-");
+    console.log("아이디 : -" + id.value + "-");
+    console.log("이메일 : -" + email.value + "-");
 
-    
-    let mvo = { id: id.value, email: email.value }
-    
+    var mvo = { id: id.value, email: email.value };
+    alert("JSON.stringify(mvo): " +JSON.stringify(mvo))
 	$.ajax("findPwAjax.do", {
 		type: "post",
 		data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
 		contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
 		dataType: "json", //서버로부터 응답받는 데이터형식
 		success: function(data) {
-			console.log(data);
-			
-			if (data.password == null) {
+			console.log(data);			
+			if (data == null) {
 				alert("정보를 다시 입력해주세요");
 				emailFrm.reset();
 				id.focus();
 				return false;
-			} else {
-				//alert("아이디 찾음");				
-				document.getElementById("emailAuthArea").classList.add('hide');
-				document.getElementById("resultArea").classList.remove('hide');
-				showResult.setAttribute("value", data.password);
+			} 
+			if (data != null) { //회원데이터가 있는 경우
+				findPassword = data.password; // 이메일 인증성공시 보여줄 password 
+				console.log("findPwAjax 실행후 받은 pw :" + findPassword);
+				var findPwArea = $('.findPwArea');
+				var mailAuthArea = $('.mailAuthArea');
+				var mvo = { id: id.value, email: email.value }
+				alert("이메일인증시도(mvo): " +JSON.stringify(mvo));
+				$.ajax("mailAuthAjax.do",{
+					type: "post",
+					data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+					contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+					dataType: "json", //서버로부터 응답받는 데이터형식
+					success: function(data) {
+						alert("mailAuthAjax return data : " + data);
+						findPwArea.toggleClass('hide'); //안보임
+						mailAuthArea.toggleClass('hide'); //보임
+						code = data;
+						alert("인증번호가 전송되었습니다. code : " + code);	
+					},
+					error: function() {
+						alert("이메일 인증 발송 실패");
+					}
+					
+				});//end of mailAuthAjax
 				return false;
 			}
 
 		},
 		error: function() {
-			alert("실패");
-		}
-		
-	});
+			alert("회원정보 조회 실패");
+		}		
+	}); //end of findPwAjax
     
   }// emailAuth ()
   
+  
+  function authChk() {
+	alert("authChk 클릭");
+	var resultArea = $('.resultArea'); // 인증완료 후 비밀번호 확인
+	var mailAuthArea = $('.mailAuthArea'); // 인증완료 후 비밀번호 확인
+	var authNum = $('#authNum').val();
+	//인증결과 메시지
+	const correct = $('.correct-message'); //이메일 인증 성공
+	const mismatch = $('.mismatch-message'); //이메일 인증 실패
+	alert("authNum:" + authNum +", code : " + code);
+	  if(String(authNum) ===String(code)){
+		  	//alert("이메일인증성공 findPassword: " + findPassword);
+			resultArea.toggleClass('hide');
+			mailAuthArea.toggleClass('hide');
+			showResult.setAttribute("value", findPassword);	
+			
+		}else{
+			alert("인증번호가 다릅니다.");
+			mismatch.toggleClass('hide');
+			$('#authNum').val(''); //jQuery값 초기화
+			return false;
+		}
+  }//authChk()
+  
+
    function loginPageGo() {
 	location.href = "../member/login.do";  
   }
@@ -110,7 +154,8 @@ $(function(){ //document load
 </head>
 <body>
    <header>
-      <%@ include file= "../common/header.jspf"%>
+		<%@ include file= "../common/header.jspf"%>
+<%-- 		<jsp:include page="../common/header.jspf" flush="true" /> --%>
     </header>
     <div id="container">
         <div class="row">
@@ -121,32 +166,42 @@ $(function(){ //document load
               <div>
                   <h4 class="text-center" style="font-weight: bold; padding-bottom: 50px;">비밀번호 찾기</h4>
               </div>
+              
               <div id="authBox" style="width: 400px; margin: auto;">
-                <!-- <div class="menuBox text-center" style="text-align: center; margin: auto;">
-                    <div class="menu" id="emailAuth"><button type="button" class="btn text-center emainAuth"><b>이메일 인증</b></button></div>
-                </div>   
-              -->
       
-                <div class="emailAuthArea" id="emailAuthArea">
-                  <form name="emailAuthFrm">
-
+                <div class="findPwArea " id="findPwArea">
+                  <form name="findPwFrm">
                     <div class="form-group">
                         <label for="id">아이디</label>
                         <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력해주세요">
-                        <div class="idmismatch-message hide">가입시 등록한 아이디를 기입해주세요</div>
+                        <div class="idmismatch-message hide	purple-message">가입시 등록한 아이디를 기입해주세요</div>
                     </div>
                     <div class="form-group">
-                      <label for="phone">이메일</label>
+                      <label for="email">이메일</label>
                       <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요">
-                      <div class="emailmismatch-message hide">가입시 등록한 이메일을 기입해주세요</div>
+                      <div class="emailmismatch-message hide red-message">가입시 등록한 이메일을 기입해주세요</div>
                     </div>
 
                     <div class="text-center">
-                      <div><button type="button" id="authbtn" onclick="emailAuth()">확인</button></div>
+                      <div><button type="button" id="authbtn" onclick="emailAuth()">이메일 인증</button></div>
                     </div>
-
                   </form>
-                </div> <!-- eamilAuthArea -->
+                </div> <!-- findPwArea -->
+                
+                <div class="mailAuthArea hide">
+                <br>
+                <div>
+					<input class="form-control mailChk" id="authNum" placeholder="인증번호 6자리를 입력해주세요!" maxlength="6">
+                </div>
+                <div>
+                	<button type="button" id="authChkbtn" onclick="authChk()">인증번호 확인</button>
+                </div>
+				<div>
+					<div class="correct-message hide purple-message">인증번호가 일치합니다</div>
+					<div class="mismatch-message hide red-message">인증번호를 확인해주세요</div>
+				</div>
+				</div> <!-- mailAuthArea -->
+					                
 			
 				<div class="resultArea hide" id="resultArea">
 					<div class="text-center">비밀번호 확인</div>
@@ -168,7 +223,8 @@ $(function(){ //document load
     
     
     <footer>
-    <%@ include file= "../common/footer.jspf"%>
+		<jsp:include page="../common/footer.jspf" flush="true" />
+		
     </footer>
 </body>
 </html>

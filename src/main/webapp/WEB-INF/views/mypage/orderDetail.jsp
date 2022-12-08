@@ -4,17 +4,175 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마켓콜라비</title>
+<title>콜라비</title>
   	<%@ include file= "../common/bootstrap.jspf"%> 
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/orderDetail.css">
 
-	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
+<script>
+$(function(){
+	
+	var orderInfo = { 	"memberNum" : ${loginMember.getMemberNum()},
+						"orderNum" : <%= request.getParameter("orderNum") %>};
+	console.log("주문 상세페이지>>!!orderNum : " +  <%= request.getParameter("orderNum") %>);
+	//주문목록 불러오기
+	$.ajax("getOrderDetailAjax.do",{ 
+		type: "post",
+		data: JSON.stringify(orderInfo),
+		contentType: "application/json",
+		dataType: "json",
+		success: function(data){
+			alert("주문내역 불러오기 성공"); 		
+			console.log(data);
+			
+			var htmlTag1 = '';
+			var htmlTag2 = '';
+			var orderNum = data;
+			$.each(data, function(index, orderList){ 
+				htmlTag1 += '<div class="order-list-continer d-flex align-content-between">';
+				
+				htmlTag1 += '<div class="order-item">'
+								+ '<img src="' + orderList.thumSysFilename + '" alt="상품 이미지" class="order-item-thumb">'
+								+ '<dl class="order-item-info">'
+									+ '<dt class="order-item-name">' + orderList.productName + '</dt>'
+								+ '</dl>'
+								+	'<dl class="order-item-info">'
+                  					+ '<dt class="order-item-price">' + orderList.price + '원 | ' + orderList.count + ' 개 </dt>'
+                  				+ ' </dl>'
+                  		 + '</div>';
+                  		
+				htmlTag1 += '<div class="order-item-status">' + orderList.deliveryStatus + '</div>'
+	              				+ '<div class="order-item-addCart">'
+	             			 		+ '<button type="button" class="btn purpleBtn" onclick="reAdd(' + orderList.productNum + ')"><span>장바구니 담기</span></button>'
+						        + '</div>'
+					        + '</div>';
+					        
+					        
+					        
+					        
+				htmlTag2 += '<div><h5 class="infoTitle">결제정보</h5></div>';
+				htmlTag2 +=  '<ul class="infoContent">';
+				htmlTag2 += '<li>'
+							 + '<span class="title1">상품금액</span>'
+							 + '<span class="content">' + orderList.saleprice + '<span class="content">원</span> </span>'
+						 + '</li>';
+						 
+				htmlTag2 += '<li><span class="title1">배송비</span>'
+							+ '<span class="content">' + orderList.deliveryFee + '<span class="content">원</span> </span>'
+							+ '</li>';
+					
+				htmlTag2 += '<li><span class="title1">결제금액</span>'
+               				  + '<span class="content">' + orderList.totPrice + '<span class="content">원</span></span>'
+			               + '</li>';
+			               
+				htmlTag2 +=  '<li><span class="title1">적립금액</span>' 
+				    				+ '<span class="content">' + orderList.totPrice + '<span class="content">원</span></span>'
+							+ '</li>';
+							
+				htmlTag2 += '<li><span class="title1">결제방법</span>'
+								+'<span class="content">' + orderList.ptDetailname + '</span>'
+                			+'</li>';	
+                
+				htmlTag2 += '</ul>';
+
+
+            <!-- 주문정보 / 주문번호, 주문자, 결제 일시 -->
+	            htmlTag2 += '<div><h5 class="infoTitle">주문정보</h5></div>'
+				htmlTag2 += '<ul class="infoContent">';
+				htmlTag2 += '<li>'
+							+ '<span class="title2">주문번호</span>'
+							+ ' <span class="content">' + orderList.orderNum + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '<li>'
+							+ '<span class="title2">보내는 분</span>'
+							+ ' <span class="content">' + orderList.orderName + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '<li>'
+							+ '<span class="title2">결제일시</span>'
+							+ ' <span class="content">' + orderList.orderDate + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '</ul>';
+            
+            <!-- 배송정보 / 받는사람, 연락처 주소, 장소 포장?-->
+				htmlTag2 += '<div class="css-1bsokvi e1jm6dy15"><h5 class="infoTitle">배송정보</h5></div>';
+           
+				htmlTag2 += '<ul class="infoContent">';
+				htmlTag2 += '<li>'
+							+ '<span class="title2">받는분</span>'
+							+ ' <span class="content">' + orderList.orderName + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '<li>'
+							+ '<span class="title2">핸드폰</span>'
+							+ ' <span class="content">' + orderList.orderPhone + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '<li>'
+							+ '<span class="title2">주소</span>'
+							+ ' <span class="content">' + orderList.orderAddr + ' ' + orderList.orderAddrDetail + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '<li>'
+							+ '<span class="title2">받으실 장소</span>'
+							+ ' <span class="content">' + orderList.orderPlace + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '<li>'
+							+ '<span class="title2">공동현관 출입방법 orderRequest</span>'
+							+ ' <span class="content">' + orderList.orderRequest + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '<li>'
+							+ '<span class="title2">포장 방법</span>'
+							+ ' <span class="content">' + orderList.condition + '</span>'
+						+ ' </li>';	
+				htmlTag2 += '</ul>';
+          
+           
+			$("#orderDetail1").html(htmlTag1);   
+			$("#orderDetail2").html(htmlTag2);   
+			
+			}); //$.each()끝
+           
+		},
+		error: function(){
+			alert("getOrderDetailAjax 실패")
+		}
+	});//ajax끝
+	
+	
+});
+</script>
 
 <script>
-	function reAdd() {
-		alert("장바구니 담기 클릭");
+	function reAdd(goodsNum) {
+		// 상품 개수
+		var goodsCount = 1;
+		
+		var sendCart = {
+				productNum : goodsNum,
+				count : goodsCount
+		};
+		
+		// 장바구니 상품 존재 여부 확인 후 추가
+		$.ajax({
+			type: "POST",
+			url: "../cart/cartAdd.do",
+			data: JSON.stringify(sendCart),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(result){
+				alert("성공");
+				if (result == 1) {
+					alert("장바구니 추가 성공 알림 보내기");
+				} else if (result == 2) {
+					alert("이미 장바구니에 있는 상품 수량 추가 알림 보내기");
+				} else if (result == 3) {
+					alert("이미 최대 수량입니다");
+				} else if (result == 0) {
+					alert("오류");
+				}
+			},
+			error: function(){
+				alert("실패");
+			}
+		}); 
 	}
 </script>
 
@@ -22,7 +180,8 @@
  <body style="width: 1900px;">
  
    <header>
-      <%@ include file= "../common/header.jspf"%>
+		<%@ include file= "../common/header.jspf" %>
+      <!-- <jsp:include page="../common/header.jspf" flush="true" /> -->
    </header>
    
     <div id="container">
@@ -32,7 +191,7 @@
             
             <div class="col-sm-8" style="background-color:#F7F7F7;">
 	             <!-- 마이페이지 상단 --> 
-	              <%@ include file="../common/mypage/mypageTop.jsp" %>
+	              <jsp:include page="../common/mypage/mypageTop.jsp" flush="true" />
             </div> 
 
             <div class="col-sm-2" style="background-color: #F7F7F7;"></div>
@@ -44,7 +203,7 @@
 			<div class="col-sm-2"></div>
 			
 			<!-- 마이페이지네비메뉴 -->
-			<%@ include file="../common/mypage/mypageSide.jsp" %>
+			<jsp:include page="../common/mypage/mypageSide.jsp" flush="true" />
 			
 			<!-- 마이페이지 콘텐츠 영역 -->
 			<div class="col-sm-6"> 
@@ -54,46 +213,17 @@
                   <div id="category-name" style="display: inline-block;">
                     <h4 style="margin-right: 20px; margin-bottom: 35px; ">주문 내역 상세</h4>
                   </div>
-                  <div class="orderNumArea"><h5 class="font-weight-bold">주문번호 2282501150018</h5><a id="inquiryLink" onclick="inquiry()">1:1문의 하기 ></a></div>
+                  <div class="orderNumArea"><h5 class="font-weight-bold" id="orderNum">주문번호 2282501150018</h5><a id="inquiryLink" onclick="inquiry()">1:1문의 하기 ></a></div>
               </div>
             </div>
 				
 			<div class="mypage-top4">
-<!-- DB 에서 LIST 불러와서 반복문 적용 -->
-              <div class="order-list-continer d-flex align-content-between">
-                    <div class="order-item">
-                      <img src="https://img-cf.kurly.com/shop/data/goods/1605164418732l0.jpg" alt="[요플레] ONLY 3 플레인 요거트 대용량 1800mL 상품 이미지" class="order-item-thumb">
-                      <dl class="order-item-info">
-                        <dt class="order-item-name">[요플레] ONLY 3 플레인 요거트 대용량 1800mL 외 2건</dt>
-                      </dl>
-                      <dl class="order-item-info">
-                        <dt class="order-item-price">24,380원 | 8개</dt>
-                      </dl>
-                    </div>
-                    <div class="order-item-status">배송완료</div>
-                    <div class="order-item-addCart">
-                        <button type="button" class="btn purpleBtn" onclick="reAdd()"><span>장바구니 담기</span></button>
-                   </div>
-              </div>  
-              <!-- DB 에서 LIST 불러와서 반복문 적용끝 -->
+			<div id="orderDetail1">
+		<!-- DB 에서 LIST 불러와서 반복문 적용
+			주문상품 개별정보
+           DB 에서 LIST 불러와서 반복문 적용끝 -->
+             </div> 
 
-              <!-- DB 에서 LIST 불러와서 반복문 적용 (테스트)-->
-              <div class="order-list-continer d-flex align-content-between">
-                    <div class="order-item">
-                      <img src="https://img-cf.kurly.com/shop/data/goods/1605164418732l0.jpg" alt="[요플레] ONLY 3 플레인 요거트 대용량 1800mL 상품 이미지" class="order-item-thumb">
-                      <dl class="order-item-info">
-                        <dt class="order-item-name">[요플레] ONLY 3 플레인 요거트 대용량 1800mL 외 2건</dt>
-                      </dl>
-                      <dl class="order-item-info">
-                        <dt class="order-item-price">24,380원 | 8개</dt>
-                      </dl>
-                    </div>
-                    <div class="order-item-status">배송완료</div>
-                    <div class="order-item-addCart">
-                        <button type="button" class="btn purpleBtn" onclick="reAdd()"><span>장바구니 담기</span></button>
-                   </div>
-              </div>  
-              <!-- DB 에서 LIST 불러와서 반복문 적용(테스트) 끝-->
                   
               <!-- 장바구니에 담기 버튼영역 -->
               <div class="allAddCancle">
@@ -104,84 +234,13 @@
               <!-- 안내 -->
               <div class="notice"><span>주문취소는 [주문완료] 상태일 경우에만 가능합니다.</span></div>
 
-              <!-- 결제정보 / 금액, 적립금, 결제방법 -->
-              <div><h5 class="infoTitle">결제정보</h5></div>
-              <ul class="infoContent">
-                  <li>
-                    <span class="title1">상품금액</span>
-                    <span class="content">21,380
-                      <span class="content">원</span>
-                    </span>
-                  </li>
-                  <li><span class="title1">배송비</span>
-                    <span class="content">3,000
-                      <span class="content">원</span>
-                    </span>
-                  </li>
-                  <li><span class="title1">결제금액</span>
-                    <span class="content">24,380
-                      <span class="content">원</span>
-                    </span>
-                  </li>
-                  <li>
-                    <span class="title1">적립금액</span>
-                    <span class="content">1,497
-                      <span class="content">원</span>
-                    </span>
-                  </li>
-                  <li>
-                      <span class="title1">결제방법</span>
-                      <span class="content">네이버페이(신용카드)</span>
-                  </li>
-                </ul>
-
-              <!-- 주문정보 / 주문번호, 주문자, 결제 일시 -->
-              <div><h5 class="infoTitle">주문정보</h5></div>
-              <ul class="infoContent">
-                <li>
-                  <span class="title2">주문번호</span>
-                  <span class="content">2282501150018</span>
-                  </li>
-                  <li>
-                    <span class="title2">보내는 분</span>
-                    <span class="content">임수진</span>
-                  </li>
-                  <li>
-                    <span class="title2">결제일시</span>
-                    <span class="content">2022-09-26 01:16:05</span>
-                </li>
-              </ul>
-
-              <!-- 배송정보 / 받는사람, 연락처 주소, 장소 포장?-->
-              <div class="css-1bsokvi e1jm6dy15"><h5 class="infoTitle">배송정보</h5></div>
-             
-              <ul class="infoContent">
-                <li>
-                  <span class="title2">받는분</span>
-                  <span class="content">ddu</span>
-                </li>
-                <li>
-                  <span class="title2">핸드폰</span>
-                  <span class="content">010-4144-****</span>
-                </li>
-                <li>
-                  <span class="title2">주소</span>
-                  <span class="content">(02063) 서울 우리집</span>
-                </li>
-                <li>
-                  <span class="title2">받으실 장소</span>
-                  <span class="content">문 앞</span>
-                </li>
-                <li>
-                  <span class="title2">공동현관 출입방법</span>
-                  <span class="content">공동현관 비밀번호 (************)</span>
-                </li>
-                <li>
-                  <span class="title2">포장 방법</span>
-                  <span class="content">종이 포장재</span>
-                  </li>
-              </ul>
-					
+			<div id="orderDetail2">
+              <!-- 결제정보 / 금액, 적립금, 결제방법 반복 시작
+					주문정보 / 주문번호, 주문자, 결제 일시 
+					배송정보 / 받는사람, 연락처 주소, 장소 포장? -->
+			</div> <!-- orderDetail2 -->
+			
+			
 			</div><!-- mypage-top4 -->	   
 			</div> <!-- col-sm-6 -->
 		   
@@ -194,7 +253,7 @@
 	</div>
 
     <footer>
-		<%@ include file= "../common/footer.jspf"%>
+		<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
  </body>

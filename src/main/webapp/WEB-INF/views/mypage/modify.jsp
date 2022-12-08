@@ -4,20 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage - 마켓콜라비</title>
+<title>콜라비</title>
   	<%@ include file= "../common/bootstrap.jspf"%>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/modify.css">
 
-	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
 </head>
 <!-- 카카오지도 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 $(function(){
 	//카카오 지도
-   document.getElementById("address_kakao").addEventListener("click", function(){ 
+	document.getElementById("address_kakao").addEventListener("click", function(){ 
         //카카오 지도 발생
         new daum.Postcode({
             oncomplete: function(data) { //선택시 입력값 세팅
@@ -27,7 +26,8 @@ $(function(){
         }).open();
     });
 
-   
+	
+	
 	var name = document.getElementById("name");	
 	var email = document.getElementById("email");	
 	var phone = document.getElementById("phone");	
@@ -36,7 +36,7 @@ $(function(){
 	var newPassword2= document.getElementById("newPassword2");
 
     
-    // 비밀번호 일치 불일치 체크
+    //새 비밀번호 일치 불일치 체크
     let mismatchmessage = document.querySelector('.mismatch-message');
     let matchmessage = document.querySelector('.match-message');
 
@@ -66,9 +66,11 @@ $(function(){
     $("input[onlyNumber]").on('keyup', function(){
         $(this).val($(this).val().replace(/[^0-9]/g, ""));
     });
+    
 });
 
 function confirmEmail () {
+	var id = document.getElementById("id");	
 	var email = document.getElementById("email");	
 	var phone = document.getElementById("phone");	
 
@@ -76,12 +78,9 @@ function confirmEmail () {
 		alert("이메일을 입력하세요");
 		email.focus(); 
 		return false;
-	} else if (email.value == email.value){
-		console.log("기존이메일사용");
-		phone.focus();
 	} else {
-		let mvo = { email: email.value }   
-		console.log("mvo : " + mvo.email)
+		var mvo = { id: id.value, email: email.value };
+		console.log("mvo : " + mvo.id);
 
 		$.ajax("../member/confirmEmailAjax.do",{
 			type: "post",
@@ -89,30 +88,34 @@ function confirmEmail () {
 			contentType: "application/json",
 			dataType: "json",
 			success: function(data){
-					alert("성공"); 
-					console.log("data: " +data);
+					//alert("성공"); 
+					console.log("data: " + data);
+					//중복확인메시지
+				    let failureMsg = document.querySelector('.failure-message'); //형식에 맞지않는 이메일
+				    let duplicateMsg = document.querySelector('.duplicateEmail-message'); //중복이메일
+				    let sameMsg = document.querySelector('.sameEamil-message'); //사용가능 로그인 사용자의 기존이메일
+				    let availableMsg = document.querySelector('.availableEmail-message'); //사용가능
 					
-					//중복확인결과
-				    let duplicateMsg = document.querySelector('.duplicateEmail-message');
-				    let availableMsg = document.querySelector('.availableEmail-message');
-	
-				    if(data == false){
-						console.log("이메일 중복");
-						email.value = "";
-						email.focus();
+					if(data.result == "same"){
+						sameMsg.classList.remove('hide');
 						return false;
 					}
-					if(data == true){
-						console.log("사용가능 이메일");
+					if(data.result == "duplicate"){
+						duplicateMsg.classList.remove('hide');
+						return false;
+					}
+					if(data.result == "available"){
 						availableMsg.classList.remove('hide');
-						duplicateMsg.classList.add('hide');
 						return false;
 					}
+	
 			},
 			erroer: function(){
 				alert("실패");
 			}
 		}); //ajax끝
+		
+		return false;
 	}// else 끝
 }
 
@@ -144,10 +147,11 @@ function mdfyMember() {
 	console.log("birth :  " + birthday);
 	
 	var oldPassword= document.getElementById("oldPassword");
-
 	
-	const modifyForm = document.modifyForm;
 
+ 	const modifyFrm = document.modifyFrm;
+	console.log("modifyFrm :  " + modifyFrm.elements[0].value);
+	
 
 	var mvo = { id: id.value,  email: email.value , password: oldPassword.value };
 	console.log(mvo);
@@ -160,46 +164,57 @@ function mdfyMember() {
 		dataType: "json", //서버로부터 응답받는 데이터형식
 		success: function(data) {
 				alert("정보 수정 시도");
-			console.log(data);
-			console.log("data.password : " + data.password);
-			console.log("mvo.password : " + mvo.password);
-			
-			/* 	if (data.password  == false) {
-				alert("정보 수정 실패");
-				modifyForm.reset();
-				oldPassword.focus();
-				return false;
-			} 
-			if(data == true) {
-				alert("정보 수정 가능");
-				var mvo = { password: newPassword.value, name: name.value,  email: email.value, phone: phone.value, gender: gender, birth: birthday  }; 	
-			
-				$.ajax("modifyAjax.do", {
-					type: "post",
-					data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
-					contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
-					dataType: "json", //서버로부터 응답받는 데이터형식
-					success: function(data) {
-						console.log(data);
-						
-						if (data == false) {
-							alert("정보 수정 실패");
-							modifyForm.reset();
-							oldPassword.focus();
-							return false;
-						} else {
-							alert("정보 수정 성공");
-							loacation.href ="info.do";
-						}
-
-					},
-					error: function() {
-						alert("Ajax실패");
-					}
+				console.log("oldPwChkAjax data: " + data);
+				if (data == false) {
+					alert("현재 비밀번호를 확인하세요.");
+					modifyFrm.reset();
+					oldPassword.focus();
+					return false;
+				} 
+				if(data == true) {
+					alert("정보 수정 가능");
 					
-				}); 
-		
-			}*/
+					mvo = { id: modifyFrm.elements[0].value,  
+							password: modifyFrm.elements[2].value, 
+							name: modifyFrm.elements[4].value, 
+							email: modifyFrm.elements[5].value, 
+							phone: modifyFrm.elements[7].value, 
+							address: modifyFrm.elements[8].value, 
+							addressDetail: modifyFrm.elements[9].value, 
+							gender: gender,
+							birth : birthday }
+					
+					console.log("modifyAjax 실행전");
+					console.log(mvo);
+					console.log(JSON.stringify(mvo));
+					
+					$.ajax("modifyAjax.do", {
+						type: "post",
+						data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+						contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+						dataType: "json", //서버로부터 응답받는 데이터형식
+						success: function(data) {
+							console.log("modifyAjax data: " + data);
+							
+							if (data == false) {
+								alert("비밀번호 확인하세요");
+								modifyFrm.reset();
+								oldPassword.focus();
+								return false;
+							} 
+							if (data == true ){
+								alert("정보 수정 성공");
+								location.href ="info.do";
+							}
+	
+						},
+						error: function() {
+							alert("Ajax실패");
+						}
+						
+					}); 
+			
+				}
 
 		},
 		error: function() {
@@ -207,15 +222,23 @@ function mdfyMember() {
 		}
 		
 	});
-	
 
-	
 } //mdfyMember()
+
+
+//회원탈퇴
+function requestLeave () {
+	alert("회원탈퇴클릭");
+	location.href = "leave.do";
+}
+
+
+
 </script>
 
- <body style="width: 1900px;"> 
+ <body> 
    <header>
- 	 <%@ include file= "../common/header.jspf"%>
+ 	<jsp:include page="../common/header.jspf" flush="true" />
    </header>
    
     <div id="container">
@@ -225,7 +248,7 @@ function mdfyMember() {
             
             <div class="col-sm-8" style="background-color:#F7F7F7;">
 	             <!-- 마이페이지 상단 --> 
-	            <%@ include file="../common/mypage/mypageTop.jsp" %>
+	            <jsp:include page="../common/mypage/mypageTop.jsp" flush="true" />
             </div> 
 
             <div class="col-sm-2" style="background-color: #F7F7F7;"></div>
@@ -237,7 +260,7 @@ function mdfyMember() {
 			<div class="col-sm-2"></div>
 			
 			<!-- 마이페이지네비메뉴 -->
-			<%@ include file="../common/mypage/mypageSide.jsp" %>
+			<jsp:include page="../common/mypage/mypageSide.jsp" flush="true" />
 			
 			<!-- 마이페이지 콘텐츠 영역 -->
 			<div class="col-sm-6"> 
@@ -253,13 +276,13 @@ function mdfyMember() {
 			<!-- 개인정보 수정 폼 -->	
 			<div class="mypage-top4"> 
 			
-			 <div class="modifyForm"> 
-                <form name="modifyForm" method="post"> <!--signup.do-->
+			 <div class="modifyFrm"> 
+                <form name="modifyFrm" id="modifyFrm" method="post"> <!--signup.do-->
                   <div class="form-group form-inline">
                       <div class="form1"><small><b>아이디</b></small><span class="text-danger">*</span></div>
                       <div class="form2">
                           <div class="input-area">
-                              <input type="text" readonly class="form-control-plaintext purple-border" id="id" name="id" value="${loginMember.id }" style="width: 333px; padding: 9px 0px 6px 0px; font-weight: bold;">
+                              <input type="text" readonly class="form-control-plaintext" id="id" name="id" value="${loginMember.id }" style="width: 333px; padding: 9px 0px 6px 0px; font-weight: bold;">
                           </div>
                       </div>
                       <div class="form3"></div>
@@ -305,6 +328,7 @@ function mdfyMember() {
                       	<div>
                       		<div class="failure-message hide red-message">이메일 형식에 맞춰주세요</div>
                            	<div class="duplicateEamil-message hide red-message">이미 사용중인 이메일입니다</div>
+                           	<div class="sameEamil-message hide purple-message">기존 이메일입니다</div>
                             <div class="availableEmail-message hide purple-message">사용 가능한 이메일입니다♡</div>
                       	</div>
                       <div class="form3" onclick="confirmEmail()"><button class="chk-button"><small><b>중복확인</b></small></button></div>
@@ -396,7 +420,7 @@ function mdfyMember() {
 	</div>
 
     <footer>
-     <%@ include file= "../common/footer.jspf"%>
+     <jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
  </body>

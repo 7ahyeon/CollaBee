@@ -4,28 +4,79 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage - 마켓콜라비</title>
+<title>콜라비</title>
   	<%@ include file= "../common/bootstrap.jspf"%>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/emoney.css">
-   	
-<script>
-    function emoneyload() {
-        alert("적립금 페이지로 이동");
-    }
-    function couponload() {
-        alert("쿠폰 페이지로 이동");
-    }
-    function inquiry() {
-        alert("1:1문의  페이지로 이동");
-	}
-</script>
+ 
 </head>
+
+<script>
+$(function(){
+	
+	var mvo = { memberNum : ${loginMember.getMemberNum()} };
+	console.log(mvo); 
+	alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
+ 	
+	$.ajax("emoneyAjax.do",{ //emoney 히스토리가져오기
+		type: "post",
+		data: JSON.stringify(mvo),
+		contentType: "application/json",
+		dataType: "json",
+		success: function(data){
+			alert("성공"); 
+			console.log(data);
+			//console.log(data[0].issueDate);
+			
+			let htmlTag = "";
+			let emoneyUsage = data.Array;
+			$.each(data, function(index, emoneyUsage){ 			
+				htmlTag += '<li class="d-flex emoney-row">';				
+				htmlTag += '<div class="reg-date">' + emoneyUsage.saveDate.substring(0,10) + '</div>';
+				htmlTag += '<div class="detail" style="letter-spacing: -0.5px;">' + emoneyUsage.emoneyHistory + '</div>';
+				htmlTag += '<div class="validity">' + emoneyUsage.validity+ '</div>';
+				htmlTag += '<div class="point">' + emoneyUsage.amount + '</div>';
+				htmlTag += '</li>';				
+				
+			});
+			$("#ul").html(htmlTag);
+			
+		},
+		erroer: function(){
+			alert("실패");
+		}
+	}); //ajax끝 
+	
+	$.ajax("getTotEmoneyAjax.do",{ //COUPONBOX 뷰에서 가져오기
+		type: "post",
+		data: JSON.stringify(mvo),
+		contentType: "application/json",
+		dataType: "json",
+		success: function(emoneyUsage){
+			//alert("성공> 받은 데이터 : " + emoneyUsage); 		
+			console.log(emoneyUsage);
+			if(emoneyUsage == ""){
+				$('#totEmoney').val('0');					
+			} else {
+				$('#totEmoney').val(emoneyUsage);					
+			}
+		},
+		error: function(){
+			alert("getTotEmoneyAjax 실패")
+		}
+	});
+	
+});
+
+</script>
+
+
  <body style="width: 1900px;">
  
    <header>
-      <%@ include file= "../common/header.jspf"%>
+     	 <%@ include file= "../common/header.jspf" %>
+     <%--  <jsp:include page="../common/header.jspf" flush="true" /> --%>
    </header>
    
     <div id="container">
@@ -35,7 +86,7 @@
             
             <div class="col-sm-8" style="background-color:#F7F7F7;">
 	             <!-- 마이페이지 상단 --> 
-	               <%@ include file="../common/mypage/mypageTop.jsp" %>
+	               <jsp:include page="../common/mypage/mypageTop.jsp" flush="true" />
             </div> 
 
             <div class="col-sm-2" style="background-color: #F7F7F7;"></div>
@@ -47,7 +98,7 @@
 			<div class="col-sm-2"></div>
 			
 			<!-- 마이페이지네비메뉴 -->
-			<%@ include file="../common/mypage/mypageSide.jsp" %>
+			<jsp:include page="../common/mypage/mypageSide.jsp" flush="true" />
 			
 			<!-- 마이페이지 콘텐츠 영역 -->
 			<div class="col-sm-6"> 
@@ -66,7 +117,7 @@
               <section class="d-flex">
                 <dl class="d-flex">
                   <dt class="label plusPoint">현재 적립금</dt>
-                  <dd class="price plusPoint">1,497<span class="unit">원</span></dd>
+                  <dd class="price plusPoint"><input type="text" id="totEmoney" style="width: 100px"></span><span class="unit">원</span></dd>
                 </dl>
                 <dl class="d-flex">
                   <dt class="label">소멸예정 적립금</dt>
@@ -80,15 +131,10 @@
                   <div class="expire-date">유효기간</div>
                   <div class="point">금액</div>
                 </div>
-                <ul style="padding: 0px;">
-                  <!-- 데이터 있는만큼 반복 페이지당 10개-->     
-                  <li class="d-flex emoney-row">
-                    <div class="reg-date">22.09.28</div>
-                    <div class="detail" style="letter-spacing: -0.5px;">[구매적립] 주문(2282501150018) 7% 적립</div>
-                    <div class="expire-date">23.09.30</div>
-                    <div class="point">+1,497 원</div>
-                  </li>
-                  <!-- 반복 끝-->
+                <ul id ="ul" style="padding: 0px;">
+                  <!-- 데이터 있는만큼 반복 페이지당 10개   
+                  		emoney 내역 
+                 반복 끝-->
                 </ul>
                 
                 <!--페이징처리-->
@@ -127,7 +173,7 @@
 	</div>
 
     <footer>
-    	<%@ include file= "../common/footer.jspf"%>
+    	<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
     
  </body>

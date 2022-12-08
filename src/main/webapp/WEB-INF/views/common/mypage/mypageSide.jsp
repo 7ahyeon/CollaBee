@@ -16,7 +16,7 @@
                       <a href="../mypage/review.do">상품후기</a><span>></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="../mypage/inquiry.do">상품문의</a><span>></span>
+                    <a href="../mypage/inquiryProduct.do">상품문의</a><span>></span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a href="../mypage/info.do">개인정보수정</a><span>></span>

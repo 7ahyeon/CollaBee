@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypageDAO">
+
+	
+	<select id="getCouponCnt" parameterType="memberVO" resultType="String">
+		SELECT COUNT(COUPON_NUM) 
+		FROM COUPON_BOX 
+		WHERE MEMBER_NUM = #{memberNum} AND USAGE_STATE = 'N'
+	</select>
+
+	<select id="getTotEmoney" parameterType="memberVO" resultType="Integer">
+		SELECT DISTINCT(
+       			 (SELECT SUM(AMOUNT) FROM EMONEY_USAGE WHERE CATEGORY = '적립') - 
+       			 (SELECT SUM(AMOUNT) FROM EMONEY_USAGE WHERE CATEGORY = '사용')
+        )
+		FROM EMONEY_USAGE 
+		WHERE MEMBER_NUM = #{memberNum} 
+	</select>
+
+	<select id="getCouponBoxList" parameterType="memberVO" resultType="couponBoxVO">
+		SELECT * 
+		FROM VIEW_MYCOUPONBOX
+		WHERE MEMBER_NUM = #{memberNum} 
+		ORDER BY ISSUE_DATE DESC
+	</select>
+
+	<select id="getEmoneyUsage" parameterType="memberVO" resultType="emoneyUsageVO">
+		SELECT * FROM EMONEY_USAGE
+		WHERE MEMBER_NUM = #{memberNum}
+		ORDER BY SAVE_DATE DESC
+	</select>
+	
+	<select id="getPickList" parameterType="memberVO" resultType="pickListVO"> 
+		SELECT * 
+		FROM VIEW_MYPICKLIST
+		WHERE MEMBER_NUM = #{memberNum}
+	</select>
+	
+	<!-- 주문목록조회  -->
+	<select id="getOrderList" parameterType="Map" resultType="orderListVO">
+		SELECT	*
+		FROM	VIEW_MYORDERLIST
+		WHERE	MEMBER_NUM = #{memberNum} AND 
+				ORDER_DATE BETWEEN (SELECT ADD_MONTHS(SYSDATE, -#{period})FROM DUAL) AND SYSDATE
+	</select>
+
+	<select id="getOrderDetail" parameterType="Map" resultType="orderListVO">
+		SELECT *
+		FROM VIEW_MYORDERLIST
+		WHERE ORDER_NUM = #{orderNum} AND MEMBER_NUM = #{memberNum}
+	</select>
+	
+	<!-- 작성 가능한작성한 리뷰 리뷰 조회 -->
+	<select id="getMemberReview" parameterType="Map" >
+		SELECT OP.*, P.THUM_SYS_FILENAME
+		FROM ORDER_PRODUCT OP, PRODUCT P
+		WHERE OP.PRODUCT_NUM = P.PRODUCT_NUM AND OP.REVIEW_STATUS = #{reviewStatus} AND OP.MEMBER_NUM = #{memberNum}
+	</select>
+<!-- 	
+	<select id="getMembershipInfo" parameterMap="int" >
+
+	</select> -->
+</mapper>

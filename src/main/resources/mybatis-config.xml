@@ -13,7 +13,6 @@
 		<typeAlias alias="cart" type="com.spring.collabee.biz.cart.CartVO"/>
 		<typeAlias alias="order" type="com.spring.collabee.biz.order.OrderVO"/>
 		<typeAlias alias="orderMember" type="com.spring.collabee.biz.order.OrderMemberVO"/>
-		<typeAlias alias="memberVO" type="com.spring.collabee.biz.member.MemberVO"/>
 		<typeAlias alias="goods" type="com.spring.collabee.biz.goods.GoodsVO"/>
 	    <typeAlias alias="categories" type="com.spring.collabee.biz.collections.CategoriesVO"/>
 	    <typeAlias alias="coupons" type="com.spring.collabee.biz.coupons.CouponsVO"/>    	
@@ -23,6 +22,13 @@
 	    <typeAlias alias="board" type="com.spring.collabee.biz.board.BoardVO"/>
 	    <typeAlias alias="goodsReview" type="com.spring.collabee.biz.goods.GoodsReviewVO"/>
    		<typeAlias alias="goodsQnA" type="com.spring.collabee.biz.goods.GoodsQnAVO"/>
+   		
+   		<typeAlias alias="memberVO" type="com.spring.collabee.biz.member.MemberVO"/>
+   		<typeAlias alias="couponBoxVO" type="com.spring.collabee.biz.mycouponbox.MyCouponBoxVO"/>
+   		<typeAlias alias="emoneyUsageVO" type="com.spring.collabee.biz.emoneyusage.EmoneyUsageVO"/>
+		<typeAlias alias="pickListVO" type="com.spring.collabee.biz.mypicklist.MyPickListVO"/>
+		<typeAlias alias="orderListVO" type="com.spring.collabee.biz.myorderlist.MyOrderListVO"/>
+		<typeAlias alias="myReviewVO"	type="com.spring.collabee.biz.myreview.MyReviewVO"/>
   </typeAliases>
   
   

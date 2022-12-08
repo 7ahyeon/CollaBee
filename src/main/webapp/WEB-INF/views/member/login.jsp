@@ -4,17 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인 - 마켓콜라비</title>
+<title>콜라비</title>
 	<%@ include file= "../common/bootstrap.jspf"%>
 	
 	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
 
 <style>
-
-  .col-sm-8{
-          padding-top: 50px;
-          padding-bottom: 50px;
-      }
       input{
         width: 340px;
         height: 54px;
@@ -55,29 +50,52 @@
 <% String findIdLocation = "findId.do";  %>
 <% String findPwLocation = "findPw.do";  %>
 
+<!--  카카오로그인-->  
+<% String code = (String)request.getAttribute("code");%>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.1/kakao.min.js" integrity="sha384-eKjgHJ9+vwU/FCSUG3nV1RKFolUXLsc6nLQ2R1tD0t4YFPCvRmkcF8saIfOZNWf/" crossorigin="anonymous"></script>
+<script>
+  Kakao.init('59184fe7137fbddc12ce3777347a15a4'); //SDK초기화 사용하려는 앱의 JavaScript 키 입력
+  console.log(Kakao.isInitialized());
+</script> 
+
+<script>
+	//카카오 로그인 버튼 클릭
+	function loginWithKakao() {
+		Kakao.Auth.authorize({
+			redirectUri: 'http://localhost:8080/collabee/member/loginWithKakao.do',
+			scope: 'account_email,gender'
+		});
+	
+  	}
+
+</script>
+
+
+
 <script>
 $(function(){
 	var id = document.getElementById("id");
 	var password = document.getElementById("password");	
     var loginFrm = document.getElementsByName("loginFrm");
+    var loginResult = <% request.getAttribute("result");%>
     
-    var mvo = $("#mvo").val();
-	console.log('${mvo.memberState }');
-/* 		
-	if('${mvo.memberState }'=="실패"){
-		alert("로그인실패");
-		id.focus();
-	} */
+    //var mvo = $("#mvo").val();
+	//console.log('${mvo.memberState }');
     
-});
+ 	if  (${not empty loginMember }) {
+		alert("잘못된 접근입니다. 메인화면으로 이동합니다.");
+		//location.href = "../collections/main.do";
+		location.href = "../mypage/order.do";
+	}
+ 	if (loginResult == false) {
+		alert("콜라비 회원이 아닙니다. <br>회원가입 후 카카오 로그인을 실행해주세요.");
+	} 
 
-	/* function login() {
-  		//alert("> [로그인] 버튼 클릭 메인페이지로 이동");
-  		console.log("id : " + id.value + ", pw : " + password.value);
-		location.href = "login.do";
-		loginFrm.submit();
-	} */
 	
+});
+</script>
+
+<script>
 	function login() {
 		var id = document.getElementById("id");
 		var password = document.getElementById("password");	
@@ -92,19 +110,28 @@ $(function(){
 			contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
 			dataType: "json", //서버로부터 응답받는 데이터형식
 			success: function(data) {
+				console.log("loginAjax.do 실행>>");
 				console.log(data);
 				
-				if (data.memberState == null) {
-					alert("로그인실패");
+				if (data.result == "N") {
+					alert("로그인 정보를 확인하세요");
 					loginFrm.reset();
 					id.focus();
 					return false;
-				} else {
+				} else if (data.result == "L") {
+					alert("탈퇴한 회원입니다.");
+					loginFrm.reset();
+					return false;
+				} else if (data.result == "D") {
+					alert("휴면회원입니다.");					
+					return false;
+				} else if (data.result == "A") {
 					loginFrm.action = "login.do";
 					loginFrm.submit();
-					return false;
+					return false;					
 				}
 
+					
 			},
 			error: function() {
 				alert("실패");
@@ -123,7 +150,8 @@ $(function(){
 </head>
 <body>
   	<header>
-      <%@ include file= "../common/header.jspf"%>
+  		<%@ include file= "../common/header.jspf"%>
+<%-- 		<jsp:include page="../common/header.jspf" flush="true" /> --%>
     </header>
 <b>Session에 저장된 \${loginMember } : ${loginMember }</b>
 	
@@ -156,6 +184,11 @@ $(function(){
                       <div class="text-center">
                           <button type="button" class="btn text-center" id="borderbtn" style="width: 340px; height: 54px;" onclick="signup()"><b>회원가입</b></button>
                       </div>  
+                      <div>
+                      	<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+                      	<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222" alt="카카오 로그인 버튼" />
+</a>
+                      </div>
                     </div>
 
                   </form>
@@ -171,7 +204,7 @@ $(function(){
     
     
     <footer>
-    <%@ include file= "../common/footer.jspf"%>
+		<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
 
 </body>

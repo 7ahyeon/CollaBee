@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
+<title>콜라비</title>
+
 	<%@ include file= "../common/bootstrap.jspf"%>
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/memberCSS/findId.css">
@@ -78,7 +79,7 @@ $(function(){ //document load
 			console.log(data);
 			
 			if (data.id == null) {
-				alert("정보를 다시 입력해주세요");
+				alert("회원정보를 확인 후 다시 입력해주세요");
 				findIdFrm.reset();
 				name.focus();
 				return false;
@@ -110,7 +111,8 @@ $(function(){ //document load
 <body>
 \${member } : ${member }
  	<header>
-     <%@ include file= "../common/header.jspf"%>
+  		<%@ include file= "../common/header.jspf"%>
+<%-- 		<jsp:include page="../common/header.jspf" flush="true" /> --%>
     </header>
     
     <div id="container">
@@ -168,7 +170,7 @@ $(function(){ //document load
     
     
     <footer>
-     <%@ include file= "../common/footer.jspf"%>
+		<jsp:include page="../common/footer.jspf" flush="true" />
     </footer>
 </body>
 </html>

@@ -8,12 +8,18 @@
   .hide {
     display: none;
   }
-  .emailmismatch-message, .idmismatch-message  {
-    padding-left: 40px;
-    padding-top: 5px;
-    font-size: small; 
-    color: purple;
-  }
+  /* 유효성검사 안내메시지 */
+	.red-message {
+        font-size: small;
+        font-weight: bold;
+        color: red;
+    }
+    
+    .purple-message {
+    	font-size: small;
+        font-weight: bold;
+        color: purple;
+    }
 
 
   .col-sm-8{
@@ -31,7 +37,7 @@
   #emailAuthArea {
     margin-top: 20px;
   }
-  #authbtn {
+  #authbtn, #authChkbtn {
     background-color: #692498; 
     color: white;
     font-weight: bold; 

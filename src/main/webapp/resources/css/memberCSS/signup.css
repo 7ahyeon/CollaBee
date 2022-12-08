@@ -1,7 +1,9 @@
+
  .col-8{
         padding-top: 50px;
         padding-bottom: 50px;
     }
+
     #text-right{
         text-align: right;
         width: 100%;     
@@ -84,10 +86,10 @@
     }
 
     .chk:checked + .circle{
-        /* background-image: url(../resources/imgs/member/check-circle-fill.svg); */
+        background-image: url(../resources/imgs/member/check-circle-fill.svg); 
     }
     .allchk:checked + .circle{
-       /*  background-image: url(${pageContext.request.contextPath }/resources/imgs/member/check-circle-fill.svg); */
+       background-image: url(${pageContext.request.contextPath }/resources/imgs/member/check-circle-fill.svg); 
     }
 
     /* 체크박스는 display:none;을 주면 데이터 처리가 안됨 */

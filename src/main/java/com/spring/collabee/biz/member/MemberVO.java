@@ -1,9 +1,9 @@
 package com.spring.collabee.biz.member;
 
 public class MemberVO {
-	int memberNum, grade, gender;
+	int memberNum, grade;
 	String id, password, name, email, phone,
-			address, birth, regdate,
+			address, birth, regdate, gender,
 			memberState, leaveDate, addressDetail;
 	
 	public MemberVO() {
@@ -26,11 +26,11 @@ public class MemberVO {
 		this.grade = grade;
 	}
 
-	public int getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(int gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
@@ -122,6 +122,7 @@ public class MemberVO {
 		this.addressDetail = addressDetail;
 	}
 
+
 	@Override
 	public String toString() {
 		return "MemberVO [memberNum=" + memberNum + ", grade=" + grade + ", gender=" + gender + ", id=" + id
@@ -131,6 +132,7 @@ public class MemberVO {
 	}
 
 /*
+
 	@Override
 	public String toString() {
 		return "{ memberNum: " + memberNum + ", "
@@ -148,11 +150,10 @@ public class MemberVO {
 			+ "leaveDate: '" + leaveDate + "', "
 			+ "addressDetail: '" + addressDetail + "' }";
 	}
+	
+	
+		
 */
-	
-	
-	
-
 	
 	
 }
