@@ -14,7 +14,6 @@
 
 <script>
 $(function(){
-	
 	var mvo = { memberNum : ${loginMember.getMemberNum()} };
 	console.log(mvo); 
 	alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
@@ -64,10 +63,60 @@ $(function(){
 <script>
 	function addCart() {
 		alert("카트에 담기!"); //카트에담으면 찜목록에서 사라짐!
+			// 상품 개수
+			var goodsCount = 1;
+			
+			var sendCart = {
+					productNum : goodsNum,
+					count : goodsCount
+			};
+			
+			// 장바구니 상품 존재 여부 확인 후 추가
+			$.ajax({
+				type: "POST",
+				url: "../cart/cartAdd.do",
+				data: JSON.stringify(sendCart),
+				contentType: "application/json",
+				dataType: "json",
+				success: function(result){
+					alert("성공");
+					if (result == 1) {
+						alert("장바구니 추가 성공 알림 보내기");
+					} else if (result == 2) {
+						alert("이미 장바구니에 있는 상품 수량 추가 알림 보내기");
+					} else if (result == 3) {
+						alert("이미 최대 수량입니다");
+					} else if (result == 0) {
+						alert("오류");
+					}
+				},
+				error: function(){
+					alert("실패");
+				}
+			}); 
+			
+			delPickList();
 	}
 	
-	function delFromPick() {
+	function delPickList(productNum) {
 		alert("찜목록에서 삭제");
+		
+		var memberNum = ${loginMember.getMemberNum()}
+		var pickInfo = { "memberNum": memberNum, "productNum" : productNum }
+		$.ajax("delPickListAjax.do",{ 
+			type: "post",
+			data: JSON.stringify(pickInfo),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data){
+				alert("찜목록에서 성공"); 
+				
+			},
+			error: function(){
+				alert("실패");
+			}
+		}); 
+		
 	}
 
 </script>
@@ -75,11 +124,10 @@ $(function(){
 
 
  <body style="width: 1900px;">
- 
-   <header>
-     <!--  <jsp:include page="../common/header.jspf" flush="true" /> -->
+   <header>   
      <%@ include file= "../common/header.jspf"%> 
    </header>
+
    
     <div id="container">
      
@@ -108,7 +156,7 @@ $(function(){
  			<div class="mypage-top3">
                 <div style="width: 100%; height: 50px;">
                   <div id="category-name" style="display: inline-block;">
-                    <h4 style="margin-right: 20px;">찜한상품(<span><input type="text" id="pickCnt" value=""></span>개)</h4>
+                    <h4 style="margin-right: 20px;">찜한상품( <span id="pickCnt"></span> 개 )</h4>
                   </div>
                   <div style="display: inline; line-height: 38px; vertical-align: bottom; "><small>찜한상품은 최대 100개까지 저장됩니다.</small></div>
               </div>
@@ -120,20 +168,7 @@ $(function(){
               <!--반복-->
               <div class="content-container" id ="pickList">
 <!-- 
-                <div class="d-flex align-content-between pick-item-container" style="padding: 20px 0px;">
-                  <div class="item-col1">
-                    <div class="pick-item-img"><img src="" style="width: 60px; height: 78px;"></div>
-                  </div>
-                  <div class="item-col2" style="width:600px; height: 79px; margin-left: 20px; margin-right: 100px; border: 2px soild #B03FE3;">
-                    <div class="pick-item-info-proname"><b>[블루보틀: 홀리데이]윈터 싱글 오리진 300g</b></div>
-                    <div class="pick-item-info-price">36,000원</div>
-                  </div>  
-                  <div class="item-col3" style="width: 104px;">
-                    <div class="pick-item-del"><button type="button" class="btn btn-outline-del" style="margin-bottom: 10px;" onclick="delFromPick()">삭제</button></div>
-                    <div class="pick-item-del"><button type="button" class="btn btn-outline-add" onclick="addCart()"><i class="bi bi-cart4"></i>담기</button></div>
-                  </div>  
-                </div>
-                <div class="item-col4" style="border-bottom: 0.5px solid grey;"></div>
+                찜목록
  -->
 
               </div>

@@ -204,7 +204,6 @@
  <body>
  
    <header>
-<%-- 		<jsp:include page="../common/header.jspf" flush="true" /> --%>
 		<%@ include file= "../common/header.jspf" %>
    </header>
    
@@ -363,7 +362,7 @@
 	</div>
 
     <footer>
-		<jsp:include page="../common/footer.jspf" flush="true" />
+		<%@ include file= "../common/footer.jspf" %>
     </footer>
     
   <script>

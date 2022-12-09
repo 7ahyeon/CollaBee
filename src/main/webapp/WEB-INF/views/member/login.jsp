@@ -10,6 +10,12 @@
 	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
 
 <style>
+	header {
+		margin-bottom:100px;
+	}
+	footer {
+		margin-top:100px;
+	}
       input{
         width: 340px;
         height: 54px;
@@ -151,9 +157,8 @@ $(function(){
 <body>
   	<header>
   		<%@ include file= "../common/header.jspf"%>
-<%-- 		<jsp:include page="../common/header.jspf" flush="true" /> --%>
     </header>
-<b>Session에 저장된 \${loginMember } : ${loginMember }</b>
+<!-- <b>Session에 저장된 \${loginMember } : ${loginMember }</b -->
 	
     
     <div id="container">
@@ -204,7 +209,7 @@ $(function(){
     
     
     <footer>
-		<jsp:include page="../common/footer.jspf" flush="true" />
+		<%@ include file= "../common/footer.jspf" %>
     </footer>
 
 </body>

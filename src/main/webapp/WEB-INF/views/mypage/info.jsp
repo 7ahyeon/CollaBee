@@ -35,7 +35,7 @@ $(function(){
 					password.focus();
 					return false;
 				} else {
-					alert("비밀번호가 일치합니당");
+					//alert("비밀번호가 일치합니당");
 					infoChkFrm.action = "modify.do";
 					infoChkFrm.submit();
 					return false;
@@ -83,7 +83,7 @@ $(function(){
 <body style="width: 1900px;">
  
    <header>
-    <jsp:include page="../common/header.jspf" flush="true" />
+    <%@ include file= "../common/header.jspf" %>
    </header>
    
     <div id="container">
@@ -150,7 +150,7 @@ $(function(){
 	</div>
 
     <footer>
-		<jsp:include page="../common/footer.jspf" flush="true" />
+		<%@ include file= "../common/footer.jspf" %>
     </footer>
     
  </body>

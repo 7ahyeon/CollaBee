@@ -1,11 +1,11 @@
 package com.spring.collabee.biz.order;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class OrderVO {
 	private int orderNum;
 	private String orderName, orderPhone, orderAddr, orderPlace, orderRequest, orderMms;
-	private Date deliveryPick;
+	private Timestamp deliveryPick;
 	private int deliveryFee, totDiscount, totPrice, couponNum, usageAmount, ptNum, memberNum;
 	private String ptInstallment, orderAddrDetail, nmemberNum;
 	
@@ -68,11 +68,11 @@ public class OrderVO {
 		this.orderMms = orderMms;
 	}
 
-	public Date getDeliveryPick() {
+	public Timestamp getDeliveryPick() {
 		return deliveryPick;
 	}
 
-	public void setDeliveryPick(Date deliveryPick) {
+	public void setDeliveryPick(Timestamp deliveryPick) {
 		this.deliveryPick = deliveryPick;
 	}
 
@@ -165,6 +165,7 @@ public class OrderVO {
 				+ ", usageAmount=" + usageAmount + ", ptNum=" + ptNum + ", memberNum=" + memberNum + ", ptInstallment="
 				+ ptInstallment + ", orderAddrDetail=" + orderAddrDetail + ", nmemberNum=" + nmemberNum + "]";
 	}
+	
 	
 	
 }

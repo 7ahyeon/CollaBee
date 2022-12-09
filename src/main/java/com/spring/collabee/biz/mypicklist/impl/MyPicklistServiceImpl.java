@@ -1,6 +1,7 @@
 package com.spring.collabee.biz.mypicklist.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ public class MyPicklistServiceImpl implements MyPicklistService {
 	@Override
 	public List<MyPickListVO> getPickList(MemberVO mvo) {
 		return myPickListDAO.getPickList(mvo);
+	}
+
+	@Override
+	public int delPickList(Map<String, Integer> pickInfo) {
+		return myPickListDAO.delPickList(pickInfo);
 	}
 
 }

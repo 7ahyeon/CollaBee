@@ -109,10 +109,8 @@ $(function(){ //document load
 
 </head>
 <body>
-\${member } : ${member }
  	<header>
   		<%@ include file= "../common/header.jspf"%>
-<%-- 		<jsp:include page="../common/header.jspf" flush="true" /> --%>
     </header>
     
     <div id="container">
@@ -170,7 +168,7 @@ $(function(){ //document load
     
     
     <footer>
-		<jsp:include page="../common/footer.jspf" flush="true" />
+		<%@ include file= "../common/footer.jspf" %>
     </footer>
 </body>
 </html>

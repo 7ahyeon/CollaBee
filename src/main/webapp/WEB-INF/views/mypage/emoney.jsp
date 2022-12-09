@@ -17,7 +17,7 @@ $(function(){
 	
 	var mvo = { memberNum : ${loginMember.getMemberNum()} };
 	console.log(mvo); 
-	alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
+	//alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
  	
 	$.ajax("emoneyAjax.do",{ //emoney 히스토리가져오기
 		type: "post",
@@ -25,7 +25,7 @@ $(function(){
 		contentType: "application/json",
 		dataType: "json",
 		success: function(data){
-			alert("성공"); 
+			//alert("emoneyAjax 성공"); 
 			console.log(data);
 			//console.log(data[0].issueDate);
 			
@@ -44,7 +44,7 @@ $(function(){
 			
 		},
 		erroer: function(){
-			alert("실패");
+			alert("emoneyAjax실패");
 		}
 	}); //ajax끝 
 	
@@ -54,7 +54,7 @@ $(function(){
 		contentType: "application/json",
 		dataType: "json",
 		success: function(emoneyUsage){
-			//alert("성공> 받은 데이터 : " + emoneyUsage); 		
+			//alert("getTotEmoneyAjax 성공> 받은 데이터 : " + emoneyUsage); 		
 			console.log(emoneyUsage);
 			if(emoneyUsage == ""){
 				$('#totEmoney').val('0');					
@@ -76,7 +76,6 @@ $(function(){
  
    <header>
      	 <%@ include file= "../common/header.jspf" %>
-     <%--  <jsp:include page="../common/header.jspf" flush="true" /> --%>
    </header>
    
     <div id="container">
@@ -173,7 +172,7 @@ $(function(){
 	</div>
 
     <footer>
-    	<jsp:include page="../common/footer.jspf" flush="true" />
+    	<%@ include file= "../common/footer.jspf" %>
     </footer>
     
  </body>

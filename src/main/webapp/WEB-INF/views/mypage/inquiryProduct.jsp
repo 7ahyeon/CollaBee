@@ -14,7 +14,7 @@
  <body style="width: 1900px;">
  
    <header>
-      <jsp:include page="../common/header.jspf" flush="true" />
+		<%@ include file= "../common/header.jspf" %>
    </header>
    
     <div id="container">
@@ -167,7 +167,7 @@
 	</div>
 
     <footer>
-    	<jsp:include page="../common/footer.jspf" flush="true" />
+		<%@ include file= "../common/footer.jspf" %>
     </footer>
     
  </body>

@@ -16,7 +16,7 @@
 $(function(){	
 	var mvo = { memberNum : ${loginMember.getMemberNum()} };
 	console.log(mvo); 
-	alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
+	//alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
 
 	$.ajax("couponAjax.do",{ //COUPONBOX 뷰에서 가져오기
 		type: "post",
@@ -62,7 +62,6 @@ $(function(){
  
    <header>
   	 <%@ include file= "../common/header.jspf" %>
-      <%-- <jsp:include page="../common/header.jspf" flush="true" /> --%>
    </header>
    
     <div id="container">
@@ -149,7 +148,7 @@ $(function(){
 	</div>
 
     <footer>
-    	<jsp:include page="../common/footer.jspf" flush="true" />
+    	<%@ include file= "../common/footer.jspf" %>
     </footer>
     
  </body>

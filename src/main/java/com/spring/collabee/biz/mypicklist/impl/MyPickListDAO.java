@@ -1,6 +1,7 @@
 package com.spring.collabee.biz.mypicklist.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class MyPickListDAO {
 	public List<MyPickListVO> getPickList(MemberVO mvo) {
 		System.out.println("getPickList()실행 >> ");
 		return mybatis.selectList("mypageDAO.getPickList", mvo);
+	}
+	public int delPickList(Map<String, Integer> pickInfo) {
+		System.out.println("getPickList()실행 >> ");
+		return mybatis.delete("mypageDAO.delPickList", pickInfo);
 	}
 	
 	

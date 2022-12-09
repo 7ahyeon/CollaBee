@@ -36,7 +36,7 @@ $(function(){
 		    return false;
 		}
 		if (String(memberPassword) == password) {
-			alert("탈퇴 회원 상태 변경 실행");
+			alert("탈퇴 처리 되었습니다.");
 			leaveFrm.action= "leaveCollabee.do?id=${loginMember.id}";
 			leaveFrm.submit();	
 		}
@@ -44,7 +44,7 @@ $(function(){
   }//leaveCollabee()
   
   function cancellation () {
-    alert("탈퇴취소 회원정보수정[modify.html] 페이지 이동 ");
+    alert("탈퇴취소, 이전페이지로 이동합니다.");
     location.href="info.do";
   }
 
@@ -139,9 +139,8 @@ $(function(){
   
 <body>
     <header>
-      <jsp:include page="../common/header.jspf" flush="true" />
+          	 <%@ include file= "../common/header.jspf" %>
     </header>
-\${loginMember } : ${loginMember }
     <div id="container">
         <div class="row" id="mypage-top">
             <div class="col-sm-2"></div> 

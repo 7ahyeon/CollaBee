@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -170,12 +171,42 @@ public class mypageAjaxController {
 	
 	
 	//찜한상품
-	@RequestMapping("/getPickListAjax.do")
-	public List<MyPickListVO> getPickList(@RequestBody MemberVO mvo) {	
-		System.out.println("getPickList() 실행");	
-		System.out.println("받은값 : " + mvo);
-		return myPicklistService.getPickList(mvo);
+	@PostMapping("/getPickListAjax.do")
+	public String getPickList(@RequestBody MemberVO mvo, Model model) {	
+		System.out.println("getPickList() 실행>>");	
+		System.out.println("getPickList 받은값 : " + mvo);
+		
+		List<MyPickListVO> pickList = myPicklistService.getPickList(mvo);
+		
+		model.addAttribute("pickList", pickList);
+		System.out.println(" 보내기전 리스트 : " + pickList);
+		
+		return "/mypage/picklistAjax.jsp";
 	}
 	
+	/*찜한상품
+	@PostMapping("/getPickListAjax.do")
+	public String getPickList(@RequestBody MemberVO mvo, Model model) {	
+		System.out.println("getPickList() 실행>>");	
+		System.out.println("getPickList 받은값 : " + mvo);
+		
+		List<MyPickListVO> pickList = myPicklistService.getPickList(mvo);
+		
+		model.addAttribute("pickList", pickList);
+		System.out.println(" 보내기전 리스트 : " + pickList);
+		
+		return "/mypage/picklistAjax.jsp";
+	}
+	*/
+	
+	//찜한상품 목록에서 삭제
+	@RequestMapping("/delPickListAjax.do")
+	public int delPickList (@RequestBody Map<String, Integer> pickInfo) {
+		System.out.println("delPickList() 실행 ~~> 찜한상품 삭제");
+		System.out.println(">>>> 찜한상품 회원번호 : " + pickInfo.get("memberNum"));
+		System.out.println(">>>> 찜한상품 제품번호 : " + pickInfo.get("productNum"));
+		
+		return myPicklistService.delPickList(pickInfo);
+	}	
 	
 }

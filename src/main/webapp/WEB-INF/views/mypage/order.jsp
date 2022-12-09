@@ -116,9 +116,12 @@ function month6(){
 	periodSelect(period);
 }
 
+function inquiry(orderNum){
+	alert("1:1문의 클릭")
+}
 
 function periodSelect (period) {
-	alert(">>기간선택: " + period);
+	//alert(">>기간선택: " + period);
 	
 	var memberNum = ${loginMember.getMemberNum()}
 	var orderInfo = { "memberNum": memberNum, "period" : period }
@@ -130,7 +133,7 @@ function periodSelect (period) {
 		contentType: "application/json",
 		dataType: "json",
 		success: function(data){
-			alert("주문내역 불러오기 성공"); 		
+			//alert("주문내역 불러오기 성공"); 		
 			
 			var htmlTag = '';
 			$.each(data, function(index, orderList){ 
@@ -167,7 +170,7 @@ function periodSelect (period) {
 		 		htmlTag += '<div class="order-item-status">'
 				            + '<div style="width: 100px; text-align: center;" >' + orderList.deliveryStatus + '</div>'
 					            + '<div class="button-cover">'
-					            + '<button type="button" class="btn text-center borderbtn" onclick="inquiry()"><span>1:1 문의</span></button>'
+					            + '<button type="button" class="btn text-center borderbtn" onclick="inquiry('+ orderList.orderNum +')"><span>1:1 문의</span></button>'
 				            + '</div>'
 				         + '</div>';
 		 		htmlTag += '</div>';
@@ -186,16 +189,12 @@ function periodSelect (period) {
 
 
 
-	function orderDetail() {
-		alret("orderDetail.do 요청")
-	}
 </script>
 
 <body>
-Session에 저장된 \${loginMember } : ${loginMember }
+<%-- Session에 저장된 \${loginMember } : ${loginMember } --%>
    <header>
     	 <%@ include file= "../common/header.jspf" %>
-  <%--   <jsp:include page="../common/header.jspf" flush="true" /> --%>
    </header>
    
     <div id="container">
@@ -264,7 +263,8 @@ Session에 저장된 \${loginMember } : ${loginMember }
     
     
     <footer>
-      <jsp:include page="../common/footer.jspf" flush="true" />
+     <%@ include file= "../common/footer.jspf" %>
+      <%-- jsp:include page="../common/footer.jspf" flush="true" --%>
     </footer>
     </body>
 </html>

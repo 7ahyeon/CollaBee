@@ -228,7 +228,7 @@ function mdfyMember() {
 
 //회원탈퇴
 function requestLeave () {
-	alert("회원탈퇴클릭");
+	//alert("회원탈퇴클릭");
 	location.href = "leave.do";
 }
 
@@ -238,7 +238,7 @@ function requestLeave () {
 
  <body> 
    <header>
- 	<jsp:include page="../common/header.jspf" flush="true" />
+		<%@ include file= "../common/header.jspf" %>
    </header>
    
     <div id="container">

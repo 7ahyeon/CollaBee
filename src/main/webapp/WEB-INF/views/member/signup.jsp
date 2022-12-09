@@ -380,7 +380,7 @@ function confirmEmail () {
 </script>
 
 <body>
-\${confirmIdResult} : ${confirmIdResult}
+<%-- \${confirmIdResult} : ${confirmIdResult} --%>
 	<header>
 		<%@ include file="../common/header.jspf" %> 
 		<%-- <jsp:include page="../common/header.jspf" flush="true" /> --%>
@@ -682,7 +682,8 @@ function confirmEmail () {
     </div>
     
     <footer>
-		<jsp:include page="../common/footer.jspf" flush="true" />
+   		<%@ include file= "../common/footer.jspf" %>
+		<%-- <jsp:include page="../common/footer.jspf" flush="true" /> --%>
     </footer>
     
 </body>

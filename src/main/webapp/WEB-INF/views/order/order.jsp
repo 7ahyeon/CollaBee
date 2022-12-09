@@ -296,43 +296,43 @@
 			    			<tbody>
 			    				<tr>
 				    				<td style="color:#9A30AE;font-weight:bold;">~06:00까지</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick" checked> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
 			    				</tr>
 			    				<tr>
 				    				<td style="color:#9A30AE;font-weight:bold;">06:00~10:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
 			    				</tr>
 			    				<tr>
 				    				<td style="color:#9A30AE;font-weight:bold;">10:00~13:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
 			    				</tr>
 			    				<tr>
 				    				<td style="color:#9A30AE;font-weight:bold;">13:00~17:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
 			    				</tr>
 			    				<tr>
 				    				<td style="color:#9A30AE;font-weight:bold;">17:00~21:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
+				    				<td></td>
 			    				</tr>
 			    			</tbody>
 			    		</table>
@@ -716,13 +716,17 @@ function openList() {
 $(function() {
 	let today = new Date();
 	var dateHtml = '';
+	var dateVal = '';
+	var deliveryHtml = '';
+	var timeVal = '';
 	
 	for(var i = 1; i < 6; i++) {
-		var tomorrow = new Date(today.getDate() + i);
+		var tomorrow = new Date(today.setDate(today.getDate()+1));
+		var year = tomorrow.getFullYear();
 		var month = tomorrow.getMonth() + 1;
 		var date = tomorrow.getDate();
 		var day = tomorrow.getDay();
-		alert(tomorrow);
+		
 		if (day == 0 ) {
 			day = '일';
 		} else if (day == 1) {
@@ -741,6 +745,29 @@ $(function() {
 		
 		dateHtml = month + '/' + date + ' (' + day + ')';
 		$(".deliveryTable").find("thead").find("th:eq(" + i + ")").html(dateHtml);
+		
+		for (var t = 0; t < 5; t++) {
+			if (t == 0) {
+				timeVal = ' 06:00:00';
+			} else if (t == 1) {
+				timeVal = ' 10:00:00';
+			} else if (t == 2) {
+				timeVal = ' 13:00:00';
+			} else if (t == 3) {
+				timeVal = ' 17:00:00';
+			} else if (t == 4) {
+				timeVal = ' 21:00:00';
+			}
+			
+			dateVal = year + '-' + month + '-' + date;
+			
+			if (i == 1 && t == 0) {
+				deliveryHtml = '<label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick" checked> 예약가능</label>';
+			} else {
+				deliveryHtml = '<label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick"> 예약가능</label>';
+			}
+			$(".deliveryTable").find("tbody").find("tr:eq(" + t + ")").find("td:eq(" + i + ")").html(deliveryHtml);
+		}
 	}
 	
 	

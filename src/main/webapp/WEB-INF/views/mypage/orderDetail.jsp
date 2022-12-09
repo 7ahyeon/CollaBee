@@ -9,7 +9,7 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/mypageStyle.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/orderDetail.css">
-
+	
 <script>
 $(function(){
 	
@@ -23,7 +23,7 @@ $(function(){
 		contentType: "application/json",
 		dataType: "json",
 		success: function(data){
-			alert("주문내역 불러오기 성공"); 		
+			//alert("주문내역 불러오기 성공"); 		
 			console.log(data);
 			
 			var htmlTag1 = '';
@@ -115,7 +115,7 @@ $(function(){
 							+ ' <span class="content">' + orderList.orderPlace + '</span>'
 						+ ' </li>';	
 				htmlTag2 += '<li>'
-							+ '<span class="title2">공동현관 출입방법 orderRequest</span>'
+							+ '<span class="title2">공동현관 출입방법</span>'
 							+ ' <span class="content">' + orderList.orderRequest + '</span>'
 						+ ' </li>';	
 				htmlTag2 += '<li>'
@@ -132,7 +132,7 @@ $(function(){
            
 		},
 		error: function(){
-			alert("getOrderDetailAjax 실패")
+			alert("주문내역을 불러올 수 없습니다.")
 		}
 	});//ajax끝
 	
@@ -141,6 +141,7 @@ $(function(){
 </script>
 
 <script>
+	//개별 상품 다시 담기
 	function reAdd(goodsNum) {
 		// 상품 개수
 		var goodsCount = 1;
@@ -174,6 +175,18 @@ $(function(){
 			}
 		}); 
 	}
+	
+	//전체 주문 상품 다시 담기
+	function allReAdd(){
+		alert("전체 주문 상품 다시 담기");
+	}
+	
+	//전체 주문 취소
+	function orderCancel(){
+		alert("전체 주문 취소");
+	}
+	
+	
 </script>
 
 </head>
@@ -181,7 +194,6 @@ $(function(){
  
    <header>
 		<%@ include file= "../common/header.jspf" %>
-      <!-- <jsp:include page="../common/header.jspf" flush="true" /> -->
    </header>
    
     <div id="container">
@@ -213,7 +225,7 @@ $(function(){
                   <div id="category-name" style="display: inline-block;">
                     <h4 style="margin-right: 20px; margin-bottom: 35px; ">주문 내역 상세</h4>
                   </div>
-                  <div class="orderNumArea"><h5 class="font-weight-bold" id="orderNum">주문번호 2282501150018</h5><a id="inquiryLink" onclick="inquiry()">1:1문의 하기 ></a></div>
+                  <div class="orderNumArea"><h5 class="font-weight-bold" id="orderNum">주문번호 <%= request.getParameter("orderNum") %></h5><a id="inquiryLink" onclick="inquiry()">1:1문의 하기 ></a></div>
               </div>
             </div>
 				
@@ -230,6 +242,7 @@ $(function(){
                 <button class="btn whiteBtn" type="button" width="200" height="56" radius="3" onclick="allReAdd()"><span>전체 상품 다시 담기</span></button>
                 <button class="btn greyBtn" type="button" width="200" height="56" radius="3" onclick="orderCancel()"><span>전체 상품 주문 취소</span></button>
               </div>
+
 
               <!-- 안내 -->
               <div class="notice"><span>주문취소는 [주문완료] 상태일 경우에만 가능합니다.</span></div>
