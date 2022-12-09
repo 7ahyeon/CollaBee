@@ -14,6 +14,7 @@
 	    WHERE P.DIVISION_NUM = DI.DIVISION_NUM
 		  AND P.STORAGE_NUM = C.STORAGE_NUM
 		  AND P.DELIVERY_CODE = DE.DELIVERY_CODE
+		  AND PRODUCT_DEL = 'N'
 		ORDER BY P.PRODUCT_NUM
 	</select>
 	
@@ -29,6 +30,7 @@
 		  AND P.STORAGE_NUM = C.STORAGE_NUM
 		  AND P.DELIVERY_CODE = DE.DELIVERY_CODE
           AND DI.CATEGORY_NUM = CA.CATEGORY_NUM
+          AND P.PRODUCT_NUM = #{productNum }
 		ORDER BY P.PRODUCT_NUM
 	</select>
 	
@@ -37,17 +39,28 @@
 	 	INSERT INTO PRODUCT (PRODUCT_NUM, PRODUCT_NAME, DESCRIPTION, PRICE, DIS_RATE, SALEPRICE, REGDATE, STOCK, 
 	 						 THUM_ORI_FILENAME, THUM_SYS_FILENAME, DETAILE_ORI_FILENAME, DETAILE_SYS_FILENAME,
 	 						 DELIVERY_CODE, DIS_DATE, DIVISION_NUM, STORAGE_NUM)
-		VALUES (PRODUCT_SEQ.NEXTVAL, #{productName}, #{pDescription}, #{price}, #{disRate}, #{saleprice}, #{regdate}, #{stock},
-        		#{thumOriFilename}, #{thumSysFilename}, #{detaileOriFilename}, #{detaileSysFilename}, #{deliveryCode}, #{disDate}, #{divisionNum}, #{storageNum})
+		VALUES (PRODUCT_SEQ.NEXTVAL, #{productName}, #{pDescription}, #{price}, #{disRate}, #{saleprice}, SYSDATE, #{stock},
+        		#{thumOriFilename } , #{thumSysFilename }, #{detaileOriFilename }, #{detaileSysFilename }, #{deliveryCode}, #{disDate}, #{divisionNum}, #{storageNum})
+
 	</insert>  
 	
-	<!-- <update id="adminGoodsModify" parameterType="goods">
-		
+	<update id="adminGoodsModify" parameterType="goods">
+		UPDATE PRODUCT 
+		   SET PRODUCT_NAME = #{productName}, DESCRIPTION = #{pDescription}, PRICE = #{price}, DIS_RATE = #{disRate}, SALEPRICE = #{saleprice}, DIS_DATE = #{disDate}, STORAGE_NUM = #{storageNum}, DELIVERY_CODE = #{deliveryCode},
+			   STOCK = #{stock}, DIVISION_NUM = #{divisionNum}, THUM_ORI_FILENAME = #{thumOriFilename}, THUM_SYS_FILENAME = #{thumSysFilename}, DETAILE_ORI_FILENAME = #{detaileOriFilename}, DETAILE_SYS_FILENAME = #{detaileSysFilename}
+		 WHERE PRODUCT_NUM = #{productNum}
 	</update>
 	
 	<delete id="adminGoodsDelete" parameterType="goods">
-		
-	</delete> -->
+		UPDATE PRODUCT
+		   SET PRODUCT_DEL = 'Y'
+		 WHERE PRODUCT_NUM = #{productNum}
+	</delete>
+	
+	<!-- 판매자(관리자) 조회-->
+	<select id="adminName" parameterType="memberVO" resultType="memberVO">
+		SELECT NAME	FROM MEMBER	WHERE MEMBER_NUM = 100
+	</select>
 	
 </mapper>
 

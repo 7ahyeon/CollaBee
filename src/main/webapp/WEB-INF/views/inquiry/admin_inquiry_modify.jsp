@@ -122,46 +122,20 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-      	<h2>관리자센터</h2>
+       <div style="width: 250px;">
+        <!-- 관리자일때 -->
+        <c:if test="${loginMember.id eq 'admin'}"> 
+        <h2>관리자 목록</h2>
         <br>
-		<div>
-            <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품등록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품목록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="../board/notice.do">공지사항</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="../faq/faq.do">자주하는 질문</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="inquiry.do">1:1문의</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">쿠폰발행</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">배송관리</a>
-                <span>></span>
-            </li>
-            </ul>
-        </div>
+		<%@ include file = "../admin/adminSideNav.jspf" %>
+       </c:if>
+      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
           <h4>1:1 문의 답변 수정</h4>
         </div>
-<div>
+		<div>
          <form name="frm" method="post" enctype="multipart/form-data">
           <table class="table">
             <tbody>
@@ -225,10 +199,9 @@
 	        alert("답변을 입력해주세요.");
 	      return false;
 	    } else {
-	    	alert(inquiryNum)
+	    	alert("답변 수정되었습니다.");
 	      	frm.action="answerInquiry.do?inquiryNum="+inquiryNum;
 	      	frm.submit();
-	      alert("1:1 문의 답변 등록 완료 !");
 	    }
 	  }
 </script>

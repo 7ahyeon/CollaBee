@@ -39,6 +39,11 @@
 		WHERE MEMBER_NUM = #{memberNum}
 	</select>
 	
+	<select id="delPickList" parameterType="Map" resultType="int"> 
+		DELETE FROM PICK 
+		WHERE MEMBER_NUM = #{memberNum} AND PRODUCT_NUM = #{productNum}
+	</select>
+	
 	<!-- 주문목록조회  -->
 	<select id="getOrderList" parameterType="Map" resultType="orderListVO">
 		SELECT	*

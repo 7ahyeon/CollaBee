@@ -2,12 +2,16 @@ package com.spring.collabee.biz.coupons;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 
 public class CouponsVO {
 
 	private int couponNum, count, leastCost, disPrice;
 	private String couponName;
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date couponDate, regdate;
 	
 	

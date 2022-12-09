@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -100,88 +102,108 @@ function setThumbnail(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 }
+
+
+function edit_coupon() {
+	
+	if ($("#coupon-edit-btn-1").css("display") != "none"){
+		$(".edit-form").each(function(){
+			$(this).attr("disabled", false);
+		});
+		
+		$(".first-show").each(function(){
+			$(this).css("display", "none");
+		});
+		$(".second-show").each(function(){
+			$(this).css("display", "inline-block");
+		});
+		
+	} else {
+		$(".edit-form").each(function(){
+			$(this).attr("disabled", true);
+		});
+		
+		$(".first-show").each(function(){
+			$(this).css("display", "inline-block");
+		});
+		$(".second-show").each(function(){
+			$(this).css("display", "none");
+		});
+	}
+}
+
+function update_coupon(){
+	location.href = "couponsModify.do?couponNum=${coupons.couponNum }";
+}
 </script>
 </head>
 
 <body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
 
+	<div class="container-fluid">
 	<!-- header -->
     <header>
 	    <%@ include file = "../common/header.jspf" %>
 	</header>
 	
-<div class="container-fluid">
-    <br><br><br>
 
     <!-- 사이드바 -->
+    
+    <script>
+    	function update_coupon(frm){
+    		console.log(frm);
+    		frm.submit();
+    	}
+    </script>
 
-    <div class="row" style="margin-bottom: 50px;">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-2">
-        <div style="width: 250px;">
-        <h2>관리자 목록</h2>
-        <br>
-        <div>
-            <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품등록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품목록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">공지사항</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">자주하는 질문</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">1:1문의</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">쿠폰발행</a>
-                <span>></span>
-            </li>
-            </ul>
-        </div>
-        </div>
-    </div>
+    <div class="row" style="padding-top:50px; padding-bottom: 50px">
+	    <div class="col-sm-2"></div>
+	    <div class="col-sm-2">
+	        <div style="width: 250px;">
+		        <h2>관리자 목록</h2>
+		        <br>
+	        	<%@ include file = "./adminSideNav.jspf" %>
+	        </div>
+    	</div>
 
-    <!-- 메인 -->
-    <div class="col-sm-6">
-        <div style="width: 800px;">
-        <div class="main" style="border-bottom:2px solid black";>
-            <h4>쿠폰 조회</h4>
-        </div>
-        <br>
-            <form id="form" name="form" method="post">
-                쿠폰번호 <input class="form-control form-control" name="couponNum" value="${coupons.couponNum}" disabled/>
-                <br>
-                쿠폰명 <input class="form-control form-control" name="couponName" value="${coupons.couponName}" disabled/>
-                <br>
-                할인금액 <input class="form-control form-control" name="disPrice" value="${coupons.disPrice}" disabled/>
-                <br>
-                수량 <input class="form-control form-control" name="count" value="${coupons.count}" disabled/>
-                <br>
-                유효기간 <input class="form-control form-control" name="couponDate" value="${coupons.couponDate}" disabled/>
-                <br>
-                최소 구매금액 <input class="form-control form-control" name="leastCost" value="${coupons.leastCost}" disabled/>
-                <br>  
-            </form>
 
-        <div class="col-sm-2"></div>
-        </div>
-    </div>
-    </div>
-    <div style="display: flex; justify-content: center;">
-        <button class="inquiry_btn" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px;">수정</button>
-        <button class="inquiry_btn" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px;">삭제</button>
-    </div>
+	    <!-- 메인 -->
+	    <div class="col-sm-6">
+	        <form action="couponsModify.do" id="coupon-form" method="post">
+	        	<div style="width: 800px;">
+			        <div class="main" style="border-bottom:2px solid black";>
+			            <h4>쿠폰 조회</h4>
+			        </div>
+			        <br>
+			                쿠폰번호 <input type="number" class="form-control edit-form" name="couponNum" value="${coupons.couponNum}" disabled/>
+			                <br>
+			                쿠폰명 <input type="text" class="form-control edit-form" name="couponName" value="${coupons.couponName}" disabled/>
+			                <br>
+			                할인금액 <input type="number" class="form-control edit-form" name="disPrice" value="${coupons.disPrice}" disabled/>
+			                <br>
+			                수량 <input type="number" class="form-control edit-form" name="count" value="${coupons.count}" disabled/>
+			                <br>
+			                유효기간 <div class="form-control first-show" style="display: inline-block;">
+			                <fmt:formatDate value="${coupons.couponDate }" pattern="yyyy-MM-dd" />
+		                </div>
+		                <input type="date" class="form-control edit-form second-show" name="couponDate" style="display: none;"/>
+			                
+			                <br>
+			                <br>
+			                최소 구매금액 <input type="number" class="form-control edit-form" name="leastCost" value="${coupons.leastCost}" disabled/>
+			                <br>  
+			
+				    <div style="display: flex; justify-content: center;">
+				        <button id="coupon-edit-btn" class="inquiry_btn first-show" onclick="edit_coupon()" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px;">수정</button>
+				        <button class="inquiry_btn first-show" onclick="javascript:location.href='couponsDelete.do?couponNum=${coupons.couponNum }'" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px;">삭제</button>
+				        <button class="inquiry_btn second-show" onclick="update_coupon(this.form)" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px; display: none;">저장</button>
+				        <button class="inquiry_btn second-show" onclick="edit_coupon()" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px; display: none;">취소</button>
+				    </div>
+			    </div>
+			</form>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
 </body>
   <br><br>
     <!-- footer -->

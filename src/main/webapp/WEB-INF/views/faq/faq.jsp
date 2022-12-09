@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<jsp:scriptlet> pageContext.setAttribute("newline", "\n"); </jsp:scriptlet>        
 <!DOCTYPE html>
 <html>
 
@@ -174,25 +172,51 @@
       }
     }
     
-    $(document).ready(function() {
-    	  $('#selectBox').change(function() {
-    	    var result = $('#selectBox option:selected').val();
-    	    if (result == '전체') {
-    	      $('.faq_a').show();
-    	    } else if (result == '회원') {
-    	      $('.faq_a').show();
-    	    } else if (result == '상품') {
-    	      $('.faq_a').hide();
-    	    } else if (result == '주문/결제') {
-    	      $('.faq_a').hide();
-    	    } else if (result == '배송') {
-    	      $('.faq_a').hide();
-    	    } else if (result == '쿠폰/적립금') {
-      	      $('.faq_a').show();
-    	    }
-    	  }); 
-    	}); 
-  </script>
+    $().ready(function(){
+    	getFaqList();
+    });
+
+	function getFaqList() {
+		var dataSend = {
+				faqType : $("select[name=location]").val()
+			};
+	$.ajax("getFaqList.do", {
+		type: "POST",
+		data: JSON.stringify(dataSend),
+		dataType: "json",
+		contentType : "application/json",
+		success: function(data){
+/* 			alert("카테고리 머냐면 : "+ $("select[name=location]").val());
+			alert("성공~~"); */
+			console.log(data);
+			
+			let dispHtml = "";
+			for (let FaqVO of data) {
+				  dispHtml +="<div class='card-header'>";
+				  dispHtml +="<a class='card-link' data-toggle='collapse' href='#collapseOne"+FaqVO.faqNum+"'>";
+				  dispHtml +="<span style='width: 75px; display: inline-block;'>"+FaqVO.faqNum +"</span>";
+				  dispHtml +="<span style='width: 150px; display: inline-block;' class='"+FaqVO.faqType +"'>"+FaqVO.faqType +"</span>";
+				  dispHtml +="<span style='width: 630px; display: inline-block;'>"+FaqVO.faqTitle +"</span></a>"; 
+				  dispHtml +="</div>";
+				  dispHtml += "<div id='collapseOne"+FaqVO.faqNum+"' class='collapse' data-parent='#accordion'>";
+				  dispHtml += "<div class='card-body'>";
+				  dispHtml += "<div class='card_answer'>";
+				  dispHtml += FaqVO.faqContent
+				  dispHtml += "</div>";
+				  dispHtml += "</div></div>";
+			} 
+			
+			$("#type_faq").html(dispHtml);
+		},
+		error: function(){
+			alert("실패!~~");
+		}
+	}); 
+}
+
+
+</script>
+	
 
 </head>
 
@@ -207,72 +231,25 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-       <!-- 회원일때 -->
+      <div style="width: 250px;">
+       <!-- 회원일때  --> 
+		<c:if test="${loginMember.id ne 'admin'}"> 
         <h2>고객센터</h2>
         <br>
-        <div>
-          <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="../board/notice.do" width="100%">공지사항</a>
-              <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="faq.do">자주하는 질문</a>
-              <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="../inquiry/inquiry.do">1:1 문의</a>
-              <span>></span>
-            </li>
-          </ul>
-        </div>
-        <!-- 관리자일때 -->
-        <!-- 
-        <h2>관리자센터</h2>
-        <br>
-        <div>
-            <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품등록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품목록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="notice.jsp">공지사항</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="faq.jsp">자주하는 질문</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="inquiry.jsp">1:1문의</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">쿠폰발행</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">배송관리</a>
-                <span>></span>
-            </li>
-            </ul>
-        </div>-->
+		<%@ include file = "../admin/userSideNav.jspf" %>
+        </c:if>
+      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
           <h4>자주하는 질문<span> 고객님들께서 가장 자주하시는 질문을 모두 모았습니다.</span>
-             <div class="dropdown" style="width: 180px; border-radius: 0; float: right; padding-bottom: 0.5cm;">
-              <select id="selectBox" name="selectBox" class="form-control">
+             <div id="option" class="dropdown" style="width: 180px; border-radius: 0; float: right; padding-bottom: 0.5cm;" >
+              <select name="location" class="form-control">
                 <option value="전체" selected="selected">전체</option>
                 <option value="회원">회원</option>
-                <option value="상품">상품</option>
+                <option value="상품" >상품</option>
                 <option value="주문/결제">주문/결제</option>
-                <option value="배송">배송</option>
+                <option value="배송" >배송</option>
                 <option value="쿠폰/적립금">쿠폰/적립금</option>
               </select>
             </div> 
@@ -287,32 +264,8 @@
           </div>
           <div class="faq_a">
 		      <div id="accordion">
-	           <c:if test="${not empty faqList }"> 
-	           <c:forEach varStatus="status" var="faq" items="${faqList }">
-              <div class="card">
-                <div class="card-header">
-                  <a class="card-link" data-toggle="collapse" href="#collapseOne${status.index }">
-					<span style="width: 75px; display: inline-block;">${faq.faqNum }</span>
-					<span style="width: 150px; display: inline-block;" vaule="${faq.faqType }">${faq.faqType }</span>
-                    <span style="width: 630px; display: inline-block;">${faq.faqTitle }</span>
-                  </a>
-                </div>
-                <div id="collapseOne${status.index }" class="collapse" data-parent="#accordion">
-                  <div class="card-body">
-	                    <div class="card_answer">
-	                  	<c:out value="${fn:replace(faq.faqContent, newline, '<br>')}" escapeXml="false"/>
-	                    </div>
-	                    <!--관리자일때만-->
-	                    <div style="text-align: right;">
-	                      <a href="faq_modify.do?faqNum=${faq.faqNum }" style="font-size:9pt; color: darkgray; text-decoration: none;">수정</a>
-	                      <a onclick="faq_delete(${faq.faqNum })" style="font-size:9pt; color: darkgray; text-decoration: none;">삭제</a>
-	                    </div>
-	                    <!---->
-                    </div>
-                  </div>
-                </div>
-             </c:forEach>
-	        </c:if>
+              <div class="card" id="type_faq">
+               </div>
           </div>
          </div>
 
@@ -324,7 +277,6 @@
               <button class="btn2">
                 <i class="bi bi-chevron-right"></i>
               </button>
-              <button class="faq_btn" type="button" onclick="location.href='faq_write.do'">등록하기</button>
             </div>
           </div>
         </div>
@@ -336,4 +288,11 @@
        <%@ include file = "../common/footer.jspf" %>	
      </footer>           
 </body>
+<script>
+		$("select[name=location]").change(function(){
+			  console.log($(this).val()); //value값 가져오기
+			  getFaqList();
+			  //console.log($("select[name=location] option:selected").text()); //text값 가져오기
+			});
+</script>	
 </html>

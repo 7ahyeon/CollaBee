@@ -122,24 +122,11 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
+      <div style="width: 250px;">
         <h2>고객센터</h2>
         <br>
-        <div>
-          <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="../board/notice.do" width="100%">공지사항</a>
-              <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="../faq/faq.do">자주하는 질문</a>
-              <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="inquiry.do">1:1 문의</a>
-              <span>></span>
-            </li>
-          </ul>
-        </div>
+		<%@ include file = "../admin/userSideNav.jspf" %>
+      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
@@ -232,9 +219,9 @@
       }
       return false;
     } else {
-      	frm.action="insertInquiry.do"
+    	alert("1:1 문의가 등록되었습니다.");
+      	frm.action="insertInquiry.do?memberNum=${loginMember.memberNum}"
       	frm.submit();
-      alert("1:1 문의 글 등록 완료 !");
     }
   }
   

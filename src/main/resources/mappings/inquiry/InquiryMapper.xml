@@ -19,7 +19,7 @@
 	
 	<insert id="insertInquiry" parameterType="inquiry">
 		INSERT INTO INQUIRY (INQUIRY_NUM,MEMBER_NUM,INQUIRY_TYPE,INQUIRY_SUB_TYPE,INQUIRY_TITLE,INQUIRY_CONTENT,ORI_FILENAME,SYS_FILENAME,INQUIRY_DATE)
-	 	VALUES ((SELECT NVL(MAX(INQUIRY_NUM),0) + 1 FROM INQUIRY),0,#{inquiryType},#{inquirySubType},#{inquiryTitle},#{inquiryContent},#{oriFilename},#{sysFilename},SYSDATE)
+	 	VALUES ((SELECT NVL(MAX(INQUIRY_NUM),0) + 1 FROM INQUIRY),#{memberNum},#{inquiryType},#{inquirySubType},#{inquiryTitle},#{inquiryContent},#{oriFilename},#{sysFilename},SYSDATE)
 	</insert>
 	
 	<delete id="deleteInquiry" parameterType="inquiry">

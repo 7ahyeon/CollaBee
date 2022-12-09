@@ -11,4 +11,5 @@ public interface AdminGoodsService {
 	void adminGoodsDelete(GoodsVO vo);
 	GoodsVO adminGoodsSelect(GoodsVO vo);
 	List<GoodsVO> adminGoodsList(GoodsVO vo);
+	GoodsVO adminName(GoodsVO vo);
 }

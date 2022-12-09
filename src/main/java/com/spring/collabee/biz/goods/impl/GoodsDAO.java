@@ -33,6 +33,18 @@ public class GoodsDAO {
 		System.out.println("--->> mybatis 사용 getReviewList() 실행 ~");
 		return mybatis.selectList("GoodsDAO.getReviewList", rvo);
 	}
+	
+	//상품 후기 추천순 보기
+	public List<GoodsReviewVO> getRecommendList(GoodsReviewVO rvo) {
+		System.out.println(">> getRecommendList() 실행");
+		return mybatis.selectOne("GoodsDAO.getRecommendList", rvo);
+	}
+	
+	//상품 후기 최근등록순 보기
+	public List<GoodsReviewVO> getRecentList(GoodsReviewVO rvo) {
+		System.out.println(">> getRecentList() 실행");
+		return mybatis.selectOne("GoodsDAO.getRecentList", rvo);
+	}
 
 	//상품 후기 입력
 	public void insertReview(GoodsReviewVO rvo) {
@@ -44,6 +56,11 @@ public class GoodsDAO {
 	public void updateReview(GoodsReviewVO rvo) {
 		System.out.println("updateReview() 실행 ~");
 		mybatis.update("GoodsDAO.updateReview", rvo);
+	}
+	
+	public void updatePoint(GoodsReviewVO rvo) {
+		System.out.println("updatePoint() 실행");
+		mybatis.update("GoodsDAO.updatePoint", rvo);
 	}
 
 	//상품 후기 삭제
@@ -87,6 +104,8 @@ public class GoodsDAO {
 	
 	
 	//상품 문의 답변(관리자)
+	
+	
 	
 	
 }

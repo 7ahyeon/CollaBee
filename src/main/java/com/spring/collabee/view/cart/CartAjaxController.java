@@ -22,6 +22,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
+import com.spring.collabee.biz.goods.GoodsVO;
 import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderMemberVO;
 import com.spring.collabee.biz.order.OrderVO;
@@ -50,92 +51,106 @@ public class CartAjaxController {
 		cart.setProductNum(Integer.parseInt(productNum));
 		cart.setCount(Integer.parseInt(count));
 		
-		if (cookie == null && mvo == null) {
-			// 비회원 장바구니 상품 첫 추가시 쿠키 생성
-			String nmemberNum = RandomStringUtils.random(6, true, true);
-			Cookie cartCookie = new Cookie("cartCookie", nmemberNum);
+		GoodsVO chk = cartService.goodsStatus(cart);
+		if (chk.getStock() == 0 || String.valueOf(chk.getProductDel()) == "Y" ) {
+			// 구매 불가 상품
+			return 0;
+		} else {
 			
-			// 비회원 데이터 유지기간 최대 3일 
-			cartCookie.setPath("/");
-			cartCookie.setMaxAge(60 * 60 * 24 * 3);
-			response.addCookie(cartCookie);
-			
-			ovo.setNmemberNum(nmemberNum);
-			model.addAttribute("nmember", ovo);
-			// 비회원 상품 추가
-			cart.setNmemberNum(nmemberNum);
-			cartService.insertCart(cart);
-			
-			return 1;
-			
-		} else if (cookie != null && mvo == null) {
-			// 비회원 장바구니 상품 추가
-			String nmemberNum = cookie.getValue();
-			
-			// 비회원 데이터 유지기간 최대 3일 
-			cookie.setPath("/");
-			cookie.setMaxAge(60 * 60 * 24 * 3);
-			response.addCookie(cookie);
-			
-			// 비회원 상품 추가
-			cart.setNmemberNum(nmemberNum);
-			// 장바구니 상품 존재 여부 확인
-			CartVO confirm = cartService.checkCartList(cart);
-			if (confirm == null) {
-				// 비존재시 장바구니 추가 1 리턴
+			if (cookie == null && mvo == null) {
+				// 비회원 장바구니 상품 첫 추가시 쿠키 생성
+				String nmemberNum = RandomStringUtils.random(6, true, true);
+				Cookie cartCookie = new Cookie("cartCookie", nmemberNum);
+				
+				// 비회원 데이터 유지기간 최대 3일 
+				cartCookie.setPath("/");
+				cartCookie.setMaxAge(60 * 60 * 24 * 3);
+				response.addCookie(cartCookie);
+				
+				ovo.setNmemberNum(nmemberNum);
+				model.addAttribute("nmember", ovo);
+				// 비회원 상품 추가
+				cart.setNmemberNum(nmemberNum);
 				cartService.insertCart(cart);
 				
 				return 1;
-			} else {
-				int countAdd = confirm.getCount();
-				int stock = confirm.getStock();
 				
-				// 존재시 재고보다 적다면 추가 2 리턴
-				if (stock > countAdd) {
-					countAdd += cart.getCount();
-					if (countAdd > stock) {
-						countAdd = stock;
-					}
-					cart.setCount(countAdd);
-					cartService.updateCart(cart);
+			} else if (cookie != null && mvo == null) {
+				// 비회원 장바구니 상품 추가
+				String nmemberNum = cookie.getValue();
+				
+				// 비회원 데이터 유지기간 최대 3일 
+				cookie.setPath("/");
+				cookie.setMaxAge(60 * 60 * 24 * 3);
+				response.addCookie(cookie);
+				
+				// 비회원 상품 추가
+				cart.setNmemberNum(nmemberNum);
+				// 장바구니 상품 존재 여부 확인
+				CartVO confirm = cartService.checkCartList(cart);
+				if (confirm == null) {
+					// 비존재시 장바구니 추가 1 리턴
+					cartService.insertCart(cart);
 					
-					return 2;
+					return 1;
 				} else {
-					// 이미 재고와 같을 때 3 리턴
-					return 3;
-				}
-			}
-		} else if (mvo != null) {
-			//회원 장바구니 상품 추가
-			cart.setMemberNum(mvo.getMemberNum());
-			// 장바구니 상품 존재 여부 확인
-			CartVO confirm = cartService.checkCartList(cart);
-			if (confirm == null) {
-				// 비존재시 장바구니 추가 1 리턴
-				cartService.insertCart(cart);
-				
-				return 1;
-			} else {
-				int countAdd = confirm.getCount();
-				int stock = confirm.getStock();
-				
-				// 존재시 재고보다 적다면 추가 2 리턴
-				if (stock > countAdd) {
-					countAdd += cart.getCount();
-					if (countAdd > stock) {
-						countAdd = stock;
-					}
-					cart.setCount(countAdd);
-					cartService.updateCart(cart);
+					int countAdd = confirm.getCount();
+					int stock = confirm.getStock();
 					
-					return 2;
-				} else {
-					// 이미 재고와 같을 때 3 리턴
-					return 3;
+					// 존재시 재고보다 적다면 추가 2 리턴
+					if (stock > countAdd) {
+						countAdd += cart.getCount();
+						if (countAdd > stock) {
+							countAdd = stock;
+						}
+						if (countAdd > 10 ) {
+							countAdd = 10;
+						}
+						cart.setCount(countAdd);
+						cartService.updateCart(cart);
+						
+						return 2;
+					} else {
+						// 이미 재고와 같을 때 3 리턴
+						return 3;
+					}
 				}
-			}
-		} 
-		return 0;
+			} else if (mvo != null) {
+				//회원 장바구니 상품 추가
+				cart.setMemberNum(mvo.getMemberNum());
+				// 장바구니 상품 존재 여부 확인
+				CartVO confirm = cartService.checkCartList(cart);
+				if (confirm == null) {
+					// 비존재시 장바구니 추가 1 리턴
+					cartService.insertCart(cart);
+					
+					return 1;
+				} else {
+					int countAdd = confirm.getCount();
+					int stock = confirm.getStock();
+					
+					// 존재시 재고보다 적다면 추가 2 리턴
+					if (stock > countAdd) {
+						countAdd += cart.getCount();
+						if (countAdd > stock) {
+							countAdd = stock;
+						}
+						if (countAdd > 10 ) {
+							countAdd = 10;
+						}
+						cart.setCount(countAdd);
+						cartService.updateCart(cart);
+						
+						return 2;
+					} else {
+						// 이미 재고와 같을 때 3 리턴
+						return 3;
+					}
+				}
+			} 
+		}
+			
+		return 4;
 	}
 	
 	@RequestMapping(value = "/updateCart.do", method = RequestMethod.POST)

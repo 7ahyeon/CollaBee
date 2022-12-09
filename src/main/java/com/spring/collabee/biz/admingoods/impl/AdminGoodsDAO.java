@@ -51,6 +51,14 @@ public class AdminGoodsDAO {
 		
 		return mybatis.selectOne("adminGoodsDAO.adminGoodsSelect", vo);
 	}
+
+
+	//판매자 조회
+	public GoodsVO adminName(GoodsVO vo) {
+		System.out.println(">> Mybatis 사용 adminName(vo) 실행");
+		
+		return mybatis.selectOne("adminGoodsDAO.adminName", vo);
+	}
 	
 	
 	

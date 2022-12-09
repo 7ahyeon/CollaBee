@@ -9,6 +9,31 @@
 			, #{couponDate }, #{regdate }, #{count }, #{leastCost }
 		)
 	</insert>	
+	
+	<select id="couponsList" parameterType="coupons" resultType="coupons">
+		SELECT * FROM COUPON
+	</select>
+	
+	<select id="couponsListAvail" resultType="coupons">
+		SELECT * FROM COUPON 
+		WHERE COUPON_DATE NOT BETWEEN '2000/12/01' AND SYSDATE-1
+	</select>
+	
+	<select id="couponsSelect" parameterType="coupons" resultType="coupons">
+		SELECT * FROM COUPON WHERE COUPON_NUM = #{couponNum }
+	</select>
+	
+	<update id="couponsModify" parameterType="coupons">
+		UPDATE COUPON SET COUPON_NAME = #{couponName }, DIS_PRICE = #{disPrice }
+						, COUPON_DATE = #{couponDate }, COUNT = #{count }
+						, LEAST_COST = #{leastCost }
+		WHERE COUPON_NUM = #{couponNum } 
+	</update>
+	
+	
+	<delete id="couponsDelete" parameterType="coupons">
+		DELETE FROM COUPON WHERE COUPON_NUM = #{couponNum }
+	</delete>
 </mapper>
 
 

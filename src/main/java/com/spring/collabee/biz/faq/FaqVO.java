@@ -1,5 +1,7 @@
 package com.spring.collabee.biz.faq;
 
+import sun.text.normalizer.Replaceable;
+
 public class FaqVO {
 	
 	private int faqNum;
@@ -49,5 +51,7 @@ public class FaqVO {
 		return "FaqVO [faqNum=" + faqNum + ", faqType=" + faqType + ", faqTitle=" + faqTitle + ", faqContent="
 				+ faqContent + "]";
 	}
+
+
 	
 }

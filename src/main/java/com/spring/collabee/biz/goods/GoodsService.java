@@ -9,6 +9,13 @@ public interface GoodsService {
 	void deleteReview(GoodsReviewVO rvo);
 	GoodsReviewVO getReview(GoodsReviewVO rvo);
 	List<GoodsReviewVO> getReviewList(GoodsReviewVO rvo);
+	//상품 리뷰 추천순 조회
+	List<GoodsReviewVO> getRecommendList(GoodsReviewVO rvo);
+	//상품 리뷰 최근등록순 조회
+	List<GoodsReviewVO> getRecentList(GoodsReviewVO rvo);
+	//리뷰 적립금 
+	void updatePoint(GoodsReviewVO rvo);
+		
 	
 	//상품문의
 	void insertQnA(GoodsQnAVO qvo);

@@ -111,50 +111,19 @@ function setThumbnail(event) {
 
 <body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
 
+	<div class="container-fluid">
 	 <!-- header -->
     <header>
 	    <%@ include file = "../common/header.jspf" %>
 	</header>
-	
-	<div class="container-fluid">
-    <br><br><br>
-
     <!-- 사이드바 -->
-
-    <div class="row" style="margin-bottom: 50px;">
+    <div class="row" style="padding-top:50px; padding-bottom: 50px">
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-2">
 	        <div style="width: 250px;">
 	        <h2>관리자 목록</h2>
 	        <br>
-	        <div>
-	            <ul class="list-group">
-	            <li class="list-group-item d-flex justify-content-between align-items-center">
-	                <a href="">상품등록</a>
-	                <span>></span>
-	            </li>
-	            <li class="list-group-item d-flex justify-content-between align-items-center">
-	                <a href="">상품목록</a>
-	                <span>></span>
-	            </li>
-	            <li class="list-group-item d-flex justify-content-between align-items-center">
-	                <a href="">공지사항</a>
-	                <span>></span>
-	            </li>
-	            <li class="list-group-item d-flex justify-content-between align-items-center">
-	                <a href="">자주하는 질문</a>
-	                <span>></span>
-	            </li>
-	            <li class="list-group-item d-flex justify-content-between align-items-center">
-	                <a href="">1:1문의</a>
-	                <span>></span>
-	            </li>
-	            <li class="list-group-item d-flex justify-content-between align-items-center">
-	                <a href="">쿠폰발행</a>
-	                <span>></span>
-	            </li>
-	            </ul>
-	        </div>
+	        	<%@ include file = "./adminSideNav.jspf" %>
 	        </div>
 	    </div>
 	

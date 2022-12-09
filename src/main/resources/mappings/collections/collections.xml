@@ -13,13 +13,98 @@
 		SELECT DIVISION_NUM, DIVISION, CATEGORY_NUM FROM DIVISION
 	</select>
 	
-	<select id="getJsonDivision" parameterType="int" resultType="division">
+	<select id="getDivisionByCategory" parameterType="division" resultType="division">
 		SELECT DIVISION_NUM, DIVISION, CATEGORY_NUM FROM DIVISION WHERE CATEGORY_NUM = #{categoryNum }
 	</select>
 	
 	
+	<select id="getJsonGoodsList" resultType="goods" parameterType="Map">
+		SELECT * FROM (
+			SELECT ROWNUM AS R_NUM, P.PRODUCT_NUM, P.PRODUCT_NAME, P.DESCRIPTION AS P_DESCRIPTION, P.PRICE
+			, P.DIS_RATE, P.SALEPRICE, P.REGDATE, P.COUNT, P.STOCK
+			, P.THUM_ORI_FILENAME, P.THUM_SYS_FILENAME, P.DETAILE_ORI_FILENAME
+			, P.DETAILE_SYS_FILENAME, DE.DELIVERY_TYPE, DE.DESCRIPTION AS DE_DESCRIPTION
+			, P.SELLER, P.PRODUCT_DEL, P.DIS_DATE, DI.DIVISION, C.CONDITION 
+			FROM PRODUCT P, DIVISION DI, PACKAGE_CONDITION C, DELIVERY DE
+			WHERE P.DIVISION_NUM = DI.DIVISION_NUM
+			    AND P.STORAGE_NUM = C.STORAGE_NUM
+			    AND P.DELIVERY_CODE = DE.DELIVERY_CODE
+			    AND P.PRODUCT_DEL = 'N'
+			    <if test="goods.categoryType != null">
+			    	AND DI.CATEGORY_NUM IN 
+			    	<foreach collection="goods.typeList" item="type"  open="(" close=")" separator=",">
+						#{type}
+					</foreach>
+			    </if>
+			    <if test="sword != null">
+			    	AND PRODUCT_NAME LIKE '%' || #{sword } || '%'
+			    </if>
+			    <choose>
+				    <when test="goods.priceStart != null and goods.priceStart.equals('') and goods.priceEnd != null">
+				    	<![CDATA[AND P.SALEPRICE < #{goods.priceEnd }]]>
+				    </when>
+				    <when test="goods.priceEnd != null and goods.priceStart != null and goods.priceEnd.equals('')">
+				    	AND P.SALEPRICE > #{goods.priceStart }
+				    </when>
+				    <when test="goods.priceStart != null and goods.priceEnd != null">
+				    	AND P.SALEPRICE BETWEEN #{goods.priceStart } AND #{goods.priceEnd }
+				    </when>
+				    <otherwise>
+				    </otherwise>
+			    </choose>  
+			    <if test="goods.benefitType != null">
+			    	<if test="goods.benefitType.equals('discount')">
+			    		AND P.DIS_RATE != 0
+		    		</if>
+			    </if>
+			ORDER BY REGDATE DESC   
+		) 
+		WHERE R_NUM BETWEEN 1 AND 6     
+		
+
+	</select>
 	
-	<select id="getJsonGoodsList" resultType="goods" parameterType="goods">
+	<select id="getJsonGoodsListCount" resultType="int"  parameterType="Map">
+		SELECT COUNT(*)
+		FROM PRODUCT P, DIVISION DI, PACKAGE_CONDITION C, DELIVERY DE
+			WHERE P.DIVISION_NUM = DI.DIVISION_NUM
+			    AND P.STORAGE_NUM = C.STORAGE_NUM
+			    AND P.DELIVERY_CODE = DE.DELIVERY_CODE
+			    AND P.PRODUCT_DEL = 'N'
+			    <if test="goods.categoryType != null">
+			    	AND DI.CATEGORY_NUM IN 
+			    	<foreach collection="goods.typeList" item="type"  open="(" close=")" separator=",">
+						#{type}
+					</foreach>
+			    </if>
+			    <if test="sword != null">
+			    	AND PRODUCT_NAME LIKE '%' || #{sword } || '%'
+			    </if>
+			    <choose>
+				    <when test="goods.priceStart != null and goods.priceStart.equals('') and goods.priceEnd != null">
+				    	<![CDATA[AND P.SALEPRICE < #{goods.priceEnd }]]>
+				    </when>
+				    <when test="goods.priceEnd != null and goods.priceStart != null and goods.priceEnd.equals('')">
+				    	AND P.SALEPRICE > #{goods.priceStart }
+				    </when>
+				    <when test="goods.priceStart != null and goods.priceEnd != null">
+				    	AND P.SALEPRICE BETWEEN #{goods.priceStart } AND #{goods.priceEnd }
+				    </when>
+				    <otherwise>
+				    </otherwise>
+			    </choose>  
+			    <if test="goods.benefitType != null">
+			    	<if test="goods.benefitType.equals('discount')">
+			    		AND P.DIS_RATE != 0
+		    		</if>
+			    </if>
+			ORDER BY REGDATE DESC   
+	</select>
+	
+	
+	
+	<select id="getGoodsListByCategory" parameterType="Map" resultType="goods">
+	
 		SELECT P.PRODUCT_NUM, P.PRODUCT_NAME, P.DESCRIPTION AS P_DESCRIPTION, P.PRICE
 		, P.DIS_RATE, P.SALEPRICE, P.REGDATE, P.COUNT, P.STOCK
 		, P.THUM_ORI_FILENAME, P.THUM_SYS_FILENAME, P.DETAILE_ORI_FILENAME
@@ -29,32 +114,55 @@
 		WHERE P.DIVISION_NUM = DI.DIVISION_NUM
 		    AND P.STORAGE_NUM = C.STORAGE_NUM
 		    AND P.DELIVERY_CODE = DE.DELIVERY_CODE
-		    <if test="categoryType != null">
-		    	AND DI.CATEGORY_NUM IN 
-		    	<foreach collection="typeList" item="type"  open="(" close=")" separator=",">
-					#{type}
-				</foreach>
-		    </if>
-		    <choose>
-			    <when test="priceStart != null and priceStart.equals('') and priceEnd != null">
-			    	<![CDATA[AND P.SALEPRICE < #{priceEnd }]]>
-			    </when>
-			    <when test="priceEnd != null and priceStart != null and priceEnd.equals('')">
-			    	AND P.SALEPRICE > #{priceStart }
-			    </when>
-			    <when test="priceStart != null and priceEnd != null">
-			    	AND P.SALEPRICE BETWEEN #{priceStart } AND #{priceEnd }
-			    </when>
-			    <otherwise>
-			    </otherwise>
-		    </choose>  
-		    <if test="benefitType != null">
-		    	<if test="benefitType.equals('discount')">
-		    		AND P.DIS_RATE != 0
-	    		</if>
-		    </if>
-		ORDER BY REGDATE DESC        
-
+		    AND P.PRODUCT_DEL = 'N'
+		<choose>
+			<when test="goods.divisionNum != 0">
+				AND DI.DIVISION_NUM = #{goods.divisionNum }
+			</when>
+			<otherwise>
+				AND DI.DIVISION_NUM IN (
+				        SELECT D.DIVISION_NUM FROM CATEGORY C, DIVISION D
+				        WHERE C.CATEGORY_NUM = D.CATEGORY_NUM
+	            			  AND C.CATEGORY_NUM = #{categoryNum }
+						)  
+			</otherwise>
+		</choose>
+	    <choose>
+		    <when test="goods.priceStart != null and goods.priceStart.equals('') and goods.priceEnd != null">
+		    	<![CDATA[AND P.SALEPRICE < #{goods.priceEnd }]]>
+		    </when>
+		    <when test="goods.priceEnd != null and goods.priceStart != null and goods.priceEnd.equals('')">
+		    	AND P.SALEPRICE > #{goods.priceStart }
+		    </when>
+		    <when test="goods.priceStart != null and goods.priceEnd != null">
+		    	AND P.SALEPRICE BETWEEN #{goods.priceStart } AND #{goods.priceEnd }
+		    </when>
+		    <otherwise>
+		    </otherwise>
+	    </choose>  
+	    <if test="goods.benefitType != null">
+	    	<if test="goods.benefitType.equals('discount')">
+	    		AND P.DIS_RATE != 0
+    		</if>
+	    </if>
+		
+	</select>
+	
+	<select id="getSpecial" parameterType="int" resultType="goods">
+		SELECT P.PRODUCT_NUM, P.PRODUCT_NAME, P.PRICE, P.DIS_RATE, P.SALEPRICE, P.DESCRIPTION AS P_DESCRIPTION
+				, P.THUM_ORI_FILENAME, P.DETAILE_ORI_FILENAME, P.THUM_SYS_FILENAME, P.DETAILE_SYS_FILENAME
+		FROM PRODUCT P, SPECIAL S
+		WHERE P.PRODUCT_NUM = S.PRODUCT_NUM
+		    AND S.SPECIAL_NUM = #{specialNum }
+		    AND P.PRODUCT_DEL = 'N'
+	</select>
+	
+	<select id="getSpecialCat" resultType="specialCat">
+		SELECT * FROM SPECIAL_CAT ORDER BY SPECIAL_NUM
+	</select>
+	
+	<select id="searchProduct" parameterType="String" resultType="goods">
+		SELECT * from product
 	</select>
 	
 </mapper>

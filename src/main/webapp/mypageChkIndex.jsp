@@ -67,6 +67,7 @@
 		<a href="mypage/order.do">주문 목록 (GET)</a><br>
 		<a href="mypage/orderDetail.do">주문 상세(GET)</a><br>
 		<a href="mypage/picklist.do">찜한상품(GET)</a><br>
+		<a href="mypage/picklistAjax.do">찜한상품(GET)</a><br>
 		<a href="mypage/review.do">리뷰(GET)</a>
 	</p>
 	<hr><hr>

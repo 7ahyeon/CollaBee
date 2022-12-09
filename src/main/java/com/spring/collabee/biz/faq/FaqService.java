@@ -8,5 +8,5 @@ public interface FaqService {
 	void updateFaq(FaqVO vo);
 	void deletFaq(FaqVO vo);
 	FaqVO getFaq(FaqVO vo);
-	List<FaqVO> getFaqList(FaqVO vo);
+	List<FaqVO> getFaqList(String faqType);
 }

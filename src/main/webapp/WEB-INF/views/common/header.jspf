@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-<%-- [Header] Session에 저장된 \${loginMember } : ${loginMember } --%>
 
 
 <script>
@@ -10,6 +9,11 @@
 						"client_id=1de1359a671db7dcbf8be4aa691ce92d"+ //YOUR_REST_API_KEY
 						"&logout_redirect_uri=http://localhost:8080/collabee/member/logout.do";
 	}	
+	
+	function go_search(){
+		let sword = $("#search-input").val();
+		location.href = "../collections/search.do?sword=" + sword;
+	}
 </script> 
 
 	<div class="row">
@@ -31,8 +35,20 @@
 			                    </div>
 			                </div>
 			            </li>
-			
 			        </ul>
+		        </c:when>
+		        <c:when test="${loginMember.id eq 'admin' and loginMember.password eq 'admin' }">
+		        	<ul>
+		        		<li>
+							<div class="dropdown support">
+			            		관리자모드 <i class="fa-solid fa-chevron-down"></i>
+			                    <div class="dropdown-menu support-detail">
+			                    <a class="dropdown-item" href="../adminGoods/adminGoodsList.do">관리센터</a>
+			                    </div>
+			                </div>
+		                </li>
+		        		<li><a class="dropdown-item" href="../member/logout.do">로그아웃</a></li>
+		        	</ul>
 		        </c:when>
 		       
 		        <c:otherwise>
@@ -47,8 +63,8 @@
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/emoney.do">적립금</a>
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/coupon.do">쿠폰</a>
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/modify.do">개인정보수정</a>
-			                    <a class="dropdown-item" href="#" onclick="kakaoLogout()" >카카오로그아웃</a>
-			                   	<a class="dropdown-item" href="../member/logout.do">로그아웃</a>
+			                    <a class="dropdown-item" href="#" onclick="kakaoLogout()" >로그아웃</a>
+			                   	<!-- a class="dropdown-item" href="../member/logout.do">로그아웃</a> -->
 			                    </div>
 			                </div>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
 			            <li>
@@ -74,9 +90,9 @@
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-8 header">
 	        <div><a href="../collections/main.do"><img class="main-logo" src="${pageContext.request.contextPath}/resources/imgs/logo/main_logo.png"></a></div>
-	        <div class="input-box"><input class="search-box" type="text" placeholder="검색어를 입력해주세요">
+	        <div class="input-box"><input id="search-input" class="search-box" type="text" placeholder="검색어를 입력해주세요">
 
-	            <i class="fa-solid fa-magnifying-glass"></i>
+	            <button style="position: relative; left: 30px;" onclick="go_search()"><i style="display:relative; left: 0px;"class="fa-solid fa-magnifying-glass"></i></button>
 	        </div>
 	        <div>
 	            <ul>
@@ -96,18 +112,19 @@
 	            <div class="dropdown category-button">
 	                <i class="fa-solid fa-bars"></i>&nbsp;&nbsp;
 	                카테고리
-	                <div class="dropdown-menu category-detail  overflow-auto" style="background-color: transparent; border: 0; z-index: 10;">
+	                <div class="dropdown-menu category-detail  overflow-auto" style="background-color: transparent; border: none; z-index: 10;">
 	                    <div id="category-box" style="display: flex; background-color: 0;">
-	                        <div class="list-group" id="main-category">
+	                        <div class="list-group" id="main-category" style="background-color: white;">
 		                        <c:forEach var="categoryVO" items="${categories }" varStatus="status">
-		                            <a name="${categoryVO.categoryNum }" href="${pageContext.request.contextPath}/collections/categories.do?category='${categoryVO.categoryNum }'" class="list-group-item list-group-item-action category-list">
+		                            <a name="${categoryVO.categoryNum }" href="${pageContext.request.contextPath}/collections/categories.do?categoryNum=${categoryVO.categoryNum }" class="list-group-item list-group-item-action category-list">
 		                            <img src="${pageContext.request.contextPath}/resources/imgs/icons_catetory/icon_maincategory_${status.index +1 }.png">${categoryVO.category }</a>
 	                            </c:forEach>
 	                        </div>
-	                        <div style="width: 300px; height: inherit; background-color: red;" id="sub-category-box">
+	                        
+<!-- header-navbar의 상세 카테고리 Ajax부분 -->
+	                        <div style="height: inherit; background-color: #808080;" id="sub-category-box">
 								<div class="list-group" id="sub-category">
 	                        	</div>
-
 	                        </div>
 	                    </div>
 	                </div>

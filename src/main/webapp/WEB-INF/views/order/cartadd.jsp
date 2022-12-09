@@ -15,11 +15,7 @@
 		$(".insertBtn").click(
 			// 장바구니 담기
 			function insertCart() {
-				
-				// 상품 번호
-				var goodsNum = 4;
-				// 상품 개수
-				var goodsCount = 2;
+			
 				
 				var sendCart = {
 						productNum : goodsNum,

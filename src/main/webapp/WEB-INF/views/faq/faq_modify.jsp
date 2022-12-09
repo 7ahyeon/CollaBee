@@ -121,40 +121,11 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-        <h2>관리자센터</h2>
+      <div style="width: 250px;">
+      <h2>관리자 목록</h2>
         <br>
-		<div>
-            <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품등록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품목록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="../board/notice.do">공지사항</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="faq.do">자주하는 질문</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="../inquiry/inquiry.do">1:1문의</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">쿠폰발행</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">배송관리</a>
-                <span>></span>
-            </li>
-            </ul>
-        </div>
+		<%@ include file = "../admin/adminSideNav.jspf" %>
+      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
@@ -171,10 +142,22 @@
                     <input type="text" class="title" value="${faq.faqTitle }" name="faqTitle">
                   </th>
                 </tr>
+				<tr>
+                  <th style="width: 10%; vertical-align: middle; border-color: white;">카테고리</th>
+                  <th style="vertical-align: left; border-bottom-color: white;">
+                    <select class="form-control" name="faqType">
+                      <option value="회원">회원</option>
+                      <option value="상품">상품</option>
+                      <option value="주문/결제">주문/결제</option>
+                      <option value="배송">배송</option>
+                      <option value="쿠폰/적립금">쿠폰/적립금</option>
+                    </select>
+                  </th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="font-weight: bolder;">내용</td>
+            	 <td style="font-weight: bolder;">내용</td>
                   <td>
                     <textarea class="form-control" rows="18" id="comment" name="faqContent"
                      >${faq.faqContent }</textarea>
@@ -223,10 +206,9 @@
       }
       return false;
     } else {
-    	 alert(faqNum)
       	 frm.action="updateFaq.do?faqNum="+faqNum;
       	 frm.submit();
-      alert("자주묻는질문 수정 완료 !");
+      alert("FAQ가 수정되었습니다.");
     }
   }
 </script>

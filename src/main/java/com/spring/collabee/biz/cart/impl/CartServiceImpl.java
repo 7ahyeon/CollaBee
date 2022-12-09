@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
+import com.spring.collabee.biz.goods.GoodsVO;
 import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderMemberVO;
 
@@ -52,6 +53,10 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public CartVO checkCartList(CartVO vo) {
 		return cartDao.checkCartList(vo);
+	}
+	@Override
+	public GoodsVO goodsStatus(CartVO vo) {
+		return cartDao.goodsStatus(vo);
 	}
 	
 	@Override
@@ -99,6 +104,7 @@ public class CartServiceImpl implements CartService {
 	public List<CartVO> getCartList4(CartVO vo) {
 		return cartDao.getCartList4(vo);
 	}
+
 	
 	
 }

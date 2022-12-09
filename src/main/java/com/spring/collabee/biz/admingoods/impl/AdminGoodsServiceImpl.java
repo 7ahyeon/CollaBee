@@ -44,5 +44,10 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
 		return adminGoodsDAO.adminGoodsList(vo);
 	}
 
+	@Override
+	public GoodsVO adminName(GoodsVO vo) {
+		return adminGoodsDAO.adminName(vo);
+	}
+
 
 }

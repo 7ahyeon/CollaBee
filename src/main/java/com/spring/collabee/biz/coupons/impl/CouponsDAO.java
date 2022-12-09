@@ -50,4 +50,12 @@ public class CouponsDAO {
 		return mybatis.selectList("couponsDAO.couponsList", vo);
 	}
 
+
+	public List<CouponsVO> couponsListAvail() {
+		System.out.println(">> Mybatis 사용 couponsListAvail() 실행");
+		
+		return mybatis.selectList("couponsDAO.couponsListAvail");
+	}
+
 }
+

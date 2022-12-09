@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,33 +84,22 @@
 	
 	            <div id="coupon-box">
 	                <div class="event-title">받을 수 있는 쿠폰 목록</div>
-	                <div id="coupon-inner">
-	                    <div class="coupon-container">
-	                        <div class="--font-mid --strong"> 블랙프라이데이 </div>
-	                        <div class="--font-small">2022.11.31까지</div>
-	                        <div class="--font-large --strong">3,000원</div>
-	                        <div><span class="--font-small --color-gray"><span>30000</span>원 이상 구매시 적용</span> <button>쿠폰받기</button>
-	                        </div>
-	                    </div>
-	                    <div class="coupon-container">
-	                        <div class="--font-mid --strong"> 사장님이 미쳤어요 </div>
-	                        <div class="--font-small">2022.11.31까지</div>
-	                        <div class="--font-large --strong">3,000원</div>
-	                        <div><span class="--font-small --color-gray"><span>30000</span>원 이상 구매시 적용</span> <button>쿠폰받기</button>
-	                        </div>
-	                    </div>
-	                    <div class="coupon-container">
-	                        <div class="--font-mid --strong"> 쿠폰명 </div>
-	                        <div class="--font-small">2022.11.31까지</div>
-	                        <div class="--font-large --strong">3,000원</div>
-	                        <div><span class="--font-small --color-gray"><span>30000</span>원 이상 구매시 적용</span> <button>쿠폰받기</button>
-	                        </div>
-	                    </div>
-	                </div>
 	                
-	            </div>
+	                <c:forEach var="coupon" items="${couponsList }">
+		                <div id="coupon-inner">
+		                    <div class="coupon-container">
+		                        <div class="--font-mid --strong"> ${coupon.couponName } </div>
+		                        <div class="--font-small">${coupon.couponDate }까지</div>
+		                        <div class="--font-large --strong">${coupon.disPrice }원</div>
+		                        <div><span class="--font-small --color-gray"><span>${coupon.leastCost }</span>원 이상 구매시 적용</span> <button>쿠폰받기</button>
+	                        	</div>
+	                    	</div>
+                    	</div>
+	                </c:forEach>
+                </div>
+	                
 	
-	            <div class="event-title">진행중인 이벤트</div>
+	            <div class="event-title" style="display: block;">진행중인 이벤트</div>
 	
 	            <div class="coupon-img">
 	                <img src="${pageContext.request.contextPath }/resources/imgs/coupon/1.avif">

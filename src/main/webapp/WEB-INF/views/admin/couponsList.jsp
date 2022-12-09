@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -115,19 +115,18 @@
       .btns{
         text-align: center;
       }
-      .inquiry_btn{
-        padding: 0px 10px;
-        text-align: center;
-        overflow: hidden;
-        width: 120px;
-        height: 44px;
-        border-radius: 3px;
-        color: rgb(255, 255, 255);
-        background-color: #9A30AE;
-        border: 0px none;
-        font-size: small;
-        float: right;
-      }
+      .coupon_btn{
+	      padding: 0px 10px;
+	      text-align: center;
+	      overflow: hidden;
+	      width: 120px;
+	      height: 44px;
+	      border-radius: 3px;
+	      color: rgb(255, 255, 255);
+	      background-color: #9A30AE;
+	      border: 0px none;
+	      font-size: 13px;
+    }
 
       .click {
         color: #B03FE3; 
@@ -137,6 +136,7 @@
   </style> 
   
   <script>
+  
     $(function(){
       $("#th_checkAll").click(function() {
         console.log($(this).is(":checked"));
@@ -151,65 +151,71 @@
         }
       });
     });
+    
+    
+    $().ready(function(){
+    	getJsonCouponsList();
+    }); 
+    
+    function getJsonCouponsList() {
+    	
+    	console.log("getJsonCouponsList 들어옴")
+		
+		$.ajax("../coupons/getJsonCouponsList.do", {
+			type: "get",
+			dataType: "json",
+			success: function(data){
+				console.log(data);
+				
+				let dispHtml = "";
+				for (let content of data) {
+					dispHtml += "<tr>";
+   					dispHtml += "<td class='center'><input type='checkbox' class='chk' name='checkRow' value='"+content.couponNum+"' style='width: 20px; height: 20px;'></td>";
+   					dispHtml += "<td class='text-center'>"+content.couponNum+"</td>";
+   					dispHtml += "<td><a href='../coupons/couponsSelect.do?couponNum="+content.couponNum+"' style='text-decoration: none; color: black;'>"+content.couponName+"</a></td>";			
+   					dispHtml += "<td>"+content.disPrice+"</td>";			
+   					dispHtml += "<td>"+content.count+"</td>";			
+   					dispHtml += "<td>"+content.leastCost+"</td>";			
+   					/* dispHtml += "<td>"++"</td>"; */
+   					dispHtml += "</tr>";
+				} 
+				
+				$("#coupon-list-area").html(dispHtml);
+				
+			},
+			error: function(){
+				alert("실패!~~");
+				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+			}
+		}); 
+	}
 
 
   </script>
   </head>
-
-  <body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
-  
   	  <!-- header -->
     <header>
 	    <%@ include file = "../common/header.jspf" %>
 	</header>
-	
+  <body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
     <div class="container-fluid">
-      <br><br><br>
-      <div class="row" style="margin-bottom: 50px;">
+    <div class="row" style="padding-top:50px; padding-bottom: 50px">
         <div class="col-sm-2"></div>
         <div class="col-sm-2">
           <div style="width: 250px;">
             <h2>관리자 목록</h2>
             <br>
-            <div>
-              <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <a href="">상품등록</a>
-                  <span>></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <a href="">상품목록</a>
-                  <span>></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <a href="">공지사항</a>
-                  <span>></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <a href="">자주하는 질문</a>
-                  <span>></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <a href="">1:1문의</a>
-                  <span>></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <a href="">쿠폰발행</a>
-                  <span>></span>
-                </li>
-              </ul>
-            </div>
+            	<%@ include file = "./adminSideNav.jspf" %>
+
           </div>
         </div>
         <div class="col-sm-6">
-          <div style="width: 1050px;">
             <div class="main" style="border-bottom:1px solid black;">
                 <h4>쿠폰 발행 목록</h4>
             </div>
               <form id="form" name="form" method="post">
                 <table class="table table-hover">
                   <thead>
-                    <div>
                     <tr>
                       <th class="center"><input type="checkbox" name="checkAll" id="th_checkAll" style="width: 20px; height: 30px;" /></th>
                       <th class="text-center" style="vertical-align: middle; width: 100px; height: 60px; vertical-align: middle;">쿠폰번호</th>
@@ -218,64 +224,35 @@
                       <th style="vertical-align: middle;">총 수량</th>
                       <th style="vertical-align: middle;">최소 구매금액</th>
                       <th style="vertical-align: middle;">유효기간</th>
-                      <th style="vertical-align: middle;">사용여부</th>
                     </tr>
-                    </div>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td class="center"><input type="checkbox" class="chk" name="checkRow" value="${content.IDX}" style="width: 20px; height: 20px;"></td>
-                      <td class="text-center">1</td>
-                      <td><a href="#" style="text-decoration: none; color: black;">쿠폰명</a></td>
-                      <td>3000</td>
-                      <td>1</td>
-                      <td>20000</td>
-                      <td>2022-12-31</td>
-                      <td>사용</td>
-                    </tr>
-                    <tr>
-                      <td class="center"><input type="checkbox" class="chk" name="checkRow" value="${content.IDX}" style="width: 20px; height: 20px;"></td>
-                      <td class="text-center">2</td>
-                      <td><a href="#" style="text-decoration: none; color: black;">쿠폰명</a></td>
-                      <td>5000</td>
-                      <td>1</td>
-                      <td>30000</td>
-                      <td>2022-12-31</td>
-                      <td>미사용</td>
-                    </tr>
-                    <tr>
-                      <td class="center"><input type="checkbox" class="chk" name="checkRow" value="${content.IDX}" style="width: 20px; height: 20px;"></td>
-                      <td class="text-center">3</td>
-                      <td><a href="#" style="text-decoration: none; color: black;">쿠폰명</a></td>
-                      <td>10000</td>
-                      <td>1</td>
-                      <td>50000</td>
-                      <td>2022-12-31</td>
-                      <td>미사용</td>
-                    </tr>
+                  <tbody id="coupon-list-area">
                   </tbody>
                 </table>
               </form>
               <div class="btn_list">    
-                <div class="btns">
+<!--                 <div class="btns">
                   <button class="btn1" disabled>
                     <i class="bi bi-chevron-left"></i>
                   </button>
                   <button class="btn2">
                     <i class="bi bi-chevron-right"></i>
-                  </button>
-                                   
+                  </button> -->
                   <%-- 쿠폰삭제 버튼 클릭 시 모달 include --%>
     			  <%@ include file = "../common/modal/couponDeleteModal.jspf" %>
-                  
-                  <button class="inquiry_btn" type="button" style="width: 80px; height: 44; border-radius: 3; margin-left: 10px;">쿠폰수정</button>
-                  <button class="inquiry_btn" type="button" style="width: 80px; height: 44; border-radius: 3;">쿠폰발행</button>
-                </div>
-              </div>
-              <div class="col-sm-2"></div>
-            </div>
-            </div>
-          </div>
+                  <%-- 쿠폰삭제 버튼 클릭 시 모달 --%>             
+			<div class="container" style="text-align: right;">
+			<!-- Button to Open the Modal -->
+				<button onclick="javascript:location.href='couponsInsertPage.do'" class="coupon_btn" type="button" >쿠폰발행</button>
+				<button class="coupon_btn" type="button">쿠폰수정</button>
+				<button onclick="coupon_delete()" type="button" class="coupon_btn" data-toggle="modal" data-target="#myModal">
+				  	쿠폰삭제
+				</button>
+				  </div>
+				</div>
+				<div class="col-sm-2"></div>
+		  </div>
+		</div>
 
       </div>
     </div>

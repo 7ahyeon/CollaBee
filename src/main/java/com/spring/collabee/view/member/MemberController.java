@@ -228,15 +228,12 @@ public class MemberController {
 		return "redirect:/mypage/order.do";
 	}
 	
-	@GetMapping ("/logout.do")
-	public String logout(SessionStatus sessionStatus) {
-		System.out.println(">> 로그아웃 처리 ");
-		//세션 초기화(세션객체 무효화)
-		//session.invalidate();
-		sessionStatus.setComplete();
-		return "redirect:/member/login.do";
-	}
 	
+	  @GetMapping ("/logout.do") public String logout(SessionStatus sessionStatus) { 
+		  System.out.println(">> 로그아웃 처리 "); //세션 초기화(세션객체 무효화)
+		  sessionStatus.setComplete();
+	  	return "redirect:/member/login.do"; }
+	 
 	
 	@GetMapping("/findId.do")
 	public String findIdPageLoad(MemberVO mvo) {

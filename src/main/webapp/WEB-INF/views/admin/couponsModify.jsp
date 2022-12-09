@@ -102,53 +102,25 @@ function setThumbnail(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 }
+
 </script>
 </head>
 
 <body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
+	<div class="container-fluid">
 	  <!-- header -->
     <header>
 	    <%@ include file = "../common/header.jspf" %>
 	</header>
-	
-	<div class="container-fluid">
-    <br><br><br>
-
     <!-- 사이드바 -->
-    <div class="row" style="margin-bottom: 50px;">
+    <div class="row" style="padding-top:50px; padding-bottom: 50px">
     <div class="col-sm-2"></div>
     <div class="col-sm-2">
         <div style="width: 250px;">
         <h2>관리자 목록</h2>
         <br>
-        <div>
-            <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품등록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품목록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">공지사항</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">자주하는 질문</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">1:1문의</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">쿠폰발행</a>
-                <span>></span>
-            </li>
-            </ul>
-        </div>
+        	<%@ include file = "./adminSideNav.jspf" %>
+
         </div>
     </div>
 
@@ -162,15 +134,15 @@ function setThumbnail(event) {
             <form id="form" name="form" method="post">
        	쿠폰번호 <input type="text" class="form-control form-control" name="couponNum" value="${vo.couponNum}" style="border: none;" disabled/>
                 <br>    
-                쿠폰명 <input type="text" class="form-control form-control" name="couponName" value="${vo.couponName}" autofocus/>
+                쿠폰명 <input type="text" class="form-control form-control edit-form" name="couponName" value="${vo.couponName}" autofocus/>
                 <br>
-                할인금액 <input type="text" class="form-control form-control" name="disPrice" value="${vo.disPrice}"/>
+                할인금액 <input type="text" class="form-control form-control edit-form" name="disPrice" value="${vo.disPrice}"/>
                 <br>
-                수량 <input type="text" class="form-control form-control" name="count" value="${vo.count}"/>
+                수량 <input type="text" class="form-control form-control edit-form" name="count" value="${vo.count}"/>
                 <br>
-                유효기간 <input type="date" class="form-control form-control" name="couponDate" value="${vo.couponDate}"/>
+                유효기간 <input type="date" class="form-control form-control edit-form" name="couponDate" value="${vo.couponDate}"/>
                 <br>
-                최소 구매금액 <input type="text" class="form-control form-control" name="leastCost" value="${vo.leastCost}"/>
+                최소 구매금액 <input type="text" class="form-control form-control edit-form" name="leastCost" value="${vo.leastCost}"/>
                 <br>    
             </form>
         <div class="col-sm-2"></div>
@@ -178,7 +150,7 @@ function setThumbnail(event) {
     </div>
     </div>
     <div style="display: flex; justify-content: center;">
-        <button type="button" class="btn" onclick="" style="border: none; color: white;">수정하기</button> &nbsp;&nbsp;
+        <button type="button" class="btn" style="border: none; color: white;">수정하기</button> &nbsp;&nbsp;
         <input type="reset" class="btn" style="border: none; color: white;" value="초기화">
     </div>
   </body>

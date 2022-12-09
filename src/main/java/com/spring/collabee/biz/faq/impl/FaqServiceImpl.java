@@ -38,10 +38,10 @@ public class FaqServiceImpl implements FaqService {
 	public FaqVO getFaq(FaqVO vo) {
 		return faqDao.getFaq(vo);
 	}
-	
+
 	@Override
-	public List<FaqVO> getFaqList(FaqVO vo) {
-		return faqDao.getFaqList(vo);
+	public List<FaqVO> getFaqList(String faqType) {
+		return faqDao.getFaqList(faqType);
 	}
 	
 	}

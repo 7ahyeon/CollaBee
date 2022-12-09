@@ -221,7 +221,7 @@
                         <div class="form-check">
                             <label class="form-check-label" for="c-opt8">
                                 <input class="form-check-input c-opt opt" type="checkbox" value="" id="c-opt8">
-                                <i class="fa-solid fa-circle-check"></i>생선・음료・우유・커피
+                                <i class="fa-solid fa-circle-check"></i>생수・음료・우유・커피
                             </label>
                         </div>
                         <div class="form-check">

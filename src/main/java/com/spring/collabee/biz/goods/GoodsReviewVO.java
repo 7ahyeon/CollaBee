@@ -1,7 +1,9 @@
 package com.spring.collabee.biz.goods;
 import java.sql.Date;
+
+import org.springframework.web.multipart.MultipartFile;
 public class GoodsReviewVO {
-	private int reviewNum, orderNum, productNum, memberNum, rec;
+	private int reviewNum, orderNum, productNum, memberNum, rec, point;
 	private String rContent, rOriFilename, rSysFilename;
 	private Date rDate;
 
@@ -9,6 +11,9 @@ public class GoodsReviewVO {
 		System.out.println("GoodsReview() 객체 생성");
 	}
 
+	//파일업로드를 위한 데이터 저장용
+	private MultipartFile uploadFile;
+	
 	public int getReviewNum() {
 		return reviewNum;
 	}
@@ -64,11 +69,28 @@ public class GoodsReviewVO {
 		this.rDate = rDate;
 	}
 	
+	
+	
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	//파일 업로드 ------
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
 	@Override
 	public String toString() {
 		return "GoodsReviewVO [reviewNum=" + reviewNum + ", orderNum=" + orderNum + ", productNum=" + productNum
-				+ ", memberNum=" + memberNum + ", rec=" + rec + ", rContent=" + rContent + ", rOriFilename="
-				+ rOriFilename + ", rSysFilename=" + rSysFilename + ", rDate=" + rDate + "]";
+				+ ", memberNum=" + memberNum + ", rec=" + rec + ", point=" + point + ", rContent=" + rContent
+				+ ", rOriFilename=" + rOriFilename + ", rSysFilename=" + rSysFilename + ", rDate=" + rDate
+				+ ", uploadFile=" + uploadFile + "]";
 	}
 	
 	

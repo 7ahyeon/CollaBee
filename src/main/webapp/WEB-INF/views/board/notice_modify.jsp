@@ -122,40 +122,11 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-        <h2>관리자센터</h2>
+      <div style="width: 250px;">
+		<h2>관리자 목록</h2>
         <br>
-		<div>
-            <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품등록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품목록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="notice.jsp">공지사항</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="../faq/faq.do">자주하는 질문</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="../inquiry/inquiry.do">1:1문의</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">쿠폰발행</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">배송관리</a>
-                <span>></span>
-            </li>
-            </ul>
-        </div>
+		<%@ include file = "../admin/adminSideNav.jspf" %>
+      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
@@ -225,10 +196,9 @@
       }
       return false;
     } else {
-    	 alert(noticeNum)
       	 frm.action="updateNotice.do?noticeNum="+noticeNum;
       	 frm.submit();
-      alert("공지사항 수정 완료 !");
+      alert("공지사항이 수정되었습니다.");
     }
   }
 </script>

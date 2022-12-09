@@ -22,6 +22,7 @@
 	    <typeAlias alias="board" type="com.spring.collabee.biz.board.BoardVO"/>
 	    <typeAlias alias="goodsReview" type="com.spring.collabee.biz.goods.GoodsReviewVO"/>
    		<typeAlias alias="goodsQnA" type="com.spring.collabee.biz.goods.GoodsQnAVO"/>
+   		<typeAlias alias="specialCat" type="com.spring.collabee.biz.collections.SpecialCatVO"/>
    		
    		<typeAlias alias="memberVO" type="com.spring.collabee.biz.member.MemberVO"/>
    		<typeAlias alias="couponBoxVO" type="com.spring.collabee.biz.mycouponbox.MyCouponBoxVO"/>
@@ -30,6 +31,11 @@
 		<typeAlias alias="orderListVO" type="com.spring.collabee.biz.myorderlist.MyOrderListVO"/>
 		<typeAlias alias="myReviewVO"	type="com.spring.collabee.biz.myreview.MyReviewVO"/>
   </typeAliases>
+  
+  <mappers>
+    <mapper resource="mappings/collections/collections.xml"/>
+    <mapper resource="mappings/coupons/coupons.xml"/>
+  </mappers>
   
   
 </configuration>

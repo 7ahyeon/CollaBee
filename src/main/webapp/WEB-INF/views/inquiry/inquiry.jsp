@@ -226,62 +226,21 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-    <!-- 회원일때 -->
+      <div style="width: 250px;">
+      <!-- 회원일때  --> 
+		<c:if test="${loginMember.id ne 'admin'}"> 
         <h2>고객센터</h2>
         <br>
-        <div>
-          <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="../board/notice.do" width="100%">공지사항</a>
-              <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="../faq/faq.do">자주하는 질문</a>
-              <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="inquiry.do">1:1 문의</a>
-              <span>></span>
-            </li>
-          </ul>
-        </div>
+		<%@ include file = "../admin/userSideNav.jspf" %>
+        </c:if>
         <!-- 관리자일때 -->
-        <!-- 
-        <h2>관리자센터</h2>
+        <c:if test="${loginMember.id eq 'admin'}"> 
+        <h2>관리자 목록</h2>
         <br>
-        <div>
-            <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품등록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">상품목록</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="notice.jsp">공지사항</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="faq.jsp">자주하는 질문</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="inquiry.jsp">1:1문의</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">쿠폰발행</a>
-                <span>></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="">배송관리</a>
-                <span>></span>
-            </li>
-            </ul>
-        </div>-->
-      </div>
+		<%@ include file = "../admin/adminSideNav.jspf" %>
+       </c:if>
+       </div>
+       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
           <h4>1:1 문의</h4>
@@ -295,7 +254,71 @@
             </div>
           </div>
           <div>
-            <div id="accordion">
+            <div id="accordion">     
+                   
+            <!-- 비회원 -->
+        	<c:if test="${loginMember.id eq null && loginMember.id ne 'admin' }">
+              <div class="card">
+                <div class="card-header">
+                  <a>
+                    <span class="title">로그인 후 이용 가능합니다.</span>
+                  </a>
+                </div>
+                </div>
+			</c:if>
+			
+            <!-- 회원 -->
+            <c:if test="${loginMember.id ne null && loginMember.id ne 'admin'}">
+             	<c:if test="${not empty inquiryList }"> 
+	           	<c:forEach varStatus="status" var="inquiry" items="${inquiryList }">
+            	<c:if test ="${inquiry.memberNum == loginMember.memberNum}">
+              <div class="card">
+                <div class="card-header">
+                  <a class="card-link" data-toggle="collapse" href="#collapseOne${status.index }">
+                    <span class="title">${inquiry.inquiryTitle }</span>
+                    <span class="date">${inquiry.inquiryDate }</span>
+                    <span class="state">
+                    <c:if test="${not empty inquiry.inquiryAnswer }"><p style="color:#692498; font-weight: bolder;">답변완료</p></c:if>
+                     <c:if test="${empty inquiry.inquiryAnswer }">${inquiry.inquiryState }</c:if></span>
+                  </a>
+                </div>
+                <div id="collapseOne${status.index }" class="collapse" data-parent="#accordion">
+                  <div class="card-body">
+                    <div class="i_type">${inquiry.inquiryType } > ${inquiry.inquirySubType }</div>
+                    <div>
+                      <div class="i_title_icon">
+                        <i class="bi bi-person-circle"></i>
+                      </div>
+                      <div class="i_title">
+                      <c:out value="${fn:replace(inquiry.inquiryContent, newline, '<br>')}" escapeXml="false"/>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="i_answer_icon">
+                        <i class="bi bi-chat-dots-fill"></i>
+                      </div>
+                      <div class="i_answer"><c:if test="${empty inquiry.inquiryAnswer }">답변이 등록되지 않았습니다.</c:if>
+                      <c:if test="${not empty inquiry.inquiryAnswer }">
+                      <c:out value="${fn:replace(inquiry.inquiryAnswer, newline, '<br>')}" escapeXml="false"/>
+                      </c:if></div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                </c:if>
+             </c:forEach>
+	        </c:if>  
+             <c:if test="${empty inquiryList }"> 
+               <div class="card-header">
+                  <a>
+                    <span class="title">${loginMember.name}님이 작성한 1:1 문의가 없습니다.</span>
+                  </a>
+                </div>
+             </c:if>
+            </c:if>
+           
+           <!-- 관리자  -->
+           <c:if test="${loginMember.id eq 'admin'}">
              <c:if test="${not empty inquiryList }"> 
 	           	<c:forEach varStatus="status" var="inquiry" items="${inquiryList }">
               <div class="card">
@@ -328,20 +351,30 @@
                       <c:out value="${fn:replace(inquiry.inquiryAnswer, newline, '<br>')}" escapeXml="false"/>
                       </c:if></div>
                       <!--관리자일때만-->
+                      <c:if test="${loginMember.id eq 'admin'}"> 
                       <div style="text-align: right;">
                         <a href="admin_inquiry_answer.do?inquiryNum=${inquiry.inquiryNum }"
-                          style="font-size:9pt; color: darkgray; text-decoration: none;">답변등록</a>
+                          style="font-size:9pt; color: darkgray; text-decoration: none;">
+                          	<c:if test="${empty inquiry.inquiryAnswer }">답변등록</c:if></a>
                         <a href="admin_inquiry_modify.do?inquiryNum=${inquiry.inquiryNum }"
-                          style="font-size:9pt; color: darkgray; text-decoration: none;">답변수정</a>
+                          style="font-size:9pt; color: darkgray; text-decoration: none;">
+                          <c:if test="${not empty inquiry.inquiryAnswer }">답변수정</c:if></a>
                       </div>
-                      <!---->
+                      </c:if>
                     </div>
                   </div>
                 </div>
                 </div>
              </c:forEach>
 	        </c:if>  
-              
+             <c:if test="${empty inquiryList }"> 
+               <div class="card-header">
+                  <a>
+                    <span class="title">관리자가 답변할 1:1 문의가 없습니다.</span>
+                  </a>
+                </div>
+             </c:if>
+            </c:if>
             </div>
             <div class="btn_list" style="padding-bottom: 60px;">
               <div class="btns">
@@ -351,7 +384,11 @@
                 <button class="btn2">
                   <i class="bi bi-chevron-right"></i>
                 </button>
+                <c:if test="${loginMember.id ne null}"> 
+                <c:if test="${loginMember.id ne 'admin'}"> 
                 <button class="inquiry_btn" type="button" onclick="location.href='inquiry_write.do'">문의하기</button>
+                </c:if>
+                </c:if>
               </div>
             </div>
           </div>

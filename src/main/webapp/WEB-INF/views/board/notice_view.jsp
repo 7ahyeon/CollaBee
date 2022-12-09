@@ -164,8 +164,10 @@
             </tfoot>
           </table>
         </div>
+        <c:if test="${loginMember.id eq 'admin'}">
         <button class="modify_btn" type="button" onclick="location.href='notice_modify.do?noticeNum=${notice.noticeNum }'">수정하기</button>
         <button class="delete_btn" type="button" onclick="notice_delete()">삭제하기</button>
+        </c:if>
         <button class="list_btn" type="button" onclick="location.href='notice.do'">목록</button>
       </div>
     </div>

@@ -3,6 +3,7 @@ package com.spring.collabee.biz.cart;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.collabee.biz.goods.GoodsVO;
 import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderMemberVO;
 
@@ -17,6 +18,7 @@ public interface CartService {
 
 	void updateNmLimit(CartVO vo);
 	CartVO checkCartList(CartVO vo);
+	GoodsVO goodsStatus(CartVO vo);
 	
 	void insertCart(CartVO vo);
 	void updateCart(CartVO vo);

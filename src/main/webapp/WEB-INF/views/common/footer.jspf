@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+
+<script>
+	function openChatPop(){
+		window.open("${pageContext.request.contextPath }/chatting/login.do?id=${loginMember.id }", "_blank", "toolbar=yes,menubar=yes,width=700,height=500").focus();
+	}
+</script>
     <hr>
     <div class="foot">
 	    <div class="row">
@@ -14,7 +20,7 @@
 	            </div>
 	
 	            <div class="inquiry-info">
-	                <button>카카오톡 문의</button> <div style="position:relative; bottom: -10px;">월~토요일 | 오전 7시 - 오후 6시 <br> 일/공휴일 | 오전 7시 - 오후 1시</div>
+	                <button onclick="openChatPop()">실시간문의</button> <div style="position:relative; bottom: -10px;">월~토요일 | 오전 9시 - 오후 5시 </div>
 	            </div>
 	            <div class="inquiry-info">
 	                <button>1:1 문의</button> <div style="position:relative; bottom: -10px;">365일 <br> 고객센터 운영시간에 순차적으로 답변드리겠습니다.</div>

@@ -8,7 +8,7 @@ public class DivisionVO {
 	
 	@Override
 	public String toString() {
-		return "DivesionVO [divisionNum=" + divisionNum + ", categoryNum=" + categoryNum + ", division=" + division
+		return "DivisionVO [divisionNum=" + divisionNum + ", categoryNum=" + categoryNum + ", division=" + division
 				+ "]";
 	}
 	public int getDivisionNum() {

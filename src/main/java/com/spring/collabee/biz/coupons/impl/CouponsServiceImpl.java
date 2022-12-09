@@ -43,7 +43,16 @@ public class CouponsServiceImpl implements CouponsService {
 
 	@Override
 	public List<CouponsVO> couponsList(CouponsVO vo) {
+		System.out.println("쿠폰임플실행1");
+		System.out.println(couponsDAO);
 		return couponsDAO.couponsList(vo);
+	}
+
+	@Override
+	public List<CouponsVO> couponsListAvail() {
+		
+		System.out.println("쿠폰임플실행2");
+		return couponsDAO.couponsListAvail();
 	}
 
 }

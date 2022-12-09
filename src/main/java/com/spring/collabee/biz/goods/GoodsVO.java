@@ -1,6 +1,5 @@
 package com.spring.collabee.biz.goods;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -10,12 +9,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class GoodsVO {
 
 	private int productNum, price, disRate, saleprice, count, stock, deliveryCode, divisionNum, storageNum;
-	private String productName, pDescription, thumOriFilename, thumSysFilename, detaileOriFilename,
+
+	private String productName, pDescription, thumOriFilename, thumSysFilename, detaileOriFilename, category,
 					detaileSysFilename, seller, productDel, division, condition, deliveryType, deDescription;
-	private Date regdate, disDate;
+	private String regdate, disDate;
 	
 	//파일업로드를 위한 데이터 저장용
-	private MultipartFile uploadFile;
+	private MultipartFile uploadFileMainPic;
+	private MultipartFile uploadFileDetailPic;
 	
 	
 	// 제이슨용 필드(옵션선택)
@@ -35,10 +36,53 @@ public class GoodsVO {
 	
 	public GoodsVO() {
 		System.out.println("GoodsVO 객체 생성~");
-	}	
-	
-	
-	
+	}
+
+
+
+	public GoodsVO(int productNum, int price, int disRate, int saleprice, int count, int stock, int deliveryCode,
+			int divisionNum, int storageNum, String productName, String pDescription, String thumOriFilename,
+			String thumSysFilename, String detaileOriFilename, String category, String detaileSysFilename,
+			String seller, String productDel, String division, String condition, String deliveryType,
+			String deDescription, String regdate, String disDate, MultipartFile uploadFileMainPic,
+			MultipartFile uploadFileDetailPic, String categoryType, String priceRange, String benefitType,
+			String priceStart, String priceEnd, List<String> typeList) {
+		this.productNum = productNum;
+		this.price = price;
+		this.disRate = disRate;
+		this.saleprice = saleprice;
+		this.count = count;
+		this.stock = stock;
+		this.deliveryCode = deliveryCode;
+		this.divisionNum = divisionNum;
+		this.storageNum = storageNum;
+		this.productName = productName;
+		this.pDescription = pDescription;
+		this.thumOriFilename = thumOriFilename;
+		this.thumSysFilename = thumSysFilename;
+		this.detaileOriFilename = detaileOriFilename;
+		this.category = category;
+		this.detaileSysFilename = detaileSysFilename;
+		this.seller = seller;
+		this.productDel = productDel;
+		this.division = division;
+		this.condition = condition;
+		this.deliveryType = deliveryType;
+		this.deDescription = deDescription;
+		this.regdate = regdate;
+		this.disDate = disDate;
+		this.uploadFileMainPic = uploadFileMainPic;
+		this.uploadFileDetailPic = uploadFileDetailPic;
+		this.categoryType = categoryType;
+		this.priceRange = priceRange;
+		this.benefitType = benefitType;
+		this.priceStart = priceStart;
+		this.priceEnd = priceEnd;
+		this.typeList = typeList;
+	}
+
+
+
 	public int getProductNum() {
 		return productNum;
 	}
@@ -207,6 +251,18 @@ public class GoodsVO {
 
 
 
+	public String getCategory() {
+		return category;
+	}
+
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+
 	public String getDetaileSysFilename() {
 		return detaileSysFilename;
 	}
@@ -291,26 +347,50 @@ public class GoodsVO {
 
 
 
-	public Date getRegdate() {
+	public String getRegdate() {
 		return regdate;
 	}
 
 
 
-	public void setRegdate(Date regdate) {
+	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
 
 
 
-	public Date getDisDate() {
+	public String getDisDate() {
 		return disDate;
 	}
 
 
 
-	public void setDisDate(Date disDate) {
+	public void setDisDate(String disDate) {
 		this.disDate = disDate;
+	}
+
+
+
+	public MultipartFile getUploadFileMainPic() {
+		return uploadFileMainPic;
+	}
+
+
+
+	public void setUploadFileMainPic(MultipartFile uploadFileMainPic) {
+		this.uploadFileMainPic = uploadFileMainPic;
+	}
+
+
+
+	public MultipartFile getUploadFileDetailPic() {
+		return uploadFileDetailPic;
+	}
+
+
+
+	public void setUploadFileDetailPic(MultipartFile uploadFileDetailPic) {
+		this.uploadFileDetailPic = uploadFileDetailPic;
 	}
 
 
@@ -387,74 +467,19 @@ public class GoodsVO {
 
 
 
-	//파일 업로드 ------
-	public MultipartFile getUploadFile() {
-		return uploadFile;
-	}
-
-	public void setUploadFile(MultipartFile uploadFile) {
-		this.uploadFile = uploadFile;
-	}
-
-
-
 	@Override
 	public String toString() {
 		return "GoodsVO [productNum=" + productNum + ", price=" + price + ", disRate=" + disRate + ", saleprice="
 				+ saleprice + ", count=" + count + ", stock=" + stock + ", deliveryCode=" + deliveryCode
 				+ ", divisionNum=" + divisionNum + ", storageNum=" + storageNum + ", productName=" + productName
 				+ ", pDescription=" + pDescription + ", thumOriFilename=" + thumOriFilename + ", thumSysFilename="
-				+ thumSysFilename + ", detaileOriFilename=" + detaileOriFilename + ", detaileSysFilename="
-				+ detaileSysFilename + ", seller=" + seller + ", productDel=" + productDel + ", division=" + division
-				+ ", condition=" + condition + ", deliveryType=" + deliveryType + ", deDescription=" + deDescription
-				+ ", regdate=" + regdate + ", disDate=" + disDate + ", uploadFile=" + uploadFile + ", categoryType="
-				+ categoryType + ", priceRange=" + priceRange + ", benefitType=" + benefitType + ", priceStart="
-				+ priceStart + ", priceEnd=" + priceEnd + ", typeList=" + typeList + "]";
-	}
-
-
-
-	public GoodsVO(int productNum, int price, int disRate, int saleprice, int count, int stock, int deliveryCode,
-			int divisionNum, int storageNum, String productName, String pDescription, String thumOriFilename,
-			String thumSysFilename, String detaileOriFilename, String detaileSysFilename, String seller,
-			String productDel, String division, String condition, String deliveryType, String deDescription,
-			Date regdate, Date disDate, MultipartFile uploadFile, String categoryType, String priceRange,
-			String benefitType, String priceStart, String priceEnd, List<String> typeList) {
-		super();
-		this.productNum = productNum;
-		this.price = price;
-		this.disRate = disRate;
-		this.saleprice = saleprice;
-		this.count = count;
-		this.stock = stock;
-		this.deliveryCode = deliveryCode;
-		this.divisionNum = divisionNum;
-		this.storageNum = storageNum;
-		this.productName = productName;
-		this.pDescription = pDescription;
-		this.thumOriFilename = thumOriFilename;
-		this.thumSysFilename = thumSysFilename;
-		this.detaileOriFilename = detaileOriFilename;
-		this.detaileSysFilename = detaileSysFilename;
-		this.seller = seller;
-		this.productDel = productDel;
-		this.division = division;
-		this.condition = condition;
-		this.deliveryType = deliveryType;
-		this.deDescription = deDescription;
-		this.regdate = regdate;
-		this.disDate = disDate;
-		this.uploadFile = uploadFile;
-		this.categoryType = categoryType;
-		this.priceRange = priceRange;
-		this.benefitType = benefitType;
-		this.priceStart = priceStart;
-		this.priceEnd = priceEnd;
-		this.typeList = typeList;
-	}
-	
-	
-	
+				+ thumSysFilename + ", detaileOriFilename=" + detaileOriFilename + ", category=" + category
+				+ ", detaileSysFilename=" + detaileSysFilename + ", seller=" + seller + ", productDel=" + productDel
+				+ ", division=" + division + ", condition=" + condition + ", deliveryType=" + deliveryType
+				+ ", deDescription=" + deDescription + ", regdate=" + regdate + ", disDate=" + disDate
+				+ ", uploadFileMainPic=" + uploadFileMainPic + ", uploadFileDetailPic=" + uploadFileDetailPic
+				+ ", categoryType=" + categoryType + ", priceRange=" + priceRange + ", benefitType=" + benefitType
+				+ ", priceStart=" + priceStart + ", priceEnd=" + priceEnd + ", typeList=" + typeList + "]";
+	}	
 	
 }
-

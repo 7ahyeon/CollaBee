@@ -18,11 +18,11 @@ public class FaqDAO {
 	public FaqDAO() {
 		System.out.println(">> FaqDAO() 객체 생성");
 	}
-	
-	//FAQ 전체리스트 보기 
-	public List<FaqVO> getFaqList(FaqVO vo) {
+
+	//FAQ 카테고리별 전체리스트 보기 
+	public List<FaqVO> getFaqList(String faqType) {
 		System.out.println("===> MyBatis 사용  getFaqList(vo) 실행");
-		return mybatis.selectList("faqDAO.getFaqList", vo);
+		return mybatis.selectList("faqDAO.getFaqList", faqType);
 	}
 	
 	//FAQ 상세보기

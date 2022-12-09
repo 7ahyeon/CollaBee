@@ -33,6 +33,7 @@
 }
 
 
+
 /* navbar */
 
 
@@ -43,6 +44,10 @@
     padding: 0px 10px;
     height: 100%;
     line-height: 50px;
+}
+
+.navbar .left-side .category-detail #sub-category-box .category-list{
+    background-color: transparent;
 }
 
 .navbar .left-side .category-detail {

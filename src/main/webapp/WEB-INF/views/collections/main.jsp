@@ -54,15 +54,6 @@
         justify-content: space-between;
         }
 
-        .item-container .item-box{
-            width: 280px;
-            height: 600px;
-        }
-
-        .item-container img {
-            height: 380px;
-        }
-
         .carousel-inner .card {
             border: none;
         }
@@ -79,13 +70,22 @@
         .carousel-item-box button, .carousel-item-box div[data-toggle] {
             z-index: 2;
         }
+        
+        .carousel-item-box .item-box {
+        	width: 300px;
+    		height: 600px;
+        }
+        
+        .carousel-item-box .item-box .card-img-top {
+        	height: 380px;
+        }
 
         
         
     </style>
 
     <script>
-    
+    	
     	console.log("아아아변경2 ${pageContext.request.contextPath }");
     	
         let sum = 0;
@@ -185,483 +185,161 @@
 	
 	    <div class="row">
 	        <div class="col-sm-2"></div>
+	        
 	        <div class="col-sm-8" style="padding: 0px;">
+	        
+	        	<!-- 기획전 1 -->
 	            <div style="text-align:center;margin:80px 0px 30px 0px;">
-	                <h4 style="font-weight:600;"> 이 상품 어때요? </h4>
+	                <h4 style="font-weight:600;"> ${specialList[0].title } </h4>
+	                <h6>${specialList[0].sDescription }</h6>
 	            </div>
 	            
 	            
 	            <div class="carousel-item-box" style="padding: 0px; width: 100%;">
 	                <div id="section1" class="carousel slide w-100" data-ride="carousel" data-interval="false">
 	                    <div class="carousel-inner w-100" role="listbox">
-	                        <div class="carousel-item active">
-	                        
-	                        <c:forEach var="item" items="${howAboutItemList }" >
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="${pageContext.request.contextPath}/resources/imgs/items/vegetable/collections_item_1.avif" alt="Card image">
+	                        <c:forEach var="goodsVO" items="${special1 }" varStatus="status">
+	                        <c:choose>
+	                        	<c:when test="${status.count == 1 }">
+                       		<div class="carousel-item active">
+	                        	</c:when>
+	                        	<c:when test="${status.count%4 == 1 }">
+                       		<div class="carousel-item">
+	                        	</c:when>
+	                        </c:choose>
+	                        <%-- C:/MyStudy/temp${goodsVO.thumPath }/${goodsVO.thumSysFilename } --%>
+	                            <div class="col-3 float-left">
+	                                    <div class="card  item-box">
+	                                        <img class="card-img-top" src="../resources/imgs/goods/${goodsVO.thumSysFilename }" alt="Card image">
 	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
+	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box" data-productname="${goodsVO.productName }" data-saleprice="${goodsVO.saleprice }" data-productnum="${goodsVO.productNum }">
 	                                                <i class="fa-solid fa-cart-shopping"></i>
 	                                            </div>
 	                                        </div>
 	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
+	                                            <p class="card-text --font-large">${goodsVO.productName }</p>
+	                                            <p><span class="--color-red --font-large">${goodsVO.disRate }%</span><span id='saleprice${status.index+1 }' class='--font-large --strong' style='margin-left:10px;'>${goodsVO.saleprice }</span><span class='--font-large --strong'>원</span></p>
+	                                            <p class='--font-mid --color-gray --line-mid'><span>${goodsVO.price }</span><span>원</span></p>
+	                                            <p class="--font-small --color-gray --strong">${goodsVO.pDescription }</p>
+	                                            <a href="../goods/goodsContent.do?productNum=${goodsVO.productNum }" class="stretched-link"></a>
 	                                        </div>
 	                                    </div>
 	                            </div>
+	                        	<c:if test="${status.count%4 == 0 or status.last}">
+	                        </div>
+	                        	</c:if>
 	                        </c:forEach>
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="${pageContext.request.contextPath}/resources/imgs/items/vegetable/collections_item_1.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="${pageContext.request.contextPath}/resources/imgs/items/vegetable/collections_item_1.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="${pageContext.request.contextPath}/resources/imgs/items/vegetable/collections_item_1.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="carousel-item">
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="${pageContext.request.contextPath}/resources/imgs/items/vegetable/collections_item_1.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
+                    	</div>
 	                    <button class="prev-item-btn" href="#section1" role="button" data-slide="prev">
 	                        <i class="fa-solid fa-chevron-left"></i>
 	                    </button>
 	                    <button class="next-item-btn" href="#section1" role="button" data-slide="next">
 	                        <i class="fa-solid fa-chevron-right"></i>
 	                    </button>
-	                </div>
+               		</div>
 	            </div>
-	
+				
+				
+				<!-- 기획전 2 -->
 	            <div style="text-align:center;margin:80px 0px 30px 0px;">
-	                <h4 style="font-weight:600;"> 냉장고 속 단골 재료! </h4>
-	                <h6>어느 요리에나 잘 쓰이는 기본 재료 모음</h6>
+	                <h4 style="font-weight:600;"> ${specialList[1].title } </h4>
+	                <h6>${specialList[1].sDescription }</h6>
 	            </div>
 	
 	            <div class="carousel-item-box" style="padding: 0px; width: 100%;">
 	                <div id="section2" class="carousel slide w-100" data-ride="carousel" data-interval="false">
 	                    <div class="carousel-inner w-100" role="listbox">
-	                        <div class="carousel-item active">
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
+	                        <c:forEach var="goodsVO" items="${special2 }" varStatus="status">
+	                        <c:choose>
+	                        	<c:when test="${status.count == 1 }">
+                       		<div class="carousel-item active">
+	                        	</c:when>
+	                        	<c:when test="${status.count%4 == 1 }">
+                       		<div class="carousel-item">
+	                        	</c:when>
+	                        </c:choose>
+	                            <div class="col-3 float-left">
+	                                    <div class="card  item-box">
+	                                        <img class="card-img-top" src="../resources/imgs/goods/${goodsVO.thumSysFilename }" alt="Card image">
 	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
+	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box" data-productname="${goodsVO.productName }" data-saleprice="${goodsVO.saleprice }" data-productnum="${goodsVO.productNum }">
 	                                                <i class="fa-solid fa-cart-shopping"></i>
 	                                            </div>
 	                                        </div>
 	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
+	                                            <p class="card-text --font-large">${goodsVO.productName }</p>
+	                                            <p><span class="--color-red --font-large">${goodsVO.disRate }%</span><span id='saleprice${status.index+1 }' class='--font-large --strong' style='margin-left:10px;'>${goodsVO.saleprice }</span><span class='--font-large --strong'>원</span></p>
+	                                            <p class='--font-mid --color-gray --line-mid'><span>${goodsVO.price }</span><span>원</span></p>
+	                                            <p class="--font-small --color-gray --strong">${goodsVO.pDescription }</p>
+	                                            <a href="../goods/goodsContent.do?productNum=${goodsVO.productNum }" class="stretched-link"></a>
 	                                        </div>
 	                                    </div>
 	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
+	                        	<c:if test="${status.count%4 == 0 or status.last}">
 	                        </div>
-	                        <div class="carousel-item">
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
+	                        	</c:if>
+	                        </c:forEach>
+	                    	</div>
+                		</div>
 	                    <button class="prev-item-btn" href="#section2" role="button" data-slide="prev">
 	                        <i class="fa-solid fa-chevron-left"></i>
 	                    </button>
 	                    <button class="next-item-btn" href="#section2" role="button" data-slide="next">
 	                        <i class="fa-solid fa-chevron-right"></i>
 	                    </button>
-	                </div>
-	            </div>
+               		</div>
+	            
+	            <!-- 기획전 3 -->
 	            <div style="text-align:center;margin:80px 0px 30px 0px;">
-	                <h4 style="font-weight:600;"> 콜라비 추천 상품! </h4>
-	                <h6>에디터가 강추합니다~</h6>
+	                <h4 style="font-weight:600;"> ${specialList[2].title } </h4>
+	                <h6>${specialList[2].sDescription }</h6>
 	            </div>
 	
 	            <div class="carousel-item-box" style="padding: 0px; width: 100%;">
 	                <div id="section3" class="carousel slide w-100" data-ride="carousel" data-interval="false">
 	                    <div class="carousel-inner w-100" role="listbox">
-	                        <div class="carousel-item active">
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
+	                        <c:forEach var="goodsVO" items="${special3 }" varStatus="status">
+	                        <c:choose>
+	                        	<c:when test="${status.count == 1 }">
+                       		<div class="carousel-item active">
+	                        	</c:when>
+	                        	<c:when test="${status.count%4 == 1 }">
+                       		<div class="carousel-item">
+	                        	</c:when>
+	                        </c:choose>
+	                            <div class="col-3 float-left">
+	                                    <div class="card  item-box">
+	                                        <img class="card-img-top" src="../resources/imgs/goods/${goodsVO.thumSysFilename }" alt="Card image">
 	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
+	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box" data-productname="${goodsVO.productName }" data-saleprice="${goodsVO.saleprice }" data-productnum="${goodsVO.productNum }">
 	                                                <i class="fa-solid fa-cart-shopping"></i>
 	                                            </div>
 	                                        </div>
 	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
+	                                            <p class="card-text --font-large">${goodsVO.productName }</p>
+	                                            <p><span class="--color-red --font-large">${goodsVO.disRate }%</span><span id='saleprice${status.index+1 }' class='--font-large --strong' style='margin-left:10px;'>${goodsVO.saleprice }</span><span class='--font-large --strong'>원</span></p>
+	                                            <p class='--font-mid --color-gray --line-mid'><span>${goodsVO.price }</span><span>원</span></p>
+	                                            <p class="--font-small --color-gray --strong">${goodsVO.pDescription }</p>
+	                                            <a href="../goods/goodsContent.do?productNum=${goodsVO.productNum }" class="stretched-link"></a>
 	                                        </div>
 	                                    </div>
 	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
+	                        	<c:if test="${status.count%4 == 0 or status.last}">
 	                        </div>
-	                        <div class="carousel-item">
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                    <div class="card">
-	                                        <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                        <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                            <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                                <i class="fa-solid fa-cart-shopping"></i>
-	                                            </div>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">해남호박고구마</p>
-	                                            <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                            <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                            <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                            <a href="#" class="stretched-link"></a>
-	                                        </div>
-	                                    </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <div class="col-3 float-left item-box">
-	                                <div class="card">
-	                                    <img class="card-img-top" src="resources/imgs/채소/해남호박고구마.avif" alt="Card image">
-	                                    <div class="icon-cart-box-box" style="position:relative; height:0px;">
-	                                        <div type="button" data-toggle="modal" data-target="#cart-modal"class="btn btn-primary icon-cart-box">
-	                                            <i class="fa-solid fa-cart-shopping"></i>
-	                                        </div>
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <p class="card-text --font-large">해남호박고구마</p>
-	                                        <p><span class="--color-red --font-large">10%</span><span class="--font-large --strong" style="margin-left:10px;">4,950원</span></p>
-	                                        <p class="--font-mid --color-gray --line-mid">5,500원</p>
-	                                        <p class="--font-small --color-gray --strong">고소함 가득. 매력적인 풍미</p>
-	                                        <a href="#" class="stretched-link"></a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
+	                        	</c:if>
+	                        </c:forEach>
+	                    	</div>
+                		</div>
 	                    <button class="prev-item-btn" href="#section3" role="button" data-slide="prev">
 	                        <i class="fa-solid fa-chevron-left"></i>
 	                    </button>
 	                    <button class="next-item-btn" href="#section3" role="button" data-slide="next">
 	                        <i class="fa-solid fa-chevron-right"></i>
 	                    </button>
-	                </div>
+               		</div>
 	            </div>
-	
+			
+			<!-- col-sm-8 닫는 태그 -->
 	        </div>
 	        <div class="col-sm-2"></div>
 	    </div>

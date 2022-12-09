@@ -1,4 +1,4 @@
-package com.spring.collabee.biz.view.admingoods;
+package com.spring.collabee.view.admingoods;
 
 import java.util.List;
 

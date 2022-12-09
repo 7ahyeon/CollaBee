@@ -57,7 +57,7 @@
 						${orderGoods[0].productName } 외
 					</span>
 					<span style="color:#9A30AE;">
-						${orderGoods.size() }개
+						${orderGoods.size() - 1 }개
 					</span>
 					 상품을 주문합니다.
 				</div>
@@ -66,7 +66,7 @@
 			    <div class="card-body product" style="display: none;padding:25px 10px 10px 5px;">
 			    	<div class="d-flex  flex-row justify-content-between">
 			    		<div class="item">
-							<img class="productImgCart"  src="../resources/imgs/goods/${goods.categoryNum }/${goods.thumSysFilename }" width="80px" >
+							<img class="productImgCart"  src="../resources/imgs/goods/${goods.thumSysFilename }" width="80px" >
 				     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 			     				<c:if test="${goods.productName.length() > 39 }">
 			     					${goods.productName.substring(0,39) }<br>
@@ -82,12 +82,12 @@
 			     				${goods.count }개
 			     			</span>
 				     		<span class="text-right text-dark font-weight-bold" style="width:200px;">
-			     				<c:if test="${goods.saleprice == 0 }">
+			     				<c:if test="${goods.saleprice == goods.price }">
 			     					<fmt:formatNumber pattern="###,###,###" value="${goods.price * goods.count }" /> 원
 			     				</c:if>
 			     				
 								<!-- 할인가 있는 상품 -->
-			     				<c:if test="${goods.saleprice != 0 }">
+			     				<c:if test="${goods.saleprice != goods.price }">
 			     					<fmt:formatNumber pattern="###,###,###" value="${goods.saleprice * goods.count }" /> 원
 		     					<span class="text-secondary text-right" style="font-size:0.8rem;">
 					     			<del>
@@ -784,11 +784,18 @@ $(function() {
 		$('.check-all').prop('checked', this.checked);
 	});
 	
+	// 결제 박스
 	var currentPosition = parseInt($(".quickPayMenu").css("top"));
 	$(window).scroll(function() {
 		var position = $(window).scrollTop();
-		var newPosition = position + currentPosition + "px";
-	    $(".quickPayMenu").stop().animate({"top":newPosition},800);
+		var newPosition = position + currentPosition - 100 + "px";
+		var endPosition = position + currentPosition - 200 + "px";
+		// 일정 위치에서 멈추기
+		if (Math.round( $(window).scrollTop()) + 200 > $(document).height() - $(window).height()) {
+			$(".quickPayMenu").stop().animate({"top":endPosition},800);
+		} else {
+   			$(".quickPayMenu").stop().animate({"top":newPosition},800);
+		}
 	}).scroll();
 });
 // 결제 버튼
