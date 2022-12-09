@@ -718,7 +718,7 @@ $(function() {
 	var dateHtml = '';
 	
 	for(var i = 1; i < 6; i++) {
-		var tomorrow = new Date(today.setDate(today.getDate() + i));
+		var tomorrow = new Date(today.getDate() + i);
 		var month = tomorrow.getMonth() + 1;
 		var date = tomorrow.getDate();
 		var day = tomorrow.getDay();
