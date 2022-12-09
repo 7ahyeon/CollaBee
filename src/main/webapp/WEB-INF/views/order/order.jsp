@@ -295,44 +295,14 @@
 			    			</thead>
 			    			<tbody>
 			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">~06:00까지</td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
 			    				</tr>
 			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">06:00~10:00</td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
 			    				</tr>
 			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">10:00~13:00</td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
 			    				</tr>
 			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">13:00~17:00</td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
 			    				</tr>
 			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">17:00~21:00</td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
-				    				<td></td>
 			    				</tr>
 			    			</tbody>
 			    		</table>
@@ -717,10 +687,10 @@ $(function() {
 	let today = new Date();
 	var dateHtml = '';
 	var dateVal = '';
-	var deliveryHtml = '';
 	var timeVal = '';
 	
 	for(var i = 1; i < 6; i++) {
+		var deliveryHtml = '';
 		var tomorrow = new Date(today.setDate(today.getDate()+1));
 		var year = tomorrow.getFullYear();
 		var month = tomorrow.getMonth() + 1;
@@ -746,27 +716,34 @@ $(function() {
 		dateHtml = month + '/' + date + ' (' + day + ')';
 		$(".deliveryTable").find("thead").find("th:eq(" + i + ")").html(dateHtml);
 		
+		if (i == 1) {
+			timeVal = ' 06:00:00';
+			deliveryHtml += '<td style="color:#9A30AE;font-weight:bold;">~06:00까지</td>';
+		} else if (i == 2) {
+			timeVal = ' 10:00:00';
+			deliveryHtml += '<td style="color:#9A30AE;font-weight:bold;">06:00~10:00</td>';
+		} else if (i == 3) {
+			timeVal = ' 13:00:00';
+			deliveryHtml += '<td style="color:#9A30AE;font-weight:bold;">10:00~13:00</td>';
+		} else if (i == 4) {
+			timeVal = ' 17:00:00';
+			deliveryHtml += '<td style="color:#9A30AE;font-weight:bold;">13:00~17:00</td>';
+		} else if (i == 5) {
+			timeVal = ' 21:00:00';
+			deliveryHtml += '<td style="color:#9A30AE;font-weight:bold;">17:00~21:00</td>';
+		}
+	
 		for (var t = 0; t < 5; t++) {
-			if (t == 0) {
-				timeVal = ' 06:00:00';
-			} else if (t == 1) {
-				timeVal = ' 10:00:00';
-			} else if (t == 2) {
-				timeVal = ' 13:00:00';
-			} else if (t == 3) {
-				timeVal = ' 17:00:00';
-			} else if (t == 4) {
-				timeVal = ' 21:00:00';
-			}
 			
 			dateVal = year + '-' + month + '-' + date;
 			
 			if (i == 1 && t == 0) {
-				deliveryHtml = '<label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick" checked> 예약가능</label>';
+				deliveryHtml += '<td><label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick" checked> 예약가능</label></td>';
 			} else {
-				deliveryHtml = '<label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick"> 예약가능</label>';
+				deliveryHtml += '<td><label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick"> 예약가능</label></td>';
 			}
-			$(".deliveryTable").find("tbody").find("tr:eq(" + t + ")").find("td:eq(" + i + ")").html(deliveryHtml);
+			
+			$(".deliveryTable").find("tbody").find("tr:eq(" + i + ")").html(deliveryHtml);
 		}
 	}
 	
