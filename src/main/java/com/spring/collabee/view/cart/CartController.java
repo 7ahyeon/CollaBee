@@ -19,6 +19,7 @@ import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderMemberVO;
+import com.spring.collabee.biz.order.OrderVO;
 
 @SessionAttributes({"nmember","cartList", "cartCount", "cartList1", "cartList2", "cartList3", "cartList4"})
 @RequestMapping("/cart")
@@ -32,7 +33,7 @@ public class CartController {
 	}
 	
 	@RequestMapping("/cart.do")
-	public String cart(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, CartVO cart, MemberVO mvo) {
+	public String cart(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, CartVO cart, MemberVO mvo, OrderVO ovo) {
 		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
 		mvo = (MemberVO) session.getAttribute("loginMember");
 		
@@ -45,13 +46,11 @@ public class CartController {
 			cartCookie.setPath("/");
 			cartCookie.setMaxAge(60 * 60 * 24 * 3);
 			response.addCookie(cartCookie);
-			
-			model.addAttribute("nmember", nmemberNum);
+			ovo.setNmemberNum(nmemberNum);
+			model.addAttribute("nmember", ovo);
 			cart.setNmemberNum(nmemberNum);
-			System.out.println("----------------------비회원 장바구니 생성: " + nmemberNum);
 		} else if (cookie != null && mvo == null) {
 			String nmemberNum = cookie.getValue();
-			System.out.println("----------------------비회원 장바구니 존재 : " + nmemberNum);
 			cart.setNmemberNum(nmemberNum);
 			
 			// 비회원 장바구니 조회

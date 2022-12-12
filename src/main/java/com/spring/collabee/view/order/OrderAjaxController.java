@@ -54,13 +54,11 @@ public class OrderAjaxController {
 			cart.setMemberNum(mvo.getMemberNum());
 		}
 		List<CartVO> orderGoods = new ArrayList<CartVO>();
-		System.out.println("--------카트 정보" + cart.toString());
 		for (String i : list) {
 			productNum = Integer.parseInt(i);
 			cart.setProductNum(productNum);
 			orderGoods.add(cartService.checkCartList(cart));
 		}
-		System.out.println("-------카트 물건" + orderGoods.toString());
 		model.addAttribute("orderGoods", orderGoods);
 		return 1;
 	}

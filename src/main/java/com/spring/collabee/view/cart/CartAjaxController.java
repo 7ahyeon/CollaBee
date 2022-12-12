@@ -27,7 +27,7 @@ import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderMemberVO;
 import com.spring.collabee.biz.order.OrderVO;
 
-@SessionAttributes({"nmember", "orderNm"})
+@SessionAttributes("nmember")
 @RestController
 @RequestMapping("/cart")
 public class CartAjaxController {
@@ -186,10 +186,19 @@ public class CartAjaxController {
 		String addrDetail = String.valueOf(map.get("addressDetail"));
 		 
 		if (mvo == null) {
-			ovo.setNmemberNum(cookie.getValue());
-			ovo.setOrderAddr(address);
-			ovo.setOrderAddrDetail(addrDetail);
-			model.addAttribute("orderNm", ovo);
+			if (session.getAttribute("nmember") == null) {
+				ovo.setNmemberNum(cookie.getValue());
+				ovo.setOrderAddr(address);
+				ovo.setOrderAddrDetail(addrDetail);
+				System.out.println("-----------비회원 주소" + ovo.toString());
+				model.addAttribute("nmember", ovo);
+			} else {
+				ovo = (OrderVO) session.getAttribute("nmember");
+				ovo.setOrderAddr(address);
+				ovo.setOrderAddrDetail(addrDetail);
+				System.out.println("----------------비회원 주소" + ovo.toString());
+				model.addAttribute("nmember", ovo);
+			}
 		} else {
 			mvo.setAddress(address);
 			mvo.setAddressDetail(addrDetail);

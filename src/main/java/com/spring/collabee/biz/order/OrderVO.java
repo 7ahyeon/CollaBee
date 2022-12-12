@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class OrderVO {
 	private int orderNum;
-	private String orderName, orderPhone, orderAddr, orderPlace, orderRequest, orderMms;
+	private String orderName, orderPhone, orderAddr, orderPlace, orderRequest;
 	private Timestamp deliveryPick;
 	private int deliveryFee, totDiscount, totPrice, couponNum, usageAmount, ptNum, memberNum;
 	private String ptInstallment, orderAddrDetail, nmemberNum;
@@ -58,14 +58,6 @@ public class OrderVO {
 
 	public void setOrderRequest(String orderRequest) {
 		this.orderRequest = orderRequest;
-	}
-
-	public String getOrderMms() {
-		return orderMms;
-	}
-
-	public void setOrderMms(String orderMms) {
-		this.orderMms = orderMms;
 	}
 
 	public Timestamp getDeliveryPick() {
@@ -160,12 +152,21 @@ public class OrderVO {
 	public String toString() {
 		return "OrderVO [orderNum=" + orderNum + ", orderName=" + orderName + ", orderPhone=" + orderPhone
 				+ ", orderAddr=" + orderAddr + ", orderPlace=" + orderPlace + ", orderRequest=" + orderRequest
-				+ ", orderMms=" + orderMms + ", deliveryPick=" + deliveryPick + ", deliveryFee=" + deliveryFee
-				+ ", totDiscount=" + totDiscount + ", totPrice=" + totPrice + ", couponNum=" + couponNum
-				+ ", usageAmount=" + usageAmount + ", ptNum=" + ptNum + ", memberNum=" + memberNum + ", ptInstallment="
-				+ ptInstallment + ", orderAddrDetail=" + orderAddrDetail + ", nmemberNum=" + nmemberNum + "]";
+				+ ", deliveryPick=" + deliveryPick + ", deliveryFee=" + deliveryFee + ", totDiscount=" + totDiscount
+				+ ", totPrice=" + totPrice + ", couponNum=" + couponNum + ", usageAmount=" + usageAmount + ", ptNum="
+				+ ptNum + ", memberNum=" + memberNum + ", ptInstallment=" + ptInstallment + ", orderAddrDetail="
+				+ orderAddrDetail + ", nmemberNum=" + nmemberNum + ", getOrderNum()=" + getOrderNum()
+				+ ", getOrderName()=" + getOrderName() + ", getOrderPhone()=" + getOrderPhone() + ", getOrderAddr()="
+				+ getOrderAddr() + ", getOrderPlace()=" + getOrderPlace() + ", getOrderRequest()=" + getOrderRequest()
+				+ ", getDeliveryPick()=" + getDeliveryPick() + ", getDeliveryFee()=" + getDeliveryFee()
+				+ ", getTotDiscount()=" + getTotDiscount() + ", getTotPrice()=" + getTotPrice() + ", getCouponNum()="
+				+ getCouponNum() + ", getUsageAmount()=" + getUsageAmount() + ", getPtNum()=" + getPtNum()
+				+ ", getMemberNum()=" + getMemberNum() + ", getPtInstallment()=" + getPtInstallment()
+				+ ", getOrderAddrDetail()=" + getOrderAddrDetail() + ", getNmemberNum()=" + getNmemberNum()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
-	
+
 	
 	
 }

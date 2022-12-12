@@ -559,11 +559,11 @@ footer {
 					<p class="font-weight-bold text-dark" style="margin-bottom: 3px;">
 						<span class="addressView" style="font-size:0.95rem;">
 						<c:if test="${empty loginMember }">
-							<c:if test="${empty orderNm }">
+							<c:if test="${empty nmember.orderAddr }">
 								<span style="color:#9A30AE;">배송지를 등록</span>하고<br>구매 가능한 상품을 확인하세요!
 							</c:if>						
-							<c:if test="${not empty orderNm }">
-								${orderNm.orderAddr }&nbsp;${orderNm.orderAddrDetail }
+							<c:if test="${not empty nmember.orderAddr }">
+								${nmember.orderAddr }&nbsp;${nmember.orderAddrDetail }
 							</c:if>
 						</c:if>
 						<c:if test="${not empty loginMember }">
@@ -1158,30 +1158,40 @@ var splitStr = "/";
                 }
 				$('#address_kakao').val(addr); // 주소 넣기
 				$('#address_detail').focus(); //상세입력 포커싱
-				console.log($('#address_kakao').value);
 			}
 		}).open();
 	}
 	function changeAddr() {
-		var addr = $('#address_kakao').val();
-		var addrDetail = $('#address_detail').val();
-		var sendAddr = {
-				address : addr,
-				addressDetail : addrDetail
-			};
-		$.ajax({
-			type: "POST",
-			url: "changeAddr.do",
-			data: JSON.stringify(sendAddr),
-			contentType: "application/json",
-			dataType: "json",
-			success: function(data){
-				let addrHtml = addr + " " + addrDetail;
-				$(".addressView").html(addrHtml);
-			},
-			error: function(){
-			}
-		}); 
+		if ($('#address_kakao').val() != '' && $('#address_detail').val() != '') {
+			var addr = $('#address_kakao').val();
+			var addrDetail = $('#address_detail').val();
+			var sendAddr = {
+					address : addr,
+					addressDetail : addrDetail
+				};
+			$.ajax({
+				type: "POST",
+				url: "changeAddr.do",
+				data: JSON.stringify(sendAddr),
+				contentType: "application/json",
+				dataType: "json",
+				success: function(data){
+					let addrHtml = addr + " " + addrDetail;
+					$(".addressView").html(addrHtml);
+				},
+				error: function(){
+				}
+			}); 
+			$('#changeAddressModal').modal('hide');
+		} else {
+			Swal.fire({
+				icon: 'warning',
+				title: '', 
+				text: '주소와 상세 주소를 모두 입력해주세요.',
+				showConfirmButton: false,
+				timer: 1500
+			});
+		}
 	}
 	
 </script>

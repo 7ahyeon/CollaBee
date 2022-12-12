@@ -30,17 +30,49 @@
 			        <tr>
 			            <th class="text-dark">주소</th>
 			            <td>
+			            <c:if test="${empty loginMember }">
+							<c:if test="${empty nmember }">
+				            	<input id="address_kakao" name="address" type="text"
+								 	style="width:450px;padding:5px;border:1px solid lightgray;" placeholder="주소를 입력해주세요." onclick="findAddr()" readonly />
+								 <button type="button" id="addressSearch" onclick="findAddr()" class="btn bg-white font-weight-bold"
+									style="border:1px solid #9A30AE;border-radius:3px;color:#9A30AE;font-size:1rem;" >
+								 주소 검색</button>
+							</c:if>						
+							<c:if test="${not empty nmember }">
+				            	<input id="address_kakao" name="address" type="text"
+								 	style="width:450px;padding:5px;border:1px solid lightgray;" value="${nmember.orderAddr }" onclick="findAddr()" readonly />
+								 <button type="button" id="addressSearch" onclick="findAddr()" class="btn bg-white font-weight-bold"
+									style="border:1px solid #9A30AE;border-radius:3px;color:#9A30AE;font-size:1rem;" >
+								 주소 검색</button>
+							</c:if>
+						</c:if>
+						<c:if test="${not empty loginMember }">
 			            	<input id="address_kakao" name="address" type="text"
-							 	style="width:450px;padding:5px;border:1px solid lightgray;" onclick="findAddr()" readonly />
+							 	style="width:450px;padding:5px;border:1px solid lightgray;" value="${loginMember.address }" onclick="findAddr()" readonly />
 							 <button type="button" id="addressSearch" onclick="findAddr()" class="btn bg-white font-weight-bold"
 								style="border:1px solid #9A30AE;border-radius:3px;color:#9A30AE;font-size:1rem;" >
 							 주소 검색</button>
+						</c:if>
 						</td>
 			        </tr>
 			        <tr>
 			            <th class="text-dark">상세 주소</th>
-			            <td><input id="address_detail" name="address_detail" type="text"
-						 style="width:100%;padding:5px;border:1px solid lightgray;" /></td>
+			            	<td>
+		            		 <c:if test="${empty loginMember }">
+								<c:if test="${empty nmember }">
+			            		<input id="address_detail" name="address_detail"  placeholder="나머지 주소를 입력해주세요." type="text"
+						 			style="width:100%;padding:5px;border:1px solid lightgray;" />
+					 			</c:if>
+					 			<c:if test="${not empty nmember }">
+				            	<input id="address_detail" name="address_detail" value="${nmember.orderAddrDetail }" type="text"
+						 			style="width:100%;padding:5px;border:1px solid lightgray;" />
+					 			</c:if>
+				 			</c:if>
+				 			<c:if test="${not empty loginMember }">
+				 				<input id="address_detail" name="address_detail" value="${loginMember.addressDetail }" type="text"
+						 			style="width:100%;padding:5px;border:1px solid lightgray;" />
+				 			</c:if>
+						 	</td>
 			        </tr>
 		   			</table>
 					
@@ -49,7 +81,7 @@
 		
 		<!-- Modal footer -->
 		<div class="modal-footer" style="border:none;">
-			<button type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal" onclick="changeAddr()"
+			<button type="button" class="btn btn-secondary font-weight-bold" onclick="changeAddr()"
 				style="width:250px;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:15px;color:white;font-size:1rem;">
 				 저장
 			</button>
