@@ -1162,7 +1162,7 @@ var splitStr = "/";
 		}).open();
 	}
 	function changeAddr() {
-		if ($('#address_kakao').val() != '' && $('#address_detail').val() != '') {
+		if ($('#address_kakao').val().replace(/\s/gi, "") != '' && $('#address_detail').val().replace(/\s/gi, "") != '') {
 			var addr = $('#address_kakao').val();
 			var addrDetail = $('#address_detail').val();
 			var sendAddr = {

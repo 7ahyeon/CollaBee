@@ -665,6 +665,7 @@
 	<footer>
 		<%@ include file= "../common/footer.jspf"%>
 	</footer>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
 
@@ -679,21 +680,7 @@ function openList() {
 	}
 }
 $(function() {
-	$('.extraPlace').css('display', 'none');
-	// 배송 정보 수정
-	$('input:radio[name=orderPlace]').click(function (){
-		var orderPlaceVal = $('input:radio[name=orderPlace]:checked').val();
-		var orderPlaceTitle = '<span class="text-dark">기타 장소 세부 사항 <span class="text-danger"><sup>*</sup></span></span>';
-		if (orderPlaceVal == 4) {
-			$('.extraPlaceTh').html(orderPlaceTitle);
-			$('.extraPlace').css('display', 'block');
-		} else {
-			$('.extraPlaceTh').html('');
-			$('.extraPlace').css('display', 'none');
-		}
-	});
 	
-	// 총 결제 금액 계산
 	
 	// 배송시간 선택
 	let today = new Date();
@@ -725,7 +712,6 @@ $(function() {
 			day = '토';
 		}
 		dateHtml += '<th>' + month + '/' + date + ' (' + day + ')' + '</th>';
-		
 		if (i == 1) {
 			timeVal = ' 06:00:00';
 			deliveryHtml += '<tr><td style="color:#9A30AE;font-weight:bold;">~06:00까지</td>';
@@ -763,6 +749,56 @@ $(function() {
 	$(".deliveryTable").find("thead").html(dateHtml);
 	$(".deliveryTable").find("tbody").html(deliveryHtml);
 	
+	
+	// 배송 정보 수정
+	$('.chkPhone').css('display', 'none');
+	$('.extraPlace').css('display', 'none');
+	
+	// 휴대폰 11글자 입력 표기 
+	$("#orderPhone").keyup(function(e) {
+		if ($('#orderPhone').val().length != 11){
+			$('.chkPhone').css('display', 'block');
+		} else {
+			$('.chkPhone').css('display', 'none');
+		}
+	});
+	
+	// 기타 장소 세부사항 표기
+	$('input:radio[name=orderPlace]').click(function (){
+		var orderPlaceVal = $('input:radio[name=orderPlace]:checked').val();
+		var orderPlaceTitle = '<span class="text-dark">기타 장소 세부 사항 <span class="text-danger"><sup>*</sup></span></span>';
+		if (orderPlaceVal == 4) {
+			$('.extraPlaceTh').html(orderPlaceTitle);
+			$('.extraPlace').css('display', 'block');
+		} else {
+			$('.extraPlaceTh').html('');
+			$('.extraPlace').css('display', 'none');
+		}
+	});
+	// 주문자 정보와 동일
+	$('.check-order').click(function (){
+		if ($('.check-order').is(':checked')) {
+			var orderName = $('.check-order').attr('data-name');
+			var orderPhone = $('.check-order').attr('data-phone');
+			var orderAddr = $('.check-order').attr('data-addr');
+			var orderAddrDetail = $('.check-order').attr('data-addrDetail');
+			$('#orderName').val(orderName);
+			$('#orderPhone').val(orderPhone);
+			$('#address_kakao').val(orderAddr);
+			$('#address_detail').val(orderAddrDetail);
+		} else {
+			$('#orderName').val('');
+			$('#orderPhone').val('');
+			$('#address_kakao').val('');
+			$('#address_detail').val('');
+			$('#orderName').attr('placeholder').val(" 이름을 입력해 주세요.");
+			$('#orderPhone').attr('placeholder').val(" 숫자만 입력해 주세요.");
+			$('#address_kakao').attr('placeholder').val(" 주소를 입력해주세요.");
+			$('#address_detail').attr('placeholder').val(" 나머지 주소를 입력해주세요.");
+		}
+	});
+	
+	// 총 결제 금액 계산
 	
 	// 배송지 변경 안내 hover
 	$('.info-title').hover(function() {
@@ -890,7 +926,106 @@ $(function() {
 	
 // end
 });
+function findAddr() {
+	new daum.Postcode({
+		oncomplete: function(data) {
+			var addr = '';
+                
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우(R)
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+			$('#address_kakao').val(addr); // 주소 넣기
+			$('#address_detail').focus(); //상세입력 포커싱
+		}
+	}).open();
+}
+function changeAddr() {
+	if ($('#address_kakao').val().replace(/\s/gi, "") != '' && $('#address_detail').val().replace(/\s/gi, "") != '') {
+		var addr = $('#address_kakao').val();
+		var addrDetail = $('#address_detail').val();
+		var sendAddr = {
+				address : addr,
+				addressDetail : addrDetail
+			};
+		$.ajax({
+			type: "POST",
+			url: "../cart/changeAddr.do",
+			data: JSON.stringify(sendAddr),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data){
+				let addrHtml = addr + " " + addrDetail;
+				$(".addressView").html(addrHtml);
+			},
+			error: function(){
+			}
+		}); 
+		$('#changeAddressModal').modal('hide');
+	} else {
+		Swal.fire({
+			icon: 'warning',
+			title: '', 
+			text: '주소와 상세 주소를 모두 입력해주세요.',
+			showConfirmButton: false,
+			timer: 1500
+		});
+	}
+}
 
+function changeOrder() {
+	if ($('#orderName').val().replace(/\s/gi, "") != '') {
+		if ($('#orderPhone').val().replace(/\s/gi, "") != '') {
+			if ($('#orderPhone').val().length == 11) {
+				if ($('#address_kakao').val() != '' && $('#address_detail').val() != '') {
+					if ($('input:radio[name=orderPlace]:checked').val() == 4 && $('.extraPlaceText').val().replace(/\s/gi, "") == '') {
+						alertWarning('기타 장소 세부사항을 입력해주세요.');
+					} else {
+						var addr = $('#address_kakao').val();
+						var addrDetail = $('#address_detail').val();
+						var sendAddr = {
+								address : addr,
+								addressDetail : addrDetail
+							};
+						$.ajax({
+							type: "POST",
+							url: "../cart/changeAddr.do",
+							data: JSON.stringify(sendAddr),
+							contentType: "application/json",
+							dataType: "json",
+							success: function(data){
+								let addrHtml = addr + " " + addrDetail;
+								$(".addressView").html(addrHtml);
+							},
+							error: function(){
+							}
+						}); 
+						$('#changeOrderDataModal').modal('hide');
+					}
+				} else {
+					alertWarning('주소와 상세 주소를 모두 입력해주세요.');
+				}
+			} else {
+				alertWarning('휴대폰 번호 11자리를 모두 입력해주세요.');
+			}
+		} else {
+			alertWarning('휴대폰 번호를 입력해주세요.');
+		}
+	} else {
+			alertWarning('이름을 입력해주세요.');
+	}
+}
+function alertWarning(msg) {
+	Swal.fire({
+		icon: 'warning',
+		title: '', 
+		text: msg,
+		showConfirmButton: false,
+		timer: 1500
+	});
+}
 </script>	
 </body>
 </html>
