@@ -48,17 +48,32 @@
 			        <tr>
 			            <th class="text-dark">받으실 분 <span class="text-danger"><sup>*</sup></span></th>
 			            <td>
+			            	<c:if test="${empty omember}">
 			           		<input id="orderName" name="orderName" type="text"
 							 	style="width:100%;padding:5px 10px;border:1px solid lightgray;" placeholder="이름을 입력해 주세요." />
+							</c:if>
+			            	<c:if test="${not empty omember}">
+			           		<input id="orderName" name="orderName" type="text"
+							 	style="width:100%;padding:5px 10px;border:1px solid lightgray;" value="${omember.orderName }" />
+			            	</c:if>
 						</td>
 			        </tr>
 			        <tr>
 		            	<th class="text-dark">휴대폰 <span class="text-danger"><sup>*</sup></span></th>
 		            	<td>
-		            		 <input id="orderPhone" name="orderPhone" type="text" 
+		            		<c:if test="${empty omember}">
+			    			<input id="orderPhone" name="orderPhone" type="text" 
 		            		 	maxlength="11"
 		            		 	oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 							 	style="width:100%;padding:5px 10px;border:1px solid lightgray;" placeholder="숫자만 입력해 주세요." />
+							</c:if>
+			            	<c:if test="${not empty omember}">
+			           		<input id="orderPhone" name="orderPhone" type="text" 
+		            		 	maxlength="11"
+		            		 	oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+							 	style="width:100%;padding:5px 10px;border:1px solid lightgray;" value="${omember.orderPhone }" />
+			            	</c:if>
+		            		 
 					 	</td>
 		        	</tr>
 					 <tr>
@@ -80,6 +95,7 @@
 			        <tr>
 			            <th class="text-dark">주소 <span class="text-danger"><sup>*</sup></span></th>
 			            <td class="addressInput">
+			            	<c:if test="${empty omember }">
 			            	<c:if test="${empty loginMember }">
 							<c:if test="${empty nmember }">
 				            	<input id="address_kakao" name="address" type="text"
@@ -103,11 +119,20 @@
 								style="border:1px solid #9A30AE;border-radius:3px;color:#9A30AE;font-size:0.8rem;margin:0 5px;" >
 							 주소 검색</button>
 							 </c:if>
+							 </c:if>
+			            	<c:if test="${not empty omember }">
+			            	<input id="address_kakao" name="address" type="text"
+								 	style="width:80%;padding:5px;border:1px solid lightgray;" value="${omember.orderAddr }" onclick="findAddr()" readonly />
+								 <button type="button" id="addressSearch" onclick="findAddr()" class="btn bg-white font-weight-bold"
+									style="border:1px solid #9A30AE;border-radius:3px;color:#9A30AE;font-size:1rem;" >
+								 주소 검색</button>
+			            	</c:if>
 						</td>
 			        </tr>
 			        <tr>
 			            <th class="text-dark">상세 주소 <span class="text-danger"><sup>*</sup></span></th>
 		            	<td class="addressDetailInput">
+		            	<c:if test="${empty omember }">
 		        	 	<c:if test="${empty loginMember }">
 						<c:if test="${empty nmember }">
 	            			<input id="address_detail" name="address_detail"  placeholder="나머지 주소를 입력해주세요." type="text"
@@ -121,6 +146,11 @@
 			 			<c:if test="${not empty loginMember }">
 		            		<input id="address_detail" name="address_detail" placeholder=" 나머지 주소를 입력해주세요." type="text"
 					 			style="width:100%;padding:5px;border:1px solid lightgray;" />
+					 	</c:if>
+					 	</c:if>
+					 	<c:if test="${not empty omember }">
+					 		<input id="address_detail" name="address_detail" value="${omember.orderAddrDetail }" type="text"
+				 				style="width:100%;padding:5px;border:1px solid lightgray;" />
 					 	</c:if>
 					 	</td>
 			        </tr>
@@ -164,8 +194,14 @@
 			        <tr>
 		            	<th class="text-dark">요청사항</th>
 		            	<td>
+		            		<c:if test="${empty omember.orderRequest }">
 		            		<textarea style="text-align:left;height:100px; width:100%;padding:5px 10px;border:1px solid lightgray;resize: none;" maxlength="100" 
-		           				name="orderRequest" placeholder="예 : 현관문 옆 택배함에 보관해주세요, 벨 누르지 말아주세요. (정확한 배송 시간은 별도로 지정하실 수 없습니다.)"></textarea>
+		           				class="orderRequest" name="orderRequest" placeholder="예 : 현관문 옆 택배함에 보관해주세요, 벨 누르지 말아주세요. (정확한 배송 시간은 별도로 지정하실 수 없습니다.)"></textarea>
+					 		</c:if>
+		            		<c:if test="${not empty omember.orderRequest }">
+		            		<textarea style="text-align:left;height:100px; width:100%;padding:5px 10px;border:1px solid lightgray;resize: none;" maxlength="100" 
+		           				class="orderRequest" name="orderRequest">${ omember.orderRequest }</textarea>
+					 		</c:if>
 					 	</td>
 		        	</tr>
 	   			</table>

@@ -2,6 +2,7 @@ package com.spring.collabee.view.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +24,7 @@ import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderVO;
 
-@SessionAttributes("orderGoods")
+@SessionAttributes({"orderGoods", "omember"})
 @RestController
 @RequestMapping("/order")
 public class OrderAjaxController {
@@ -61,5 +63,28 @@ public class OrderAjaxController {
 		}
 		model.addAttribute("orderGoods", orderGoods);
 		return 1;
+	}
+	
+	@RequestMapping(value="/changeOrderData.do", method = RequestMethod.POST)
+	public OrderVO changeOrderData(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response, MemberVO mvo, @RequestBody OrderVO omember, OrderVO ovo) {
+		// 쿠키 설정 / 로그인 여부 확인
+		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
+		mvo = (MemberVO) session.getAttribute("loginMember");
+		
+		if (mvo == null) {
+			// 비회원 주문
+			if ( session.getAttribute("nmember") == null) {
+				omember.setNmemberNum(cookie.getValue());
+			} else {
+				ovo = (OrderVO) session.getAttribute("nmember");
+				omember.setNmemberNum(ovo.getNmemberNum());
+			}
+		} else {
+			// 회원 주문
+			omember.setMemberNum(mvo.getMemberNum());
+		}
+		model.addAttribute("omember", omember);
+		System.out.println(omember.toString());
+		return omember;
 	}
 }

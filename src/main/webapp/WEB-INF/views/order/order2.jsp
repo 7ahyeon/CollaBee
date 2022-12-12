@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>콜라비</title>
 <%@ include file= "../common/bootstrap.jspf"%>
+<%@ include file= "../common/modal/changeOrderDataModal.jspf"%>
 <%@ include file= "../common/modal/agreeModal1.jspf"%>
 <%@ include file= "../common/modal/agreeModal2.jspf"%>
 <%@ include file= "../common/modal/agreeModal3.jspf"%>
@@ -53,20 +54,28 @@
 					</p>
 			    </div>
 				<div class="orderInfo text-center text-dark font-weight-bold" style="padding:35px;font-size:1rem;white-space: nowrap;">
+				<c:if test="${orderGoods.size() != 1 }">
 					<span>
 						${orderGoods[0].productName } 외
 					</span>
 					<span style="color:#9A30AE;">
-						${orderGoods.size() }개
+						${orderGoods.size() - 1 }개
 					</span>
 					 상품을 주문합니다.
+				 </c:if>
+				 <c:if test="${orderGoods.size() == 1 }">
+				 	<span>
+						${orderGoods[0].productName }
+					</span>
+					 을(를) 주문합니다.
+				 </c:if>
 				</div>
 			    <c:forEach var="goods" items="${orderGoods }" varStatus="status">
 				<!-- 할인가 없는 상품 -->
 			    <div class="card-body product" style="display: none;padding:25px 10px 10px 5px;">
 			    	<div class="d-flex  flex-row justify-content-between">
 			    		<div class="item">
-							<img class="productImgCart"  src="../resources/imgs/goods/${goods.categoryNum }/${goods.thumSysFilename }" width="80px" >
+							<img class="productImgCart"  src="../resources/imgs/goods/${goods.thumSysFilename }" width="80px" >
 				     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 			     				<c:if test="${goods.productName.length() > 39 }">
 			     					${goods.productName.substring(0,39) }<br>
@@ -81,21 +90,23 @@
 				     		<span class="text-right text-dark font-weight-bold">
 			     				${goods.count }개
 			     			</span>
-				     		<span class="text-right text-dark font-weight-bold" style="width:200px;">
-			     				<c:if test="${goods.saleprice == 0 }">
+			     				<c:if test="${goods.saleprice == goods.price }">
+				     			<span class="goodsPrice text-right text-dark font-weight-bold" style="width:200px;" data-price="${goods.price * goods.count }">
 			     					<fmt:formatNumber pattern="###,###,###" value="${goods.price * goods.count }" /> 원
+			     				</span>
 			     				</c:if>
 			     				
 								<!-- 할인가 있는 상품 -->
-			     				<c:if test="${goods.saleprice != 0 }">
+			     				<c:if test="${goods.saleprice != goods.price }">
+				     			<span class="goodsPrice text-right text-dark font-weight-bold" style="width:200px;" data-price="${goods.saleprice * goods.count }">
 			     					<fmt:formatNumber pattern="###,###,###" value="${goods.saleprice * goods.count }" /> 원
 		     					<span class="text-secondary text-right" style="font-size:0.8rem;">
 					     			<del>
 					     				<fmt:formatNumber pattern="###,###,###" value="${goods.price * goods.count }" /> 원
 					     			</del>
 				     			</span>
+			     				</span>
 			     				</c:if>
-			     			</span>
 			    		</div>
 			    	</div>
 		     	</div>
@@ -200,11 +211,11 @@
 			    		<div class="item text-left" style="width: 700px;font-size: 0.85rem;white-space: normal;">
 			    			<span class="orderAddr">
 					    	<c:if test="${empty loginMember }">
-								<c:if test="${empty orderNm }">
+								<c:if test="${empty nmember.orderAddr }">
 									<span style="color:#9A30AE;">배송지를 등록해주세요!</span>
 								</c:if>						
-								<c:if test="${not empty orderNm }">
-									${orderNm.orderAddr }&nbsp;${orderNm.orderAddrDetail }
+								<c:if test="${not empty nmember.orderAddr }">
+									${nmember.orderAddr }&nbsp;${nmember.orderAddrDetail }
 								</c:if>
 							</c:if>
 							<c:if test="${not empty loginMember }">
@@ -262,7 +273,8 @@
 				    		</span>
 			    		</div>
 			    		<div class="item text-left text-dark" style="width: 200px;">
-				    		<button type="button" class="btn btn-sm text-dark font-weight-bold" style="border:1px solid lightgray;font-size: 0.7rem;">
+				    		<button type="button" class="btn btn-sm text-dark font-weight-bold" style="border:1px solid lightgray;font-size: 0.7rem;"
+				    			data-toggle="modal" data-target="#changeOrderDataModal">
 				    			수정
 				    		</button>
 						</div>
@@ -281,65 +293,15 @@
 		        	</p>
 			    </div>
 			    <div class="card-body" style="padding:50px 10px;">
-			    	<form action="#">
-			    		<table class="deliveryTable">
-			    			<thead>
-			    				<tr>
-				    				<th style="color:#FFCD4A;">샛별배송</th>
-				    				<th>11/26 (토)</th>
-				    				<th>11/27 (일)</th>
-				    				<th>11/28 (월)</th>
-				    				<th>11/29 (화)</th>
-				    				<th>11/30 (수)</th>
-			    				</tr>
-			    			</thead>
-			    			<tbody>
-			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">~06:00까지</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick" checked> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
-			    				</tr>
-			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">06:00~10:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
-			    				</tr>
-			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">10:00~13:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
-			    				</tr>
-			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">13:00~17:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
-			    				</tr>
-			    				<tr>
-				    				<td style="color:#9A30AE;font-weight:bold;">17:00~21:00</td>
-				    				<td><input type="radio" value="11/26" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/27" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/28" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/29" name="deliveryPick"> 예약가능</td>
-				    				<td><input type="radio" value="11/30" name="deliveryPick"> 예약가능</td>
-			    				</tr>
-			    			</tbody>
-			    		</table>
-			    	</form>
+		    		<table class="deliveryTable">
+		    			<thead>
+		    			</thead>
+		    			<tbody>
+		    			</tbody>
+		    		</table>
 			    </div> 
   			</div>
-  			
+  			<c:if test="${not empty loginMember}">
 	    	<div class="card" style="border:none;margin-top:50px;">
 			    <div class="card-header bg-white" style="border:none;border-bottom:1px solid black;text-decoration:none;margin:0;padding:0;">
 			    	<div class="text-left" style="margin:0 0 10px 0;">
@@ -414,6 +376,7 @@
 			    	</div>
 			    </div> 
   			</div>
+  			</c:if>
   			
 	    	<div class="card" style="border:none;margin-top:50px;">
 			    <div class="card-header bg-white" style="border:none;border-bottom:1px solid black;text-decoration:none;margin:0;padding:0;">
@@ -433,7 +396,7 @@
 			    			결제 수단 선택
 			    		</div>
 			    		<div class="item text-left" style="width: 700px;font-size: 0.8rem;white-space: nowrap;">
-				    		<button type="button" onclick="kakaoPay()" class="kakaoBtn btn font-weight-bold" style="padding:15px;width:390px;border:1px solid lightgray;">
+				    		<button type="button" class="kakaoBtn btn font-weight-bold" style="padding:15px;width:390px;border:1px solid lightgray;">
 				    			<i class="bi bi-chat-fill"></i> Pay
 				    		</button>
 						</div>
@@ -446,13 +409,13 @@
 			    		</div>
 			    		<div class="item text-left" style="width: 700px;">
 				    		<div class="btn-group" style="width:390px;">
-								<button type="button" class="cardBtn btn font-weight-bold" onclick="cardPay()" style="padding:15px 12px;font-size: 0.8rem;border:1px solid lightgray;">
+								<button type="button" class="cardBtn btn font-weight-bold" style="padding:15px 12px;font-size: 0.8rem;border:1px solid lightgray;">
 									신용카드
 								</button>
-								<button type="button" class="easyBtn btn font-weight-bold" onclick="easyPay()" style="padding:15px 12px;font-size: 0.8rem;border:1px solid lightgray;">
+								<button type="button" class="easyBtn btn font-weight-bold" style="padding:15px 12px;font-size: 0.8rem;border:1px solid lightgray;">
 									간편 결제
 								</button>
-								<button type="button" class="phoneBtn btn font-weight-bold" onclick="phonePay()" style="padding:15px 12px;font-size: 0.8rem;border:1px solid lightgray;">
+								<button type="button" class="phoneBtn btn font-weight-bold" style="padding:15px 12px;font-size: 0.8rem;border:1px solid lightgray;">
 									휴대폰
 								</button>
 							</div>
@@ -523,7 +486,7 @@
 		    				<span style="margin:10px;">
 		    					<input type="radio" value="" name="ptNum" style="width:25px;height:25px;vertical-align: middle;"> 토스
 		    				</span>
-					        <div style="margin:10px;">
+					        <div style="margin:7px;">
 			    				<input type="radio" value="" name="ptNum" style="width:25px;height:25px;vertical-align: middle;"> 무통장입금
 					        </div>
 						</div>
@@ -602,7 +565,7 @@
 			    </div> 
   			</div>
 		    <div class="d-flex justify-content-center">
-		    	<button id="orderBtn" type="button" onclick="orderCompleteGo()" class="btn font-weight-bold"
+		    	<button id="orderBtn" type="button" class="btn font-weight-bold"
 						style="width:250px;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:15px;color:white;font-size:1rem;">
 					182,552원 결제하기
 				</button>
@@ -653,6 +616,7 @@
 							0&nbsp;원
 						</div>
 					</div>
+					<c:if test="${not empty loginMember}">
 					<div class="d-flex flex-row justify-content-between" style="font-size:0.95rem;">
 						<div style="margin-bottom: 10px;">
 							쿠폰 할인
@@ -669,6 +633,7 @@
 							-315&nbsp;원
 						</div>
 					</div>
+					</c:if>
 					
 				</div>
 				
@@ -700,13 +665,9 @@
 	<footer>
 		<%@ include file= "../common/footer.jspf"%>
 	</footer>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-let today = new Date();
 
-let year = today.getFullYear();
-let month = today.getMonth() + 1;
-let date = today.getDate();
-let day = today.getDay();
 
 // 주문 상품 목록
 function openList() {
@@ -719,7 +680,125 @@ function openList() {
 	}
 }
 $(function() {
-	$(".deliveryTable").find("thead").children();
+	
+	
+	// 배송시간 선택
+	let today = new Date();
+	var dateHtml = '<tr><th style="color:#FFCD4A;">샛별배송</th>';
+	var dateVal = '';
+	var timeVal = '';
+	var deliveryHtml = '';
+	
+	for(var i = 1; i < 6; i++) {
+		var tomorrow = new Date(today.setDate(today.getDate()+1));
+		var year = tomorrow.getFullYear();
+		var month = tomorrow.getMonth() + 1;
+		var date = tomorrow.getDate();
+		var day = tomorrow.getDay();
+		
+		if (day == 0 ) {
+			day = '일';
+		} else if (day == 1) {
+			day = '월';
+		} else if (day == 2) {
+			day = '화';
+		} else if (day == 3) {
+			day = '수';
+		} else if (day == 4) {
+			day = '목';
+		} else if (day == 5) {
+			day = '금';
+		} else if (day == 6) {
+			day = '토';
+		}
+		dateHtml += '<th>' + month + '/' + date + ' (' + day + ')' + '</th>';
+		if (i == 1) {
+			timeVal = ' 06:00:00';
+			deliveryHtml += '<tr><td style="color:#9A30AE;font-weight:bold;">~06:00까지</td>';
+		} else if (i == 2) {
+			timeVal = ' 10:00:00';
+			deliveryHtml += '<tr><td style="color:#9A30AE;font-weight:bold;">06:00~10:00</td>';
+		} else if (i == 3) {
+			timeVal = ' 13:00:00';
+			deliveryHtml += '<tr><td style="color:#9A30AE;font-weight:bold;">10:00~13:00</td>';
+		} else if (i == 4) {
+			timeVal = ' 17:00:00';
+			deliveryHtml += '<tr><td style="color:#9A30AE;font-weight:bold;">13:00~17:00</td>';
+		} else if (i == 5) {
+			timeVal = ' 21:00:00';
+			deliveryHtml += '<tr><td style="color:#9A30AE;font-weight:bold;">17:00~21:00</td>';
+		}
+	
+		var deltoday = new Date();
+		for (var t = 0; t < 5; t++) {
+			var delday = new Date(deltoday.setDate(deltoday.getDate()+1));
+			var delyear = delday.getFullYear();
+			var delmonth = delday.getMonth() + 1;
+			var deldate = delday.getDate();
+			dateVal = delyear + '-' + delmonth + '-' + deldate;
+			
+			if (i == 1 && t == 0) {
+				deliveryHtml += '<td><label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick" checked> 예약가능</label></td>';
+			} else {
+				deliveryHtml += '<td><label style="padding:0;margin:0;cursor:pointer;"><input type="radio" value="' + dateVal + timeVal + '" name="deliveryPick"> 예약가능</label></td>';
+			}
+		}
+		deliveryHtml += '</tr>'
+	}
+	dateHtml += '</tr>';
+	$(".deliveryTable").find("thead").html(dateHtml);
+	$(".deliveryTable").find("tbody").html(deliveryHtml);
+	
+	
+	// 배송 정보 수정
+	$('.chkPhone').css('display', 'none');
+	$('.extraPlace').css('display', 'none');
+	
+	// 휴대폰 11글자 입력 표기 
+	$("#orderPhone").keyup(function(e) {
+		if ($('#orderPhone').val().length != 11){
+			$('.chkPhone').css('display', 'block');
+		} else {
+			$('.chkPhone').css('display', 'none');
+		}
+	});
+	
+	// 기타 장소 세부사항 표기
+	$('input:radio[name=orderPlace]').click(function (){
+		var orderPlaceVal = $('input:radio[name=orderPlace]:checked').val();
+		var orderPlaceTitle = '<span class="text-dark">기타 장소 세부 사항 <span class="text-danger"><sup>*</sup></span></span>';
+		if (orderPlaceVal == 4) {
+			$('.extraPlaceTh').html(orderPlaceTitle);
+			$('.extraPlace').css('display', 'block');
+		} else {
+			$('.extraPlaceTh').html('');
+			$('.extraPlace').css('display', 'none');
+		}
+	});
+	// 주문자 정보와 동일
+	$('.check-order').click(function (){
+		if ($('.check-order').is(':checked')) {
+			var orderNameChk = $('.check-order').attr('data-name');
+			var orderPhoneChk = $('.check-order').attr('data-phone');
+			var orderAddrChk = $('.check-order').attr('data-addr');
+			var orderAddrDetailChk = $('.check-order').attr('data-addrDetail');
+			$('#orderName').val(orderNameChk);
+			$('#orderPhone').val(orderPhoneChk);
+			$('#address_kakao').val(orderAddrChk);
+			$('#address_detail').val(orderAddrDetailChk);
+		} else {
+			$('#orderName').val('');
+			$('#orderPhone').val('');
+			$('#address_kakao').val('');
+			$('#address_detail').val('');
+			$('#orderName').attr('placeholder').val(" 이름을 입력해 주세요.");
+			$('#orderPhone').attr('placeholder').val(" 숫자만 입력해 주세요.");
+			$('#address_kakao').attr('placeholder').val(" 주소를 입력해주세요.");
+			$('#address_detail').attr('placeholder').val(" 나머지 주소를 입력해주세요.");
+		}
+	});
+	
+	// 총 결제 금액 계산
 	
 	// 배송지 변경 안내 hover
 	$('.info-title').hover(function() {
@@ -733,73 +812,241 @@ $(function() {
 		$('.check-one').prop('checked', this.checked);
 		$('.check-all').prop('checked', this.checked);
 	});
+	$('.check-one').click( function() {
+		var selectNumber = $('input:checkbox[class=check-one]:checked').length;
+		if (selectNumber == 3) {
+			$('.check-all').prop('checked', this.checked);
+		} else {
+			$('.check-all').prop('checked', false);
+		}
+	});
 	
+	// 결제 박스
 	var currentPosition = parseInt($(".quickPayMenu").css("top"));
 	$(window).scroll(function() {
 		var position = $(window).scrollTop();
-		var newPosition = position + currentPosition + "px";
-	    $(".quickPayMenu").stop().animate({"top":newPosition},800);
+		var newPosition = position + currentPosition - 100 + "px";
+		var endPosition = position + currentPosition - 200 + "px";
+		// 일정 위치에서 멈추기
+		if (Math.round( $(window).scrollTop()) + 200 > $(document).height() - $(window).height()) {
+			$(".quickPayMenu").stop().animate({"top":endPosition},800);
+		} else {
+   			$(".quickPayMenu").stop().animate({"top":newPosition},800);
+		}
 	}).scroll();
-});
-// 결제 버튼
-function kakaoPay() {
-	$('.kakaoBtn').css('background-color', '#F6E500');
-	$('.kakaoBtn').css('border', '1px solid #F6E500');
 	
-	$('.cardBtn, .easyBtn, .phoneBtn').css('background-color', 'white');
-	$('.cardBtn, .easyBtn, .phoneBtn').css('color', 'black');
-	$('.cardBtn, .easyBtn, .phoneBtn').css('border', '1px solid lightgray');
+	// 결제 수단 선택
+	var pay = '';
 	
-	$('.payPick').css('display', 'none');
-}
-function cardPay() {
-	$('.cardBtn').css('background-color', '#9A30AE');
-	$('.cardBtn').css('color', 'white');
-	$('.cardBtn').css('border', '1px solid #9A30AE');
+	// 카카오페이 결제
+	$('.kakaoBtn').click( function() {
+		pay = 'kakao';
+		
+		$('.kakaoBtn').css('background-color', '#F6E500');
+		$('.kakaoBtn').css('border', '1px solid #F6E500');
+		
+		$('.cardBtn, .easyBtn, .phoneBtn').css('background-color', 'white');
+		$('.cardBtn, .easyBtn, .phoneBtn').css('color', 'black');
+		$('.cardBtn, .easyBtn, .phoneBtn').css('border', '1px solid lightgray');
+		
+		$('.payPick').css('display', 'none');
+	});
+	
+	// 카드 결제
+	$('.cardBtn').click( function() {
+		pay = 'card';
+		
+		$('.cardBtn').css('background-color', '#9A30AE');
+		$('.cardBtn').css('color', 'white');
+		$('.cardBtn').css('border', '1px solid #9A30AE');
 
-	$('.kakaoBtn, .easyBtn, .phoneBtn').css('background-color', 'white');
-	$('.kakaoBtn, .easyBtn, .phoneBtn').css('color', 'black');
-	$('.kakaoBtn, .easyBtn, .phoneBtn').css('border', '1px solid lightgray');
+		$('.kakaoBtn, .easyBtn, .phoneBtn').css('background-color', 'white');
+		$('.kakaoBtn, .easyBtn, .phoneBtn').css('color', 'black');
+		$('.kakaoBtn, .easyBtn, .phoneBtn').css('border', '1px solid lightgray');
+		
+		$('.payPick').attr('style', 'display: none !important');
+		$('#cardPick1').attr('style', 'display: block !important');
+		$('#cardPick2').attr('style', 'display: block !important');
+	});
 	
-	$('.payPick').attr('style', 'display: none !important');
-	$('#cardPick1').attr('style', 'display: block !important');
-	$('#cardPick2').attr('style', 'display: block !important');
-}
-function easyPay() {
-	$('.easyBtn').css('background-color', '#9A30AE');
-	$('.easyBtn').css('color', 'white');
-	$('.easyBtn').css('border', '1px solid #9A30AE');
+	// 간단 결제
+	$('.easyBtn').click( function() {
+		pay = 'easy';
+		
+		$('.easyBtn').css('background-color', '#9A30AE');
+		$('.easyBtn').css('color', 'white');
+		$('.easyBtn').css('border', '1px solid #9A30AE');
+		
+		$('.kakaoBtn, .cardBtn, .phoneBtn').css('background-color', 'white');
+		$('.kakaoBtn, .cardBtn, .phoneBtn').css('color', 'black');
+		$('.kakaoBtn, .cardBtn, .phoneBtn').css('border', '1px solid lightgray');
+		
+		$('.payPick').attr('style', 'display: none !important');
+		$('#easyPick').attr('style', 'display: block !important');
+	});
 	
-	$('.kakaoBtn, .cardBtn, .phoneBtn').css('background-color', 'white');
-	$('.kakaoBtn, .cardBtn, .phoneBtn').css('color', 'black');
-	$('.kakaoBtn, .cardBtn, .phoneBtn').css('border', '1px solid lightgray');
+	// 휴대폰 결제
+	$('.phoneBtn').click( function() {
+		pay = 'phone';
+		
+		$('.phoneBtn').css('background-color', '#9A30AE');
+		$('.phoneBtn').css('color', 'white');
+		$('.phoneBtn').css('border', '1px solid #9A30AE');
+		
+		$('.kakaoBtn, .cardBtn, .easyBtn').css('background-color', 'white');
+		$('.kakaoBtn, .cardBtn, .easyBtn').css('color', 'black');
+		$('.kakaoBtn, .cardBtn, .easyBtn').css('border', '1px solid lightgray');
+		
+		$('.payPick').attr('style', 'display: none !important');
+	});
 	
-	$('.payPick').attr('style', 'display: none !important');
-	$('#easyPick').attr('style', 'display: block !important');
+	// 주문하기 버튼
+	$('#orderBtn').click( function() {
+		if (pay != '') {
+			if ( $('#cb1').is(':checked') && $('#cb2').is(':checked') && $('#cb3').is(':checked') ) {
+				location.href='orderComplete.do';
+			} else {
+				alertNull('결제 진행 필수 동의에 체크해주세요.');
+			}
+		} else {
+			alertNull('결제  수단을 선택해주세요.');
+		}
+	});
 	
-}
-function phonePay() {
-	$('.phoneBtn').css('background-color', '#9A30AE');
-	$('.phoneBtn').css('color', 'white');
-	$('.phoneBtn').css('border', '1px solid #9A30AE');
-	
-	$('.kakaoBtn, .cardBtn, .easyBtn').css('background-color', 'white');
-	$('.kakaoBtn, .cardBtn, .easyBtn').css('color', 'black');
-	$('.kakaoBtn, .cardBtn, .easyBtn').css('border', '1px solid lightgray');
-	
-	$('.payPick').attr('style', 'display: none !important');
-}
-function orderCompleteGo() {
-	if ( $('#cb1').is(':checked') && $('#cb2').is(':checked') && $('#cb3').is(':checked') ) {
-		location.href='orderComplete.do';
-	} else {
+	// 알림창
+	function alertNull(msg) {
 		Swal.fire({
 			title: '',
-			text: '결제 진행 필수 동의에 체크해주세요.',
+			text: msg,
 			showCancelButton: false,
 			confirmButtonColor: '#9A30AE'
 		});
+	}	
+	
+	
+// end
+});
+function findAddr() {
+	new daum.Postcode({
+		oncomplete: function(data) {
+			var addr = '';
+                
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우(R)
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+			$('#address_kakao').val(addr); // 주소 넣기
+			$('#address_detail').focus(); //상세입력 포커싱
+		}
+	}).open();
+}
+function changeAddr() {
+	if ($('#address_kakao').val().replace(/\s/gi, "") != '' && $('#address_detail').val().replace(/\s/gi, "") != '') {
+		var addr = $('#address_kakao').val();
+		var addrDetail = $('#address_detail').val();
+		var sendAddr = {
+				address : addr,
+				addressDetail : addrDetail
+			};
+		$.ajax({
+			type: "POST",
+			url: "../cart/changeAddr.do",
+			data: JSON.stringify(sendAddr),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data){
+				let addrHtml = addr + " " + addrDetail;
+				$(".addressView").html(addrHtml);
+			},
+			error: function(){
+			}
+		}); 
+		$('#changeAddressModal').modal('hide');
+	} else {
+		Swal.fire({
+			icon: 'warning',
+			title: '', 
+			text: '주소와 상세 주소를 모두 입력해주세요.',
+			showConfirmButton: false,
+			timer: 1500
+		});
 	}
+}
+
+function changeOrder() {
+	if ($('#orderName').val().replace(/\s/gi, "") != '') {
+		if ($('#orderPhone').val().replace(/\s/gi, "") != '') {
+			if ($('#orderPhone').val().length == 11) {
+				if ($('#address_kakao').val() != '' && $('#address_detail').val() != '') {
+					if ($('input:radio[name=orderPlace]:checked').val() == 4 && $('.extraPlaceText').val().replace(/\s/gi, "") == '') {
+						alertWarning('기타 장소 세부사항을 입력해주세요.');
+					} else {
+						var orderNameVal = $('#orderName').val();
+						var orderPhoneVal = $('#orderPhone').val();
+						var orderAddrVal = $('#address_kakao').val();
+						var orderAddrDetailVal = $('#address_detail').val();
+						var orderPlaceVal = $('input:radio[name=orderPlace]:checked').val();
+						var orderRequestVal = '';
+						
+						if (orderPlaceVal == 1) {
+							orderPlaceVal = '문 앞';
+						} else if (orderPlaceVal == 2) {
+							orderPlaceVal = '경비실';
+						} else if (orderPlaceVal == 3) {
+							orderPlaceVal = '택배함';
+						} else if (orderPlaceVal == 4) {
+							orderPlaceVal = '기타 장소';
+							orderPlaceVal += $('.extraPlaceText').val();
+						}
+						if ($('.orderRequest').val() != '') {
+							orderRequestVal = $('.orderRequest').val();
+						}
+						
+						var sendOrderData = {
+								orderName : orderNameVal,
+								orderPhone : orderPhoneVal,
+								orderAddr : orderAddrVal,
+								orderAddrDetail : orderAddrDetailVal,
+								orderPlace : orderPlaceVal,
+								orderRequest : orderRequestVal
+							};
+						$.ajax({
+							type: "POST",
+							url: "changeOrderData.do",
+							data: JSON.stringify(sendOrderData),
+							contentType: "application/json",
+							dataType: "json",
+							success: function(data){
+								
+							},
+							error: function(){
+							}
+						}); 
+						$('#changeOrderDataModal').modal('hide');
+					}
+				} else {
+					alertWarning('주소와 상세 주소를 모두 입력해주세요.');
+				}
+			} else {
+				alertWarning('휴대폰 번호 11자리를 모두 입력해주세요.');
+			}
+		} else {
+			alertWarning('휴대폰 번호를 입력해주세요.');
+		}
+	} else {
+			alertWarning('이름을 입력해주세요.');
+	}
+}
+function alertWarning(msg) {
+	Swal.fire({
+		icon: 'warning',
+		title: '', 
+		text: msg,
+		showConfirmButton: false,
+		timer: 1500
+	});
 }
 </script>	
 </body>

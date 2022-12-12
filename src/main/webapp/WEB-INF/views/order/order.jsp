@@ -219,7 +219,12 @@
 								</c:if>
 							</c:if>
 							<c:if test="${not empty loginMember }">
-								${loginMember.address }&nbsp;${loginMember.addressDetail }
+								<c:if test="${empty nmember.orderAddr }">
+									${loginMember.address }&nbsp;${loginMember.addressDetail }
+								</c:if>						
+								<c:if test="${not empty nmember.orderAddr }">
+									${nmember.orderAddr }&nbsp;${nmember.orderAddrDetail }
+								</c:if>
 							</c:if>
 							</span>
 						</div>
@@ -242,7 +247,6 @@
 							</span>
 						</div>
 			    	</div>
-			    	
 			    	<div class="d-flex justify-content-start text-dark" style="font-size: 0.9rem;padding-top:10px;">
 			    		<div class="item" style="width: 200px;">
 				    		<span>
@@ -250,19 +254,6 @@
 			    		</div>
 			    		<div class="item text-left" style="width: 200px;font-size: 0.8rem;">
 				    		<span class="orderPlaceRequest">
-				    			문 앞 | 기타 (벨 누르지 말고 문 앞에 놔주세요)
-				    		</span>
-						</div>
-			    	</div>
-			    	
-			    	<div class="d-flex justify-content-start" style="font-size: 0.9rem;padding:5px 0 10px 0;">
-			    		<div class="item" style="width: 200px;">
-				    		<span>
-				    		</span>
-			    		</div>
-			    		<div class="item text-left text-dark" style="width: 200px;font-size: 0.8rem;">
-				    		<span class="orderMMS">
-				    			배송완료메시지 | 배송직후
 				    		</span>
 						</div>
 			    	</div>
@@ -778,14 +769,14 @@ $(function() {
 	// 주문자 정보와 동일
 	$('.check-order').click(function (){
 		if ($('.check-order').is(':checked')) {
-			var orderName = $('.check-order').attr('data-name');
-			var orderPhone = $('.check-order').attr('data-phone');
-			var orderAddr = $('.check-order').attr('data-addr');
-			var orderAddrDetail = $('.check-order').attr('data-addrDetail');
-			$('#orderName').val(orderName);
-			$('#orderPhone').val(orderPhone);
-			$('#address_kakao').val(orderAddr);
-			$('#address_detail').val(orderAddrDetail);
+			var orderNameChk = $('.check-order').attr('data-name');
+			var orderPhoneChk = $('.check-order').attr('data-phone');
+			var orderAddrChk = $('.check-order').attr('data-addr');
+			var orderAddrDetailChk = $('.check-order').attr('data-addrDetail');
+			$('#orderName').val(orderNameChk);
+			$('#orderPhone').val(orderPhoneChk);
+			$('#address_kakao').val(orderAddrChk);
+			$('#address_detail').val(orderAddrDetailChk);
 		} else {
 			$('#orderName').val('');
 			$('#orderPhone').val('');
@@ -983,23 +974,53 @@ function changeOrder() {
 					if ($('input:radio[name=orderPlace]:checked').val() == 4 && $('.extraPlaceText').val().replace(/\s/gi, "") == '') {
 						alertWarning('기타 장소 세부사항을 입력해주세요.');
 					} else {
-						var addr = $('#address_kakao').val();
-						var addrDetail = $('#address_detail').val();
-						var sendAddr = {
-								address : addr,
-								addressDetail : addrDetail
+						var orderNameVal = $('#orderName').val();
+						var orderPhoneVal = $('#orderPhone').val();
+						var orderAddrVal = $('#address_kakao').val();
+						var orderAddrDetailVal = $('#address_detail').val();
+						var orderPlaceVal = $('input:radio[name=orderPlace]:checked').val();
+						var orderRequestVal = '';
+						var extraPlace = '';
+						
+						if (orderPlaceVal == 1) {
+							orderPlaceVal = '문 앞';
+						} else if (orderPlaceVal == 2) {
+							orderPlaceVal = '경비실';
+						} else if (orderPlaceVal == 3) {
+							orderPlaceVal = '택배함';
+						} else if (orderPlaceVal == 4) {
+							orderPlaceVal = '기타 장소';
+							extraPlace = ' (' + $('.extraPlaceText').val() + ')';
+						}
+						if ($('.orderRequest').val() != '') {
+							orderRequestVal = $('.orderRequest').val();
+						}
+						var sendOrderData = {
+								orderName : orderNameVal,
+								orderPhone : orderPhoneVal,
+								orderAddr : orderAddrVal,
+								orderAddrDetail : orderAddrDetailVal,
+								orderPlace : orderPlaceVal + extraPlace,
+								orderRequest : orderRequestVal
 							};
 						$.ajax({
 							type: "POST",
-							url: "../cart/changeAddr.do",
-							data: JSON.stringify(sendAddr),
+							url: "changeOrderData.do",
+							data: JSON.stringify(sendOrderData),
 							contentType: "application/json",
 							dataType: "json",
 							success: function(data){
-								let addrHtml = addr + " " + addrDetail;
-								$(".addressView").html(addrHtml);
+
+								var orderNamePhoneHtml = data.orderName + ', ' + data.orderPhone.substring(0, 3) + '-' + data.orderPhone.substring(3, 7) + '-' + data.orderPhone.substring(7, 11);
+								var orderPlaceRequestHtml = data.orderPlace + ' | ' + data.orderRequest;
+								var orderAddrHtml = data.orderAddr + ' ' + data.orderAddrDetail;
+								$('.orderNamePhone').html(orderNamePhoneHtml);
+								$('.orderPlaceRequest').html(orderPlaceRequestHtml);
+								$('.orderAddr').html(orderAddrHtml);
+								$(":radio[name=orderPlace]").radioSelect(data.orderPlace);
 							},
 							error: function(){
+								alert("실패");
 							}
 						}); 
 						$('#changeOrderDataModal').modal('hide');
@@ -1016,6 +1037,14 @@ function changeOrder() {
 	} else {
 			alertWarning('이름을 입력해주세요.');
 	}
+}
+function radioSelect(val) {
+	  this.each(function() {
+	    var $this = $(this);
+	    if($this.val() == val)
+	      $this.attr('checked', true);
+	  });
+	  return this;
 }
 function alertWarning(msg) {
 	Swal.fire({
