@@ -6,7 +6,7 @@ public class OrderVO {
 	private int orderNum;
 	private String orderName, orderPhone, orderAddr, orderPlace, orderRequest;
 	private Timestamp deliveryPick;
-	private int deliveryFee, totDiscount, totPrice, couponNum, usageAmount, ptNum, memberNum;
+	private int deliveryFee, totGoodsprice, totDiscount, totPrice, couponNum, usageAmount, ptNum, memberNum;
 	private String ptInstallment, orderAddrDetail, nmemberNum;
 	
 	public OrderVO() {
@@ -74,6 +74,14 @@ public class OrderVO {
 
 	public void setDeliveryFee(int deliveryFee) {
 		this.deliveryFee = deliveryFee;
+	}
+
+	public int getTotGoodsprice() {
+		return totGoodsprice;
+	}
+
+	public void setTotGoodsprice(int totGoodsprice) {
+		this.totGoodsprice = totGoodsprice;
 	}
 
 	public int getTotDiscount() {
@@ -152,21 +160,13 @@ public class OrderVO {
 	public String toString() {
 		return "OrderVO [orderNum=" + orderNum + ", orderName=" + orderName + ", orderPhone=" + orderPhone
 				+ ", orderAddr=" + orderAddr + ", orderPlace=" + orderPlace + ", orderRequest=" + orderRequest
-				+ ", deliveryPick=" + deliveryPick + ", deliveryFee=" + deliveryFee + ", totDiscount=" + totDiscount
-				+ ", totPrice=" + totPrice + ", couponNum=" + couponNum + ", usageAmount=" + usageAmount + ", ptNum="
-				+ ptNum + ", memberNum=" + memberNum + ", ptInstallment=" + ptInstallment + ", orderAddrDetail="
-				+ orderAddrDetail + ", nmemberNum=" + nmemberNum + ", getOrderNum()=" + getOrderNum()
-				+ ", getOrderName()=" + getOrderName() + ", getOrderPhone()=" + getOrderPhone() + ", getOrderAddr()="
-				+ getOrderAddr() + ", getOrderPlace()=" + getOrderPlace() + ", getOrderRequest()=" + getOrderRequest()
-				+ ", getDeliveryPick()=" + getDeliveryPick() + ", getDeliveryFee()=" + getDeliveryFee()
-				+ ", getTotDiscount()=" + getTotDiscount() + ", getTotPrice()=" + getTotPrice() + ", getCouponNum()="
-				+ getCouponNum() + ", getUsageAmount()=" + getUsageAmount() + ", getPtNum()=" + getPtNum()
-				+ ", getMemberNum()=" + getMemberNum() + ", getPtInstallment()=" + getPtInstallment()
-				+ ", getOrderAddrDetail()=" + getOrderAddrDetail() + ", getNmemberNum()=" + getNmemberNum()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+				+ ", deliveryPick=" + deliveryPick + ", deliveryFee=" + deliveryFee + ", totGoodsprice=" + totGoodsprice
+				+ ", totDiscount=" + totDiscount + ", totPrice=" + totPrice + ", couponNum=" + couponNum
+				+ ", usageAmount=" + usageAmount + ", ptNum=" + ptNum + ", memberNum=" + memberNum + ", ptInstallment="
+				+ ptInstallment + ", orderAddrDetail=" + orderAddrDetail + ", nmemberNum=" + nmemberNum + "]";
 	}
 
+	
 	
 	
 }

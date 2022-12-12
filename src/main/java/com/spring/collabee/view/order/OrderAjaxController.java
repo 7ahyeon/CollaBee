@@ -24,7 +24,7 @@ import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.order.OrderVO;
 
-@SessionAttributes({"orderGoods", "omember"})
+@SessionAttributes({"orderGoods", "omember", "orderPrice"})
 @RestController
 @RequestMapping("/order")
 public class OrderAjaxController {
@@ -61,12 +61,31 @@ public class OrderAjaxController {
 			cart.setProductNum(productNum);
 			orderGoods.add(cartService.checkCartList(cart));
 		}
+		int totPriceTemp = 0;
+		int totGoodsprice = 0;
+		int totDiscount = 0;
+		
+		
+		for (CartVO goods : orderGoods) {
+			totPriceTemp += goods.getSaleprice();
+			totGoodsprice += goods.getPrice();
+		}
+		totDiscount =  totGoodsprice - totPriceTemp;
+		
+		OrderVO orderPrice = new OrderVO();
+		
+		orderPrice.setTotPrice(totPriceTemp);
+		orderPrice.setTotGoodsprice(totGoodsprice);
+		orderPrice.setTotDiscount(totDiscount);
+		
+		model.addAttribute("orderPrice", orderPrice);
 		model.addAttribute("orderGoods", orderGoods);
+		
 		return 1;
 	}
 	
 	@RequestMapping(value="/changeOrderData.do", method = RequestMethod.POST)
-	public OrderVO changeOrderData(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response, MemberVO mvo, @RequestBody OrderVO omember, OrderVO ovo) {
+	public OrderVO changeOrderData(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response, MemberVO mvo, @RequestBody OrderVO omember, OrderVO ovo, OrderVO orderPrice) {
 		// 쿠키 설정 / 로그인 여부 확인
 		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
 		
@@ -83,6 +102,12 @@ public class OrderAjaxController {
 			// 회원 주문
 			omember.setMemberNum(mvo.getMemberNum());
 		}
+		orderPrice = (OrderVO) session.getAttribute("orderPrice");
+		
+		omember.setTotPrice(orderPrice.getTotPrice());
+		omember.setTotGoodsprice(orderPrice.getTotGoodsprice());
+		omember.setTotDiscount(orderPrice.getTotDiscount());
+		
 		model.addAttribute("omember", omember);
 		System.out.println(omember.toString());
 		return omember;

@@ -355,8 +355,8 @@
 			    		<div class="item text-left" style="width: 700px;font-size: 0.8rem;white-space: nowrap;">
 			    			<section id="theme">
 					    		<div class="select">
-						    		<div class="selectTitle text-dark" style="padding:0 10px;">사용가능 쿠폰 ${couponCnt }장 / 전체 ${couponCnt }장</div>
-							    		<ul class="option-list">
+						    		<div class="selectTitle text-dark" >사용가능 쿠폰 ${couponCnt }장 / 전체 ${couponCnt }장</div>
+							    		<ul class="option-list text-secondary">
 								            <li class="option" value="none" >
 								            	<span style="width:300px;padding:0 10px;">쿠폰 적용 안함</span>
 								            </li>
@@ -384,7 +384,7 @@
 				    		</span>
 			    		</div>
 			    		<div class="item text-left" style="width: 180px;font-size: 0.85rem;white-space: nowrap;">
-				    		<input class="emoney" name="emoney" type="number" placeholder="0" style="padding:5px;border:1px solid lightgray;">
+				    		<input class="emoney"  type="number" value="0" style="padding:5px;border:1px solid lightgray;">
 						</div>
 			    		<button type="button" class="emoneyTotBtn btn-sm text-dark font-weight-bold" style="background-color:white;padding:7px;border:1px solid lightgray;font-size: 0.7rem;">
 			    			모두 사용
@@ -399,7 +399,7 @@
 			    		<div class="item text-left" style="width: 200px;font-size: 0.8rem;">
 				    		<span>
 				    			사용가능 적립금
-				    			<span class="totEmoney font-weight-bold">
+				    			<span class="totEmoney font-weight-bold" data-emoney="${totEmoney}">
 				    				${totEmoney}
 				    			</span>
 				    			원
@@ -632,24 +632,24 @@
 						<div style="margin-bottom: 10px;">
 							상품금액
 						</div>
-						<div class="font-weight-bold" style="margin-bottom: 10px;">
-							216,215원
+						<div class="totPriceTemp font-weight-bold" style="margin-bottom: 10px;">
+							${omember.totPrice } 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between text-secondary" style="font-size:0.8rem;">
 						<div style="margin-bottom: 5px;">
 							┕ 상품금액
 						</div>
-						<div style="margin-bottom: 5px;">
-							285,000원
+						<div class="totGoodsprice" style="margin-bottom: 5px;">
+							${omember.totGoodsprice } 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between text-secondary" style="font-size:0.8rem;">
 						<div style="margin-bottom: 10px;">
 							┕ 상품할인금액
 						</div>
-						<div style="margin-bottom: 10px;">
-							-68,785&nbsp;원
+						<div class="totDiscount" style="margin-bottom: 10px;">
+							${omember.totDiscount } 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between" style="font-size:0.95rem;">
@@ -657,7 +657,7 @@
 							배송비
 						</div>
 						<div class="font-weight-bold" style="margin-bottom: 10px;">
-							0&nbsp;원
+							0 원
 						</div>
 					</div>
 					<c:if test="${not empty loginMember}">
@@ -666,7 +666,7 @@
 							쿠폰 할인
 						</div>
 						<div class="font-weight-bold" style="margin-bottom: 10px;color:#FFCD4A;">
-							-5000&nbsp;원
+							0 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between" style="font-size:0.95rem;">
@@ -674,7 +674,7 @@
 							적립금 사용
 						</div>
 						<div class="font-weight-bold" style="margin-bottom: 10px;color:#FFCD4A;">
-							-315&nbsp;원
+							0 원
 						</div>
 					</div>
 					</c:if>
@@ -686,20 +686,22 @@
 						<div style="margin-bottom: 10px;">
 							최종결제금액
 						</div>
-						<div style="margin-bottom: 10px;color:#9A30AE;font-size: 1.3rem;">
-							210,900&nbsp;원
+						<div class="totPrice" style="margin-bottom: 10px;color:#9A30AE;font-size: 1.3rem;">
+							0 원
 						</div>
 					</div>
+					<c:if test="${not empty loginMember}">
 					<div class="text-right font-weight-bold text-dark" style="font-size:0.7rem;">
 						<div>
 							<button class="btn font-weight-bold" style="color:white;background-color: #FFCD4A;border-radius:15px;width:32px;padding:1px;font-size:0.6rem;">
 								적립
 							</button>
-							<span class="text-secondary" style="font-size:0.7rem;">
-								구매 시 2,109원(1%)
+							<span class="saveEmoneyOrder text-secondary" style="font-size:0.7rem;">
+								구매 시 0 원 (${cartMember.saverate }%)
 							</span>
 						</div>
 					</div>
+					</c:if>
 				</div>
 			</div>
 		</div>
@@ -884,7 +886,7 @@ $(function() {
 	
 	// 카카오페이 결제
 	$('.kakaoBtn').click( function() {
-		pay = 'kakao';
+		pay = '1';
 		
 		$('.kakaoBtn').css('background-color', '#F6E500');
 		$('.kakaoBtn').css('border', '1px solid #F6E500');
@@ -898,7 +900,7 @@ $(function() {
 	
 	// 카드 결제
 	$('.cardBtn').click( function() {
-		pay = 'card';
+		pay = '2';
 		
 		$('.cardBtn').css('background-color', '#9A30AE');
 		$('.cardBtn').css('color', 'white');
@@ -915,7 +917,7 @@ $(function() {
 	
 	// 간단 결제
 	$('.easyBtn').click( function() {
-		pay = 'easy';
+		pay = '21';
 		
 		$('.easyBtn').css('background-color', '#9A30AE');
 		$('.easyBtn').css('color', 'white');
@@ -931,7 +933,7 @@ $(function() {
 	
 	// 휴대폰 결제
 	$('.phoneBtn').click( function() {
-		pay = 'phone';
+		pay = '24';
 		
 		$('.phoneBtn').css('background-color', '#9A30AE');
 		$('.phoneBtn').css('color', 'white');
@@ -945,19 +947,44 @@ $(function() {
 	});
 	
 	// 적립금 모두 사용
-	$('#emoneyTotBtn').click( function() {
-		
+	$('.emoneyTotBtn').click( function() {
+		var totEmoney = $('.totEmoney').attr('data-emoney');
+		$('.emoney').val(totEmoney);
 	});
 	// 주문하기 버튼
 	$('#orderBtn').click( function() {
-		if (pay != '') {
-			if ( $('#cb1').is(':checked') && $('#cb2').is(':checked') && $('#cb3').is(':checked') ) {
-				location.href='orderComplete.do';
+		var orderNameSend = $('#orderName').val();
+		var orderPhoneSend = $('#orderPhone').val();
+		var orderAddrSend = $('#address_kakao').val();
+		var orderAddrDetailSend = $('#address_detail').val();
+		var orderPlaceSend = $('input:radio[name=orderPlace]:checked').val();
+		var orderDeliveryPickSend = $('input:radio[name=deliveryPick]:checked').val();
+		var orderCouponNumSend = selectVal;
+		var orderUsageAmountSend = $('.emoney').val();
+		var orderPtNumSend = pay;
+		
+		alert(orderPtNuSend);
+		
+		if (orderNameSend != ''){
+			if (orderCouponNumSend != '') {
+				if (orderUsageAmountSend != '') {
+					if (orderPtNumSend != '') {
+						if ( $('#cb1').is(':checked') && $('#cb2').is(':checked') && $('#cb3').is(':checked') ) {
+							location.href='orderComplete.do';
+						} else {
+							alertNull('결제 진행 필수 동의에 체크해주세요.');
+						}
+					} else {
+						alertNull('결제  수단을 선택해주세요.');
+					}
+				} else {
+					alertNull('적립금을 입력해주세요.');
+				}
 			} else {
-				alertNull('결제 진행 필수 동의에 체크해주세요.');
+				alertNull('쿠폰을 선택해주세요.');
 			}
 		} else {
-			alertNull('결제  수단을 선택해주세요.');
+			alertNull('배송 정보를 입력해주세요.');
 		}
 	});
 	
@@ -1076,6 +1103,8 @@ function changeOrder() {
 								$('.orderPlaceRequest').html(orderPlaceRequestHtml);
 								$('.orderAddr').html(orderAddrHtml);
 								$(":radio[name=orderPlace]").radioSelect(data.orderPlace);
+								
+								
 							},
 							error: function(){
 								alert("실패");
@@ -1125,10 +1154,11 @@ function onClickSelect(e) {
 
 document.querySelector("#theme .select").addEventListener("click", onClickSelect);
 
+ var selectVal = '';
 function onClickOption(e) {
   const selectedValue = e.currentTarget.innerHTML;
   // 쿠폰 값~~~~~~~~~~~~~
-  var selectVal = e.currentTarget.value;
+  selectVal = e.currentTarget.value;
   document.querySelector("#theme .selectTitle").innerHTML = selectedValue;
 }
 
