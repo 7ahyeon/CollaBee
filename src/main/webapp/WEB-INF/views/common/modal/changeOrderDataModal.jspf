@@ -30,7 +30,7 @@
 			</div>
 			<c:if test="${not empty loginMember }">
 			<label>
-				<input type="checkbox" name="cb1" id="cb1" class="check-order" 
+				<input type="checkbox" name="cbOrder" id="cbOrder" class="check-order" 
 					data-name="${loginMember.name }" data-phone="${loginMember.phone }"
 					data-addr="${loginMember.address }" data-addrDetail="${loginMember.addressDetail }">
 					<i class="circle" style="margin:0 5px;"></i><span style="font-size:0.9rem;cursor:pointer;"> &nbsp;주문자 정보와 동일</span>

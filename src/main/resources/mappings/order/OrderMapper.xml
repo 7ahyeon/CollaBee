@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderDAO">
+
+
+	<!-- 사용 가능 쿠폰 수량 조회 -->
+	<select id="getCouponCnt" parameterType="memberVO" resultType="int">
+		SELECT COUNT(*)
+		FROM COUPON C, COUPON_BOX B
+		WHERE B.MEMBER_NUM = #{memberNum}
+		AND C.COUPON_NUM = B.COUPON_NUM
+		<![CDATA[AND C.COUPON_DATE >= sysdate]]>
+	</select>
+	<!-- 사용 가능 쿠폰 항목 조회 -->
+	<select id="getCouponList" parameterType="memberVO" resultType="orderCoupon">
+		SELECT C.COUPON_NUM, C.COUPON_NAME, C.DIS_PRICE, C.COUPON_DATE, C.LEAST_COST, B.USAGE_STATE
+		FROM COUPON C, COUPON_BOX B
+		WHERE B.MEMBER_NUM = #{memberNum}
+		AND C.COUPON_NUM = B.COUPON_NUM
+		<![CDATA[AND C.COUPON_DATE >= sysdate]]>
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+

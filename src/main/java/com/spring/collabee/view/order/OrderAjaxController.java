@@ -39,10 +39,9 @@ public class OrderAjaxController {
 	public int cartToOrder(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam(value = "chbox[]") List<String> list, MemberVO mvo, CartVO cart, OrderVO ovo) {
 		// 쿠키 설정 / 로그인 여부 확인
 		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
-		mvo = (MemberVO) session.getAttribute("loginMember");
 		
 		int productNum = 0;
-		if (mvo == null) {
+		if (session.getAttribute("loginMember") == null) {
 			// 비회원 주문
 			if ( session.getAttribute("nmember") == null) {
 				cart.setNmemberNum(cookie.getValue());
@@ -52,6 +51,7 @@ public class OrderAjaxController {
 				cart.setNmemberNum(ovo.getNmemberNum());
 			}
 		} else {
+			mvo = (MemberVO) session.getAttribute("loginMember");
 			// 회원 주문
 			cart.setMemberNum(mvo.getMemberNum());
 		}
@@ -69,9 +69,8 @@ public class OrderAjaxController {
 	public OrderVO changeOrderData(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response, MemberVO mvo, @RequestBody OrderVO omember, OrderVO ovo) {
 		// 쿠키 설정 / 로그인 여부 확인
 		Cookie cookie = WebUtils.getCookie(request, "cartCookie");
-		mvo = (MemberVO) session.getAttribute("loginMember");
 		
-		if (mvo == null) {
+		if (session.getAttribute("loginMember") == null) {
 			// 비회원 주문
 			if ( session.getAttribute("nmember") == null) {
 				omember.setNmemberNum(cookie.getValue());
@@ -80,6 +79,7 @@ public class OrderAjaxController {
 				omember.setNmemberNum(ovo.getNmemberNum());
 			}
 		} else {
+			mvo = (MemberVO) session.getAttribute("loginMember");
 			// 회원 주문
 			omember.setMemberNum(mvo.getMemberNum());
 		}

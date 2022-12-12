@@ -13,8 +13,8 @@
 
 	<select id="getTotEmoney" parameterType="memberVO" resultType="Integer">
 		SELECT DISTINCT(
-       			 (SELECT SUM(AMOUNT) FROM EMONEY_USAGE WHERE CATEGORY = '적립') - 
-       			 (SELECT SUM(AMOUNT) FROM EMONEY_USAGE WHERE CATEGORY = '사용')
+       			 NVL((SELECT SUM(AMOUNT) FROM EMONEY_USAGE WHERE CATEGORY = '적립' AND MEMBER_NUM = #{memberNum}), 0)
+       			 - NVL((SELECT SUM(AMOUNT) FROM EMONEY_USAGE WHERE CATEGORY = '사용' AND MEMBER_NUM = #{memberNum}), 0)
         )
 		FROM EMONEY_USAGE 
 		WHERE MEMBER_NUM = #{memberNum} 

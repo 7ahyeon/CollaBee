@@ -20,6 +20,48 @@
 	footer {
 		margin-top:300px;
 	}
+	/* 쿠폰 */
+	.select {
+	  position: relative;
+	}
+	
+	.select .option-list {
+	  position: absolute;
+	  top: 100%;
+	  left: 0;
+	  width: 100%;
+	  overflow: hidden;
+	  max-height: 0;
+	}
+	
+	.select.active .option-list {
+	  max-height: none;
+	}
+	
+	/* 테마 적용하기 */
+	#theme {}
+	#theme .select {
+	  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+	  border-radius: 5px;
+	  padding: 10px 15px;
+	  cursor: pointer;
+	}
+	#theme .select .option-list .option:hover, .selectTitle:hover {
+	  color: #9A30AE;
+	  transition: all .3s;
+	}
+	#theme .select .option-list {
+		list-style: none;
+		padding: 0;
+		border-radius: 5px;
+		box-shadow: 0 0 2px rgba(0,0,0,0.3);
+	}
+	#theme .select .option-list .option {
+		background-color: white;
+	 	padding: 10px 15px;
+	}
+
+	
 </style>
 </head>
 <body  style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
@@ -219,7 +261,12 @@
 								</c:if>
 							</c:if>
 							<c:if test="${not empty loginMember }">
-								${loginMember.address }&nbsp;${loginMember.addressDetail }
+								<c:if test="${empty nmember.orderAddr }">
+									${loginMember.address }&nbsp;${loginMember.addressDetail }
+								</c:if>						
+								<c:if test="${not empty nmember.orderAddr }">
+									${nmember.orderAddr }&nbsp;${nmember.orderAddrDetail }
+								</c:if>
 							</c:if>
 							</span>
 						</div>
@@ -242,7 +289,6 @@
 							</span>
 						</div>
 			    	</div>
-			    	
 			    	<div class="d-flex justify-content-start text-dark" style="font-size: 0.9rem;padding-top:10px;">
 			    		<div class="item" style="width: 200px;">
 				    		<span>
@@ -250,19 +296,6 @@
 			    		</div>
 			    		<div class="item text-left" style="width: 200px;font-size: 0.8rem;">
 				    		<span class="orderPlaceRequest">
-				    			문 앞 | 기타 (벨 누르지 말고 문 앞에 놔주세요)
-				    		</span>
-						</div>
-			    	</div>
-			    	
-			    	<div class="d-flex justify-content-start" style="font-size: 0.9rem;padding:5px 0 10px 0;">
-			    		<div class="item" style="width: 200px;">
-				    		<span>
-				    		</span>
-			    		</div>
-			    		<div class="item text-left text-dark" style="width: 200px;font-size: 0.8rem;">
-				    		<span class="orderMMS">
-				    			배송완료메시지 | 배송직후
 				    		</span>
 						</div>
 			    	</div>
@@ -320,11 +353,22 @@
 			    			쿠폰 적용
 			    		</div>
 			    		<div class="item text-left" style="width: 700px;font-size: 0.8rem;white-space: nowrap;">
-				    		<select name="couponNumber" title="쿠폰" id="select1" style="width:400px;padding:10px;border:1px solid lightgray;">
-					            <option>사용가능 쿠폰 2장 / 전체 2장</option>
-					            <option>무료 배송 쿠폰 </option>
-					            <option>5000원 할인 쿠폰 </option>
-					        </select>
+			    			<section id="theme">
+					    		<div class="select">
+						    		<div class="selectTitle text-dark" style="padding:0 10px;">사용가능 쿠폰 ${couponCnt }장 / 전체 ${couponCnt }장</div>
+							    		<ul class="option-list">
+								            <li class="option" value="none" >
+								            	<span style="width:300px;padding:0 10px;">쿠폰 적용 안함</span>
+								            </li>
+								           <c:forEach var="coupon" items="${couponList }" varStatus="status">
+								            <li class="option" value="${coupon.couponNum }">
+									            <span style="width:300px;padding:0 10px;">${coupon.couponName }</span> 
+									            <span style="color:#9A30AE;"><fmt:formatNumber pattern="###,###,###" value="${coupon.leastCost }" />원 이상 구매시 <fmt:formatNumber pattern="###,###,###" value="${coupon.disPrice }" />원 할인</span> 
+								           	</li>
+								            </c:forEach>
+							    		</ul>
+							        </div>
+					        </section>
 					        <div style="padding-top:5px;">
 					        	<a href="#" style="color:#9A30AE;text-decoration: none !important;font-size: 0.7rem;">
 					        		쿠폰 사용 문의 (고객센터) >
@@ -340,9 +384,9 @@
 				    		</span>
 			    		</div>
 			    		<div class="item text-left" style="width: 180px;font-size: 0.85rem;white-space: nowrap;">
-				    		<input type="number" placeholder="0" style="padding:5px;border:1px solid lightgray;">
+				    		<input class="emoney" name="emoney" type="number" placeholder="0" style="padding:5px;border:1px solid lightgray;">
 						</div>
-			    		<button type="button" class="btn btn-sm text-dark font-weight-bold" style="padding:7px;border:1px solid lightgray;font-size: 0.7rem;">
+			    		<button type="button" class="emoneyTotBtn btn-sm text-dark font-weight-bold" style="background-color:white;padding:7px;border:1px solid lightgray;font-size: 0.7rem;">
 			    			모두 사용
 			    		</button>
 			    	</div>
@@ -355,8 +399,8 @@
 			    		<div class="item text-left" style="width: 200px;font-size: 0.8rem;">
 				    		<span>
 				    			사용가능 적립금
-				    			<span class="font-weight-bold">
-				    				315
+				    			<span class="totEmoney font-weight-bold">
+				    				${totEmoney}
 				    			</span>
 				    			원
 				    		</span>
@@ -900,6 +944,10 @@ $(function() {
 		$('.payPick').attr('style', 'display: none !important');
 	});
 	
+	// 적립금 모두 사용
+	$('#emoneyTotBtn').click( function() {
+		
+	});
 	// 주문하기 버튼
 	$('#orderBtn').click( function() {
 		if (pay != '') {
@@ -975,6 +1023,7 @@ function changeAddr() {
 	}
 }
 
+// 배송 정보 유효성 검사 및 입력
 function changeOrder() {
 	if ($('#orderName').val().replace(/\s/gi, "") != '') {
 		if ($('#orderPhone').val().replace(/\s/gi, "") != '') {
@@ -989,6 +1038,7 @@ function changeOrder() {
 						var orderAddrDetailVal = $('#address_detail').val();
 						var orderPlaceVal = $('input:radio[name=orderPlace]:checked').val();
 						var orderRequestVal = '';
+						var extraPlace = '';
 						
 						if (orderPlaceVal == 1) {
 							orderPlaceVal = '문 앞';
@@ -998,18 +1048,17 @@ function changeOrder() {
 							orderPlaceVal = '택배함';
 						} else if (orderPlaceVal == 4) {
 							orderPlaceVal = '기타 장소';
-							orderPlaceVal += $('.extraPlaceText').val();
+							extraPlace = ' (' + $('.extraPlaceText').val() + ')';
 						}
 						if ($('.orderRequest').val() != '') {
 							orderRequestVal = $('.orderRequest').val();
 						}
-						
 						var sendOrderData = {
 								orderName : orderNameVal,
 								orderPhone : orderPhoneVal,
 								orderAddr : orderAddrVal,
 								orderAddrDetail : orderAddrDetailVal,
-								orderPlace : orderPlaceVal,
+								orderPlace : orderPlaceVal + extraPlace,
 								orderRequest : orderRequestVal
 							};
 						$.ajax({
@@ -1019,9 +1068,17 @@ function changeOrder() {
 							contentType: "application/json",
 							dataType: "json",
 							success: function(data){
-								
+
+								var orderNamePhoneHtml = data.orderName + ', ' + data.orderPhone.substring(0, 3) + '-' + data.orderPhone.substring(3, 7) + '-' + data.orderPhone.substring(7, 11);
+								var orderPlaceRequestHtml = data.orderPlace + ' | ' + data.orderRequest;
+								var orderAddrHtml = data.orderAddr + ' ' + data.orderAddrDetail;
+								$('.orderNamePhone').html(orderNamePhoneHtml);
+								$('.orderPlaceRequest').html(orderPlaceRequestHtml);
+								$('.orderAddr').html(orderAddrHtml);
+								$(":radio[name=orderPlace]").radioSelect(data.orderPlace);
 							},
 							error: function(){
+								alert("실패");
 							}
 						}); 
 						$('#changeOrderDataModal').modal('hide');
@@ -1039,6 +1096,14 @@ function changeOrder() {
 			alertWarning('이름을 입력해주세요.');
 	}
 }
+function radioSelect(val) {
+	  this.each(function() {
+	    var $this = $(this);
+	    if($this.val() == val)
+	      $this.attr('checked', true);
+	  });
+	  return this;
+}
 function alertWarning(msg) {
 	Swal.fire({
 		icon: 'warning',
@@ -1047,6 +1112,30 @@ function alertWarning(msg) {
 		showConfirmButton: false,
 		timer: 1500
 	});
+}
+// 쿠폰 selectbox
+function onClickSelect(e) {
+	  const isActive = e.currentTarget.className.indexOf("active") !== -1;
+	  if (isActive) {
+	    e.currentTarget.className = "select";
+	  } else {
+	    e.currentTarget.className = "select active";
+	  }
+}
+
+document.querySelector("#theme .select").addEventListener("click", onClickSelect);
+
+function onClickOption(e) {
+  const selectedValue = e.currentTarget.innerHTML;
+  // 쿠폰 값~~~~~~~~~~~~~
+  var selectVal = e.currentTarget.value;
+  document.querySelector("#theme .selectTitle").innerHTML = selectedValue;
+}
+
+var optionList = document.querySelectorAll("#theme .option");
+for (var i = 0; i < optionList.length; i++) {
+  var option = optionList[i];
+  option.addEventListener("click", onClickOption);
 }
 </script>	
 </body>
