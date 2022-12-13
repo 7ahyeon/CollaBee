@@ -1,13 +1,12 @@
 package com.spring.collabee.biz.order;
 
-import java.sql.Timestamp;
-
 public class OrderVO {
 	private int orderNum;
 	private String orderName, orderPhone, orderAddr, orderPlace, orderRequest;
-	private Timestamp deliveryPick;
+	private String deliveryPick;
 	private int deliveryFee, totGoodsprice, totDiscount, totPrice, couponNum, usageAmount, ptNum, memberNum;
-	private String ptInstallment, orderAddrDetail, nmemberNum;
+	private String ptInstallment, orderAddrDetail, nmemberNum, gradeName;
+	private int saverate;
 	
 	public OrderVO() {
 	}
@@ -60,11 +59,13 @@ public class OrderVO {
 		this.orderRequest = orderRequest;
 	}
 
-	public Timestamp getDeliveryPick() {
+	
+
+	public String getDeliveryPick() {
 		return deliveryPick;
 	}
 
-	public void setDeliveryPick(Timestamp deliveryPick) {
+	public void setDeliveryPick(String deliveryPick) {
 		this.deliveryPick = deliveryPick;
 	}
 
@@ -156,6 +157,22 @@ public class OrderVO {
 		this.nmemberNum = nmemberNum;
 	}
 
+	public String getGradeName() {
+		return gradeName;
+	}
+
+	public void setGradeName(String gradeName) {
+		this.gradeName = gradeName;
+	}
+
+	public int getSaverate() {
+		return saverate;
+	}
+
+	public void setSaverate(int saverate) {
+		this.saverate = saverate;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderVO [orderNum=" + orderNum + ", orderName=" + orderName + ", orderPhone=" + orderPhone
@@ -163,10 +180,11 @@ public class OrderVO {
 				+ ", deliveryPick=" + deliveryPick + ", deliveryFee=" + deliveryFee + ", totGoodsprice=" + totGoodsprice
 				+ ", totDiscount=" + totDiscount + ", totPrice=" + totPrice + ", couponNum=" + couponNum
 				+ ", usageAmount=" + usageAmount + ", ptNum=" + ptNum + ", memberNum=" + memberNum + ", ptInstallment="
-				+ ptInstallment + ", orderAddrDetail=" + orderAddrDetail + ", nmemberNum=" + nmemberNum + "]";
+				+ ptInstallment + ", orderAddrDetail=" + orderAddrDetail + ", nmemberNum=" + nmemberNum + ", gradeName="
+				+ gradeName + ", saverate=" + saverate + "]";
 	}
 
-	
+
 	
 	
 }

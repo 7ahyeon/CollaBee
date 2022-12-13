@@ -46,8 +46,9 @@
 	  padding: 10px 15px;
 	  cursor: pointer;
 	}
-	#theme .select .option-list .option:hover, .selectTitle:hover {
-	  color: #9A30AE;
+	#theme .select .option-list .option:hover{
+	  color: #B03FE3;
+	  background-color:lavender;
 	  transition: all .3s;
 	}
 	#theme .select .option-list {
@@ -56,7 +57,7 @@
 		border-radius: 5px;
 		box-shadow: 0 0 2px rgba(0,0,0,0.3);
 	}
-	#theme .select .option-list .option {
+	#theme .select .option-list .option, .option2 {
 		background-color: white;
 	 	padding: 10px 15px;
 	}
@@ -352,19 +353,25 @@
 			    		<div class="item" style="width: 200px;">
 			    			쿠폰 적용
 			    		</div>
-			    		<div class="item text-left" style="width: 700px;font-size: 0.8rem;white-space: nowrap;">
+			    		<div class="item text-left" style="width: 600px;font-size: 0.8rem;white-space: nowrap;">
 			    			<section id="theme">
 					    		<div class="select">
-						    		<div class="selectTitle text-dark" >사용가능 쿠폰 ${couponCnt }장 / 전체 ${couponCnt }장</div>
+						    		<div class="selectTitle text-dark">사용가능 쿠폰 ${couponCnt }장 / 전체 ${couponCntN + couponCnt }장</div>
 							    		<ul class="option-list text-secondary">
-								            <li class="option" value="none" >
+								            <li class="option" value="7777" >
 								            	<span style="width:300px;padding:0 10px;">쿠폰 적용 안함</span>
 								            </li>
 								           <c:forEach var="coupon" items="${couponList }" varStatus="status">
-								            <li class="option" value="${coupon.couponNum }">
-									            <span style="width:300px;padding:0 10px;">${coupon.couponName }</span> 
-									            <span style="color:#9A30AE;"><fmt:formatNumber pattern="###,###,###" value="${coupon.leastCost }" />원 이상 구매시 <fmt:formatNumber pattern="###,###,###" value="${coupon.disPrice }" />원 할인</span> 
-								           	</li>
+									            <li class="option" value="${coupon.couponNum }" data-disPrice="${coupon.disPrice }">
+										            <span style="width:300px;padding:0 10px;">${coupon.couponName }</span> 
+										            <span style="color:#B03FE3;"><fmt:formatNumber pattern="###,###,###" value="${coupon.leastCost }" />원 이상 구매시 <fmt:formatNumber pattern="###,###,###" value="${coupon.disPrice }" />원 할인</span> 
+									           	</li>
+								            </c:forEach>
+								           <c:forEach var="coupon" items="${couponListN }" varStatus="status">
+									            <li class="option2" style="color:#9C9C9C;background-color:#F6F6F6;" value="${coupon.couponNum }">
+										            <span style="width:300px;padding:0 10px;">${coupon.couponName }</span> 
+										            <span style=""><fmt:formatNumber pattern="###,###,###" value="${coupon.leastCost }" />원 이상 구매시 <fmt:formatNumber pattern="###,###,###" value="${coupon.disPrice }" />원 할인</span> 
+									           	</li>
 								            </c:forEach>
 							    		</ul>
 							        </div>
@@ -399,8 +406,8 @@
 			    		<div class="item text-left" style="width: 200px;font-size: 0.8rem;">
 				    		<span>
 				    			사용가능 적립금
-				    			<span class="totEmoney font-weight-bold" data-emoney="${totEmoney}">
-				    				${totEmoney}
+				    			<span class="totEmoney font-weight-bold" data-emoney="${orders.usageAmount}">
+				    				${orders.usageAmount}
 				    			</span>
 				    			원
 				    		</span>
@@ -610,8 +617,13 @@
   			</div>
 		    <div class="d-flex justify-content-center">
 		    	<button id="orderBtn" type="button" class="btn font-weight-bold"
-						style="width:250px;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:15px;color:white;font-size:1rem;">
-					182,552원 결제하기
+					style="width:250px;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:15px;color:white;font-size:1rem;">
+					<c:if test="${orders.totPrice >= 40000 }">
+						<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice }" /> 원 결제하기
+					</c:if>
+					<c:if test="${orders.totPrice < 40000 }">
+						<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice + 3000 }" /> 원 결제하기
+					</c:if>
 				</button>
 		    </div>
 		</div>
@@ -632,25 +644,24 @@
 						<div style="margin-bottom: 10px;">
 							상품금액
 						</div>
-						<div class="totPriceTemp font-weight-bold" style="margin-bottom: 10px;">
-							<fmt:formatNumber pattern="###,###,###" value="${cartGoods.price * cartGoods.count }" /> 원
-							${orderPrice.totPrice } 원
+						<div class="totPriceTemp font-weight-bold" data-totPrice="${orders.totPrice }" style="margin-bottom: 10px;">
+							<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice }" /> 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between text-secondary" style="font-size:0.8rem;">
 						<div style="margin-bottom: 5px;">
 							┕ 상품금액
 						</div>
-						<div class="totGoodsprice" style="margin-bottom: 5px;">
-							${orderPrice.totGoodsprice } 원
+						<div class="totGoodsprice" data-totGoodsprice="${orders.totGoodsprice }" style="margin-bottom: 5px;">
+							<fmt:formatNumber pattern="###,###,###" value="${orders.totGoodsprice }" /> 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between text-secondary" style="font-size:0.8rem;">
 						<div style="margin-bottom: 10px;">
 							┕ 상품할인금액
 						</div>
-						<div class="totDiscount" style="margin-bottom: 10px;">
-							${orderPrice.totDiscount } 원
+						<div class="totDiscount" data-totDiscount="${orders.totDiscount }" style="margin-bottom: 10px;">
+							- <fmt:formatNumber pattern="###,###,###" value="${orders.totDiscount }" /> 원
 						</div>
 					</div>
 					<div class="d-flex flex-row justify-content-between" style="font-size:0.95rem;">
@@ -658,7 +669,12 @@
 							배송비
 						</div>
 						<div class="font-weight-bold" style="margin-bottom: 10px;">
-							0 원
+							<c:if test="${orders.totPrice >= 40000 }">
+								0 원
+							</c:if>
+							<c:if test="${orders.totPrice < 40000 }">
+								+ 3,000 원
+							</c:if>
 						</div>
 					</div>
 					<c:if test="${not empty loginMember}">
@@ -666,7 +682,7 @@
 						<div style="margin-bottom: 10px;">
 							쿠폰 할인
 						</div>
-						<div class="font-weight-bold" style="margin-bottom: 10px;color:#FFCD4A;">
+						<div class="couponDisPrice font-weight-bold" style="margin-bottom: 10px;color:#FFCD4A;">
 							0 원
 						</div>
 					</div>
@@ -674,7 +690,7 @@
 						<div style="margin-bottom: 10px;">
 							적립금 사용
 						</div>
-						<div class="font-weight-bold" style="margin-bottom: 10px;color:#FFCD4A;">
+						<div class="emoneyDisPrice font-weight-bold" style="margin-bottom: 10px;color:#FFCD4A;">
 							0 원
 						</div>
 					</div>
@@ -687,8 +703,13 @@
 						<div style="margin-bottom: 10px;">
 							최종결제금액
 						</div>
-						<div class="totPrice" style="margin-bottom: 10px;color:#9A30AE;font-size: 1.3rem;">
-							0 원
+						<div class="totPrice" data-saverate="${orders.saverate }" data-totPrice="${orders.totPrice }" style="margin-bottom: 10px;color:#9A30AE;font-size: 1.3rem;">
+							<c:if test="${orders.totPrice >= 40000 }">
+								<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice }" /> 원
+							</c:if>
+							<c:if test="${orders.totPrice < 40000 }">
+								<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice + 3000 }" /> 원
+							</c:if>
 						</div>
 					</div>
 					<c:if test="${not empty loginMember}">
@@ -697,8 +718,8 @@
 							<button class="btn font-weight-bold" style="color:white;background-color: #FFCD4A;border-radius:15px;width:32px;padding:1px;font-size:0.6rem;">
 								적립
 							</button>
-							<span class="saveEmoneyOrder text-secondary" style="font-size:0.7rem;">
-								구매 시 0 원 (${cartMember.saverate }%)
+							<span class="saveEmoneyOrder text-secondary" data-saverate="${orders.saverate }" style="font-size:0.7rem;">
+								구매 시 <fmt:formatNumber pattern="###,###,###" value="${(orders.saverate / 100) * orders.totPrice }" /> 원 (${orders.saverate }%)
 							</span>
 						</div>
 					</div>
@@ -851,6 +872,67 @@ $(function() {
 	
 	// 총 결제 금액 계산
 	
+	var deliveryFeeOrder = 0;
+	var saveRate = 0;
+	
+	function totalPriceTemp() {
+
+		var totPriceTemp = $('.totPriceTemp').attr('data-totPrice');
+		totPriceTemp = parseInt(totPriceTemp);
+		
+		var totPriceOrder = totPriceTemp;
+		var totPriceEnd = totPriceTemp;
+		var saveEmoney = 0;
+		saveRate = $('.totPrice').attr('data-saverate');
+		var percent = saveRate;
+		
+		if (saveRate != 0) {
+			saveRate = (saveRate / 100);
+		}
+		
+		if (totPriceOrder < 40000 ) {
+			deliveryFeeOrder = 3000;
+			totPriceOrder += 3000;
+		}
+		if (selectDisPrice != "" || selectDisPrice != null || selectDisPrice != undefined || ( selectDisPrice != null && typeof selectDisPrice != "object" && Object.keys(selectDisPrice).length)) {
+			if ((typeof selectDisPrice) != 'object' || (typeof selectDisPrice) != 'number'){
+				selectDisPrice = 0;
+				selectDisPrice = parseInt(selectDisPrice);
+			}
+			if (selectDisPrice == 0) {
+				$('.couponDisPrice').html(selectDisPrice + ' 원');
+			} else {
+				$('.couponDisPrice').html('- ' + addComma(String(selectDisPrice)) + ' 원');
+			}
+
+			totPriceOrder -= selectDisPrice;
+			totPriceEnd -= selectDisPrice;
+		} else {
+			$('.couponDisPrice').html('0 원');
+		}
+		if (usageAmountOrder != '0' || usageAmountOrder != 0) {
+			usageAmountOrder = parseInt(usageAmountOrder);
+			
+			totPriceOrder -= usageAmountOrder;
+			totPriceEnd -= usageAmountOrder;
+			
+			$('.emoneyDisPrice').html('- ' + addComma(String(usageAmountOrder)) + ' 원');
+		} else {
+			$('.emoneyDisPrice').html('0 원');
+		}
+		if (saveRate != 0) {
+			saveEmoney = (totPriceEnd * saveRate);
+			saveEmoney = Math.round(saveEmoney);
+			$('.saveEmoneyOrder').html('구매 시 ' + addComma(String(saveEmoney)) + ' 원 (' + percent + '%)');
+		}
+		
+		$('.totPrice').attr('data-totPrice', totPriceOrder);
+		// 최종 금액 
+		$('.totPrice').html(addComma(String(totPriceOrder)) + '원');
+		$('#orderBtn').html(addComma(String(totPriceOrder)) + ' 원 결제하기');
+	}
+	
+	
 	// 배송지 변경 안내 hover
 	$('.info-title').hover(function() {
 		$('.info-text').css('display', 'block');
@@ -922,7 +1004,7 @@ $(function() {
 	
 	// 간단 결제
 	$('.easyBtn').click( function() {
-		pay = '21';
+		pay = '3';
 		
 		$('.easyBtn').css('background-color', '#9A30AE');
 		$('.easyBtn').css('color', 'white');
@@ -938,7 +1020,7 @@ $(function() {
 	
 	// 휴대폰 결제
 	$('.phoneBtn').click( function() {
-		pay = '24';
+		pay = '4';
 		
 		$('.phoneBtn').css('background-color', '#9A30AE');
 		$('.phoneBtn').css('color', 'white');
@@ -951,47 +1033,6 @@ $(function() {
 		$('.payPick').attr('style', 'display: none !important');
 	});
 	
-	// 적립금 모두 사용
-	$('.emoneyTotBtn').click( function() {
-		var totEmoney = $('.totEmoney').attr('data-emoney');
-		$('.emoney').val(totEmoney);
-	});
-	// 주문하기 버튼
-	$('#orderBtn').click( function() {
-		var orderNameSend = $('#orderName').val();
-		var orderPhoneSend = $('#orderPhone').val();
-		var orderAddrSend = $('#address_kakao').val();
-		var orderAddrDetailSend = $('#address_detail').val();
-		var orderPlaceSend = $('input:radio[name=orderPlace]:checked').val();
-		var orderDeliveryPickSend = $('input:radio[name=deliveryPick]:checked').val();
-		var orderCouponNumSend = selectVal;
-		var orderUsageAmountSend = $('.emoney').val();
-		var orderPtNumSend = pay;
-		
-		alert(orderPtNuSend);
-		
-		if (orderNameSend != ''){
-			if (orderCouponNumSend != '') {
-				if (orderUsageAmountSend != '') {
-					if (orderPtNumSend != '') {
-						if ( $('#cb1').is(':checked') && $('#cb2').is(':checked') && $('#cb3').is(':checked') ) {
-							location.href='orderComplete.do';
-						} else {
-							alertNull('결제 진행 필수 동의에 체크해주세요.');
-						}
-					} else {
-						alertNull('결제  수단을 선택해주세요.');
-					}
-				} else {
-					alertNull('적립금을 입력해주세요.');
-				}
-			} else {
-				alertNull('쿠폰을 선택해주세요.');
-			}
-		} else {
-			alertNull('배송 정보를 입력해주세요.');
-		}
-	});
 	
 	// 알림창
 	function alertNull(msg) {
@@ -1003,7 +1044,114 @@ $(function() {
 		});
 	}	
 	
+
+	// 주문하기 버튼
+	$('#orderBtn').click( function() {
+		var orderNameSend = $('#orderName').val();
+		var orderDeliveryPickSend = $('input:radio[name=deliveryPick]:checked').val();
+		if (saveRate != 0) {
+			var orderCouponNumSend = selectVal;
+		} else {
+			var orderCouponNumSend = 7777;
+		}
+		var orderUsageAmountSend = usageAmountOrder;
+		var orderPtNumSend = pay;
+		var orderTotGoodsPrice = $('.totGoodsprice').attr('data-totGoodsprice');
+		var orderTotDiscount = $('.totDiscount').attr('data-totDiscount');
+		var orderTotPriceSend = $('.totPrice').attr('data-totPrice');
+		if (orderNameSend != ''){
+			if (orderCouponNumSend != '' || orderCouponNumSend != 0 || orderCouponNumSend != '0') {
+					if (orderPtNumSend != '') {
+						if ( $('#cb1').is(':checked') && $('#cb2').is(':checked') && $('#cb3').is(':checked') ) {
+							if (orderCouponNumSend == '7777' || orderCouponNumSend == 7777) {
+								orderCouponNumSend = 0;
+							}
+							var sendData = {
+									deliveryPick : orderDeliveryPickSend,
+									deliveryFee : deliveryFeeOrder,
+									totGoodsprice : orderTotGoodsPrice,
+									totDiscount : orderTotDiscount,
+									totPrice : orderTotPriceSend,
+									couponNum : orderCouponNumSend,
+									usageAmount : orderUsageAmountSend,
+									ptNum : orderPtNumSend
+								};
+							$.ajax({
+								type: "POST",
+								url: "orderSend.do",
+								data: JSON.stringify(sendData),
+								contentType: "application/json",
+								success: function(data){
+									alert("성공");
+									location.href="orderComplete.do";
+								},
+								error: function(){
+									alert("실패");
+								}
+							}); 
+							
+						} else {
+							alertNull('결제 진행 필수 동의에 체크해주세요.');
+						}
+					} else {
+						alertNull('결제  수단을 선택해주세요.');
+					}
+			} else {
+				alertNull('쿠폰을 선택해주세요.');
+			}
+		} else {
+			alertNull('배송 정보를 입력해주세요.');
+		}
+	});
 	
+	// 쿠폰 selectbox
+	function onClickSelect(e) {
+		  const isActive = e.currentTarget.className.indexOf("active") !== -1;
+		  if (isActive) {
+		    e.currentTarget.className = "select";
+		  } else {
+		    e.currentTarget.className = "select active";
+		  }
+	}
+
+	document.querySelector("#theme .select").addEventListener("click", onClickSelect);
+
+	 var selectVal = '';
+	 var selectDisPrice = '';
+	function onClickOption(e) {
+	  const selectedValue = e.currentTarget.innerHTML;
+	  // 쿠폰 값~~~~~~~~~~~~~
+	  selectVal = e.currentTarget.value;
+	  if (selectVal != '0' || selectVal != 0|| selectVal != 7777 || selectVal != '7777') {
+		  selectDisPrice = e.currentTarget.getAttribute('data-disPrice');
+	  } else if (selectVal == '0' || selectVal == 0|| selectVal == 7777 || selectVal == '7777' ) {
+		  selectDisPrice = '0';
+	  }
+	  document.querySelector("#theme .selectTitle").innerHTML = selectedValue;
+	  totalPriceTemp();
+	}
+
+	var optionList = document.querySelectorAll("#theme .option");
+	for (var i = 0; i < optionList.length; i++) {
+	  var option = optionList[i];
+	  option.addEventListener("click", onClickOption);
+	}
+	
+	var usageAmountOrder = 0;
+	// 적립금 사용
+	$(".emoney").change(function() {
+		usageAmountOrder = $(this).val();
+		totalPriceTemp();
+	});
+
+	// 적립금 모두 사용
+	$('.emoneyTotBtn').click( function() {
+		var totEmoney = $('.totEmoney').attr('data-emoney');
+		$('.emoney').val(totEmoney);
+		
+		usageAmountOrder = totEmoney;
+		totalPriceTemp();
+	});
 // end
 });
 function findAddr() {
@@ -1102,7 +1250,10 @@ function changeOrder() {
 							success: function(data){
 
 								var orderNamePhoneHtml = data.orderName + ', ' + data.orderPhone.substring(0, 3) + '-' + data.orderPhone.substring(3, 7) + '-' + data.orderPhone.substring(7, 11);
-								var orderPlaceRequestHtml = data.orderPlace + ' | ' + data.orderRequest;
+								var orderPlaceRequestHtml = data.orderPlace;
+								if (data.orderRequest != '') {
+									orderPlaceRequestHtml += ' | ' + data.orderRequest;
+								}
 								var orderAddrHtml = data.orderAddr + ' ' + data.orderAddrDetail;
 								
 								
@@ -1110,8 +1261,6 @@ function changeOrder() {
 								$('.orderPlaceRequest').html(orderPlaceRequestHtml);
 								$('.orderAddr').html(orderAddrHtml);
 								$(":radio[name=orderPlace]").radioSelect(data.orderPlace);
-								
-								
 							},
 							error: function(){
 								alert("실패");
@@ -1149,31 +1298,7 @@ function alertWarning(msg) {
 		timer: 1500
 	});
 }
-// 쿠폰 selectbox
-function onClickSelect(e) {
-	  const isActive = e.currentTarget.className.indexOf("active") !== -1;
-	  if (isActive) {
-	    e.currentTarget.className = "select";
-	  } else {
-	    e.currentTarget.className = "select active";
-	  }
-}
 
-document.querySelector("#theme .select").addEventListener("click", onClickSelect);
-
- var selectVal = '';
-function onClickOption(e) {
-  const selectedValue = e.currentTarget.innerHTML;
-  // 쿠폰 값~~~~~~~~~~~~~
-  selectVal = e.currentTarget.value;
-  document.querySelector("#theme .selectTitle").innerHTML = selectedValue;
-}
-
-var optionList = document.querySelectorAll("#theme .option");
-for (var i = 0; i < optionList.length; i++) {
-  var option = optionList[i];
-  option.addEventListener("click", onClickOption);
-}
 </script>	
 </body>
 </html>

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.ibatis.annotations.MapKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +23,6 @@ import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.goods.GoodsVO;
 import com.spring.collabee.biz.member.MemberVO;
-import com.spring.collabee.biz.order.OrderMemberVO;
 import com.spring.collabee.biz.order.OrderVO;
 
 @SessionAttributes("nmember")

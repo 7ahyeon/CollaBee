@@ -181,7 +181,6 @@ function periodSelect (period) {
            
 		},
 		error: function(){
-			alert("주문내역 불러오기 getOrderListAjax 실패")
 		}
 	});//ajax끝
 	

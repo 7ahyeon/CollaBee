@@ -10,7 +10,7 @@ import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.goods.GoodsVO;
 import com.spring.collabee.biz.member.MemberVO;
-import com.spring.collabee.biz.order.OrderMemberVO;
+import com.spring.collabee.biz.order.OrderVO;
 
 @Service("cartService")
 public class CartServiceImpl implements CartService {
@@ -41,8 +41,8 @@ public class CartServiceImpl implements CartService {
 	}
 	
 	@Override
-	public OrderMemberVO getCartMember(MemberVO vo) {
-		return cartDao.getCartMember(vo);
+	public OrderVO getGrade(MemberVO vo) {
+		return cartDao.getGrade(vo);
 	}
 	
 	@Override

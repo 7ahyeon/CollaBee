@@ -630,8 +630,8 @@ footer {
 							<span class="save_emoney_temp">
 								최대 0 원 적립
 							</span>
-							<span class="memberGrade" data-severate="${cartMember.saverate }" style="font-size:0.7rem;color:#FFCD4A;">
-								 (${cartMember.gradeName } 등급 적립 ${cartMember.saverate }%)
+							<span class="memberGrade" data-severate="${orders.saverate }" style="font-size:0.7rem;color:#FFCD4A;">
+								 (${orders.gradeName } 등급 적립 ${orders.saverate }%)
 							</span>
 							</c:if>
 							<c:if test="${empty loginMember }">

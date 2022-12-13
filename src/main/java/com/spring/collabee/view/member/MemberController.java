@@ -225,7 +225,7 @@ public class MemberController {
 			response.addCookie(cookie);
 		}
 		
-		return "redirect:/mypage/order.do";
+		return "redirect:/cart/cart.do";
 	}
 	
 	

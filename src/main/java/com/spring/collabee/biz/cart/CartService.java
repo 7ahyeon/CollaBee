@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.spring.collabee.biz.goods.GoodsVO;
 import com.spring.collabee.biz.member.MemberVO;
-import com.spring.collabee.biz.order.OrderMemberVO;
+import com.spring.collabee.biz.order.OrderVO;
 
 public interface CartService {
 	List<CartVO> getCartNLogin(CartVO vo);
@@ -14,7 +14,7 @@ public interface CartService {
 	void updateCartLogin(CartVO vo);
 	
 	void updateAddress(MemberVO vo);
-	OrderMemberVO getCartMember(MemberVO vo);
+	OrderVO getGrade(MemberVO vo);
 
 	void updateNmLimit(CartVO vo);
 	CartVO checkCartList(CartVO vo);

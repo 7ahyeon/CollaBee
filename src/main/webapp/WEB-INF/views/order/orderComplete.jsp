@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,10 +45,16 @@
 						<i class="bi bi-check-circle font-weight-bold" style="font-size:3rem;color:#9A30AE;"></i>
 					</div>
 					<div class="font-weight-bold text-dark" style="font-size:1.3rem;">
-						콜라비님의 주문이 완료되었습니다.
+					<c:if test="${empty loginMember }">
+						${orders.orderName }
+					</c:if>
+					<c:if test="${not empty loginMember }">
+						${loginMember.name }
+					</c:if>
+						님의 주문이 완료되었습니다.
 					</div>
 					<div class="font-weight-bold"  style="color: #9A30AE;margin-top:5px;font-size:1.1rem;">
-						내일 아침에 만나요!
+						${orders.deliveryPick.substring(8,10) }일 ${orders.deliveryPick.substring(11,13) }시에 만나요!
 					</div>
 				</div>
 				<div class="card-body bg-white">
@@ -61,26 +68,28 @@
 								</div>
 								<div class="font-weight-bold">
 									<span style="font-size:1.2rem;">
-										210,900
+										<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice }" /> 원
 									</span>
 									<span>
 										원
 									</span>
 								</div>
 							</div>
+							<c:if test="${not empty loginMember }">
 							<div class="d-flex flex-row justify-content-between">
 								<div class="text-dark font-weight-bold">
 									적립금
 								</div>
 								<div>
 									<span style="color:#9A30AE;">
-										+2,109
+										+ <fmt:formatNumber pattern="###,###,###" value="${save }" />
 									</span>
 									<span>
 										원
 									</span>
 								</div>
 							</div>
+							</c:if>
 							<div style="padding-top:20px;">
 								<div class="d-flex flex-row justify-content-between" style="background-color:#F5F2F0;padding:30px;">
 									<div style="padding-top:10px;">
@@ -122,11 +131,19 @@
 								</ul>
 							</div>
 							<div class="d-flex justify-content-center" style="margin-top:30px;">
+								<c:if test="${not empty loginMember }">
+						    	<button id="orderListBtn" type="button"class="btn font-weight-bold" onclick="location.href='../mypage/order.do'"
+										style="width:250px;border:1px solid #9A30AE;background-color:white;border-radius:3px;padding:15px;color:#9A30AE;font-size:1rem;margin:10px;">
+									주문 상세보기
+								</button>
+								</c:if>
+								<c:if test="${empty loginMember }">
 						    	<button id="orderListBtn" type="button"class="btn font-weight-bold"
 										style="width:250px;border:1px solid #9A30AE;background-color:white;border-radius:3px;padding:15px;color:#9A30AE;font-size:1rem;margin:10px;">
 									주문 상세보기
 								</button>
-						    	<button id="shoppingBtn" type="button" class="btn font-weight-bold"
+								</c:if>
+						    	<button id="shoppingBtn" type="button" class="btn font-weight-bold" onclick="location.href='../collections/main.do'"
 										style="width:250px;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:15px;color:white;font-size:1rem;margin:10px;">
 									쇼핑 계속하기
 								</button>

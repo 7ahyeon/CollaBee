@@ -1,7 +1,6 @@
 package com.spring.collabee.biz.cart.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.goods.GoodsVO;
 import com.spring.collabee.biz.member.MemberVO;
-import com.spring.collabee.biz.order.OrderMemberVO;
+import com.spring.collabee.biz.order.OrderVO;
 
 @Repository
 public class CartDAO {
@@ -35,8 +34,8 @@ public class CartDAO {
 		mybatis.update("cartDAO.updateAddress", vo);
 	}
 	
-	public OrderMemberVO getCartMember(MemberVO vo) {
-		return mybatis.selectOne("cartDAO.getCartMember", vo);
+	public OrderVO getGrade(MemberVO vo) {
+		return mybatis.selectOne("cartDAO.getGrade", vo);
 	}
 	
 	public void updateNmLimit(CartVO vo) {

@@ -132,7 +132,6 @@ $(function(){
            
 		},
 		error: function(){
-			alert("주문내역을 불러올 수 없습니다.")
 		}
 	});//ajax끝
 	

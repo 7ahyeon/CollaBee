@@ -18,10 +18,9 @@ import org.springframework.web.util.WebUtils;
 import com.spring.collabee.biz.cart.CartService;
 import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.member.MemberVO;
-import com.spring.collabee.biz.order.OrderMemberVO;
 import com.spring.collabee.biz.order.OrderVO;
 
-@SessionAttributes({"nmember","cartList", "cartCount", "cartList1", "cartList2", "cartList3", "cartList4"})
+@SessionAttributes({"orders", "nmember", "cartList", "cartCount", "cartList1", "cartList2", "cartList3", "cartList4"})
 @RequestMapping("/cart")
 @Controller
 public class CartController {
@@ -47,8 +46,9 @@ public class CartController {
 			cartCookie.setMaxAge(60 * 60 * 24 * 3);
 			response.addCookie(cartCookie);
 			ovo.setNmemberNum(nmemberNum);
+			
 			model.addAttribute("nmember", ovo);
-			cart.setNmemberNum(nmemberNum);
+			
 		} else if (cookie != null && mvo == null) {
 			String nmemberNum = cookie.getValue();
 			cart.setNmemberNum(nmemberNum);
@@ -90,8 +90,8 @@ public class CartController {
 			model.addAttribute("cartList3", cartList3);
 			model.addAttribute("cartList4", cartList4);
 			
-			OrderMemberVO cartMember = cartService.getCartMember(mvo);
-			model.addAttribute("cartMember", cartMember);
+			OrderVO orders = cartService.getGrade(mvo);
+			model.addAttribute("orders", orders);
 		}
 		return "/cart/cart";
 	}
