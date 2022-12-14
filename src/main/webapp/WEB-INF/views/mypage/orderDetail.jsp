@@ -33,7 +33,7 @@ $(function(){
 				htmlTag1 += '<div class="order-list-continer d-flex align-content-between">';
 				
 				htmlTag1 += '<div class="order-item">'
-								+ '<img src="' + orderList.thumSysFilename + '" alt="상품 이미지" class="order-item-thumb">'
+								+ '<img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ orderList.thumSysFilename +'" alt="'+ orderList.thumSysFilename +'" class="order-item-thumb">'
 								+ '<dl class="order-item-info">'
 									+ '<dt class="order-item-name">' + orderList.productName + '</dt>'
 								+ '</dl>'
@@ -55,7 +55,7 @@ $(function(){
 				htmlTag2 +=  '<ul class="infoContent">';
 				htmlTag2 += '<li>'
 							 + '<span class="title1">상품금액</span>'
-							 + '<span class="content">' + orderList.saleprice + '<span class="content">원</span> </span>'
+							 + '<span class="content">' + orderList.totGoodsprice + '<span class="content">원</span> </span>'
 						 + '</li>';
 						 
 				htmlTag2 += '<li><span class="title1">배송비</span>'
@@ -67,7 +67,7 @@ $(function(){
 			               + '</li>';
 			               
 				htmlTag2 +=  '<li><span class="title1">적립금액</span>' 
-				    				+ '<span class="content">' + orderList.totPrice + '<span class="content">원</span></span>'
+				    				+ '<span class="content">' + orderList.amount + '<span class="content">원</span></span>'
 							+ '</li>';
 							
 				htmlTag2 += '<li><span class="title1">결제방법</span>'
@@ -132,6 +132,7 @@ $(function(){
            
 		},
 		error: function(){
+			alert("주문내역을 불러올 수 없습니다.")
 		}
 	});//ajax끝
 	
@@ -177,7 +178,37 @@ $(function(){
 	
 	//전체 주문 상품 다시 담기
 	function allReAdd(){
-		alert("전체 주문 상품 다시 담기");
+		// 상품 개수
+		var goodsCount = 1;
+		
+		var sendCart = {
+				productNum : goodsNum,
+				count : goodsCount
+		};
+		
+		// 장바구니 상품 존재 여부 확인 후 추가
+		$.ajax({
+			type: "POST",
+			url: "../cart/cartAdd.do",
+			data: JSON.stringify(sendCart),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(result){
+				alert("성공");
+				if (result == 1) {
+					alert("장바구니 추가 성공 알림 보내기");
+				} else if (result == 2) {
+					alert("이미 장바구니에 있는 상품 수량 추가 알림 보내기");
+				} else if (result == 3) {
+					alert("이미 최대 수량입니다");
+				} else if (result == 0) {
+					alert("오류");
+				}
+			},
+			error: function(){
+				alert("실패");
+			}
+		}); 
 	}
 	
 	//전체 주문 취소

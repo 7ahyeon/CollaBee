@@ -30,7 +30,10 @@ public class MyOrderListDAO {
 	}	
 
 	//주문상세
-	public List<MyOrderListVO> getOrderDetail(Map<String, Integer> orderInfo){
+	public List<MyOrderListVO> getOrderDetailAjax(Map<String, Integer> orderInfo){
+		return mybatis.selectList("mypageDAO.getOrderDetail", orderInfo);
+	}
+	public List<MyOrderListVO> getOrderDetail(Map<String, Object> orderInfo) {
 		return mybatis.selectList("mypageDAO.getOrderDetail", orderInfo);
 	}
 }

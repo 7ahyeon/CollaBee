@@ -43,6 +43,10 @@ $(function(){ //document load
       return (email != '' && email != 'undefined' && regex.test(email));
     }
 
+    ("#showResult").attr("value",findId)
+	
+
+    
 });
 
   function findId () {
@@ -76,8 +80,9 @@ $(function(){ //document load
 		contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
 		dataType: "json", //서버로부터 응답받는 데이터형식
 		success: function(data) {
-			console.log(data);
-			
+			console.log(data.id);
+			var findId = data.id;
+			//console.log("아이디 *처리 : "+findId)
 			if (data.id == null) {
 				alert("회원정보를 확인 후 다시 입력해주세요");
 				findIdFrm.reset();
@@ -87,7 +92,7 @@ $(function(){ //document load
 				//alert("아이디 찾음");				
 				document.getElementById("emailAuthArea").classList.add('hide');
 				document.getElementById("resultArea").classList.remove('hide');
-				showResult.setAttribute("value", data.id);
+				$('#showResult').html(findId);
 				return false;
 			}
 
@@ -124,11 +129,7 @@ $(function(){ //document load
               </div>
               
               <div id="authBox" style="width: 400px; margin: auto;">
-                <!-- <div class="menuBox text-center" style="text-align: center; margin: auto;">
-                    <div class="menu" id="emailAuth"><button type="button" class="btn text-center emainAuth"><b>이메일 인증</b></button></div>
-                </div>   
-              -->
-      
+     
                 <div class="emailAuthArea" id="emailAuthArea">
                   
                   <form name="findIdFrm" method="post">
@@ -150,11 +151,14 @@ $(function(){ //document load
                 </div>
 		
 				<div class="resultArea hide" id="resultArea">
-					<div class="text-center">아이디는</div>
-					<div><input type="text" id="showResult" readonly class="form-control-plaintext text-center" value=""></div>
+		
+					<div class="text-center"  style="margin-bottom:20px" >
+					<!-- <b><input type="text" id="showResult" readonly class="form-control-plaintext text-center"  value=""></b> -->
+						<b><span id="showResult"></span></b>
+					</div>
 					
 					<div class="text-center">
-                      <div><button type="button" id="authbtn" onclick="loginPageGo()">확인</button></div>
+                      <div><button type="button" id="authbtn" onclick="loginPageGo()">로그인 하기</button></div>
                     </div>
 				</div>
 

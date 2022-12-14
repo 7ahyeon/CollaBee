@@ -25,4 +25,15 @@ public class MyPicklistServiceImpl implements MyPicklistService {
 		return myPickListDAO.delPickList(pickInfo);
 	}
 
+	@Override
+	public int findPickItem(Map<String, Integer> findPickInfo) {
+		return myPickListDAO.findPickItem(findPickInfo);
+	}
+
+	@Override
+	public int addPickList(Map<String, Integer> addPickInfo) {
+		return myPickListDAO.addPickList(addPickInfo);
+	}
+
+
 }

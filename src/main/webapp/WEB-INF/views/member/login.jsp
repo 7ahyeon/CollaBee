@@ -55,10 +55,13 @@
 </style>
 <% String findIdLocation = "findId.do";  %>
 <% String findPwLocation = "findPw.do";  %>
+<% String result = request.getParameter("result"); %>
 
 <!--  카카오로그인-->  
 <% String code = (String)request.getAttribute("code");%>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.1/kakao.min.js" integrity="sha384-eKjgHJ9+vwU/FCSUG3nV1RKFolUXLsc6nLQ2R1tD0t4YFPCvRmkcF8saIfOZNWf/" crossorigin="anonymous"></script>
+<!-- 네이버로그인 -->
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <script>
   Kakao.init('59184fe7137fbddc12ce3777347a15a4'); //SDK초기화 사용하려는 앱의 JavaScript 키 입력
   console.log(Kakao.isInitialized());
@@ -74,6 +77,14 @@
 	
   	}
 
+	//네이버 로그인 버튼 클릭
+	function loginWithNaver() {
+		location.href='https://nid.naver.com/oauth2.0/authorize?'
+					+ 'response_type=code&client_id=buqjifQ22odVst5wLWTD&state=collabeeState&'
+					+ 'redirect_uri=http://localhost:8080/collabee/member/loginWithNaver.do'
+	}	
+	
+
 </script>
 
 
@@ -84,14 +95,14 @@ $(function(){
 	var password = document.getElementById("password");	
     var loginFrm = document.getElementsByName("loginFrm");
     var loginResult = <% request.getAttribute("result");%>
+    var loginMember = ${loginMember };
     
     //var mvo = $("#mvo").val();
-	//console.log('${mvo.memberState }');
-    
- 	if  (${not empty loginMember }) {
+	console.log('로그인페이지 loginMember : ' + loginMember);
+	
+ 	if  (loginMember != null) {
 		alert("잘못된 접근입니다. 메인화면으로 이동합니다.");
-		//location.href = "../collections/main.do";
-		location.href = "../mypage/order.do";
+		location.href = "../collections/main.do";
 	}
  	if (loginResult == false) {
 		alert("콜라비 회원이 아닙니다. <br>회원가입 후 카카오 로그인을 실행해주세요.");
@@ -132,7 +143,7 @@ $(function(){
 					alert("휴면회원입니다.");					
 					return false;
 				} else if (data.result == "A") {
-					loginFrm.action = "login.do";
+					loginFrm.action = "sessionSetLoginMember.do";
 					loginFrm.submit();
 					return false;					
 				}
@@ -154,7 +165,6 @@ $(function(){
 </script>
 
 </head>
-<body>
   	<header>
   		<%@ include file= "../common/header.jspf"%>
     </header>
@@ -167,7 +177,7 @@ $(function(){
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
               <div id="container">
-                  <h4 class="text-center" style="padding-bottom: 50px; color: #666666;">로그인</h4>
+                  <h4 class="text-center" style="padding-bottom: 50px; font-weight: bold; padding-bottom: 50px;"">로그인</h4>
               </div>
 
                 <div class="form-group">
@@ -189,10 +199,16 @@ $(function(){
                       <div class="text-center">
                           <button type="button" class="btn text-center" id="borderbtn" style="width: 340px; height: 54px;" onclick="signup()"><b>회원가입</b></button>
                       </div>  
-                      <div>
+                      <div class="text-center" style="padding-top:20px; border-bottom: 1px solid grey; width: 340px; margin: auto;" >
+                      	<small>소셜로그인</small>
+                      	<br>
+                      </div>
+                      	
+                      <div class="text-center">
                       	<a id="kakao-login-btn" href="javascript:loginWithKakao()">
-                      	<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222" alt="카카오 로그인 버튼" />
-</a>
+                      	<img src="${pageContext.request.contextPath }/resources/imgs/member/kakaoBtn.png" width="140px" height="50px" alt="카카오 로그인 버튼" /></a>
+                      	<a id="naver-login-btn" href="javascript:loginWithNaver()">
+                      	<img src="${pageContext.request.contextPath }/resources/imgs/member/naverBtn.png" width="140xp" alt="네이버 로그인 버튼" /></a>
                       </div>
                     </div>
 

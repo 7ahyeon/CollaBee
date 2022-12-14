@@ -50,9 +50,9 @@
     }
 
     .purple-bold {
-        color: #B03FE3;
-        font-size: x-large;
-        font-weight: bold;
+       color: #B03FE3;
+       font-size: x-large;
+       font-weight: bold;
     }
     
     #eventbn { 
@@ -69,7 +69,6 @@
     }
 
   .list-group-item a{
-      letter-spacing: -2px; 
       text-decoration: none;
       color:black;
     }
@@ -97,11 +96,9 @@
     }
 
     h2{font-weight: bold;
-      letter-spacing: -2.5px;}
+      }
     
     h4{font-weight: bolder;
-        letter-spacing: -3px; 
-        word-spacing: 5px;
       }
   
     /* 마이페이지 컨텐츠영역 */

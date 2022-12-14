@@ -8,10 +8,7 @@
   .hide {
     display: none;
   }
-  .col-sm-8{
-    padding-top: 50px;
-    padding-bottom: 50px;
-  }
+
   button{
     width: 160px; height: 54px; padding: 0px; margin: auto;
     border-bottom: 1px solid #692498;

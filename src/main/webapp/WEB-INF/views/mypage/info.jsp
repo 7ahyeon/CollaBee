@@ -133,7 +133,7 @@ $(function(){
                 </div>
                 <div class="underline"></div>
                 <div class="text-center" style="margin-top: 40px;">
-                  <div style="padding-left: 80px;"><button type="button" onclick="infoChk()" class="btn text-center" id="#purpleBtn"><b>확인</b></button></div>
+                  <div style="padding-left: 80px;"><button type="button" onclick="infoChk()" class="btn text-center" id="purpleBtn"><b>확인</b></button></div>
                 </div> 
               </form>
             

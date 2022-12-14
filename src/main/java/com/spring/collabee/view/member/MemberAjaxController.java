@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,15 +25,15 @@ public class MemberAjaxController {
 	private MailSendService mailService; //메일인증객체
 	
 	@PostMapping("/signupAjax.do")
-	public boolean signup(@RequestBody MemberVO mvo) {
+	public boolean signup(@RequestBody MemberVO mvo, Model model) {
 		System.out.println("signupAjax() 실행");
-		System.out.println("memberVO : " + mvo);
 		int result = memberService.signup(mvo);
 		if(result < 1) {
 			System.out.println("회원가입 실패");
 			return false; 
 		} else {
 			System.out.println("회원가입 성공");
+			model.addAttribute("singUpId", mvo.getId());
 			return true;
 		}
 	}
@@ -41,11 +42,9 @@ public class MemberAjaxController {
 	@RequestMapping("/loginAjax.do")
 	public Map<String, String> loginAjax(@RequestBody MemberVO mvo) { //@RequestBody post방식
 		System.out.println("=> MemberAjaxController loginAjax() 실행 ");
-		System.out.println("loginAjax mvo : " + mvo);
-		MemberVO findMember = memberService.login(mvo); 
 
+		MemberVO findMember = memberService.login(mvo); 
 		System.out.println("find member : " + findMember);
-		
 		Map<String, String> map = new HashMap<String,String>(); 
 		
 		if(findMember != null) {// 회원정보 있음
@@ -73,7 +72,7 @@ public class MemberAjaxController {
 		System.out.println("findMember: " + findMember);
 		
 		if (findMember != null) {
-			System.out.println("아이디 찾음>>");	
+			System.out.println("아이디 찾음 >>");	
 		} else {
 			System.out.println("아이디 찾기 실패 - 사용자정보없음 >>");
 			findMember = mvo;
@@ -145,7 +144,6 @@ public class MemberAjaxController {
 		Map<String, String> map = new HashMap<String,String>(); 
 		
 		if (findMember!= null) {
-			System.out.println(">> findMember!= null ");
 			if(mvo.getId().equals(findMember.getId())) {
 				System.out.println(">> return same ");
 				map.put("result", "same"); //기존에 사용하던 이메일

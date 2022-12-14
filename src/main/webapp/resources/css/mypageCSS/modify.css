@@ -72,7 +72,11 @@
         font-weight: bold;
         color: red;
     }
-
+    .purple-message {
+    	font-size: small;
+        font-weight: bold;
+        color: purple;
+    }
      /* 중복확인 버튼 */
      .chk-button{
       width: 120px;

@@ -40,6 +40,7 @@ public class MemberDAO {
 	}
 
 	public List<MemberVO> getMemberList(MemberVO mvo) {
+		//관리자에서 필요시 구
 		return null;
 	}
 

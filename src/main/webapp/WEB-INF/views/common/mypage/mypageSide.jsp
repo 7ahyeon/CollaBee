@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <!-- 마이페이지 네비바 -->
     	<div class="col-sm-2" style="padding:15px; padding-left: 30px;">  
-            <div class="container-bottom-menu">
+            <div class="container-bottom-menu"  style="width: 250px;">
               <h3 class="font-weight-bold">마이 콜라비</h3>
               <div>
                 <ul class="list-group">

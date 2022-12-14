@@ -26,20 +26,54 @@
 		WHERE MEMBER_NUM = #{memberNum} 
 		ORDER BY ISSUE_DATE DESC
 	</select>
-
-	<select id="getEmoneyUsage" parameterType="memberVO" resultType="emoneyUsageVO">
+<!-- 적립금 이력 갯수 -->
+	<select id="getEmoneyUsageCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM EMONEY_USAGE
+		WHERE MEMBER_NUM = #{memberNum}
+		ORDER BY SAVE_DATE DESC
+	</select>
+<!-- 적립금 전체 리스트 -->
+	<select id="getEmoneyUsageList" parameterType="memberVO" resultType="emoneyUsageVO">
 		SELECT * FROM EMONEY_USAGE
 		WHERE MEMBER_NUM = #{memberNum}
 		ORDER BY SAVE_DATE DESC
 	</select>
 	
+	<!-- 적립금 해당하는 페이지 게시글 조회 -->
+	<select id="getEmoneyUsagePage" parameterType="map" resultType="emoneyUsageVO">
+		SELECT *
+		FROM ( SELECT ROWNUM R_NUM, E. *
+		        FROM (SELECT *
+		               FROM EMONEY_USAGE
+		               WHERE MEMBER_NUM = #{memberNum} 
+		               ORDER BY SAVE_DATE DESC  -- 역순정렬한 데이터
+		               ) E
+		            )
+		WHERE R_NUM BETWEEN #{begin} AND #{end}    
+	</select>
+
+	<!-- 찜하기 찾기 -->
+	<select id="findPickItem"  parameterType="map" resultType="Integer">
+		SELECT *
+		FROM PICK
+		WHERE MEMBER_NUM = #{productNum} AND 
+				PRODUCT_NUM = #{memberNum}
+	</select>
+	<!-- 찜하기 -->
+	<insert id="addPickList"  parameterType="map">
+		INSERT INTO PICK (MEMBER_NUM, PRODUCT_NUM) 
+		VALUES (#{memberNum}, #{productNum})
+	</insert>
+	<!-- 찜한상품 전체보기 -->	
 	<select id="getPickList" parameterType="memberVO" resultType="pickListVO"> 
 		SELECT * 
 		FROM VIEW_MYPICKLIST
 		WHERE MEMBER_NUM = #{memberNum}
-	</select>
+	</select>	
 	
-	<select id="delPickList" parameterType="Map" resultType="int"> 
+	<!-- 찜한상품삭제-->	
+	<select id="delPickList" parameterType="Map" resultType="Integer"> 
 		DELETE FROM PICK 
 		WHERE MEMBER_NUM = #{memberNum} AND PRODUCT_NUM = #{productNum}
 	</select>
@@ -51,21 +85,61 @@
 		WHERE	MEMBER_NUM = #{memberNum} AND 
 				ORDER_DATE BETWEEN (SELECT ADD_MONTHS(SYSDATE, -#{period})FROM DUAL) AND SYSDATE
 	</select>
-
+	
+	<!-- 주문상세조회 -->
 	<select id="getOrderDetail" parameterType="Map" resultType="orderListVO">
 		SELECT *
 		FROM VIEW_MYORDERLIST
 		WHERE ORDER_NUM = #{orderNum} AND MEMBER_NUM = #{memberNum}
 	</select>
 	
-	<!-- 작성 가능한작성한 리뷰 리뷰 조회 -->
-	<select id="getMemberReview" parameterType="Map" >
-		SELECT OP.*, P.THUM_SYS_FILENAME
-		FROM ORDER_PRODUCT OP, PRODUCT P
-		WHERE OP.PRODUCT_NUM = P.PRODUCT_NUM AND OP.REVIEW_STATUS = #{reviewStatus} AND OP.MEMBER_NUM = #{memberNum}
+	<!-- 작성 가능한작성한 리뷰 리스트 조회 -->
+	<select id="getMemberReview" parameterType="Map" resultType="myReviewWrtVO">
+		SELECT *
+		FROM VIEW_MYREVIEW_WRT
+		WHERE REVIEW_STATUS = #{reviewStatus} AND MEMBER_NUM = #{memberNum}	
 	</select>
-<!-- 	
-	<select id="getMembershipInfo" parameterMap="int" >
+	
+	<!-- 작성한 리뷰 조회 -->
+	<select id="seeMyReview" parameterType="Map" resultType="myReviewWrtVO">
+		SELECT * 
+		FROM 	VIEW_MYREVIEW_WRT
+		WHERE 	PRODUCT_NUM = #{productNum} AND
+				MEMBER_NUM = #{memberNum} AND
+				ORDER_NUM = #{orderNum}
+	</select>
+	
+	<!-- 리뷰작성 -->
+	<insert id="wrietReview" parameterType="proReviewVO">
+		INSERT INTO PRO_REVIEW (REVIEW_NUM, ORDER_NUM, PRODUCT_NUM, MEMBER_NUM, 
+								R_CONTENT, R_ORI_FILENAME, R_SYS_FILENAME, R_DATE, POINT)
+		VALUES (NVL((SELECT MAX(REVIEW_NUM) FROM PRO_REVIEW), 0) + 1,
+        		#{orderNum}, #{productNum}, #{memberNum}, 
+        		#{rContent}, #{rOriFilename}, #{rSysFilename}, SYSDATE, #{point})
+	</insert>
+	
+	<!-- 리뷰작성 상태 변경 -->
+	<update id="updateState" parameterType="proReviewVO">
+		UPDATE ORDER_PRODUCT
+ 		SET REVIEW_STATUS = 'Y' 
+		WHERE PRODUCT_NUM = #{productNum} AND
+        MEMBER_NUM =  #{memberNum} AND 
+        ORDER_NUM = #{orderNum}
+	</update>
+	
+	<!-- 리뷰수정 -->
+	<update id="modifyReview" parameterType="proReviewVO">
+		UPDATE PRO_REVIEW
+		SET		R_CONTENT = #{rContent}
+		WHERE 	REVIEW_NUM = #{reviewNum}
+	</update>
+	
+	
+	<!-- 상품문의 -->
+	<select id="getMyProQna" parameterType="memberVO" resultType="myproQnaVO">
+		SELECT * 
+		FROM VIEW_PROQNA
+		WHERE MEMBER_NUM = #{memberNum}
+	</select>
 
-	</select> -->
 </mapper>

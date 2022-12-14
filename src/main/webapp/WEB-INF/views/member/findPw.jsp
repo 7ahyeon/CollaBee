@@ -67,8 +67,8 @@ $(function(){ //document load
     }
 	
     //전달 데이터확인
-    console.log("아이디 : -" + id.value + "-");
-    console.log("이메일 : -" + email.value + "-");
+    //console.log("아이디 : -" + id.value + "-");
+    //console.log("이메일 : -" + email.value + "-");
 
     var mvo = { id: id.value, email: email.value };
     alert("JSON.stringify(mvo): " +JSON.stringify(mvo))
@@ -87,22 +87,22 @@ $(function(){ //document load
 			} 
 			if (data != null) { //회원데이터가 있는 경우
 				findPassword = data.password; // 이메일 인증성공시 보여줄 password 
-				console.log("findPwAjax 실행후 받은 pw :" + findPassword);
+				//console.log("findPwAjax 실행후 받은 pw :" + findPassword);
 				var findPwArea = $('.findPwArea');
 				var mailAuthArea = $('.mailAuthArea');
 				var mvo = { id: id.value, email: email.value }
-				alert("이메일인증시도(mvo): " +JSON.stringify(mvo));
+				//alert("이메일인증시도(mvo): " +JSON.stringify(mvo));
 				$.ajax("mailAuthAjax.do",{
 					type: "post",
 					data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
 					contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
 					dataType: "json", //서버로부터 응답받는 데이터형식
 					success: function(data) {
-						alert("mailAuthAjax return data : " + data);
+						//alert("mailAuthAjax return data : " + data);
 						findPwArea.toggleClass('hide'); //안보임
 						mailAuthArea.toggleClass('hide'); //보임
 						code = data;
-						alert("인증번호가 전송되었습니다. code : " + code);	
+						alert("인증번호가 전송되었습니다");	
 					},
 					error: function() {
 						alert("이메일 인증 발송 실패");

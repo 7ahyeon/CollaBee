@@ -1,4 +1,4 @@
-package com.spring.collabee.biz.kauth.Impl;
+package com.spring.collabee.biz.auth.Impl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.spring.collabee.biz.kauth.KakaoAuthService;
+import com.spring.collabee.biz.auth.KakaoAuthService;
 
 @Service("kakaoAuthService")
-public class kakaoAuthServicenImpl implements KakaoAuthService {
+public class KakaoAuthServiceImpl implements KakaoAuthService {
 	
-	public kakaoAuthServicenImpl() {
-		System.out.println("kakaoAuthServicenImpl() 실행>>");
+	public void kakaoAuthServiceImpl() {
+		 System.out.println("kakaoAuthServicenImpl()실행");
 	}
 	
 	@Override

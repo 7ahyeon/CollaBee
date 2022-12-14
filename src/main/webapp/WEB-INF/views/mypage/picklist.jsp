@@ -11,57 +11,83 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/mypageCSS/picklist.css">
    	
 </head>
+<style>
+	/*데이터없을경우*/
+	.noData {
+		padding-top: 50px;
+	}
+	 #fillbtn {
+       background-color: #692498; 
+       color: white; 
+       width: 200px; 
+       height: 56px;
+     }
+</style>
 
 <script>
 $(function(){
-	var mvo = { memberNum : ${loginMember.getMemberNum()} };
+	var mvo = { memberNum : ${loginMember.getMemberNum()} }
 	console.log(mvo); 
-	alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
- 	
+	
 	$.ajax("getPickListAjax.do",{ 
 		type: "post",
 		data: JSON.stringify(mvo),
 		contentType: "application/json",
 		dataType: "json",
 		success: function(data){
-			//alert("성공"); 
-			console.log(data);
-			//console.log(data[0].issueDate);
-			
-			let htmlTag = "";
-			let pick = data.Array;
-			console.log("pick : " + pick);
-			
-			$.each(data, function(index, pick){ 
-				htmlTag += '<div class="d-flex align-content-between pick-item-container" style="padding: 20px 0px;">';
-				htmlTag += '<div class="item-col1">';
-				htmlTag += '<div class="pick-item-img"><img src="'+ pick.thumSysFilename + '" style="width: 60px; height: 78px;"></div>';
-				htmlTag += '</div>';
-				htmlTag += '<div class="item-col2" style="width:600px; height: 79px; margin-left: 20px; margin-right: 100px; border: 2px soild #B03FE3;">';
-				htmlTag += '<div class="pick-item-info-proname">'+ pick.productName +'</b></div>';
-				htmlTag += '<div class="pick-item-info-price">' + pick.price + ' 원</div>';
-				htmlTag += '</div>';
-				htmlTag += '<div class="item-col3" style="width: 104px;">';
-				htmlTag += '<div class="pick-item-del"><button type="button" class="btn btn-outline-del" style="margin-bottom: 10px;" onclick="delFromPick()">삭제</button></div>';
-				htmlTag += '<div class="pick-item-del"><button type="button" class="btn btn-outline-add" onclick="addCart()"><i class="bi bi-cart4"></i>담기</button></div>';
-				htmlTag += '</div>';
-				htmlTag += '</div>';
-				htmlTag += '<div class="item-col4" style="border-bottom: 0.5px solid grey;"></div>';
+				console.log("찜한상품 목록 >> ");			
+				console.log(data);		
 				
-			});
-			$("#pickList").html(htmlTag);
-		
-		},
-		erroer: function(){
-			alert("쿠폰 목록 불러오기 실패");
-		}
-	}); //ajax끝 
+				let htmlTag = "";
+				var pickCnt = data.length.val;
+				console.log ("찜상품 갯수 : " + pickCnt)
+				
+				if (data.length == 0) {
+					console.log("찜목록없음")
+					pickCnt = 0;
+					htmlTag += '<div class="orderList">';
+					htmlTag += '<div class="text-center noData "><h4><b>찜한 상품이 없습니다.</b></h4>';
+					htmlTag += '<br>';
+					htmlTag += '<button type="button" class="btn text-center" id="fillbtn" onclick="goMain()"><b>찜하러 가기</b></button>'
+					htmlTag += '</div>';
+					htmlTag += '</div>';
+				} else {			
+					$.each(data, function(index, pick){ 
+						htmlTag += 
+						htmlTag += '<div class="d-flex align-content-between pick-item-container" style="padding: 20px 0px;">';
+						htmlTag += '<div class="item-col1">';
+						htmlTag += '<div class="pick-item-img"><img src="../'+ pick.thumOriFilename + '" style="width: 60px; height: 78px;"></div>';
+						htmlTag += '</div>';
+						htmlTag += '<div class="item-col2" style="width:600px; height: 79px; margin-left: 20px; margin-right: 100px; border: 2px soild #B03FE3;">';
+						htmlTag += '<div class="pick-item-info-proname">'+ pick.productName +'</b></div>';
+						htmlTag += '<div class="pick-item-info-price">' + pick.price + ' 원</div>';
+						htmlTag += '</div>';
+						htmlTag += '<div class="item-col3" style="width: 104px;">';
+						htmlTag += '<div class="pick-item-del"><button type="button" class="btn btn-outline-del" style="margin-bottom: 10px;" onclick="delPickList('+pick.productNum+')">삭제</button></div>';
+						htmlTag += '<div class="pick-item-del"><button type="button" class="btn btn-outline-add" onclick="addCart('+pick.productNum+')"><i class="bi bi-cart4"></i>담기</button></div>';
+						htmlTag += '</div>';
+						htmlTag += '</div>';
+						htmlTag += '<div class="item-col4" style="border-bottom: 0.5px solid grey;"></div>';
+						
+					});//$.each()끝
+	
+				}
+					$("#pickList").html(htmlTag);
+					$("#pickCnt").html(pickCnt);
+					
+			},//success
+			erroer: function(){
+				alert("쿠폰 목록 불러오기 실패");
+			}
+		}); //ajax끝 
+
 	
 });
 
 </script>
 <script>
-	function addCart() {
+
+	function addCart(goodsNum) {
 		alert("카트에 담기!"); //카트에담으면 찜목록에서 사라짐!
 			// 상품 개수
 			var goodsCount = 1;
@@ -95,7 +121,7 @@ $(function(){
 				}
 			}); 
 			
-			delPickList();
+			delPickList(goodsNum);
 	}
 	
 	function delPickList(productNum) {
@@ -103,13 +129,57 @@ $(function(){
 		
 		var memberNum = ${loginMember.getMemberNum()}
 		var pickInfo = { "memberNum": memberNum, "productNum" : productNum }
+		
 		$.ajax("delPickListAjax.do",{ 
 			type: "post",
 			data: JSON.stringify(pickInfo),
 			contentType: "application/json",
 			dataType: "json",
 			success: function(data){
-				alert("찜목록에서 성공"); 
+				var mvo = { memberNum : memberNum }
+				alert("찜목록삭제성공"); 
+				
+				$.ajax("getPickListAjax.do",{ 
+					type: "post",
+					data: JSON.stringify(mvo),
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data){
+						console.log("찜한상품목록 가져오기 >>");
+						console.log(data);			
+						let htmlTag = "";
+						let pickCnt = data.length;
+				
+						if(data.length = 0){
+							htmlTag += '<h1> 찜한 상품이 없습니다.</h1>';
+						} else {
+						
+							$.each(data, function(index, pick){ 
+								htmlTag += '<div class="d-flex align-content-between pick-item-container" style="padding: 20px 0px;">';
+								htmlTag += '<div class="item-col1">';
+								htmlTag += '<div class="pick-item-img"><img src="'+ pick.thumOriFilename + '" style="width: 60px; height: 78px;"></div>';
+								htmlTag += '</div>';
+								htmlTag += '<div class="item-col2" style="width:600px; height: 79px; margin-left: 20px; margin-right: 100px; border: 2px soild #B03FE3;">';
+								htmlTag += '<div class="pick-item-info-proname">'+ pick.productName +'</b></div>';
+								htmlTag += '<div class="pick-item-info-price">' + pick.price + ' 원</div>';
+								htmlTag += '</div>';
+								htmlTag += '<div class="item-col3" style="width: 104px;">';
+								htmlTag += '<div class="pick-item-del"><button type="button" class="btn btn-outline-del" style="margin-bottom: 10px;" onclick="delPickList('+pick.productNum+')">삭제</button></div>';
+								htmlTag += '<div class="pick-item-del"><button type="button" class="btn btn-outline-add" onclick="addCart('+pick.productNum+')"><i class="bi bi-cart4"></i>담기</button></div>';
+								htmlTag += '</div>';
+								htmlTag += '</div>';
+								htmlTag += '<div class="item-col4" style="border-bottom: 0.5px solid grey;"></div>';
+								
+							});
+						}
+						$("#pickList").html(htmlTag);
+						$("#pickCnt").html(pickCnt);
+					},
+					erroer: function(){
+						alert("쿠폰 목록 불러오기 실패");
+					}
+				}); //ajax끝 
+
 				
 			},
 			error: function(){
@@ -161,7 +231,8 @@ $(function(){
                   <div style="display: inline; line-height: 38px; vertical-align: bottom; "><small>찜한상품은 최대 100개까지 저장됩니다.</small></div>
               </div>
             </div>
-				
+			
+		
 				
  			<div class="mypage-top4" style="padding: 15px;">
              
@@ -187,7 +258,8 @@ $(function(){
 	</div>
 
     <footer>
-   		<jsp:include page="../common/footer.jspf" flush="true" />
+      	<%@ include file= "../common/footer.jspf"%> 
+
     </footer>
     
  </body>

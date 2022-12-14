@@ -1,4 +1,4 @@
-package com.spring.collabee.biz.kauth;
+package com.spring.collabee.biz.auth;
 
 import java.util.HashMap;
 

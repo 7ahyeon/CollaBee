@@ -10,10 +10,12 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/memberCSS/signup.css">
 
 	<%-- <script src="${pageContext.request.contextPath }/resources/js/signupScript.js"></script> --%>
-
 </head>
+
+
 <!-- 카카오지도 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
 
 $(function(){ //document load
@@ -41,6 +43,19 @@ $(function(){ //document load
     var addressDetail = document.getElementById("addressDetail");
     var agree1 = document.getElementById("agree1");
 	var gender = document.querySelector("input[name=gender]").value;	
+	var year= document.getElementById("birthYear");
+	var month= document.getElementById("birthMonth");
+	var day= document.getElementById("birthDay");
+	
+	
+	year.onkeyup = function(){
+		 yearChk (year.value) 
+	}
+
+	month.onkeyup = function(){
+		console.log("month 검사")
+		monthChk (month.value)
+	}
 
     var signupFrm = document.getElementsByName("signupFrm");
 
@@ -93,8 +108,7 @@ $(function(){ //document load
     		duplicateMsg.classList.add('hide');
             
         }	
-
-    };
+    }// id.onkeyup끝
 
     // 아이디 4글자 이상 확인
     function isMoreThan4Length(value) {
@@ -103,14 +117,22 @@ $(function(){ //document load
     
     //비밀번호 영문자+숫자+특수조합(8~15자리 입력) 정규식
     var passwordReg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
-/* 
-    password1.onkeyup = function () {
+ 	let testMismatchMessage = document.querySelector('.testMismatch-message');
+ 	let availablePwMessage = document.querySelector('.availablePw-message');
+   
+ 	password.onkeyup = function () {
     	if (!passwordReg.test(password.value)) {
-    } */
+    		testMismatchMessage.classList.remove('hide')
+    		availablePwMessage.classList.add('hide') 
+    	} else {
+    		availablePwMessage.classList.remove('hide')   
+    		testMismatchMessage.classList.add('hide')   
+    	}
+    }
     
-    
+
     // 비밀번호 일치 불일치 체크
-    let mismatchmessage = document.querySelector('.mismatch-message');
+    let mismatchmessage = document.querySelector('.mismatch-message')
     let matchmessage = document.querySelector('.match-message');
 
     password2.onkeyup = function () {
@@ -135,14 +157,13 @@ $(function(){ //document load
 
    	// 이메일 형식
    	 email.onkeyup = function () {
-	 //  	var emailReg = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;	   
-   	//	let failureMsg = document.querySelector('.failure-message-message');
-	   // var email = document.getElementById("email");
-	    console.log ("email : " + email.value);
-	 /*    
+	   	var emailReg = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;	   
+  		let failureMsg = document.querySelector('.failure-message-message');
+	  	var email = document.getElementById("email");
+	    console.log ("email : " + email.value);   
 	    if (!emailReg.test(email)){
    			failureMsg.classList.remove('hide');
-   		} */
+   		} 
    	}
     
    	phone.onkeyup = function () {
@@ -191,57 +212,57 @@ $(function(){ //document load
         }
     });
     
-}); 
+}); //document load끝
 
-//이메일 중복검사
-function confirmEmail () {
-	 var email = document.getElementById("email");	
-
-	if (email.value == ""){ //script 파일에 있는 jquery 객체임
-		alert("이메일을 입력하세요");
-		email.focus(); 
-		return false;
-	} else {
-		let mvo = { email: email.value }  ;
-		
-		console.log(JSON.stringify(mvo));
-
-		$.ajax("signUpConfirmEmailAjax.do",{
-			type: "post",
-			data: JSON.stringify(mvo),
-			contentType: "application/json",
-			dataType: "json",
-			success: function(data){
-					alert("성공"); 
-					console.log("data: " + data);
+	//이메일 중복검사
+	function confirmEmail () {
+		 var email = document.getElementById("email");	
+	
+		if (email.value == ""){ //script 파일에 있는 jquery 객체임
+			alert("이메일을 입력하세요");
+			email.focus(); 
+			return false;
+		} else {
+			let mvo = { email: email.value }  ;
+			
+			console.log(JSON.stringify(mvo));
+	
+			$.ajax("signUpConfirmEmailAjax.do",{
+				type: "post",
+				data: JSON.stringify(mvo),
+				contentType: "application/json",
+				dataType: "json",
+				success: function(data){
+						//alert("성공"); 
+						console.log("data: " + data);
+						
+						//중복확인결과
 					
-					//중복확인결과
-				
-				    let failureMsg = document.querySelector('.failure-message-message');
-				    let duplicateMsg = document.querySelector('.duplicateEamil-message');
-				    let availableMsg = document.querySelector('.availableEmail-message');
-				    var email = document.getElementById("email");
-				    
-				    if(data.result == "duplicate"){
-						console.log("이메일 중복");
-						duplicateMsg.classList.remove('hide');
-						email.value = ""; //input 태그 초기화
-						email.focus();
-						return false;
-					}
-					if(data.result == "available"){
-						console.log("사용가능 이메일");
-					 	availableMsg.classList.remove('hide');
-						duplicateMsg.classList.add('hide'); 
-						return false;
-					}
-			},
-			erroer: function(){
-				alert("실패");
-			}
-		}); //ajax끝
-	}// else 끝
-}
+					    let failureMsg = document.querySelector('.failure-message-message');
+					    let duplicateMsg = document.querySelector('.duplicateEamil-message');
+					    let availableMsg = document.querySelector('.availableEmail-message');
+					    var email = document.getElementById("email");
+					    
+					    if(data.result == "duplicate"){
+							console.log("이메일 중복");
+							duplicateMsg.classList.remove('hide');
+							email.value = ""; //input 태그 초기화
+							email.focus();
+							return false;
+						}
+						if(data.result == "available"){
+							console.log("사용가능 이메일");
+						 	availableMsg.classList.remove('hide');
+							duplicateMsg.classList.add('hide'); 
+							return false;
+						}
+				},
+				erroer: function(){
+					alert("실패");
+				}
+			}); //ajax끝
+		}// else 끝
+	}
 
 
    // 회원가입 폼 유효성 검사 및 데이터 전송
@@ -276,13 +297,13 @@ function confirmEmail () {
         };
         
         //비밀번호 영문자+숫자+특수조합(8~15자리 입력) 정규식
- /*        var passwordReg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+        var passwordReg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
         
         if (!passwordReg.test(password.value)) {
             alert("비밀번호는 영문자+숫자+특수문자 조합으로 8~15자리 사용해야 합니다.");
             pwd.focus();
             return false;
-        }; */
+        };
         
         if (password.value != password2.value) {
             alert("비밀번호가 다릅니다");
@@ -291,11 +312,11 @@ function confirmEmail () {
         }
 
         //이름 정규식 한글/2자 이상	
-       /* var regname = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
+      	var regname = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
         
        if(!regname.test(name.value)) {    
            return false;
-        }*/ 
+        }
 
         if (name.value == "") {
             alert("이름을 입력하세요.");
@@ -353,7 +374,6 @@ function confirmEmail () {
 					if (data == true) {
 						signupResultArea.classList.remove('hide');
 						signupFrmArea.classList.add('hide');
-						$('input[name=signupId]').attr('value','id.value');
 					}
 			},
 			erroer: function(){
@@ -366,18 +386,11 @@ function confirmEmail () {
 
    function login () {
 	   alert("로그인버튼클릭");
-	   location.href="/login.do";
+	   location.href="/member/login.do";
    }
    
-   
 </script>
 
-
-
-<script>	
-
-	
-</script>
 
 <body>
 <%-- \${confirmIdResult} : ${confirmIdResult} --%>
@@ -426,6 +439,8 @@ function confirmEmail () {
                                 <div class="form1"><small><b>비밀번호</small><span class="text-danger">*</span></div>                                
                                 <div class="form2">
                                     <input type="password" class="form-control" id="password" name="password" required="required" placeholder="비밀번호를 입력해주세요" style="width: 333px;">
+                                    <div class="testMismatch-message hide red-message">영문자+숫자+특수 문자 조합으로 8~15자리를 입력해주세요 </div>
+                                    <div class="availablePw-message hide purple-message">사용 가능한 비밀번호입니다♡</div>
                                 </div>
                                 <div class="form3"></div>    	
                             </div>
@@ -664,7 +679,7 @@ function confirmEmail () {
 				<div class="signupResultArea text-center hide">
 					<h3>회원가입 성공</h3>
 					<br>
-					<div><div>아이디</div><div><input type="text" name="signupId" class="form-control-plaintext" value="" readonly></div></div>
+					<div><div>아이디</div><div><input type="text" name="signupId" class="form-control-plaintext" value="${singUpId }" readonly></div></div>
 					<br>
 					<div class="col-xs-8 col-xs-offset-4 text-center">
                          <button type="button" onclick="login()" class="btn text-center" style="background-color: #692498; color: white; width: 240px; height: 56px;"><b>콜라비와 쇼핑하기</b></button>

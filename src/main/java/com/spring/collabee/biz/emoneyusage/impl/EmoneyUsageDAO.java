@@ -1,6 +1,7 @@
 package com.spring.collabee.biz.emoneyusage.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,20 @@ public class EmoneyUsageDAO {
 			return 0;
 		}
 	}
+	public int getEmoneyUsageCnt(int memberNum) {
+		System.out.println("getEmoneyUsageCnt()실행");
+		return mybatis.selectOne("mypageDAO.getEmoneyUsageCnt", memberNum);
+	}
 	
 	public List<EmoneyUsageVO> getEmoneyUsage(MemberVO mvo) {
 		System.out.println("getEmoneyUsage()실행");
-		return mybatis.selectList("mypageDAO.getEmoneyUsage", mvo);
+		return mybatis.selectList("mypageDAO.getEmoneyUsageList", mvo);
+	}
+
+	//페이지 조회
+	public List<EmoneyUsageVO> getEmoneyUsagePage(Map<String, Integer> pageInfo) {
+		System.out.println("getEmoneyUsagePage()실행");
+		return mybatis.selectList("mypageDAO.getEmoneyUsagePage", pageInfo);
 	}
 	
 }

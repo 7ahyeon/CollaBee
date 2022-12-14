@@ -7,6 +7,7 @@ public class MemberVO {
 			memberState, leaveDate, addressDetail;
 	
 	public MemberVO() {
+		System.out.println("● MemberVO 객체생성");
 	}
 
 	public int getMemberNum() {

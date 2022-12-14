@@ -24,9 +24,7 @@ $(function(){
 		contentType: "application/json",
 		dataType: "json",
 		success: function(data){
-			//alert("성공"); 
 			console.log(data);
-			//console.log(data[0].issueDate);
 			
 			let htmlTag = "";
 			let couponBox = data.Array;
@@ -36,7 +34,7 @@ $(function(){
 				htmlTag += '<div class="coupon-num">' + couponBox.couponNum + '</div>';
 				htmlTag += '<div class="coupon-name">' + couponBox.couponName + '</div>';
 				htmlTag += '<div class="dis-price">' + couponBox.disPrice + '</div>';
-				htmlTag += '<div class="coupon-date">' + couponBox.couponDate + '</div>';				
+				htmlTag += '<div class="coupon-date">' + couponBox.couponDate.substring(0,10) + '</div>';				
 				if (couponBox.usageState == 'Y') {
 					htmlTag += '<div class="usage-state minusPoint">' + couponBox.usageState + '</div>';									
 				}

@@ -20,7 +20,12 @@ public class MyOrderListServiceImpl implements MyOrderListService {
 	}
 
 	@Override
-	public List<MyOrderListVO> getOrderDetail(Map<String, Integer> orderInfo) {
+	public List<MyOrderListVO> getOrderDetailAjax(Map<String, Integer> orderInfo) {
+		//return myOrderListDAO.getOrderDetail(orderInfo);
+		return null;
+	}
+	@Override
+	public List<MyOrderListVO> getOrderDetail(Map<String, Object> orderInfo) {
 		return myOrderListDAO.getOrderDetail(orderInfo);
 	}
 

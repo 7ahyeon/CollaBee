@@ -15,6 +15,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 $(function(){
+	
 	//카카오 지도
 	document.getElementById("address_kakao").addEventListener("click", function(){ 
         //카카오 지도 발생
@@ -67,17 +68,19 @@ $(function(){
         $(this).val($(this).val().replace(/[^0-9]/g, ""));
     });
     
-});
 
-function confirmEmail () {
+}); //onload
+
+
+function confirmEmail (e) {
+	e.preventDefault();
+	//alert("confirmEmail실행 " + e)
 	var id = document.getElementById("id");	
-	var email = document.getElementById("email");	
-	var phone = document.getElementById("phone");	
+	var email = document.getElementById("email");		
 
 	if (email.value == ""){
 		alert("이메일을 입력하세요");
 		email.focus(); 
-		return false;
 	} else {
 		var mvo = { id: id.value, email: email.value };
 		console.log("mvo : " + mvo.id);
@@ -88,25 +91,23 @@ function confirmEmail () {
 			contentType: "application/json",
 			dataType: "json",
 			success: function(data){
-					//alert("성공"); 
-					console.log("data: " + data);
+					//alert("성공 "+ data.result); 
+					console.log("data: " + data.result);
+					
 					//중복확인메시지
 				    let failureMsg = document.querySelector('.failure-message'); //형식에 맞지않는 이메일
 				    let duplicateMsg = document.querySelector('.duplicateEmail-message'); //중복이메일
 				    let sameMsg = document.querySelector('.sameEamil-message'); //사용가능 로그인 사용자의 기존이메일
 				    let availableMsg = document.querySelector('.availableEmail-message'); //사용가능
 					
-					if(data.result == "same"){
+					if(data.result === "same"){
 						sameMsg.classList.remove('hide');
-						return false;
 					}
-					if(data.result == "duplicate"){
+					if(data.result === "duplicate"){
 						duplicateMsg.classList.remove('hide');
-						return false;
 					}
-					if(data.result == "available"){
+					if(data.result === "available"){
 						availableMsg.classList.remove('hide');
-						return false;
 					}
 	
 			},
@@ -115,12 +116,12 @@ function confirmEmail () {
 			}
 		}); //ajax끝
 		
-		return false;
 	}// else 끝
+
 }
 
 function mdfyMember() {
-	alert("mdfyMember()실행");
+	//alert("mdfyMember()실행");
 	var id = document.getElementById("id");	
 	var name = document.getElementById("name");	
 	console.log("name :  " + name.value);
@@ -134,6 +135,9 @@ function mdfyMember() {
 	var gender = document.querySelector("input[name=gender]").value;	
 	console.log("gender :  " + gender);
 	
+	var oldPassword= document.getElementById("oldPassword");
+	console.log("oldPassword :  " + oldPassword.value);
+
 	var newPassword= document.getElementById("newPassword");
 	console.log("newPassword :  " + newPassword.value);
     
@@ -145,84 +149,97 @@ function mdfyMember() {
 	var day= document.getElementById("birthDay");
 	var birthday = year.value + month.value + day.value;
 	console.log("birth :  " + birthday);
-	
-	var oldPassword= document.getElementById("oldPassword");
-	
 
- 	const modifyFrm = document.modifyFrm;
-	console.log("modifyFrm :  " + modifyFrm.elements[0].value);
+	const modifyFrm = document.modifyFrm;
 	
-
-	var mvo = { id: id.value,  email: email.value , password: oldPassword.value };
-	console.log(mvo);
-	console.log(JSON.stringify(mvo)); // JS객체를 JSON 문자열로 바꿔줄 수 있음
-	
-	$.ajax("oldPwChkAjax.do", {
-		type: "post",
-		data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
-		contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
-		dataType: "json", //서버로부터 응답받는 데이터형식
-		success: function(data) {
-				alert("정보 수정 시도");
-				console.log("oldPwChkAjax data: " + data);
-				if (data == false) {
-					alert("현재 비밀번호를 확인하세요.");
-					modifyFrm.reset();
-					oldPassword.focus();
-					return false;
-				} 
-				if(data == true) {
-					alert("정보 수정 가능");
-					
-					mvo = { id: modifyFrm.elements[0].value,  
-							password: modifyFrm.elements[2].value, 
-							name: modifyFrm.elements[4].value, 
-							email: modifyFrm.elements[5].value, 
-							phone: modifyFrm.elements[7].value, 
-							address: modifyFrm.elements[8].value, 
-							addressDetail: modifyFrm.elements[9].value, 
-							gender: gender,
-							birth : birthday }
-					
-					console.log("modifyAjax 실행전");
-					console.log(mvo);
-					console.log(JSON.stringify(mvo));
-					
-					$.ajax("modifyAjax.do", {
-						type: "post",
-						data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
-						contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
-						dataType: "json", //서버로부터 응답받는 데이터형식
-						success: function(data) {
-							console.log("modifyAjax data: " + data);
-							
-							if (data == false) {
-								alert("비밀번호 확인하세요");
-								modifyFrm.reset();
-								oldPassword.focus();
-								return false;
-							} 
-							if (data == true ){
-								alert("정보 수정 성공");
-								location.href ="info.do";
-							}
-	
-						},
-						error: function() {
-							alert("Ajax실패");
-						}
-						
-					}); 
-			
-				}
-
-		},
-		error: function() {
-			alert("Ajax실패");
-		}
+	if (oldPassword.value == "") {
+		alert("현재 비밀번호를 입력하세요")
+	} else {
 		
-	});
+		var mvo = { id: id.value,  email: email.value , password: oldPassword.value };
+		console.log(mvo);
+		console.log(JSON.stringify(mvo)); // JS객체를 JSON 문자열로 바꿔줄 수 있음
+		
+		$.ajax("oldPwChkAjax.do", { //현재 비밀번호 확인
+			type: "post",
+			data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+			contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+			dataType: "json", //서버로부터 응답받는 데이터형식
+			success: function(data) {
+					//alert("정보 수정 시도");
+					console.log("oldPwChkAjax data: " + data);
+					
+					if (data == false) {
+						alert("현재 비밀번호를 확인하세요.");
+						modifyFrm.reset();
+						oldPassword.focus();
+						return false;
+					} else if(data == true) { //현재 비밀번호 일치할 경우 회원정보 수정
+						
+						// 새 비밀번호를 입력하지 않은 경우
+						if (modifyFrm.elements[2].value == "") {
+							mvo = { id: modifyFrm.elements[0].value,  
+									password: modifyFrm.elements[1].value, 
+									name: modifyFrm.elements[4].value, 
+									email: modifyFrm.elements[5].value, 
+									phone: modifyFrm.elements[7].value, 
+									address: modifyFrm.elements[8].value, 
+									addressDetail: modifyFrm.elements[9].value, 
+									gender: gender,
+									birth : birthday }
+						} else {
+							mvo = { id: modifyFrm.elements[0].value,  
+									password: modifyFrm.elements[2].value, 
+									name: modifyFrm.elements[4].value, 
+									email: modifyFrm.elements[5].value, 
+									phone: modifyFrm.elements[7].value, 
+									address: modifyFrm.elements[8].value, 
+									addressDetail: modifyFrm.elements[9].value, 
+									gender: gender,
+									birth : birthday }					
+						}
 
+						console.log("modifyAjax 실행전");
+						console.log(mvo);
+						console.log(JSON.stringify(mvo));
+						
+						$.ajax("modifyAjax.do", {
+							type: "post",
+							data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
+							contentType: "application/json", //서버로 전송하는 컨텐츠 유형(JSON형식)
+							dataType: "json", //서버로부터 응답받는 데이터형식
+							success: function(data) {
+								console.log("modifyAjax data: " + data);
+								
+								if (data == false) {
+									alert("비밀번호 확인하세요");
+									modifyFrm.reset();
+									oldPassword.focus();
+									return false;
+								} 
+								if (data == true ){
+									alert("정보 수정 성공");
+									location.href ="info.do";
+								}
+		
+							},
+							error: function() {
+								alert("Ajax실패");
+							}
+							
+						}); 
+				
+					}
+	
+			},
+			error: function() {
+				alert("Ajax실패");
+			}
+			
+		});
+	}
+	
+	
 } //mdfyMember()
 
 
@@ -290,19 +307,19 @@ function requestLeave () {
                   <div class="form-group form-inline">
                     <div class="form1"><small><b>현재 비밀번호</small><span class="text-danger">*</span></div>                                
                     <div class="form2">
-                        <input type="password" class="form-control purple-border" id="oldPassword" name="oldPassword" placeholder="비밀번호를 입력해주세요" style="width: 333px;">
+                        <input type="password" class="form-control purple-border" id="oldPassword" name="oldPassword" placeholder="비밀번호를 입력해주세요" style="width: 333px;" required="required" >
                     </div>
                     <div class="form3"></div>    	
                 </div>
                   <div class="form-group form-inline">
-                      <div class="form1"><small><b>새 비밀번호</small><span class="text-danger">*</span></div>                                
+                      <div class="form1"><small><b>새 비밀번호</small></div>                                
                       <div class="form2">
                           <input type="password" class="form-control" id="newPassword" name="password" placeholder="비밀번호를 입력해주세요" style="width: 333px;">
                       </div>
                       <div class="form3"></div>    	
                   </div>
                   <div class="form-group form-inline">
-                      <div class="form1"><small><b>새 비밀번호확인</b></small><span class="text-danger">*</span></div>                                
+                      <div class="form1"><small><b>새 비밀번호확인</b></small></div>                                
                       <div class="form2">
                           <div>
                               <input type="password" class="form-control" id="newPassword2" name="password2"  placeholder="비밀번호를 한번 더 입력해주세요" style="width: 333px;">
@@ -324,14 +341,14 @@ function requestLeave () {
                       <div class="form2">
                       	<div>
 	                      	<input type="text" class="form-control" id="email" name="email"  value="${loginMember.email }" required="required" placeholder="예:marketCollabee@collabee.com" style="width: 333px;"></div>
+	                      	<div>
+	                      		<div class="failure-message hide red-message">이메일 형식에 맞춰주세요</div>
+	                           	<div class="duplicateEamil-message hide red-message">이미 사용중인 이메일입니다</div>
+	                           	<div class="sameEamil-message hide purple-message">기존 이메일입니다</div>
+	                            <div class="availableEmail-message hide purple-message">사용 가능한 이메일입니다♡</div>
+	                      	</div>
                       	</div>
-                      	<div>
-                      		<div class="failure-message hide red-message">이메일 형식에 맞춰주세요</div>
-                           	<div class="duplicateEamil-message hide red-message">이미 사용중인 이메일입니다</div>
-                           	<div class="sameEamil-message hide purple-message">기존 이메일입니다</div>
-                            <div class="availableEmail-message hide purple-message">사용 가능한 이메일입니다♡</div>
-                      	</div>
-                      <div class="form3" onclick="confirmEmail()"><button class="chk-button"><small><b>중복확인</b></small></button></div>
+                      <div class="form3" ><button onclick="confirmEmail(event)" class="chk-button" ><small><b>중복확인</b></small></button></div>
                   </div>
                   <div class="form-group form-inline">
                       <div class="form1"><small><b>휴대폰</b></small><span class="text-danger">*</span></div>

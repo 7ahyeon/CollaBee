@@ -30,13 +30,11 @@
    		<typeAlias alias="emoneyUsageVO" type="com.spring.collabee.biz.emoneyusage.EmoneyUsageVO"/>
 		<typeAlias alias="pickListVO" type="com.spring.collabee.biz.mypicklist.MyPickListVO"/>
 		<typeAlias alias="orderListVO" type="com.spring.collabee.biz.myorderlist.MyOrderListVO"/>
-		<typeAlias alias="myReviewVO"	type="com.spring.collabee.biz.myreview.MyReviewVO"/>
+		<typeAlias alias="myReviewWrtVO"	type="com.spring.collabee.biz.myreview.MyReviewWrtVO"/>
+		<typeAlias alias="proReviewVO"	type="com.spring.collabee.biz.myreview.ProReviewVO"/>
+		<typeAlias alias="myproQnaVO"	type="com.spring.collabee.biz.proqna.MyProQnaVO"/>
   </typeAliases>
-  
-  <mappers>
-    <mapper resource="mappings/collections/collections.xml"/>
-    <mapper resource="mappings/coupons/coupons.xml"/>
-  </mappers>
+
   
   
 </configuration>

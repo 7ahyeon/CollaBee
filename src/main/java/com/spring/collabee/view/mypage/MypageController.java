@@ -1,23 +1,27 @@
 package com.spring.collabee.view.mypage;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.collabee.biz.emoneyusage.EmoneyUsageService;
 import com.spring.collabee.biz.member.MemberService;
+import com.spring.collabee.biz.myreview.MyReviewService;
 
 @Controller
 @RequestMapping("/mypage")
-public class mypageController {
+public class MypageController {
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	MyReviewService myReviewService;
+	@Autowired
+	EmoneyUsageService emoneyUsageService;
 
 	
-	public mypageController() {
+	public MypageController() {
 		System.out.println("● mypageController 객체 생성");
 	}
 	@RequestMapping("/inquiryProduct.do")
@@ -67,9 +71,26 @@ public class mypageController {
 	public String picklist() {	
 		return "/mypage/picklist";
 	}
-	@GetMapping("/review.do")
-	public String review() {	
-		return "/mypage/review";
+	
+	
+	
+	
+
+	
+	
+	
+	/*
+	리뷰조회
+	@RequestMapping("/getMemberReview.do")
+	public String getMemberReview(@RequestBody Map<String, String> reviewInfo, Model model) {
+		System.out.println("getMemberReview.do 실행");
+		ProReviewVO proReview = new ProReviewVO();
+		List<MyReviewVO> myReviewList = myReviewService.getMyReview(reviewInfo);
+		model.addAttribute("myReviewList", myReviewList);
+		return "/mypage/beforeReviewAjax";
 	}
+	*/
+	
+	
 	
 }

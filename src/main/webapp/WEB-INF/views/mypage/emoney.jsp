@@ -14,39 +14,10 @@
 
 <script>
 $(function(){
-	
+	cPage = null;
 	var mvo = { memberNum : ${loginMember.getMemberNum()} };
-	console.log(mvo); 
-	//alert("JSON.stringify(mvo) : " + JSON.stringify(mvo)); 
- 	
-	$.ajax("emoneyAjax.do",{ //emoney 히스토리가져오기
-		type: "post",
-		data: JSON.stringify(mvo),
-		contentType: "application/json",
-		dataType: "json",
-		success: function(data){
-			//alert("emoneyAjax 성공"); 
-			console.log(data);
-			//console.log(data[0].issueDate);
-			
-			let htmlTag = "";
-			let emoneyUsage = data.Array;
-			$.each(data, function(index, emoneyUsage){ 			
-				htmlTag += '<li class="d-flex emoney-row">';				
-				htmlTag += '<div class="reg-date">' + emoneyUsage.saveDate.substring(0,10) + '</div>';
-				htmlTag += '<div class="detail" style="letter-spacing: -0.5px;">' + emoneyUsage.emoneyHistory + '</div>';
-				htmlTag += '<div class="validity">' + emoneyUsage.validity+ '</div>';
-				htmlTag += '<div class="point">' + emoneyUsage.amount + '</div>';
-				htmlTag += '</li>';				
-				
-			});
-			$("#ul").html(htmlTag);
-			
-		},
-		erroer: function(){
-			alert("emoneyAjax실패");
-		}
-	}); //ajax끝 
+	
+	console.log(mvo); 	
 	
 	$.ajax("getTotEmoneyAjax.do",{ //COUPONBOX 뷰에서 가져오기
 		type: "post",
@@ -57,9 +28,9 @@ $(function(){
 			//alert("getTotEmoneyAjax 성공> 받은 데이터 : " + emoneyUsage); 		
 			console.log(emoneyUsage);
 			if(emoneyUsage == ""){
-				$('#totEmoney').val('0');					
+				$('#totEmoney').html(0);					
 			} else {
-				$('#totEmoney').val(emoneyUsage);					
+				$('#totEmoney').html(emoneyUsage);					
 			}
 		},
 		error: function(){
@@ -67,7 +38,84 @@ $(function(){
 		}
 	});
 	
+	getList(cPage)
+
+	
+	
 });
+	
+
+function getList(cPage) {
+	
+	var pageInfo = { "memberNum" : ${loginMember.getMemberNum() },
+					"cPage": cPage }
+	
+	$.ajax("getEmoneyPagination.do",{ //emoney 히스토리가져오기
+		type: "post",
+		data: JSON.stringify(pageInfo),
+		contentType: "application/json",
+		dataType: "json",
+		success: function(data){
+			//alert("emoneyAjax 성공");
+			console.log(data)
+			console.log(data.pageContent)
+			console.log(data.pageVO)
+			let p = data.pageVO
+		
+			let htmlTag = "";
+			let pageTag = "";
+			
+			$.each(data.pageContent, function(index, emoneyUsage){ 			
+				htmlTag += '<li class="d-flex emoney-row">';				
+				htmlTag += '<div class="reg-date">' + emoneyUsage.saveDate.substring(0,10) + '</div>';
+				htmlTag += '<div class="detail" style="letter-spacing: -0.5px;">' + emoneyUsage.emoneyHistory + '</div>';
+				htmlTag += '<div class="validity">' + emoneyUsage.validity+ '</div>';
+				htmlTag += '<div class="point">' + emoneyUsage.amount + '</div>';
+				htmlTag += '</li>';				
+			});//$.each(data.pageContent
+			
+
+			if(p.beginPage == 1 ) {
+				pageTag += '<li class="pagination-first">';
+				pageTag += '<button class="paginationBtn disable"><i class="bi bi-chevron-left"></i></button>';
+				pageTag += '</li>';					
+			}
+			if(p.beginPage != 1 ) {
+				pageTag += '<li class="pagination-first">'
+		  			+ '<button class="paginationBtn disable"><i class="bi bi-chevron-left"></i></button>'
+		  			+ '</li>';
+			}
+			for(var i = p.beginPage; i <= p.endPage; i++  ){
+				if(i == p.nowPage){
+					pageTag += '<li class="pagnation-pageNum"><button class="paginationBtn"><div>'+ i + '</div></button></li>';
+				}
+				if(i != p.nowPage ){
+					pageTag +=  '<li class="pagnation-pageNum"><button class="paginationBtn" onclick="getList('+ i + ')"><div>'+ i + '</div></button></li>';
+				}
+			}
+			if(p.endPage < p.totalPage) {
+				pageTag += '<li class="pagination-next">'
+				+ '<button class="paginationBtn"><i class="bi bi-chevron-right"></i></button>'
+				+ '</li>';
+			}
+			if(p.endPage >= p.totalPage ){
+				pageTag += '<li class="pagination-next">'
+				+ '<button class="paginationBtn disable"><i class="bi bi-chevron-right"></i></button>'
+				+ '</li>';
+			}
+		
+			console.log(pageTag)
+			$("#ul").html(htmlTag);
+			$("#page").html(pageTag);
+			
+		}, //success
+		erroer: function(){
+			alert("emoneyAjax실패");
+		}
+	}); //ajax끝 
+
+}
+	
 
 </script>
 
@@ -114,14 +162,15 @@ $(function(){
 			<div class="mypage-top4" style="padding: 15px;">
                
               <section class="d-flex">
-                <dl class="d-flex">
+                <dl class="d-flex" style="width: 100%; padding-left: 300px">
                   <dt class="label plusPoint">현재 적립금</dt>
-                  <dd class="price plusPoint"><input type="text" id="totEmoney" style="width: 100px"></span><span class="unit">원</span></dd>
+                  <dd class="price plusPoint"><span class="unit" id="totEmoney"></span><span> 원</span></dd>
                 </dl>
-                <dl class="d-flex">
+              <!--   <dl class="d-flex">
                   <dt class="label">소멸예정 적립금</dt>
                   <dd class="price minusPoint font-weight-bold">1,497<span class="unit">원</span></dd>
                 </dl>
+                 -->
               </section>
               <section>
                 <div class="d-flex emoney-col">
@@ -132,31 +181,17 @@ $(function(){
                 </div>
                 <ul id ="ul" style="padding: 0px;">
                   <!-- 데이터 있는만큼 반복 페이지당 10개   
-                  		emoney 내역 
-                 반복 끝-->
+                  		emoney 내역 반복 끝 -->
+    
                 </ul>
                 
+                
+                <ul id="page" class="pagination" style="margin-left: 300px">
+
                 <!--페이징처리-->
-                  <ul class="pagination" style="margin-left: 300px">
-                    <li class="pagination-first">
-                      <button class="paginationBtn"><i class="bi bi-chevron-double-left"></i></button>
-                    </li>
-                    <li class="pagination-prev">
-                        <button class="paginationBtn"><i class="bi bi-chevron-left"></i></button>
-                    </li>
-                    <li class="pagnation-pageNum">
-                      <button class="paginationBtn"><div>1</div></button>
-                    </li>
-                    <li class="pagnation-pageNum">
-                      <button class="paginationBtn"><div>2</div></button>
-                    </li>
-                    <li class="pagination-next">
-                      <button class="paginationBtn"><i class="bi bi-chevron-right"></i></button>
-                    </li>
-                    <li class="pagination-last">
-                      <button class="paginationBtn"><i class="bi bi-chevron-double-right"></i></button>
-                    </li>
-                  </ul>
+                                 
+                 </ul>
+              
               </section>
 
             </div> <!-- mypage-top4 -->

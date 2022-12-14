@@ -94,6 +94,22 @@
       height: 36px;
     }
 
+
+     
+     <style>
+	/*데이터없을경우*/
+	.noData {
+		padding-top: 50px;
+	}
+	 #fillbtn {
+       background-color: #692498; 
+       color: white; 
+       width: 200px; 
+       height: 56px;
+     }
+</style>
+     
+     
 </style>
 
 </head>
@@ -116,9 +132,15 @@ function month6(){
 	periodSelect(period);
 }
 
-function inquiry(orderNum){
-	alert("1:1문의 클릭")
+function inquiry(){
+	location.href="../inquiry/inquiry.do";
 }
+
+function goMain() {
+	location.href="../collections/main.do";
+}
+
+
 
 function periodSelect (period) {
 	//alert(">>기간선택: " + period);
@@ -126,6 +148,7 @@ function periodSelect (period) {
 	var memberNum = ${loginMember.getMemberNum()}
 	var orderInfo = { "memberNum": memberNum, "period" : period }
 	console.log("ajax에 넘길 값 memberNum: " + memberNum + " period :" + period )
+	
 	//주문목록 불러오기
 	$.ajax("getOrderListAjax.do",{ //COUPONBOX 뷰에서 가져오기
 		type: "post",
@@ -134,56 +157,75 @@ function periodSelect (period) {
 		dataType: "json",
 		success: function(data){
 			//alert("주문내역 불러오기 성공"); 		
-			
+			console.log("주문내역 불러오기 >>")
+			//console.log("주문목록길이 : " + data.length)
 			var htmlTag = '';
-			$.each(data, function(index, orderList){ 
-			 	htmlTag += '<div class="orderList">';
-			 	htmlTag += '<div class="order-item-row1">';
-			 	htmlTag += 		'<div class="order-item-date">';
-		 		htmlTag += 			'<span class="order-data bold">'+ orderList.orderDate.substring(0,10)+ 
-		 						'(' +orderList.orderDate.substring(10,12)+ '시 '
-		 							+orderList.orderDate.substring(14,16)+ '분 ) </span><a  href="orderDetail.do?orderNum='+orderList.orderNum +'" style="float: right;">주문내역 상세보기 ></a>';
-		 		htmlTag += 		'</div>'; 
-		 		htmlTag += '</div>';
-		 		
-		 		htmlTag += '<div class="d-flex align-content-between order-item-row2">';
-		 		htmlTag += '<div class="order-item">'
-		 					+ '<img src="#" alt="이미지 이름 이미지 링크넣어주세요" class="order-item-thumb">'
-		 					+ '<dl class="order-item-info">'
-		 		            + '<dt class="order-item">상품명</dt>'
-		 		            + '<dd class="order-data">' + orderList.productName + '</dd>'
-		 		         + '</dl>';
-		 		htmlTag += '<dl class="order-item-info">'
-			              		+ '<dt class="order-item">주문번호</dt>'
-			              		+ '<dd class="order-data">' + orderList.orderNum + '</dd>'
-		            	+ '</dl>';
-		 		htmlTag +=   ' <dl class="order-item-info">'
-					            + '<dt class="order-item">결제방법</dt>'
-					            + '<dd class="order-data">' + orderList.ptDetailname + '</dd>'
-				            + '</dl>';
-		 		htmlTag +=    '<dl class="order-item-info">'
-					            + '<dt class="order-item">결제금액</dt>'
-					            + '<dd class="order-data">' + orderList.totPrice + '</dd>'
-				            + '</dl>';
-		 		htmlTag += '</div>';
-		 		htmlTag += '<div style="width: 150px;"></div>';
-		 		htmlTag += '<div class="order-item-status">'
-				            + '<div style="width: 100px; text-align: center;" >' + orderList.deliveryStatus + '</div>'
-					            + '<div class="button-cover">'
-					            + '<button type="button" class="btn text-center borderbtn" onclick="inquiry('+ orderList.orderNum +')"><span>1:1 문의</span></button>'
-				            + '</div>'
-				         + '</div>';
-		 		htmlTag += '</div>';
-		 		htmlTag += '</div>';
-		
-			});
-			$("#orderListCon").html(htmlTag);   
-           
-		},
-		error: function(){
-		}
+
+			if (data.length == 0) {
+				console.log("주문내역없음")
+				htmlTag += '<div class="orderList">';
+				htmlTag += '<div class="text-center noData "><h4><b>주문내역이 없습니다.</b></h4>';
+				htmlTag += '<br>';
+				htmlTag += '<button type="button" class="btn text-center" id="fillbtn" onclick="goMain()"><b>쇼핑하러 가기</b></button>'
+
+				htmlTag += '</div>';
+				htmlTag += '</div>';
+			} else {
+					
+				$.each(data, function(index, orderList){ 
+				 	htmlTag += '<div class="orderList">';
+				 	htmlTag += '<div class="order-item-row1">';
+				 	htmlTag += 		'<div class="order-item-date">';
+				 	htmlTag += '<form>'
+				 	htmlTag += '<input type="hidden" name="orderNum" value="'+orderList.orderNum+'">'
+				 	
+			 		htmlTag += 			'<span class="order-data bold">'+ orderList.orderDate.substring(0,10)+ 
+			 						'(' +orderList.orderDate.substring(10,12)+ '시 '
+			 							+orderList.orderDate.substring(14,16)+ '분 ) </span><a href="orderDetail.do?orderNum='+orderList.orderNum+'" style="float: right;">주문내역 상세보기 ></a>';
+				 	htmlTag += '</form>'
+				 	
+			 		htmlTag += 		'</div>'; 
+			 		htmlTag += '</div>';
+			 		
+			 		htmlTag += '<div class="d-flex align-content-between order-item-row2">';
+			 		htmlTag += '<div class="order-item">'
+			 					+ '<img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ orderList.thumSysFilename +'" alt="'+ orderList.thumSysFilename+'" class="order-item-thumb">'
+			 					+ '<dl class="order-item-info">'
+			 		            + '<dt class="order-item">상품명</dt>'
+			 		            + '<dd class="order-data">' + orderList.productName + '</dd>'
+			 		         + '</dl>';
+			 		htmlTag += '<dl class="order-item-info">'
+				              		+ '<dt class="order-item">주문번호</dt>'
+				              		+ '<dd class="order-data">' + orderList.orderNum + '</dd>'
+			            	+ '</dl>';
+			 		htmlTag +=   ' <dl class="order-item-info">'
+						            + '<dt class="order-item">결제방법</dt>'
+						            + '<dd class="order-data">' + orderList.ptDetailname + '</dd>'
+					            + '</dl>';
+			 		htmlTag +=    '<dl class="order-item-info">'
+						            + '<dt class="order-item">결제금액</dt>'
+						            + '<dd class="order-data">' + orderList.totPrice + '</dd>'
+					            + '</dl>';
+			 		htmlTag += '</div>';
+			 		htmlTag += '<div style="width: 150px;"></div>';
+			 		htmlTag += '<div class="order-item-status">'
+					            + '<div style="width: 100px; text-align: center;" >' + orderList.deliveryStatus + '</div>'
+						            + '<div class="button-cover">'
+						            + '<button type="button" class="btn text-center borderbtn" onclick="inquiry()"><span>1:1 문의</span></button>'
+					            + '</div>'
+					         + '</div>';
+			 		htmlTag += '</div>';
+			 		htmlTag += '</div>';
+			
+				});
+			}//else 끝
+				$("#orderListCon").html(htmlTag);   
+
+			},//success
+			error: function(){
+				alert("주문내역 불러오기 getOrderListAjax 실패")
+			}
 	});//ajax끝
-	
 }
 
 

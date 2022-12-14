@@ -1,3 +1,4 @@
+<%@page import="org.springframework.ui.Model"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
@@ -5,7 +6,7 @@
 $(function(){
 	if (${empty loginMember }) {
 		alert("로그인 정보가 없습니다.")
-		location.href = "../member/loginpage.do";
+		location.href = "../member/login.do";
 	}
 });
 </script>
@@ -24,11 +25,11 @@ $(function(){
 		dataType: "json",
 		success: function(emoneyUsage){
 			//alert("성공> 받은 데이터 : " + emoneyUsage); 		
-			console.log(emoneyUsage);
+			console.log("보유적립금 : " + emoneyUsage + " 원");
 			if(emoneyUsage == ""){
-				$('#totalEmoney').val('0');					
+				$('#totalEmoney').html('0');					
 			} else {
-				$('#totalEmoney').val(emoneyUsage);					
+				$('#totalEmoney').html(emoneyUsage);					
 			}
 		},
 		error: function(){
@@ -44,8 +45,8 @@ $(function(){
 		dataType: "json",
 		success: function(couponCnt){
 			//alert("성공> 받은 데이터 : " + couponCnt); 		
-			console.log(couponCnt);
-			$('#couponCnt').val(couponCnt);
+			console.log("보유쿠폰 : " + couponCnt + " 개");
+			$('#couponCnt').html(couponCnt);
 		},
 		error: function(){
 			alert("couponAjax 실패")
@@ -56,24 +57,26 @@ $(function(){
 
 // 마이페이지 상단
 function emoney() {
-	alert("적립금 페이지로 이동");
 	location.href = "emoney.do";
 }
 function coupon() {
-	alert("쿠폰 페이지로 이동");
 	location.href = "coupon.do";
 }
 function bannerClick() {
-	alert("이벤트 페이지로 이동 >> 컨트롤러 연결필요");
-	//location.href = "coupon.do";
+	location.href = "../collections/event.do";
 }
-function inquiry() {
-	alert("1:1문의  페이지로 이동 >> 컨트롤러 연결필요");
-	//location.href = "coupon.do";
+
+function allGrade () {
+	alert("[전체등급조회] - 준비중입니다")
 }
+
+function nextLevel () {
+	alert("[다음달예상등급] - 준비중입니다")	
+}
+
 // 마이페이지 네비바
 </script>    
-
+<!-- \${ accessToken } : ${accessToken } -->
 <!-- 마이페이지 윗부분 -->
 			<div id="mypage-cover" style="height: 392px;">
                 <div class="d-flex align-items-stretch" id="mypage-top">
@@ -92,6 +95,10 @@ function inquiry() {
 	                       	<img src="../resources/imgs/member/grade1.png" style="width: 48px; height: 48px;">
 	                 	</c:if>
             
+	             		<c:if test="${loginMember.grade == 0 }">
+	                       	<img src="../resources/imgs/member/grade0.png" style="width: 48px; height: 48px;">
+	                 	</c:if>
+            
                       </div>
                        		
                       <div style="display: inline-block; width: 156px;">
@@ -101,21 +108,19 @@ function inquiry() {
                       
                     <div class="align-left" id="save-rate"  style="text-align: left;">적립 0.1%</div>
                     <div id="membership-info-button" style="text-align: left; margin: auto;" >
-                      <button type="button" class="btn" id="allgrade" style="margin-right: 50px; width: 151px; height: 41px;" onclick="">전체등급 보기</button>
-                      <button type="button" class="btn" id="nextgrade"style="width: 151px; height: 41px;" onclick="">다음 달 예상등급 보기</button>
+                      <button type="button" class="btn" id="allgrade" style="margin-right: 50px; width: 151px; height: 41px;" onclick="allGrade()">전체등급 보기</button>
+                      <button type="button" class="btn" id="nextgrade"style="width: 151px; height: 41px;" onclick="nextLevel()">다음 달 예상등급 보기</button>
                     </div>
-                  </div> 
+                  </div>
 
                   <div class="mypage-top2" style="width: 30%;">
                       <button type="button" class="btn" style="width: 100%; height: 100%;" onclick="emoney()"> 
-                        <div style="padding-bottom: 25px;">
+                        <div style="padding-bottom: 57px;">
                           <div class="align-left" style="margin-bottom: 10px;"><b>적립금></b></div>
-                          <div></div>
-                          <div class="align-left purple-bold">
-								<input type="text" class="form-control-plaintext" id="totalEmoney" value=""
-									style="width:100px;"> 원
+                          <div class="align-left purple-bold ">
+								<span id="totalEmoney" ></span> 원
 							</div>
-                          <div class="align-left">소멸예정 0원</div>
+                         <!--  <div class="align-left">소멸예정 0원</div> -->
                         </div>
                       </button>
                   </div>
@@ -125,8 +130,7 @@ function inquiry() {
                       <div style="padding-bottom: 57px;">
                         <div class="align-left" style="margin-bottom:10px;"><b>쿠폰></b></div>
                         <div class="align-left purple-bold">
-                        	<input type="text" class="form-control-plaintext" id="couponCnt" value=""
-                        		style="width:50px">개
+                        	<span id="couponCnt" ></span> 개
                         </div>
                       </div>
                       <div></div>
@@ -135,7 +139,7 @@ function inquiry() {
 
                 </div>
                 <div id="eventbn">
-                    <img src="# alt="이미지 배너" onclick="bannerClick()" style="width: 100%; height: 60px; margin: 0px;">
+                    <img src="../resources/imgs/member/eventBn.png" alt="이미지 배너" onclick="bannerClick()" style="width: 100%; height: 60px; margin: 0px;">
                 </div>
               
               </div>

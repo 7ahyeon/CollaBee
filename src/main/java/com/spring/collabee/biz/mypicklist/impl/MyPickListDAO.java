@@ -27,6 +27,16 @@ public class MyPickListDAO {
 		return mybatis.delete("mypageDAO.delPickList", pickInfo);
 	}
 	
+	public int findPickItem(Map<String, Integer> findPickInfo) {
+		System.out.println("findPickItem()실행 >> ");
+		return mybatis.insert("mypageDAO.findPickItem", findPickInfo);
+	}
+	
+	public int addPickList(Map<String, Integer> addPickInfo) {
+		System.out.println("addPickList()실행 >> ");
+		return mybatis.insert("mypageDAO.addPickList",addPickInfo);
+	}
+	
 	
 	
 }
