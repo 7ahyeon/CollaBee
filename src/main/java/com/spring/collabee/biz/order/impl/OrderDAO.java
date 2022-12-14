@@ -47,4 +47,7 @@ public class OrderDAO {
 	public void useCoupon(OrderVO vo) {
 		mybatis.update("orderDAO.useCoupon", vo);
 	}
+	public void updateStock(CartVO vo) {
+		mybatis.update("orderDAO.updateStock", vo);
+	}
 }

@@ -80,8 +80,8 @@
 					 	<th>
 					 	</th>
 					 	<td>
-							 <div class="chkPhone text-danger">
-							 	※ 11자리 숫자를 모두 입력해주십시오.
+							 <div class="chkPhone"  style="color:#9A30AE;">
+							 	※ 11자리 숫자를 모두 입력해주세요.
 							 </div>
 					 	</td>
 				 	</tr>

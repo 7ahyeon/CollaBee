@@ -1,8 +1,6 @@
 package com.spring.collabee.view.order;
 
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,7 +12,7 @@ public class OrderControlloer {
 	}
 	
 	@RequestMapping("/order.do")
-	public String order(HttpSession session) {
+	public String order() {
 		
 		return "/order/order";
 	}

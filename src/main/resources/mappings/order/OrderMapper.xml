@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orderDAO">
+	<update id="updateStock" parameterType="cart">
+		UPDATE PRODUCT
+		SET STOCK = STOCK - #{count},
+			COUNT = COUNT + #{count}
+		WHERE PRODUCT_NUM = #{productNum}
+	</update>
 
 		<!-- 사용 불가 쿠폰 수량 조회 -->
 	<select id="getCouponCntN" parameterType="order" resultType="int">
@@ -52,7 +58,7 @@
 							ORDER_REQUEST, DELIVERY_PICK, DELIVERY_FEE, TOT_DISCOUNT, TOT_PRICE, 
 							COUPON_NUM, USAGE_AMOUNT, PT_NUM, MEMBER_NUM, ORDER_ADDR_DETAIL, 
 							TOT_GOODSPRICE)
-		VALUES (ORDER_SEQ.NEXTVAL, #{orderName}, #{orderPhone}, #{orderAddr}, #{orderPlace}, 
+		VALUES (#{orderNum}, #{orderName}, #{orderPhone}, #{orderAddr}, #{orderPlace}, 
 				#{orderRequest}, TO_DATE(#{deliveryPick}, 'YYYY-MM-DD HH24:MI:SS'), #{deliveryFee}, #{totDiscount}, #{totPrice},
 				#{couponNum}, #{usageAmount}, #{ptNum}, #{memberNum}, #{orderAddrDetail},
 				#{totGoodsprice})
@@ -61,7 +67,7 @@
 		INSERT INTO ORDERS (ORDER_NUM, ORDER_NAME, ORDER_PHONE, ORDER_ADDR, ORDER_PLACE, 
 							ORDER_REQUEST, DELIVERY_PICK, DELIVERY_FEE, TOT_DISCOUNT, TOT_PRICE, 
 							PT_NUM, ORDER_ADDR_DETAIL, NMEMBER_NUM, TOT_GOODSPRICE)
-		VALUES (ORDER_SEQ.NEXTVAL, #{orderName}, #{orderPhone}, #{orderAddr}, #{orderPlace}, 
+		VALUES (#{orderNum}, #{orderName}, #{orderPhone}, #{orderAddr}, #{orderPlace}, 
 				#{orderRequest}, TO_DATE(#{deliveryPick}, 'YYYY-MM-DD HH24:MI:SS'), #{deliveryFee}, #{totDiscount}, #{totPrice},
 				#{ptNum}, #{orderAddrDetail}, #{nmemberNum}, #{totGoodsprice})
 		</if>
@@ -70,22 +76,22 @@
 	<!-- 주문 상품 입력 -->
 	<insert id="insertOrderProduct" parameterType="cart">
 		<if test="memberNum != 0">
-		INSERT INTO ORDER_PRODUCT (ORDER_NUM, MEMBER_NUM, PRODUCT_NUM, COUNT, SALEPRICE)
-		VALUES (ORDER_SEQ.CURRVAL, #{memberNum}, #{productNum}, #{count}, #{saleprice})
+		INSERT INTO ORDER_PRODUCT (ORDER_NUM, MEMBER_NUM, PRODUCT_NUM, COUNT, SALEPRICE, PRICE)
+		VALUES (#{orderNum}, #{memberNum}, #{productNum}, #{count}, #{saleprice}, #{price})
 		</if>
 		<if test="nmemberNum != null">
-		INSERT INTO ORDER_PRODUCT (ORDER_NUM, PRODUCT_NUM, COUNT, SALEPRICE, NMEMBER_NUM)
-		VALUES (ORDER_SEQ.CURRVAL, #{productNum}, #{count}, #{saleprice}, #{nmemberNum})
+		INSERT INTO ORDER_PRODUCT (ORDER_NUM, PRODUCT_NUM, COUNT, SALEPRICE, NMEMBER_NUM, PRICE)
+		VALUES (#{orderNum}, #{productNum}, #{count}, #{saleprice}, #{nmemberNum}, #{price})
 		</if>
 	</insert>
 
 	<insert id="saveEmoney" parameterType="emoneyUsageVO">
 		INSERT INTO EMONEY_USAGE (MEMBER_NUM, ORDER_NUM, AMOUNT, EMONEY_HISTORY, CATEGORY)
-		VALUES (#{memberNum}, ORDER_SEQ.CURRVAL, #{amount}, '구매', '적립')
+		VALUES (#{memberNum}, #{orderNum}, #{amount}, '구매', '적립')
 	</insert>
 	<insert id="useEmoney" parameterType="emoneyUsageVO">
 		INSERT INTO EMONEY_USAGE (MEMBER_NUM, ORDER_NUM, AMOUNT, EMONEY_HISTORY, CATEGORY)
-		VALUES (#{memberNum}, ORDER_SEQ.CURRVAL, #{amount}, '구매', '사용')
+		VALUES (#{memberNum}, #{orderNum}, #{amount}, '구매', '사용')
 	</insert>
 	
 	<update id="useCoupon" parameterType="order">

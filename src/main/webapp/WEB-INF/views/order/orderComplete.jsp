@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>콜라비</title>
 <%@ include file= "../common/bootstrap.jspf"%>
+<%@ include file= "../common/modal/orderChkModal.jspf"%>
 <style>
 	header {
 		margin-bottom:100px;
@@ -21,7 +22,7 @@
 	}
 </style>
 </head>
-<body>
+<body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
 	<header>
 		<%@ include file= "../common/header.jspf"%>
 	</header>
@@ -68,7 +69,7 @@
 								</div>
 								<div class="font-weight-bold">
 									<span style="font-size:1.2rem;">
-										<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice }" /> 원
+										<fmt:formatNumber pattern="###,###,###" value="${orders.totPrice }" />
 									</span>
 									<span>
 										원
@@ -132,13 +133,13 @@
 							</div>
 							<div class="d-flex justify-content-center" style="margin-top:30px;">
 								<c:if test="${not empty loginMember }">
-						    	<button id="orderListBtn" type="button"class="btn font-weight-bold" onclick="location.href='../mypage/order.do'"
+						    	<button type="button"class="btn orderListBtn font-weight-bold" onclick="location.href='../mypage/order.do'"
 										style="width:250px;border:1px solid #9A30AE;background-color:white;border-radius:3px;padding:15px;color:#9A30AE;font-size:1rem;margin:10px;">
 									주문 상세보기
 								</button>
 								</c:if>
 								<c:if test="${empty loginMember }">
-						    	<button id="orderListBtn" type="button"class="btn font-weight-bold"
+						    	<button type="button"class="btn orderListBtn font-weight-bold" data-toggle="modal" data-target="#orderChkModal"
 										style="width:250px;border:1px solid #9A30AE;background-color:white;border-radius:3px;padding:15px;color:#9A30AE;font-size:1rem;margin:10px;">
 									주문 상세보기
 								</button>
@@ -163,5 +164,6 @@
 	<footer>
 		<%@ include file= "../common/footer.jspf"%>
 	</footer>
+
 </body>
 </html>

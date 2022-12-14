@@ -7,7 +7,15 @@ public class CartVO{
 	private int productNum, storageNum, categoryNum;
 	private String thumSysFilename, productName;
 	private int count, price, saleprice, stock, memberNum;
-	private String nmemberNum;
+	private String nmemberNum, orderNum;
+	public String getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
+	}
+
 	private Date nmemberLimit;
 	
 	public CartVO() {
@@ -114,9 +122,10 @@ public class CartVO{
 		return "CartVO [productNum=" + productNum + ", storageNum=" + storageNum + ", categoryNum=" + categoryNum
 				+ ", thumSysFilename=" + thumSysFilename + ", productName=" + productName + ", count=" + count
 				+ ", price=" + price + ", saleprice=" + saleprice + ", stock=" + stock + ", memberNum=" + memberNum
-				+ ", nmemberNum=" + nmemberNum + ", nmemberLimit=" + nmemberLimit + "]";
+				+ ", nmemberNum=" + nmemberNum + ", orderNum=" + orderNum + ", nmemberLimit=" + nmemberLimit + "]";
 	}
 
+	
 
 	
 	

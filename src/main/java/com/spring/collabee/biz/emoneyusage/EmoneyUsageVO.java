@@ -1,8 +1,8 @@
 package com.spring.collabee.biz.emoneyusage;
 
 public class EmoneyUsageVO {
-	int memberNum, orderNum, amount;
-	String saveDate, emoneyHistory, category, validity;
+	int memberNum, amount;
+	String orderNum, saveDate, emoneyHistory, category, validity;
 	
 	public int getMemberNum() {
 		return memberNum;
@@ -16,10 +16,11 @@ public class EmoneyUsageVO {
 	public void setValidity(String validity) {
 		this.validity = validity;
 	}
-	public int getOrderNum() {
+	
+	public String getOrderNum() {
 		return orderNum;
 	}
-	public void setOrderNum(int orderNum) {
+	public void setOrderNum(String orderNum) {
 		this.orderNum = orderNum;
 	}
 	public int getAmount() {

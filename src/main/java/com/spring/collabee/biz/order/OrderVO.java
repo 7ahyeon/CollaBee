@@ -1,23 +1,28 @@
 package com.spring.collabee.biz.order;
 
 public class OrderVO {
-	private int orderNum;
-	private String orderName, orderPhone, orderAddr, orderPlace, orderRequest;
+	private String orderNum, orderName, orderPhone, orderAddr, orderPlace, orderRequest;
 	private String deliveryPick;
 	private int deliveryFee, totGoodsprice, totDiscount, totPrice, couponNum, usageAmount, ptNum, memberNum;
-	private String ptInstallment, orderAddrDetail, nmemberNum, gradeName;
+	private String orderAddrDetail, nmemberNum, gradeName;
 	private int saverate;
 	
 	public OrderVO() {
 	}
 
-	public int getOrderNum() {
+	
+
+	public String getOrderNum() {
 		return orderNum;
 	}
 
-	public void setOrderNum(int orderNum) {
+
+
+	public void setOrderNum(String orderNum) {
 		this.orderNum = orderNum;
 	}
+
+
 
 	public String getOrderName() {
 		return orderName;
@@ -133,13 +138,7 @@ public class OrderVO {
 		this.memberNum = memberNum;
 	}
 
-	public String getPtInstallment() {
-		return ptInstallment;
-	}
-
-	public void setPtInstallment(String ptInstallment) {
-		this.ptInstallment = ptInstallment;
-	}
+	
 
 	public String getOrderAddrDetail() {
 		return orderAddrDetail;
@@ -173,17 +172,20 @@ public class OrderVO {
 		this.saverate = saverate;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "OrderVO [orderNum=" + orderNum + ", orderName=" + orderName + ", orderPhone=" + orderPhone
 				+ ", orderAddr=" + orderAddr + ", orderPlace=" + orderPlace + ", orderRequest=" + orderRequest
 				+ ", deliveryPick=" + deliveryPick + ", deliveryFee=" + deliveryFee + ", totGoodsprice=" + totGoodsprice
 				+ ", totDiscount=" + totDiscount + ", totPrice=" + totPrice + ", couponNum=" + couponNum
-				+ ", usageAmount=" + usageAmount + ", ptNum=" + ptNum + ", memberNum=" + memberNum + ", ptInstallment="
-				+ ptInstallment + ", orderAddrDetail=" + orderAddrDetail + ", nmemberNum=" + nmemberNum + ", gradeName="
-				+ gradeName + ", saverate=" + saverate + "]";
+				+ ", usageAmount=" + usageAmount + ", ptNum=" + ptNum + ", memberNum=" + memberNum
+				+ ", orderAddrDetail=" + orderAddrDetail + ", nmemberNum=" + nmemberNum + ", gradeName=" + gradeName
+				+ ", saverate=" + saverate + "]";
 	}
 
+	
 
 	
 	

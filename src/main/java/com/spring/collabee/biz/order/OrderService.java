@@ -20,4 +20,5 @@ public interface OrderService {
 	void insertUseEmoney(EmoneyUsageVO vo);
 	
 	void useCoupon(OrderVO vo);
+	void updateStock(CartVO vo);
 }

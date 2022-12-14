@@ -225,7 +225,7 @@ footer {
 											</label>
 											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+								     			<a href="../goods/goodsContent.do?productNum=${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
 								     				<c:if test="${cartGoods.productName.length() > 39 }">
 								     					${cartGoods.productName.substring(0,39) }<br>
 								     					${cartGoods.productName.substring(39,cartGoods.productName.length()) }
@@ -323,7 +323,7 @@ footer {
 											</label>
 											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+								     			<a href="../goods/goodsContent.do?productNum=${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
 								     				<c:if test="${cartGoods.productName.length() > 39 }">
 								     					${cartGoods.productName.substring(0,39) }<br>
 								     					${cartGoods.productName.substring(39,cartGoods.productName.length()) }
@@ -421,7 +421,7 @@ footer {
 											</label>
 											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.thumSysFilename }" width="80px" >
 								     		<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-								     			<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+								     			<a href="../goods/goodsContent.do?productNum=${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
 							     					<c:if test="${cartGoods.productName.length() > 39 }">
 								     					${cartGoods.productName.substring(0,39) }<br>
 								     					${cartGoods.productName.substring(39,cartGoods.productName.length()) }

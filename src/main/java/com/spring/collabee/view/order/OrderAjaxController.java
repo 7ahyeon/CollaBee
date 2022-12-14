@@ -136,15 +136,17 @@ public class OrderAjaxController {
 	}
 
 	@RequestMapping(value="/orderSend.do", method = RequestMethod.POST)
-	public void orderSend(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response, MemberVO mvo, @RequestBody OrderVO omember, OrderVO orders, CartVO cart) {
+	public OrderVO orderSend(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response, MemberVO mvo, @RequestBody OrderVO omember, OrderVO orders, CartVO cart) {
 		orders = (OrderVO) session.getAttribute("orders");
 		
+		orders.setOrderNum(omember.getOrderNum());
 		orders.setDeliveryPick(omember.getDeliveryPick());
 		orders.setDeliveryFee(omember.getDeliveryFee());
 		orders.setTotGoodsprice(omember.getTotGoodsprice());
 		orders.setTotDiscount(omember.getTotDiscount());
 		orders.setTotPrice(omember.getTotPrice());
 		orders.setPtNum(omember.getPtNum());
+		
 		if (orders.getMemberNum() != 0) {
 			orders.setCouponNum(omember.getCouponNum());
 			orders.setUsageAmount(omember.getUsageAmount());
@@ -155,10 +157,10 @@ public class OrderAjaxController {
 			cart.setNmemberNum(orders.getNmemberNum());
 		}
 		model.addAttribute("orders", orders);
-		System.out.println(orders.toString());
 		orderService.insertOrders(orders);
-		System.out.println(orders.toString());
 		
+		cart.setOrderNum(orders.getOrderNum());
+
 		// 주문 상품 저장
 		int productNum = 0;
 		
@@ -168,8 +170,13 @@ public class OrderAjaxController {
 			cart.setProductNum(productNum);
 			cart.setCount(cvo.getCount());
 			cart.setSaleprice(cvo.getSaleprice());
+			cart.setPrice(cvo.getPrice());
+			
 			orderService.insertOrderProduct(cart);
 			cartService.deleteCart(cart);
+			
+			// 재고 수정
+			orderService.updateStock(cart);
 		}
 		
 		if (orders.getMemberNum() != 0) {
@@ -189,6 +196,7 @@ public class OrderAjaxController {
 			EmoneyUsageVO saveVO = new EmoneyUsageVO();
 			saveVO.setMemberNum(orders.getMemberNum());
 			saveVO.setAmount(save);
+			saveVO.setOrderNum(orders.getOrderNum());
 			
 			orderService.insertSaveEmoney(saveVO);
 			
@@ -197,6 +205,7 @@ public class OrderAjaxController {
 				EmoneyUsageVO use = new EmoneyUsageVO();
 				use.setAmount(orders.getUsageAmount());
 				use.setMemberNum(orders.getMemberNum());
+				use.setOrderNum(orders.getOrderNum());
 				
 				orderService.insertUseEmoney(use);
 			}
@@ -206,6 +215,12 @@ public class OrderAjaxController {
 				orderService.useCoupon(orders);
 			}
 		}
+		return orders;
+	}
+	
+	@RequestMapping(value="/orderChk.do", method= RequestMethod.POST)
+	public void orderChk(@RequestBody OrderVO orderChk) {
 		
 	}
+	
 }

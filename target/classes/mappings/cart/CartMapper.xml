@@ -9,7 +9,6 @@
 		FROM PRODUCT P
 		WHERE PRODUCT_NUM = #{productNum}
 	</select>
-	
 	<!-- 비회원/회원 장바구니 상품 중복 여부 조회 -->
 	<select id="getCartNLogin" parameterType="cart" resultType="cart">
 		SELECT C.PRODUCT_NUM PRODUCT_NUM, C.COUNT COUNT, P.STOCK STOCK, C.NMEMBER_NUM NMEMBER_NUM
@@ -40,7 +39,7 @@
 	</update>
 	
 	<!-- 회원 등급 / 적립 조회 -->
-	<select id="getCartMember" parameterType="memberVO" resultType="orderMember">
+	<select id="getGrade" parameterType="memberVO" resultType="order">
 		SELECT MS.GRADE_NAME GRADE_NAME, MS.SAVERATE SAVERATE
 		FROM MEMBER M, MEMBERSHIP MS
 		WHERE M.GRADE = MS.GRADE

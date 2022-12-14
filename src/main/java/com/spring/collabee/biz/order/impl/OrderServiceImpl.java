@@ -63,5 +63,10 @@ public class OrderServiceImpl implements OrderService {
 		orderDao.useCoupon(vo);
 	}
 
+	@Override
+	public void updateStock(CartVO vo) {
+		orderDao.updateStock(vo);
+	}
+
 
 }

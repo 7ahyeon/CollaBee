@@ -96,7 +96,7 @@
 				        </button>
 					</p>
 			    </div>
-				<div class="orderInfo text-center text-dark font-weight-bold" style="padding:35px;font-size:1rem;white-space: nowrap;">
+				<div class="orderInfo text-center text-dark font-weight-bold" data-size="${orderGoods.size()}" data-productName="${orderGoods[0].productName }" style="padding:35px;font-size:1rem;white-space: nowrap;">
 				<c:if test="${orderGoods.size() != 1 }">
 					<span>
 						${orderGoods[0].productName } 외
@@ -377,7 +377,7 @@
 							        </div>
 					        </section>
 					        <div style="padding-top:5px;">
-					        	<a href="#" style="color:#9A30AE;text-decoration: none !important;font-size: 0.7rem;">
+					        	<a href="../inquiry/inquiry.do" style="color:#9A30AE;text-decoration: none !important;font-size: 0.7rem;">
 					        		쿠폰 사용 문의 (고객센터) >
 					        	</a>
 					        </div>
@@ -532,13 +532,19 @@
 			    		</div>
 			    		<div class="item text-dark text-left font-weight-bold" style="margin:20px 0 0 200px;font-size: 0.9rem;">
 			    			<span style="margin:7px;">
-			    				<input type="radio" value="" name="ptNum" style="width:25px;height:25px;vertical-align: middle;" checked> 네이버페이
+			    				<label style="cursor:pointer;">
+			    				<input type="radio" class="easyPay" value="3" name="ptNum" style="width:25px;height:25px;vertical-align: middle;" checked> 네이버페이
+		    					</label>
 		    				</span>
 		    				<span style="margin:10px;">
-		    					<input type="radio" value="" name="ptNum" style="width:25px;height:25px;vertical-align: middle;"> 토스
+		    					<label style="cursor:pointer;">
+		    					<input type="radio" class="easyPay" value="4" name="ptNum" style="width:25px;height:25px;vertical-align: middle;"> 토스
+		    					</label>
 		    				</span>
 					        <div style="margin:7px;">
-			    				<input type="radio" value="" name="ptNum" style="width:25px;height:25px;vertical-align: middle;"> 무통장입금
+					        <label style="cursor:pointer;">
+			    				<input type="radio" class="easyPay" value="5"  name="ptNum" style="width:25px;height:25px;vertical-align: middle;"> 무통장입금
+					        </label>
 					        </div>
 						</div>
 			    	</div>
@@ -734,6 +740,7 @@
 		<%@ include file= "../common/footer.jspf"%>
 	</footer>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script>
 
 
@@ -896,8 +903,10 @@ $(function() {
 		}
 		if (selectDisPrice != "" || selectDisPrice != null || selectDisPrice != undefined || ( selectDisPrice != null && typeof selectDisPrice != "object" && Object.keys(selectDisPrice).length)) {
 			if ((typeof selectDisPrice) != 'object' || (typeof selectDisPrice) != 'number'){
-				selectDisPrice = 0;
 				selectDisPrice = parseInt(selectDisPrice);
+			} 
+			if (isNaN(selectDisPrice) == true) {
+				selectDisPrice = 0;
 			}
 			if (selectDisPrice == 0) {
 				$('.couponDisPrice').html(selectDisPrice + ' 원');
@@ -928,7 +937,7 @@ $(function() {
 		
 		$('.totPrice').attr('data-totPrice', totPriceOrder);
 		// 최종 금액 
-		$('.totPrice').html(addComma(String(totPriceOrder)) + '원');
+		$('.totPrice').html(addComma(String(totPriceOrder)) + ' 원');
 		$('#orderBtn').html(addComma(String(totPriceOrder)) + ' 원 결제하기');
 	}
 	
@@ -1020,7 +1029,7 @@ $(function() {
 	
 	// 휴대폰 결제
 	$('.phoneBtn').click( function() {
-		pay = '4';
+		pay = '6';
 		
 		$('.phoneBtn').css('background-color', '#9A30AE');
 		$('.phoneBtn').css('color', 'white');
@@ -1033,7 +1042,9 @@ $(function() {
 		$('.payPick').attr('style', 'display: none !important');
 	});
 	
-	
+	$('.easyPay').click(function (){
+		pay = $('input:radio[class=easyPay]:checked').val();
+	});
 	// 알림창
 	function alertNull(msg) {
 		Swal.fire({
@@ -1044,9 +1055,124 @@ $(function() {
 		});
 	}	
 	
+	// 주문 번호 생성
+	function createOrderNum(){
+		const date = new Date();
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, "0");
+		const day = String(date.getDate()).padStart(2, "0");
+		
+		let orderNum = year + month + day;
+		for(let i=0;i<8;i++) {
+			orderNum += Math.floor(Math.random() * 8);	
+		}
+		return orderNum;
+	}
+	
+	// 결제 API
+	var IMP = window.IMP;
+	
+	// 카카오페이 결제
+	function kakaoPay(orderNumSend, orderTotPriceSend, sendData) {
+		IMP.init("imp50825346");
+		var goodsNamePay = $('.orderInfo').attr('data-productName');
+		var listSize = $('.orderInfo').attr('data-size');
+		var orderNameValue = $('#orderName').val();
+		var orderPhoneValue = $('#orderPhone').val();
+		var orderAddrValue = $('#address_kakao').val();
+		var orderAddrDetailValue = $('#address_detail').val();
+		if (listSize != 1) {
+			goodsNamePay = goodsNamePay + ' 외';
+		}
+		IMP.request_pay({
+		    pg : 'kakaopay',
+		    merchant_uid: orderNumSend, // 상점에서 관리하는 주문 번호
+		    name : goodsNamePay,
+		    amount : orderTotPriceSend,
+		    buyer_name : orderNameValue,
+		    buyer_tel : orderPhoneValue,
+		    buyer_addr : orderAddrValue + orderAddrDetailValue,
+		}, function(rsp) {
+			if (rsp.success) {
+				$.ajax({
+					type: "POST",
+					url: "orderSend.do",
+					data: JSON.stringify(sendData),
+					contentType: "application/json",
+					
+					success: function(data){
+						Swal.fire({
+							icon: 'success',
+							title: '결제 완료',
+							showConfirmButton: false,
+							timer: 1500
+						});
+						location.href="orderComplete.do";
+					},
+					error: function(){
+						alert("주문 넣기 실패")
+					}
+				}); 
+		        
+			} else {
+	          alert("결제 실패");
+			}
+		});
+	}
+	// 카드 결제
+	function cardPay(orderNumSend, orderTotPriceSend, sendData) {
+		IMP.init("imp50825346");
+		var goodsNamePay = $('.orderInfo').attr('data-productName');
+		var listSize = $('.orderInfo').attr('data-size');
+		var orderNameValue = $('#orderName').val();
+		var orderPhoneValue = $('#orderPhone').val();
+		var orderAddrValue = $('#address_kakao').val();
+		var orderAddrDetailValue = $('#address_detail').val();
+		if (listSize != 1) {
+			goodsNamePay = goodsNamePay + ' 외';
+		}
+		IMP.request_pay({
+		    pg : 'html5_inicis',
+		    merchant_uid: orderNumSend, // 상점에서 관리하는 주문 번호
+		    name : goodsNamePay,
+		    amount : orderTotPriceSend,
+		    buyer_name : orderNameValue,
+		    buyer_tel : orderPhoneValue,
+		    buyer_addr : orderAddrValue + orderAddrDetailValue,
+		    naverPopupMode : true, 
+		}, function(rsp) {
+			if (rsp.success) {
+				$.ajax({
+					type: "POST",
+					url: "orderSend.do",
+					data: JSON.stringify(sendData),
+					contentType: "application/json",
+					
+					success: function(data){
+						Swal.fire({
+							icon: 'success',
+							title: '결제 완료',
+							showConfirmButton: false,
+							timer: 1500
+						});
+						location.href="orderComplete.do";
+					},
+					error: function(){
+						alert("주문 넣기 실패")
+					}
+				}); 
+		        
+			} else {
+	          alert("결제 실패" + rsp.error_msg);
+			}
+		});
+	}
 
+	
 	// 주문하기 버튼
 	$('#orderBtn').click( function() {
+		var orderNumSend = createOrderNum();
+		orderNumSend = orderNumSend.substring(2,16);
 		var orderNameSend = $('#orderName').val();
 		var orderDeliveryPickSend = $('input:radio[name=deliveryPick]:checked').val();
 		if (saveRate != 0) {
@@ -1067,6 +1193,7 @@ $(function() {
 								orderCouponNumSend = 0;
 							}
 							var sendData = {
+									orderNum : orderNumSend,
 									deliveryPick : orderDeliveryPickSend,
 									deliveryFee : deliveryFeeOrder,
 									totGoodsprice : orderTotGoodsPrice,
@@ -1075,20 +1202,34 @@ $(function() {
 									couponNum : orderCouponNumSend,
 									usageAmount : orderUsageAmountSend,
 									ptNum : orderPtNumSend
-								};
-							$.ajax({
-								type: "POST",
-								url: "orderSend.do",
-								data: JSON.stringify(sendData),
-								contentType: "application/json",
-								success: function(data){
-									alert("성공");
-									location.href="orderComplete.do";
-								},
-								error: function(){
-									alert("실패");
-								}
-							}); 
+							};
+							if (orderPtNumSend == 1) {
+								kakaoPay(orderNumSend, orderTotPriceSend, sendData);
+							} else if (orderPtNumSend == 2) {
+								cardPay(orderNumSend, orderTotPriceSend, sendData);
+							} 
+							else {
+								$.ajax({
+									type: "POST",
+									url: "orderSend.do",
+									data: JSON.stringify(sendData),
+									contentType: "application/json",
+									
+									success: function(data){
+										Swal.fire({
+											icon: 'success',
+											title: '결제 완료',
+											showConfirmButton: false,
+											timer: 1500
+										});
+										location.href="orderComplete.do";
+									},
+									error: function(){
+										alert("주문 넣기 실패")
+									}
+								}); 
+							}
+							
 							
 						} else {
 							alertNull('결제 진행 필수 동의에 체크해주세요.');
@@ -1115,7 +1256,7 @@ $(function() {
 	}
 
 	document.querySelector("#theme .select").addEventListener("click", onClickSelect);
-
+	
 	 var selectVal = '';
 	 var selectDisPrice = '';
 	function onClickOption(e) {
@@ -1263,7 +1404,6 @@ function changeOrder() {
 								$(":radio[name=orderPlace]").radioSelect(data.orderPlace);
 							},
 							error: function(){
-								alert("실패");
 							}
 						}); 
 						$('#changeOrderDataModal').modal('hide');
