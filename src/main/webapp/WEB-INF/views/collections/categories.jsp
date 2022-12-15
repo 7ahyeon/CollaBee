@@ -89,13 +89,11 @@
         		moreStartNum = 1;
 				moreEndNum = moreStartNum + morePlus;
 				
-				
-				
 				$("#alert-search-end").css('display', 'none');
 				moreCycle = 1;
         	}
-			
-			$("#more-item-start").val(moreStartNum );
+        	
+        	$("#more-item-start").val(moreStartNum );
     		$("#more-item-end").val(moreStartNum + morePlus);
 	        	
     		$.ajax("../collections/getJsonGoodsListByCategory.do", {

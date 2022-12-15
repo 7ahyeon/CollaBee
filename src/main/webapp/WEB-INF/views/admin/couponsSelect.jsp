@@ -178,7 +178,8 @@ function setThumbnail(event) {
 	        <form action="couponsModify.do" id="coupon-form" method="post">
 	        	<div style="width: 800px;">
 			        <div class="main" style="border-bottom:2px solid black";>
-			            <h4>쿠폰 조회</h4>
+			            <h4 class="first-show">쿠폰 조회</h4>
+			            <h4 class="second-show" style="display: none;">쿠폰내용 변경</h4>
 			        </div>
 			        <br>
 			                쿠폰번호 <input type="number" class="form-control" name="couponNum" value="${coupons.couponNum}" readonly/>

@@ -151,7 +151,7 @@
 			                    </div>
 			                </div>
 		                </li>
-		        		<li><a class="dropdown-item" href="../member/kakaoLogout.do">로그아웃</a></li>
+		        		<li><a href="../member/kakaoLogout.do">로그아웃</a></li>
 		        	</ul>
 		        </c:when>
 		        <c:otherwise>

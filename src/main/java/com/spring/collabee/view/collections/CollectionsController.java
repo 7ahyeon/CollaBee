@@ -37,11 +37,19 @@ public class CollectionsController {
 	
 	@ResponseBody
 	@RequestMapping("/getJsonGoodsListByCategory.do")
-	public List<GoodsVO> getJsonGoodsListByCategory(GoodsVO goods, DivisionVO division, String filterType, String usingPage) {
+	public List<GoodsVO> getJsonGoodsListByCategory(GoodsVO goods, DivisionVO division, String filterType, String usingPage
+													, String moreStartNum, String moreEndNum) {
 		System.out.println(">>> 카테고리 Json 실행");
 		
 		Map<String, Object> map = processJsonData(null, goods, division, filterType, "categories");
+		
+		map.put("moreStartNum", moreStartNum);
+		map.put("moreEndNum", moreEndNum);
+		
 		List<GoodsVO> list = collectionsService.goodsListByCategory(map);
+		
+		System.out.println("맵 실행 : " + map);
+		System.out.println("받아온 리스트 : " + list);
 		return list;
 	}
 	
