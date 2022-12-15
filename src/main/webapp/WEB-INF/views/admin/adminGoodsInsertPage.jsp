@@ -24,7 +24,6 @@
     <style>
 
       .list-group-item a{
-        letter-spacing: -2px; 
         text-decoration: none;
         color:black;
       }
@@ -49,17 +48,16 @@
         font-weight: bold;
         color: black;
       }
-      h2{font-weight: bold;
-        letter-spacing: -2.5px;
+      h2{
+     	 font-weight: bold;
       }
-      h4{font-weight: bolder;
-          letter-spacing: -3px; 
-          word-spacing: 5px;
+      h4{
+      	font-weight: bolder;
       } 
-      h4 span{letter-spacing: -1px;
-        word-spacing: 2px;
+      h4 span{
         vertical-align: middle;
-        font-size: small; color: gray;
+        font-size: small;
+         color: gray;
       }
       .main{
         padding-bottom: 24px;
@@ -69,6 +67,21 @@
             background-color: #9A30AE;
             color: none;
       }
+      
+       .goods_btn {
+	      padding: 0px 10px;
+	      text-align: center;
+	      overflow: hidden;
+	      width: 120px;
+	      height: 44px;
+	      border-radius: 3px;
+	      color: rgb(255, 255, 255);
+	      background-color: #9a30ae;
+	      border: 0px none;
+	      font-size: small;
+	      float: right;
+	    }
+	    
       button {
           border: none;
           box-shadow:none !important;
@@ -307,7 +320,7 @@
 		
 	  target.options.length = 0;
 	  
-	  for (let i = 0; i < 11; i++) {
+	  for (let i = 0; i < sub.length; i++) {
 		  var opt = document.createElement("option");
 		  opt.value = subNum[i];
 		  opt.innerHTML = sub[i];
@@ -350,12 +363,8 @@
     <div class="container-fluid">
       <div class="row" style="padding-top:50px; padding-bottom: 50px">
         <div class="col-sm-2"></div>
-        <div class="col-sm-2">
-          <div style="width: 250px;">
-            <h2>관리자 목록</h2>
-            <br>
+        <div class="col-sm-2"> 
             <%@ include file = "../admin/adminSideNav.jspf" %>
-          </div>
         </div>
         
         <div class="col-sm-6">
@@ -465,8 +474,8 @@
 	       </div>
 	     </div>
         <div style="display: flex; justify-content: center;">
-          <input type="button" class="btn" value="상품등록" onclick="sendData(this.form)" style="border: none; color: white; margin-right: 15px;">
-          <input type="reset" class="btn" style="border: none; color: white;" value="초기화">
+          <input type="button" class="goods_btn" value="등록" onclick="sendData(this.form)">&nbsp;&nbsp;
+          <input type="reset" class="goods_btn" style="border: none; color: white;" value="초기화">
         </div>
       </form>
     </body>

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -22,7 +22,6 @@
 	
   <style>
       .list-group-item a{
-        letter-spacing: -2px; 
         text-decoration: none;
         color:black;
       }
@@ -39,28 +38,29 @@
         text-decoration: none;
         color:#B03FE3;
       }
+      
       .list-group-item a {
         width: 100%;
         display: block;
       }
 
-      li span{font-size: large;
+      li span{
+      	font-size: large;
         font-weight: bold;
         color: black;
       }
 
-      h2{font-weight: bold;
-        letter-spacing: -2.5px;}
+      h2{
+      font-weight: bold;
+        }
 
       h4{font-weight: bolder;
-        letter-spacing: -3px; 
-        word-spacing: 5px;
         }
         
-      span{letter-spacing: -1px;
-        word-spacing: 2px;
+      span{
         vertical-align: middle;
-        font-size: small; color: gray;
+        font-size: small; 
+        color: gray;
       }
       .main{
         padding-bottom: 24px;
@@ -157,7 +157,7 @@
     	getJsonCouponsList();
     }); 
     
-    function getJsonCouponsList() {
+    /* function getJsonCouponsList() {
     	
     	console.log("getJsonCouponsList 들어옴")
 		
@@ -170,13 +170,12 @@
 				let dispHtml = "";
 				for (let content of data) {
 					dispHtml += "<tr>";
-   					dispHtml += "<td class='center'><input type='checkbox' class='chk' name='checkRow' value='"+content.couponNum+"' style='width: 20px; height: 20px;'></td>";
    					dispHtml += "<td class='text-center'>"+content.couponNum+"</td>";
    					dispHtml += "<td><a href='../coupons/couponsSelect.do?couponNum="+content.couponNum+"' style='text-decoration: none; color: black;'>"+content.couponName+"</a></td>";			
    					dispHtml += "<td>"+content.disPrice+"</td>";			
    					dispHtml += "<td>"+content.count+"</td>";			
    					dispHtml += "<td>"+content.leastCost+"</td>";			
-   					/* dispHtml += "<td>"++"</td>"; */
+   					dispHtml += "<td>"+content.couponDate+"</td>"; 
    					dispHtml += "</tr>";
 				} 
 				
@@ -188,7 +187,7 @@
 				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 			}
 		}); 
-	}
+	} */
 
 
   </script>
@@ -202,12 +201,7 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
         <div class="col-sm-2"></div>
         <div class="col-sm-2">
-          <div style="width: 250px;">
-            <h2>관리자 목록</h2>
-            <br>
             	<%@ include file = "./adminSideNav.jspf" %>
-
-          </div>
         </div>
         <div class="col-sm-6">
             <div class="main" style="border-bottom:1px solid black;">
@@ -217,7 +211,6 @@
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th class="center"><input type="checkbox" name="checkAll" id="th_checkAll" style="width: 20px; height: 30px;" /></th>
                       <th class="text-center" style="vertical-align: middle; width: 100px; height: 60px; vertical-align: middle;">쿠폰번호</th>
                       <th style="vertical-align: middle; width: 300px;">쿠폰명</th>
                       <th style="vertical-align: middle;">할인금액</th>
@@ -227,6 +220,18 @@
                     </tr>
                   </thead>
                   <tbody id="coupon-list-area">
+                  	<c:if test="${not empty couponsList }">
+                  		<c:forEach var="content" items="${couponsList }" >
+		                  	<tr>
+			   					<td class="text-center">${content.couponNum}</td>
+			   					<td><a href="../coupons/couponsSelect.do?couponNum=${content.couponNum}" style="text-decoration: none; color: black;">${content.couponName}</a></td>			
+			   					<td><fmt:formatNumber value="${content.disPrice}" pattern="#,###" /></td>			
+			   					<td>${content.count}</td>		
+			   					<td><fmt:formatNumber value="${content.leastCost}" pattern="#,###" /></td>			
+			   					<td><fmt:formatDate value="${content.couponDate}" pattern="yyyy-MM-dd" /></td>
+		   					</tr>
+   						</c:forEach>
+				  	</c:if>
                   </tbody>
                 </table>
               </form>
@@ -237,17 +242,10 @@
                   </button>
                   <button class="btn2">
                     <i class="bi bi-chevron-right"></i>
-                  </button> -->
-                  <%-- 쿠폰삭제 버튼 클릭 시 모달 include --%>
-    			  <%@ include file = "../common/modal/couponDeleteModal.jspf" %>
-                  <%-- 쿠폰삭제 버튼 클릭 시 모달 --%>             
+                  </button> -->          
 			<div class="container" style="text-align: right;">
 			<!-- Button to Open the Modal -->
-				<button onclick="javascript:location.href='couponsInsertPage.do'" class="coupon_btn" type="button" >쿠폰발행</button>
-				<button class="coupon_btn" type="button">쿠폰수정</button>
-				<button onclick="coupon_delete()" type="button" class="coupon_btn" data-toggle="modal" data-target="#myModal">
-				  	쿠폰삭제
-				</button>
+				<button onclick="javascript:location.href='couponsInsertPage.do'" class="coupon_btn" type="button" >쿠폰발행</button>				
 				  </div>
 				</div>
 				<div class="col-sm-2"></div>

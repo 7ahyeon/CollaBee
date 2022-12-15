@@ -23,7 +23,6 @@
     
     <style>
       .list-group-item a{
-        letter-spacing: -2px; 
         text-decoration: none;
         color:black;
       }
@@ -49,14 +48,10 @@
         color: black;
       }
       h2{font-weight: bold;
-        letter-spacing: -2.5px;
       }
       h4{font-weight: bolder;
-          letter-spacing: -3px; 
-          word-spacing: 5px;
       } 
-      h4 span{letter-spacing: -1px;
-        word-spacing: 2px;
+      h4 span{
         vertical-align: middle;
         font-size: small; color: gray;
       }
@@ -88,6 +83,20 @@
       button:hover {
         background-color: none;
       }
+      
+      .goods_btn {
+	      padding: 0px 10px;
+	      text-align: center;
+	      overflow: hidden;
+	      width: 120px;
+	      height: 44px;
+	      border-radius: 3px;
+	      color: rgb(255, 255, 255);
+	      background-color: #9a30ae;
+	      border: 0px none;
+	      font-size: small;
+	      float: right;
+	    }
       
       /* 카테고리 부분*/
       #main-category-box, #sub-category-box {
@@ -299,7 +308,7 @@
 		
 	  target.options.length = 0;
 	  
-	  for (let i = 0; i < 11; i++) {
+	  for (let i = 0; i < sub.length; i++) {
 		  var opt = document.createElement("option");
 		  opt.value = subNum[i];
 		  opt.innerHTML = sub[i];
@@ -307,29 +316,14 @@
 	  }  
   }
   
-  	 	
-  	
-	//상품 수정 시에 입력창 빈값으로 등록 시도 시 alert창 띄우기
-	function updateData(form) {
-		/* let firstForm = document.forms[0];
-		
-		for (let i = 0; i < firstForm.elements.length; i++) {
-			if (firstForm.elements[i].value.trim() == "") {
-				alert(firstForm.elements[i].title + "을(를) 입력하세요");
-				console.log("firstForm.elements[i] : " + firstForm.elements[i]);
-				firstForm.elements[i].value = "";
-				firstForm.elements[i].focus();
-				return;
-			}
-		}
-		alert("상품정보 수정이 완료되었습니다."); */
-		
-		console.log(form);
-		form.action = "adminGoodsUpdate.do";
-		form.submit(); 
-	}
   
- 	
+ 	function delProduct() {
+ 		
+ 		alert("해당 상품이 삭제되었습니다.");
+ 		location.href = "adminGoodsDelete.do?productNum=" + ${goods.productNum };
+	}
+	
+	
  	function edit_coupon() {
  		
  		if ($("#product-edit-btn-1").css("display") != "none"){
@@ -358,10 +352,21 @@
  		}
  	}
  	
-    function productUpdate(frm) {
-		console.log("frm : " + frm);
+    function productUpdate(form) {
+		/* let firstForm = document.forms[0];
+		
+		for (let i = 0; i < firstForm.elements.length; i++) {
+			if (firstForm.elements[i].value.trim() == "") {
+				alert(firstForm.elements[i].title + "을(를) 입력하세요");
+				console.log("firstForm.elements[i] : " + firstForm.elements[i]);
+				firstForm.elements[i].value = "";
+				firstForm.elements[i].focus();
+				return;
+			}
+		} */
 		alert("상품 정보가 변경되었습니다.");
-		frm.submit();
+    	console.log("form : " + form);
+		form.submit();
 	}
       	
     function go_list() {
@@ -384,11 +389,7 @@
       <div class="row" style="padding-top:50px; padding-bottom: 50px">
         <div class="col-sm-2"></div>
         <div class="col-sm-2">
-          <div style="width: 250px;">
-            <h2>관리자 목록</h2>
-            <br>
             	<%@ include file = "./adminSideNav.jspf" %>
-          </div>
         </div>
         
         <div class="col-sm-6">
@@ -398,7 +399,7 @@
                 <h4 class=" second-show" style="display: none;">상품정보 변경 </h4>
             </div>
             <br>
-                 상품번호 <input type="number" class="form-control form-control" name="productNum" id="productNum" title="상품번호" value="${goods.productNum }" disabled/>
+                 상품번호 <input type="number" class="form-control form-control" name="productNum" id="productNum" title="상품번호" value="${goods.productNum }" readonly/>
                   <br>
                  상품명 <input type="text" class="form-control form-control edit-form" name="productName" id="productName" title="상품명" value="${goods.productName }" disabled/>
                   <br>
@@ -496,7 +497,7 @@
                 <label class="custom-file-label" for="customFile">썸네일 이미지</label>
               </div>
               <div id="image_container"></div>
-              <input type="text" name="thumSysFilename"  class="form-control form-control" placeholder="썸네일 이미지 저장명">
+              <input type="text" name="thumSysFilename" class="form-control form-control" title="썸네일 이미지 저장명" placeholder="썸네일 이미지 저장명">
               
               <br><br>
               
@@ -505,7 +506,7 @@
                 <label class="custom-file-label" for="customFile2">상세 이미지</label>
               </div>
               	<div id="image_container2"></div>
-                <input type="text" name="detaileSysFilename"  class="form-control form-control" placeholder="상세 이미지 저장명">
+                <input type="text" name="detaileSysFilename"  class="form-control form-control" title="상세 이미지 저장명" placeholder="상세 이미지 저장명">
        </div>         
 	            <div class="col-sm-2"></div>
 	          </div>
@@ -513,11 +514,11 @@
 	       </div>
 	     </div>
         <div style="display: flex; justify-content: center;">
-          <button id="product-edit-btn-1" class="btn first-show" onclick="edit_coupon()" type="button" style="border: none; color: white; margin-right: 15px;">수정</button>
-          <button class="btn first-show" onclick="javascript:location.href='adminGoodsDelete.do?productNum=${goods.productNum }'" type="button" style="border: none; color: white;">삭제</button>
+          <button id="product-edit-btn-1" class="goods_btn first-show" onclick="edit_coupon()" type="button" style="border: none; color: white; margin-right: 15px;">수정</button>
+          <button class="goods_btn first-show" onclick="delProduct()" type="button" style="border: none; color: white;">삭제</button>
           
-          <button class="btn second-show" onclick="productUpdate(this.form)" type="button" style="border: none; color: white; margin-right: 15px; display: none;">변경</button>
-          <button class="btn second-show" onclick="go_list()" type="button" style="border: none; color: white; display: none;">목록으로 이동</button>
+          <button class="goods_btn second-show" onclick="productUpdate(this.form)" type="button" style="border: none; color: white; margin-right: 15px; display: none;">변경</button>
+          <button class="goods_btn second-show" onclick="go_list()" type="button" style="border: none; color: white; display: none;">목록으로 이동</button>
         </div>
       </form>
     </body>

@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminGoodsDAO">
 
-	<select id="adminGoodsList" parameterType="goods" resultType="goods">
+	<select id="adminGoodsList" parameterType="Map" resultType="goods">
 		SELECT P.PRODUCT_NUM, P.PRODUCT_NAME, P.DESCRIPTION AS P_DESCRIPTION, P.PRICE
 			, P.DIS_RATE, P.SALEPRICE, P.REGDATE, P.COUNT, P.STOCK
 			, P.THUM_ORI_FILENAME, P.THUM_SYS_FILENAME, P.DETAILE_ORI_FILENAME
@@ -15,6 +15,9 @@
 		  AND P.STORAGE_NUM = C.STORAGE_NUM
 		  AND P.DELIVERY_CODE = DE.DELIVERY_CODE
 		  AND PRODUCT_DEL = 'N'
+		<if test="sword != null">
+		  AND P.PRODUCT_NAME LIKE '%' || #{sword } || '%'
+		</if>
 		ORDER BY P.PRODUCT_NUM
 	</select>
 	
@@ -62,6 +65,17 @@
 		SELECT NAME	FROM MEMBER	WHERE MEMBER_NUM = 100
 	</select>
 	
+	<!-- 총 상품개수 출력 -->
+	<select id="goodsCount" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	
+	<!-- 페이징 처리 후 상품리스트 조회 -->
+	<select id="selectList" resultType="paging">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, P.* FROM (SELECT * FROM PRODUCT ORDER BY PRODUCT_NUM) P)
+		WHERE R_NUM BETWEEN #{start} AND #{end}
+	</select>
 </mapper>
 
 

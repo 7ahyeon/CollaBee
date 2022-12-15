@@ -64,4 +64,15 @@ public class CollectionsServiceImpl implements CollectionsService{
 		return collectionsDAO.getJsonGoodsListCount();
 	}
 
+	@Override
+	public DivisionVO getCategoryName(DivisionVO vo) {
+		return collectionsDAO.getCategoryName(vo);
+	}
+
+	@Override
+	public GoodsVO getOneGood(GoodsVO vo) {
+		return collectionsDAO.getOneGood(vo);
+		
+	}
+
 }

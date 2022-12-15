@@ -40,7 +40,7 @@ public class CollectionsDAO{
 	}
 
 	public List<GoodsVO> getGoodsList(Map<String, Object> map) {
-		System.out.println("===> MyBatis 사용 getGoodsList(GoodsVO vo) 실행");
+		System.out.println("===> MyBatis 사용 getGoodsList(Map<String, Object> map) 실행");
 		return mybatis.selectList("collectionsDAO.getJsonGoodsList", map);
 	}
 
@@ -60,6 +60,14 @@ public class CollectionsDAO{
 	public int getJsonGoodsListCount() {
 		System.out.println("DAO 상품 총수 매퍼 진입 전");
 		return mybatis.selectOne("collectionsDAO.getJsonGoodsListCount");
+	}
+	
+	public DivisionVO getCategoryName(DivisionVO vo) {
+		return mybatis.selectOne("collectionsDAO.getCategoryName", vo);
+	}
+
+	public GoodsVO getOneGood(GoodsVO vo) {
+		return mybatis.selectOne("collectionsDAO.getOneGood", vo);
 	}
 }
     

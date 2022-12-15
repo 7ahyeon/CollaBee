@@ -31,10 +31,10 @@
       
       <div style="padding: 16px 0px; border-bottom: 1px solid lightgray;">
           <div style="display: flex; margin-left: 20px; float: left; margin-right: 20px;">
-          <img src="../resources/imgs/goods/${goods.thumSysFilename }" alt="크림파스타" style="width: 72px; height: 72px; border-radius: 4px;">
+          <img src="../resources/imgs/goods/${goods.thumSysFilename }" alt="상품사진" style="width: 72px; height: 72px; border-radius: 4px;">
           </div>
           <div style="display: flex; float: left; margin-top: 25px;">
-              <span>[최현석의 쵸이닷] 어쩌구구구</span>
+              <span>${goods.productName }</span>
           </div>
       </div>  
 
@@ -55,31 +55,23 @@
 		              <span>내용</span>    
 		          </div>
 		          <div style="float: left;">
-			          <textarea class="form-control textarea" rows="5" id="comment" inputmode="text" 
-			          aria-label="textarea-message" name="qContent" style="border-radius: 0.2em; 
-			          width: 670px; height: 250px;" placeholder="상품문의 작성 전 확인해 주세요"></textarea>
+				          <textarea class="form-control" rows="5" id="comment" inputmode="text" 
+				          aria-label="textarea-message" name="qContent" class="textarea" style="border-radius: 0.2em; 
+				          width: 670px; height: 250px;" placeholder="상품문의를 작성해주세요."></textarea>
 		          </div>
 	          </div>    
 	      </div>
 	
 	      <!-- Modal footer -->
-	      <div style="margin-left: 20px;">
-	          <div class="form-check" style="inline-block;">
-	              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-	              <label id="aa" class="form-check-label1" for="flexCheckDefault1">
-	              비밀글로 문의하기
-	              </label>
-	          </div>
-	      </div>  
-	      
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-danger" style="background-color: white; 
 	        border: 1px solid lightgray; color: black;" data-dismiss="modal">취소</button>
 	        <input type="button" value="등록" style="background-color: #692498; color: white; width: 60px; height: 37px; 
 	        border-radius: 0.2em; text-align: center; border: none;" onclick="insertQuestion()">
-	        <!-- <button type="button" style="background-color: #692498; color: white; 
-	        width: 60px; height: 37px; border-radius: 0.2em;" disabled>등록</button> -->       
 	      </div>
+	      
+	      <input type="hidden" name="productNum" value="${goods.productNum }">
+	      <input type="hidden" name="memberNum" value="${loginMember.memberNum }">
 		</form>
 
     </div>

@@ -6,6 +6,18 @@ public class MemberVO {
 			address, birth, regdate, gender,
 			memberState, leaveDate, addressDetail;
 	
+	private int accumulRate;
+	
+	
+	
+	public int getAccumulRate() {
+		return accumulRate;
+	}
+
+	public void setAccumulRate(int accumulRate) {
+		this.accumulRate = accumulRate;
+	}
+
 	public MemberVO() {
 		System.out.println("● MemberVO 객체생성");
 	}
@@ -122,14 +134,17 @@ public class MemberVO {
 		this.addressDetail = addressDetail;
 	}
 
-
 	@Override
 	public String toString() {
-		return "MemberVO [memberNum=" + memberNum + ", grade=" + grade + ", gender=" + gender + ", id=" + id
-				+ ", password=" + password + ", name=" + name + ", email=" + email + ", phone=" + phone + ", address="
-				+ address + ", birth=" + birth + ", regdate=" + regdate + ", memberState=" + memberState
-				+ ", leaveDate=" + leaveDate + ", addressDetail=" + addressDetail + "]";
+		return "MemberVO [memberNum=" + memberNum + ", grade=" + grade + ", id=" + id + ", password=" + password
+				+ ", name=" + name + ", email=" + email + ", phone=" + phone + ", address=" + address + ", birth="
+				+ birth + ", regdate=" + regdate + ", gender=" + gender + ", memberState=" + memberState
+				+ ", leaveDate=" + leaveDate + ", addressDetail=" + addressDetail + ", accumulRate=" + accumulRate
+				+ "]";
 	}
+
+
+	
 
 /*
 

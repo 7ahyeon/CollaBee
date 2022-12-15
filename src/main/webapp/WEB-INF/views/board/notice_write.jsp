@@ -9,7 +9,6 @@
   <%@ include file="../common/bootstrap.jspf" %>
  <style>
     .list-group-item a {
-      letter-spacing: -2px;
       text-decoration: none;
       color: black;
     }
@@ -43,21 +42,16 @@
 
     h2 {
       font-weight: bold;
-      letter-spacing: -2.5px;
     }
 
     h4 {
       font-weight: bolder;
-      letter-spacing: -3px;
-      word-spacing: 5px;
     }
 
     h4 span {
-      letter-spacing: -1px;
-      word-spacing: 2px;
       vertical-align: middle;
       font-size: small;
-      color: gray;
+      color: #rgb(152,152,152);
     }
 
     .main {
@@ -119,11 +113,7 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-       <div style="width: 250px;">
-		<h2>관리자 목록</h2>
-        <br>
 		<%@ include file = "../admin/adminSideNav.jspf" %>
-      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
@@ -194,7 +184,6 @@
     } else {
    	 frm.action="insertNotice.do"
      frm.submit();
-     alert("공지사항이 등록되었습니다.");
     }
   }
 </script>

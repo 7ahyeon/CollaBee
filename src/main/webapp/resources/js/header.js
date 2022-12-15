@@ -29,10 +29,8 @@
     $(function(){
         $("#category-box").mouseleave(function(){
             $("#sub-category-box").css("display", "none");
-            console.log("벗어남");
         });
         $(".category-list").mouseover(function(){
-        	console.log("들어옴");
             $("#sub-category-box").css("width", "250px");
             $("#sub-category-box").css("display", "block");
             getJsonDivision(Number(this.name));
@@ -40,5 +38,13 @@
         
         
     });
+    
+    // 버튼 클릭 시 맨 위로 이동
+	$().ready(function(){
+    	$("#moveTopBtn").click(function(){
+   	  		window.scrollTo({ top: 0, behavior: "smooth" });  
+    	});
+	});
+    
 
 

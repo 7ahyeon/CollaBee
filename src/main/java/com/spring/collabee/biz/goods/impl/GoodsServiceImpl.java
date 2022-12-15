@@ -1,6 +1,7 @@
 package com.spring.collabee.biz.goods.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.spring.collabee.biz.goods.GoodsQnAVO;
 import com.spring.collabee.biz.goods.GoodsReviewVO;
 import com.spring.collabee.biz.goods.GoodsService;
 import com.spring.collabee.biz.goods.GoodsVO;
+import com.spring.collabee.biz.goods.OrderReviewVO;
 
 @Service("goodsService")
 public class GoodsServiceImpl implements GoodsService {
@@ -41,6 +43,11 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public void deleteReview(GoodsReviewVO rvo) {
 		goodsDAO.deleteReview(rvo);
+	}
+	
+	@Override
+	public GoodsReviewVO getReviewCount(GoodsReviewVO rvo) {
+		return goodsDAO.getReviewCount(rvo);
 	}
 	
 	//리뷰 1개 조회
@@ -102,5 +109,32 @@ public class GoodsServiceImpl implements GoodsService {
 	public List<GoodsQnAVO> getQnAList(GoodsQnAVO qvo) {
 		return goodsDAO.getQnAList(qvo);
 	}
+
+	@Override
+	public int reviewDoubleCheck(Map<String, Object> map) {
+		return goodsDAO.reviewDoubleCheck(map);
+	}
+
+	@Override
+	public void updateReviewState(GoodsReviewVO rvo) {
+		goodsDAO.updateReviewState(rvo);
+	}
+
+	@Override
+	public List<OrderReviewVO> checkReviewNotYet(Map<String, Object> rmap) {
+		return goodsDAO.checkReviewNotYet(rmap);
+	}
 	
+	//관리자 문의 조회
+	@Override
+	public List<GoodsQnAVO> getQList(GoodsQnAVO qvo) {
+		return goodsDAO.getQList(qvo);
+	}
+	
+	//관리자 문의 답변
+	@Override
+	public void answerQna(GoodsQnAVO qvo) {
+		goodsDAO.answerQna(qvo);
+		
+	}
 }

@@ -6,9 +6,15 @@
 
 	 <!-- 1:1문의 게시판 -->
 	<select id="getInquiryList" parameterType="inquiry" resultType="inquiry">
-	SELECT * 
-	FROM INQUIRY
-	ORDER BY INQUIRY_NUM DESC
+     SELECT *
+	  FROM (SELECT ROWNUM R_NUM, B.*
+	          FROM (SELECT *
+	                FROM INQUIRY 
+	                ORDER BY INQUIRY.INQUIRY_NUM 
+	                ) B  
+	       ) 
+	WHERE R_NUM BETWEEN 1 AND 10
+	ORDER BY R_NUM DESC
 	</select>
 	 
 	<select id="getInquiry" parameterType="inquiry" resultType="inquiry">

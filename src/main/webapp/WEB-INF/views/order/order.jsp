@@ -970,7 +970,8 @@ $(function() {
 		var newPosition = position + currentPosition - 100 + "px";
 		var endPosition = position + currentPosition - 200 + "px";
 		// 일정 위치에서 멈추기
-		if (Math.round( $(window).scrollTop()) + 200 > $(document).height() - $(window).height()) {
+		// 일정 위치에서 멈추기
+		if (Math.round( $(window).scrollTop()) > $(document).height() - $(window).height()) {
 			$(".quickPayMenu").stop().animate({"top":endPosition},800);
 		} else {
    			$(".quickPayMenu").stop().animate({"top":newPosition},800);
@@ -1137,6 +1138,7 @@ $(function() {
 		    name : goodsNamePay,
 		    amount : orderTotPriceSend,
 		    buyer_name : orderNameValue,
+		    buyer_email : 'snoopy1234@gmail.com',
 		    buyer_tel : orderPhoneValue,
 		    buyer_addr : orderAddrValue + orderAddrDetailValue,
 		    naverPopupMode : true, 

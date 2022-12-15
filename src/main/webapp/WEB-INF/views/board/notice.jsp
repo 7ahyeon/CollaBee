@@ -9,7 +9,6 @@
 <%@ include file= "../common/bootstrap.jspf"%>
  <style>
     .list-group-item a {
-      letter-spacing: -2px;
       text-decoration: none;
       color: black;
     }
@@ -46,21 +45,17 @@
 
     h2 {
       font-weight: bold;
-      letter-spacing: -2.5px;
     }
 
     h4 {
       font-weight: bolder;
-      letter-spacing: -3px;
-      word-spacing: 5px;
+
     }
 
     h4 span {
-      letter-spacing: -1px;
-      word-spacing: 2px;
       vertical-align: middle;
       font-size: small;
-      color: gray;
+      color: #rgb(153, 153, 153);
     }
 
     .table {
@@ -156,22 +151,14 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-      <div style="width: 250px;">
        	<!-- 회원일때  --> 
       <c:if test="${loginMember.id ne 'admin'}"> 
-        <h2>고객센터</h2>
-        <br>
-        <div>
 		<%@ include file = "../admin/userSideNav.jspf" %>
-        </div>
         </c:if>
         <!-- 관리자일때 -->
         <c:if test="${loginMember.id eq 'admin'}"> 
-        <h2>관리자 목록</h2>
-        <br>
 		<%@ include file = "../admin/adminSideNav.jspf" %>
        </c:if>
-       </div>
        </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom: 2px solid black">

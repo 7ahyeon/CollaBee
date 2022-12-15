@@ -87,13 +87,13 @@
     	flex-wrap: wrap;
     }
     #new-item-box div.item-box {
-    	width: 300px;
+    	width: 280px;
     	height: 600px;
     	margin-left: 22px;
     }
 
     .item-container img {
-    	width: 300px;
+    	width: 280px;
         height: 380px;
     }
 
@@ -111,6 +111,16 @@
         margin-bottom: 10px;
     }
     
+    
+    #option-show-hide3 div.form-check {
+    	margin-left : 20px;
+    }
+    
+    button {
+    	background-color: transparent;
+    	border: none;
+    }
+    
 </style>
 <script>
 // 카테고리별 상품조회, 신상품, 베스트 베이지 구분을 위한 변수
@@ -122,7 +132,7 @@
 		path = window.location.pathname;
     	slicePath = path.substr(path.lastIndexOf('/'), path.IndexOf);
     	
-    	if (slicePath == "/market-newproduct.do" || slicePath.substr(0, 10) == "/search.do"){
+    	if (slicePath == "/market-newproduct.do" || slicePath.substr(0, 10) == "/search.do" || slicePath == "/market-best.do"){
         	getJsonGoodsList();
     	} else {
     		getJsonGoodsListByCategory()
@@ -147,7 +157,7 @@
 			
 	        changeOptionColor();
 	        
-	        if (slicePath == "/market-newproduct.do" || slicePath.substr(0, 10) == "/search.do"){
+	        if (slicePath == "/market-newproduct.do" || slicePath.substr(0, 10) == "/search.do" || slicePath == "/market-best.do"){
 	        	getJsonGoodsList();
 	    	} else {
 	    		getJsonGoodsListByCategory()
@@ -160,6 +170,7 @@
 		    var chk = $(this).is(":checked");
 		    var name = $(this).attr('name');
 		    if(chk == true) $("input[name='"+name+"']").data("previous",$(this).val());
+		    
 		});
 	
 		 $("input[type=radio]").click(function(){
@@ -172,6 +183,12 @@
 			
 			    $(this).prop('checked',false);
 			    $("input[name='"+name+"']").data("previous",'');
+			    
+			    if (slicePath == "/market-newproduct.do" || slicePath.substr(0, 10) == "/search.do" || slicePath == "/market-best.do"){
+		        	getJsonGoodsList();
+		    	} else {
+		    		getJsonGoodsListByCategory()
+		    	}
 			    
 			    
 			}else{
@@ -189,6 +206,11 @@
         $(".opt:not(:checked)").each(function(){
             $(this).next().css('color', 'lightgray');
         });
+    }
+    
+ // 천단위 콤마 찍는 함수 
+    function priceToString(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
         
 </script>

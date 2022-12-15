@@ -31,11 +31,11 @@ $(function(){
 		console.log(typeof memberPassword);
 		console.log(typeof password);
 		*/
-		if (String(memberPassword) != password) {
+		if (memberPassword != password) {
 		    alert("비밀번호가 다릅니다");
 		    return false;
 		}
-		if (String(memberPassword) == password) {
+		if (memberPassword == password) {
 			alert("탈퇴 처리 되었습니다.");
 			leaveFrm.action= "leaveCollabee.do?id=${loginMember.id}";
 			leaveFrm.submit();	

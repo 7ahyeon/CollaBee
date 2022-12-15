@@ -5,9 +5,15 @@
 <mapper namespace="boardDAO">
 	<!-- 공지사항  -->
 	<select id="getNoticeList" parameterType="board" resultType="board">
-	SELECT * 
-	FROM NOTICE
-	ORDER BY NOTICE_NUM DESC
+      SELECT *
+		  FROM (SELECT ROWNUM R_NUM, B.*
+		          FROM (SELECT *
+		                FROM NOTICE 
+		                ORDER BY NOTICE.NOTICE_NUM 
+		                ) B  
+		       ) 
+		WHERE R_NUM BETWEEN 1 AND 10
+		ORDER BY R_NUM DESC
 	</select>
 	
 	<select id="getNotice" parameterType="board" resultType="board">

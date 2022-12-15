@@ -9,10 +9,8 @@
   <%@ include file="../common/bootstrap.jspf" %>
   <style>
     .list-group-item a {
-      letter-spacing: -2px;
       text-decoration: none;
       color: black;
-
     }
 
     .list-group-item:hover {
@@ -44,18 +42,13 @@
 
     h2 {
       font-weight: bold;
-      letter-spacing: -2.5px;
     }
 
     h4 {
       font-weight: bolder;
-      letter-spacing: -3px;
-      word-spacing: 5px;
     }
 
     h4 span {
-      letter-spacing: -1px;
-      word-spacing: 2px;
       vertical-align: middle;
       font-size: small;
       color: gray;
@@ -122,11 +115,7 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-      <div style="width: 250px;">
-        <h2>고객센터</h2>
-        <br>
 		<%@ include file = "../admin/userSideNav.jspf" %>
-      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
@@ -219,7 +208,6 @@
       }
       return false;
     } else {
-    	alert("1:1 문의가 등록되었습니다.");
       	frm.action="insertInquiry.do?memberNum=${loginMember.memberNum}"
       	frm.submit();
     }

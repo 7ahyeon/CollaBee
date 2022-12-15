@@ -184,8 +184,8 @@ $(function(){
                   <form name="loginFrm" method="post">
                     <div class="col-xs-8 col-xs-offset-4 text-center">
 	                   <div><input type="hidden" id="mvo" value="${mvo}"></div>
-                      <div><input type="text" name="id" id="id" placeholder="아이디를 입력해주세요"></div>
-                      <div><input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요"></div>
+                      <div><input type="text" name="id" id="id" placeholder="아이디를 입력해주세요" onKeyPress="if( event.keyCode==13 ){login();}"></div>
+                      <div><input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요" onKeyPress="if( event.keyCode==13 ){login();}"></div>
                     </div>
                     <div id="findArea" class="text-right" style="margin-bottom: 20px;">
                       <a href="<%= findIdLocation %>" class="text-dark"><small>아이디 찾기</small></a>

@@ -43,10 +43,9 @@
       </div>
 
       <!-- Modal body -->
-      
         <div style="padding: 16px 0px; border-bottom: 1px solid lightgray;">
               <div style="margin-left: 20px; float: left; margin-right: 20px;">
-              <img src="../resources/imgs/goods/${goods.thumSysFilename }" alt="크림파스타" style="width: 72px; height: 72px; border-radius: 4px;">
+              <img src="../resources/imgs/goods/${goods.thumSysFilename }" alt="상품사진" style="width: 72px; height: 72px; border-radius: 4px;">
               </div>
               <div style="float: left; margin-top: 25px;">
                   <span>${goods.productName }</span>
@@ -66,14 +65,8 @@
           </div>
           </div>
           <!-- 사진 첨부 -->
-          <!-- <div class="filebox" style="margin-left: 65px;">'
-              <input class="upload-name" value="첨부파일" placeholder="첨부파일">
-              <label for="file" style="background-color: #692498;">파일찾기</label>
-              <input type="file" id="file" name="business_license_file" class="upload-hidden" multifile>
-          </div> -->
-          
           <div class="mb-3" style="width: 673px; margin-left: 61px; margin-top: 10px;">
-              <input class="form-control" type="file" id="formFileMultiple" multiple style="border: 1px solid lightgray;">
+              <input class="form-control" name="uploadFile" type="file" id="formFileMultiple" multiple style="border: 1px solid lightgray;">
             <label for="formFileMultiple" class="form-label" style="background-color: #692498; color: white;"></label>   
           </div> 
       </div>
@@ -84,11 +77,12 @@
         text-align: center;" class="btn btn-danger" data-dismiss="modal">취소</button>
         <input type="button" onclick="insertReview()" value="등록" style="background-color: #692498; color: white; width: 60px; height: 37px; 
         border-radius: 0.2em; text-align: center; border: none;">
-        <!-- <button type="button" style="background-color: #692498; color: white; width: 60px; height: 37px; 
-        border-radius: 0.2em; text-align: center;" disabled>등록</button> -->
       </div>
       
       <input type="hidden" name="grade" value="${loginMember.grade }">
+      <input type="hidden" name="productNum" value="${goods.productNum }">
+      <input type="hidden" name="memberNum" value="${loginMember.memberNum }">
+      <input type="hidden" name="orderNum" value="${orderReviewList[0].orderNum }">
 	</form>
 
     </div>

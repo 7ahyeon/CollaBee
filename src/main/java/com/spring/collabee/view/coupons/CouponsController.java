@@ -1,6 +1,8 @@
 package com.spring.collabee.view.coupons;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.collabee.biz.coupons.CouponsService;
 import com.spring.collabee.biz.coupons.CouponsVO;
+import com.spring.collabee.biz.member.MemberVO;
 
 @RequestMapping("/coupons")
 @Controller
@@ -71,7 +74,7 @@ public class CouponsController {
 		System.out.println(">> 쿠폰 삭제");
 		
 		couponsService.couponsDelete(vo);
-		return "/admin/couponsList";
+		return "redirect:/coupons/couponsList.do";
 	}
 	
 	
@@ -81,6 +84,40 @@ public class CouponsController {
 		System.out.println(">> getJsonCouponsList(CouponsVO vo) 실행");
 		
 		return couponsService.couponsList(vo);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/insertCouponIntoCustom.do")
+	public Map<String, Object> insertCouponIntoCustom(MemberVO member, CouponsVO coupons) {
+		
+		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		map.put("member", member);
+		map.put("coupons", coupons);
+		
+		System.out.println("받아온 데이터 맵 출력 : " + map);
+		
+		
+		if (couponDoubleCheck(map)) {
+			System.out.println("이미 받은 쿠폰");
+			returnMap.put("state", "exist");
+		} else {
+			System.out.println("새로 받은 쿠폰");
+			couponsService.insertCouponIntoCustom(map);
+		}
+		
+		return returnMap;
+	}
+
+	private boolean couponDoubleCheck(Map<String, Object> map) {
+		
+		System.out.println("쿠폰 중복체크 받아온 쿠폰 갯수 : " + couponsService.couponsDoubleCheck(map).size());
+		if (couponsService.couponsDoubleCheck(map).size() >= 1) {
+			return true;
+		};
+		return false;
 	}
 	
 	

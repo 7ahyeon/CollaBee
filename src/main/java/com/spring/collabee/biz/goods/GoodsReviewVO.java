@@ -3,8 +3,8 @@ import java.sql.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 public class GoodsReviewVO {
-	private int reviewNum, orderNum, productNum, memberNum, rec, point;
-	private String rContent, rOriFilename, rSysFilename;
+	private int productNum, memberNum, rec, point;
+	private String orderNum, reviewNum, rContent, rOriFilename, rSysFilename;
 	private Date rDate;
 
 	public GoodsReviewVO() {
@@ -14,16 +14,16 @@ public class GoodsReviewVO {
 	//파일업로드를 위한 데이터 저장용
 	private MultipartFile uploadFile;
 	
-	public int getReviewNum() {
+	public String getReviewNum() {
 		return reviewNum;
 	}
-	public void setReviewNum(int reviewNum) {
+	public void setReviewNum(String reviewNum) {
 		this.reviewNum = reviewNum;
 	}
-	public int getOrderNum() {
+	public String getOrderNum() {
 		return orderNum;
 	}
-	public void setOrderNum(int orderNum) {
+	public void setOrderNum(String orderNum) {
 		this.orderNum = orderNum;
 	}
 	public int getProductNum() {

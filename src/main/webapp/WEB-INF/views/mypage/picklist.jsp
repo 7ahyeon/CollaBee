@@ -86,7 +86,9 @@ $(function(){
 
 </script>
 <script>
-
+	function goMain(){
+		location.href="../collections/main.do"
+	}
 	function addCart(goodsNum) {
 		alert("카트에 담기!"); //카트에담으면 찜목록에서 사라짐!
 			// 상품 개수

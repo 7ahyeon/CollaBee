@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Collabee</title>
+<title>콜라비</title>
     
     <%@ include file = "../common/bootstrap.jspf" %>
 

@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Collabee</title>
+<title>콜라비</title>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://kit.fontawesome.com/ae242928e2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css" type="text/css">
@@ -31,16 +32,19 @@
         font-size: 30px;
     }
 
-    #coupon-inner {
-        width: 100%;
-        display: flex;
+	#coupon-box {
+		display: flex;
         flex-wrap: wrap;
+	}
+    #coupon-inner {
+        width: 380px;
         justify-content: space-between;
         margin: 20px 0px;  
+        margin-right: 30px;
     }
 
     #coupon-box .coupon-container {
-        width: 400px;
+        width: 380px;
         height: 200px;
         border: solid 1px var(--font-faint-color);
         margin-bottom: 20px;
@@ -64,8 +68,50 @@
         border-radius: 10px;;
     }
 </style>
+
+<script>
+	function getCoupon(couponNum) {
+		
+		
+		if(${loginMember eq null}) {
+			alert("로그인 후 이용 가능합니다");
+			location.href = "${pageContext.request.contextPath }/member/login.do";
+			return;
+		}
+		
+
+		let memberNum_val = Number('${loginMember.memberNum }');
+    	let couponNum_val = Number(couponNum);
+		
+		let obj = {	memberNum : memberNum_val,
+					couponNum : couponNum_val
+		};
+		
+		$.ajax("../coupons/insertCouponIntoCustom.do", {
+			type: "get",
+			data: obj,
+
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data){
+				if (data.state != null && data.state == "exist") {
+					$('#doubleCouponAlert').modal('show');
+				} else {
+					$('#getCouponAlert').modal('show');
+				}
+			},
+			error: function(){
+			}
+		});  
+	}
+</script>
 </head>
-<body style="width:2000px; margin: auto; margin-top: 50px;">
+<body style="width:1900px; margin: auto; margin-top: 50px;">
+
+	<!-- 쿠폰받기 확인 모달 -->
+	<%@ include file = "../common/modal/getCouoponAlert.jspf" %>
+	<%@ include file = "../common/modal/doubleCouponAlert.jspf" %>
+	 <button type="button" id="getCouoponAlertBtn" data-toggle="modal" data-target="#getCouoponAlert" data-result="" style="display: none;"></button>
 
     <!-- header -->
     <header>
@@ -81,17 +127,16 @@
 	    <div class="row">
 	        <div class="col-sm-2"></div>
 	        <div class="col-sm-8">
-	
-	            <div id="coupon-box">
-	                <div class="event-title">받을 수 있는 쿠폰 목록</div>
-	                
+                <div class="event-title">받을 수 있는 쿠폰 목록</div>
+	            <div id="coupon-box">	                
 	                <c:forEach var="coupon" items="${couponsList }">
 		                <div id="coupon-inner">
 		                    <div class="coupon-container">
 		                        <div class="--font-mid --strong"> ${coupon.couponName } </div>
-		                        <div class="--font-small">${coupon.couponDate }까지</div>
-		                        <div class="--font-large --strong">${coupon.disPrice }원</div>
-		                        <div><span class="--font-small --color-gray"><span>${coupon.leastCost }</span>원 이상 구매시 적용</span> <button>쿠폰받기</button>
+		                        <div class="--font-small"><fmt:formatDate value="${coupon.couponDate }" pattern="yyyy-MM-dd" />까지</div>
+		                        <div class="--font-large --strong"><fmt:formatNumber value="${coupon.disPrice }" pattern="#,###" />원</div>
+		                        <div><span class="--font-small --color-gray"><span><fmt:formatNumber value="${coupon.leastCost }" pattern="#,###" /></span>원 이상 구매시 적용</span> 
+		                        <button onclick="getCoupon(${coupon.couponNum })">쿠폰받기</button>
 	                        	</div>
 	                    	</div>
                     	</div>

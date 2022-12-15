@@ -1,11 +1,13 @@
 package com.spring.collabee.biz.admingoods.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.collabee.biz.admingoods.AdminGoodsService;
+import com.spring.collabee.biz.admingoods.adminPaginationVO;
 import com.spring.collabee.biz.goods.GoodsVO;
 
 @Service("adminGoodsService")
@@ -40,8 +42,8 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
 	}
 	
 	@Override
-	public List<GoodsVO> adminGoodsList(GoodsVO vo) {
-		return adminGoodsDAO.adminGoodsList(vo);
+	public List<GoodsVO> adminGoodsList(Map<String, Object> map) {
+		return adminGoodsDAO.adminGoodsList(map);
 	}
 
 	@Override
@@ -49,5 +51,15 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
 		return adminGoodsDAO.adminName(vo);
 	}
 
+	@Override
+	public int goodsCount() {
+		return adminGoodsDAO.goodsCount();
+	}
+	
+	@Override
+	public List<adminPaginationVO> selectList(adminPaginationVO vo) {
+		
+		return adminGoodsDAO.selectList(vo);
+	}
 
 }

@@ -386,7 +386,7 @@ $(function(){ //document load
 
    function login () {
 	   alert("로그인버튼클릭");
-	   location.href="/member/login.do";
+	   location.href="/login.do";
    }
    
 </script>

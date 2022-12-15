@@ -1,5 +1,7 @@
 package com.spring.collabee.biz.goods.impl;
 import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.collabee.biz.goods.GoodsQnAVO;
 import com.spring.collabee.biz.goods.GoodsReviewVO;
 import com.spring.collabee.biz.goods.GoodsVO;
+import com.spring.collabee.biz.goods.OrderReviewVO;
 @Repository("goodsDAO")
 public class GoodsDAO {
 	@Autowired
@@ -69,7 +72,11 @@ public class GoodsDAO {
 		mybatis.delete("GoodsDAO.deleteReview", rvo);
 	}
 
-	//상품 후기 공지
+	public GoodsReviewVO getReviewCount(GoodsReviewVO rvo) {
+		System.out.println("getReviewCount()실행");
+		return mybatis.selectOne("GoodsDAO.getReviewCount", rvo);
+	}
+	
 	//상품 문의 전체조회
 	public List<GoodsQnAVO> getQnAList(GoodsQnAVO qvo) {
 		System.out.println("--->> mybatis 사용 getQnAList() 실행");
@@ -100,12 +107,34 @@ public class GoodsDAO {
 		mybatis.delete("GoodsDAO.deleteQnA", qvo);
 	}
 
+	public int reviewDoubleCheck(Map<String, Object> map) {
+		System.out.println("reviewDoubleCheck() 실행");
+		System.out.println("매퍼진입전 map : " + map);
+		return mybatis.selectOne("GoodsDAO.reviewDoubleCheck", map);
+	}
+
+	public Object updateReviewState(GoodsReviewVO rvo) {
+		return mybatis.update("GoodsDAO.updateReviewState", rvo);
+	}
+
+	public List<OrderReviewVO> checkReviewNotYet(Map<String, Object> rmap) {
+		return mybatis.selectList("GoodsDAO.checkReviewNotYet", rmap);
+	}
+
 	//상품 문의 공지
 	
 	
 	//상품 문의 답변(관리자)
+	public void answerQna(GoodsQnAVO qvo) {
+		System.out.println("answerQna() 실행");
+		mybatis.update("GoodsDAO.answerQna", qvo);
+	}
 	
-	
+	//관리자 상품 문의 리스트 조회
+	public List<GoodsQnAVO> getQList(GoodsQnAVO qvo) {
+		System.out.println("--->> mybatis 사용 getQnAList() 실행");
+		return mybatis.selectList("GoodsDAO.getQList", qvo);
+	}
 	
 	
 }

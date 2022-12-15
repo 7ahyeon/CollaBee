@@ -2,10 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 
-
 <script>
 	function kakaoLogout() {	
-		alert("로그아웃실행")
 		location.href="https://kauth.kakao.com/oauth/logout?" +
 						"client_id=1de1359a671db7dcbf8be4aa691ce92d"+ //YOUR_REST_API_KEY
 						"&logout_redirect_uri=http://localhost:8080/collabee/member/logout.do";
@@ -15,8 +13,113 @@
 		let sword = $("#search-input").val();
 		location.href = "../collections/search.do?sword=" + sword;
 	}
-</script> 
+	
+	let cartProductNum2;
+	let resultType;
+	
+	function getBtnSignal(productNum, type){
+		cartProductNum2 = productNum;
+		resultType= type;
+		$("#cart-alert-btn").trigger('click');
+	}
+	
+	$(document).ready(function(){
+        $("#cart-alert-btn").click(function(){
+        	
+          getCartAlertInfo(cartProductNum2); 
+          $('.toast').toast('show');
 
+          $('.toast').toast({maxWidth: "350px", delay:20000});
+        });
+      });
+	
+	function getCartAlertInfo(productNum) {
+		
+			$.ajax({
+				type: "POST",
+				url: "../collections/getGood.do",
+				data: 
+					JSON.stringify({
+						productNum : productNum
+					}),
+				contentType: "application/json",
+				dataType: "json",
+				success: function(data){
+					
+						$("#cart-alert-productName").html(data.productName);
+						$("#cart-alert-img").attr("src", "../resources/imgs/goods/" + data.thumSysFilename);
+					if (resultType == 1) {
+						$("#addCartComment").html("장바구니에 상품을 담았습니다.");
+					} else if (resultType == 2) {
+						$("#addCartComment").html("이미 담은 상품의 수량을 추가했습니다.");
+					} else if (resultType == 3) {
+						$("#addCartComment").html("최대 수량을 초과하였습니다.");
+					} else {
+						alert("에러발생~");
+					}
+				},
+				error: function(){
+					alert("실패");
+				}
+			}); 
+	} 
+	
+   
+</script> 
+<style>
+
+	#cart-toast-box {
+		position: fixed;
+		z-index:12;
+		right: 8;
+		top: 3;
+		height: 140px;
+		right: 0px;
+		top: 80px;
+	}
+	
+	#cart-toast {
+		display: flex;
+		z-index:10;
+		width: 500px;
+		height: 110px;
+	}
+	
+	#cart-toast div {
+		height: 100%;
+	}
+	
+	#cart-toast div:first-child{
+		padding: 5px;
+		margin-right: 5px;
+		width: 100px;
+		height: 120px;
+		padding-bottom: 5px;
+	}
+	
+	.root {
+		$toast-max-width: 500px;
+	}
+	
+</style>
+	
+	<!-- 최상단 이동 버튼 -->
+	<button id="moveTopBtn" style="border: solid 1px black;"><i class="fa-solid fa-arrow-up"></i></button>
+	<!-- 장바구니 토스트 실행 버튼 -->
+	<button type="button" class="btn btn-primary" id="cart-alert-btn" style="display: none;">Show Toast</button>
+	
+	<div id="cart-toast-box" class="toast" data-delay="4000">
+		<div class="toast-body" id="cart-toast" style="width: 500px;">
+			<div>
+				<img id="cart-alert-img" src="../resources/imgs/goods/collection_4_1_chima.jpg" style="width: 100%; height: 100%;">
+			</div>
+			<div style="width: 80%;">
+				<div style="position: relative; top: 10px; font-size: 18px; width: 230px; font-weight: 800;"><p id="cart-alert-productName" style="width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p></div>
+				<div id="addCartComment" style="position: relative; top: -50px; font-size: 18px; width: 100%;">상품을 장바구니에 담았습니다!</div>
+			</div>
+		</div>
+	</div> 
+	
 	<div class="row">
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-8 header-top"> 
@@ -42,7 +145,7 @@
 		        	<ul>
 		        		<li>
 							<div class="dropdown support">
-			            		관리자모드 <i class="fa-solid fa-chevron-down"></i>
+			            		관리자모드 <i class="fa-solid fa-chevron-down"></i> &nbsp;&nbsp;|&nbsp;&nbsp;
 			                    <div class="dropdown-menu support-detail">
 			                    <a class="dropdown-item" href="../adminGoods/adminGoodsList.do">관리센터</a>
 			                    </div>
@@ -51,7 +154,6 @@
 		        		<li><a class="dropdown-item" href="../member/kakaoLogout.do">로그아웃</a></li>
 		        	</ul>
 		        </c:when>
-		       
 		        <c:otherwise>
 		        	<ul>
 			            <li><div class="dropdown support">
@@ -63,9 +165,8 @@
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/inquiryProduct.do">상품문의</a>
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/emoney.do">적립금</a>
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/coupon.do">쿠폰</a>
-			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/modify.do">개인정보수정</a>
+			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/mypage/info.do">개인정보수정</a>
 			                    <a class="dropdown-item" href="#" onclick="kakaoLogout()" >로그아웃</a>
-			                  
 			                    </div>
 			                </div>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</li>
 			            <li>
@@ -91,7 +192,7 @@
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-8 header">
 	        <div><a href="../collections/main.do"><img class="main-logo" src="${pageContext.request.contextPath}/resources/imgs/logo/main_logo.png"></a></div>
-	        <div class="input-box"><input id="search-input" class="search-box" type="text" placeholder="검색어를 입력해주세요">
+	        <div class="input-box"><input id="search-input" class="search-box" type="text" placeholder="검색어를 입력해주세요" onKeyPress="if( event.keyCode==13 ){go_search();}">
 
 	            <button style="position: relative; left: 30px;" onclick="go_search()"><i style="display:relative; left: 0px;"class="fa-solid fa-magnifying-glass"></i></button>
 	        </div>
@@ -100,12 +201,12 @@
 	                <li><button><i class="fa-regular fa-bell"></i></button></li>
 	                <li><button onclick="location.href='${pageContext.request.contextPath }/mypage/picklist.do'"><i class="fa-regular fa-heart"></i></button></li>
 	                <li><button onclick="location.href='${pageContext.request.contextPath}/cart/cart.do'"><i class="fa-solid fa-cart-shopping"></i></button></li>
-
 	            </ul>
 	        </div>
 	    </div>
 	    <div class="col-sm-2"></div>
 	</div>
+	
 	<div class="row navbar-layer">
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-8 navbar">
@@ -123,7 +224,7 @@
 	                        </div>
 	                        
 <!-- header-navbar의 상세 카테고리 Ajax부분 -->
-	                        <div style="height: inherit; background-color: #808080;" id="sub-category-box">
+	                        <div style="height: inherit;" id="sub-category-box">
 								<div class="list-group" id="sub-category">
 	                        	</div>
 	                        </div>

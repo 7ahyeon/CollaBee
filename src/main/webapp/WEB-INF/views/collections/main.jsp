@@ -1,13 +1,18 @@
+<%@page import="com.spring.collabee.biz.member.impl.MemberDAO"%>
+<%@page import="com.spring.collabee.biz.member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Collabee</title>
-    <%@ include file = "../common/bootstrap.jspf" %>
 
+<title>콜라비</title>
+    <%@ include file = "../common/bootstrap.jspf" %>
+	
     <style>
     
         /* 캐러셀 부분*/
@@ -21,6 +26,7 @@
         
         .icon-cart-box-box {
             height: 0px;
+            left: 10px;
         }
 
         .card .icon-cart-box i {
@@ -35,7 +41,7 @@
         }
         .next-item-btn {
             background-color: white; 
-            position: relative; left:1130px; bottom: 400px; 
+            position: relative; left:1200px; bottom: 400px; 
             width: 50px; height: 50px; 
             border:none; border-radius: 50%;
         }
@@ -79,8 +85,15 @@
         .carousel-item-box .item-box .card-img-top {
         	height: 380px;
         }
-
         
+        .item-box p.product-name {
+        	height: 40px;
+        }
+		
+		.item-box p.disRate {
+			margin-right: 10px;
+		}
+
         
     </style>
 
@@ -102,28 +115,12 @@
                 sum = Number(tott) + insum;
                 $("#total").val(sum);
             });
-        });
-
-
-
-       /*  $(function(){
-            $(".category-list").mouseleave(function(){
-                console.log("벗어남~");
-                console.log(this);
-                $("#sub-category").css("display", "none");
-            });
-            $(".category-list").mouseover(function(){
-                console.log("올려짐~");
-                console.log(this);
-                $("#sub-category").css("display", "block");
-            });
-        }); */
-        
-        
+        });       
+    	
         
     </script>
 </head>
-<body style="width:1800px; margin: auto; margin-top: 50px;">
+<body style="width:1900px; margin: auto;">
 
 	<!-- 모달 -->
 	<!-- 쇼핑카트 모달 -->
@@ -131,9 +128,7 @@
     
 
     <!-- header -->
-    <header>
-	    <%@ include file = "../common/header.jspf" %>
-	</header>
+    <%@ include file = "../common/header.jspf" %>
 	
     <section id="main-section">
 
@@ -217,9 +212,15 @@
 	                                            </div>
 	                                        </div>
 	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">${goodsVO.productName }</p>
-	                                            <p><span class="--color-red --font-large">${goodsVO.disRate }%</span><span id='saleprice${status.index+1 }' class='--font-large --strong' style='margin-left:10px;'>${goodsVO.saleprice }</span><span class='--font-large --strong'>원</span></p>
-	                                            <p class='--font-mid --color-gray --line-mid'><span>${goodsVO.price }</span><span>원</span></p>
+	                                            <p class="card-text --font-large product-name">${goodsVO.productName }</p>
+	                                            <p>
+	                                            <c:if test="${goodsVO.disRate != 0 }">
+	                                            <span class="--color-red --font-large disRate">${goodsVO.disRate }%</span>
+	                                            </c:if>
+	                                            <span id='saleprice${status.index+1 }' class='--font-large --strong saleprice'><fmt:formatNumber value="${goodsVO.saleprice }" pattern="#,###" /></span><span class='--font-large --strong'>원</span></p>
+	                                            <c:if test="${goodsVO.disRate != 0 }">
+                                           	 		<p class='--font-mid --color-gray --line-mid'><span><fmt:formatNumber value="${goodsVO.price }" pattern="#,###" /></span><span>원</span></p>
+	                                            </c:if>
 	                                            <p class="--font-small --color-gray --strong">${goodsVO.pDescription }</p>
 	                                            <a href="../goods/goodsContent.do?productNum=${goodsVO.productNum }" class="stretched-link"></a>
 	                                        </div>
@@ -267,9 +268,15 @@
 	                                            </div>
 	                                        </div>
 	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">${goodsVO.productName }</p>
-	                                            <p><span class="--color-red --font-large">${goodsVO.disRate }%</span><span id='saleprice${status.index+1 }' class='--font-large --strong' style='margin-left:10px;'>${goodsVO.saleprice }</span><span class='--font-large --strong'>원</span></p>
-	                                            <p class='--font-mid --color-gray --line-mid'><span>${goodsVO.price }</span><span>원</span></p>
+	                                            <p class="card-text --font-large product-name">${goodsVO.productName }</p>
+	                                            <p>
+	                                            	<c:if test="${goodsVO.disRate != 0 }">
+			                                            <span class="--color-red --font-large disRate">${goodsVO.disRate }%</span>
+		                                            </c:if>
+	                                            <span id='saleprice${status.index+1 }' class='--font-large --strong saleprice'><fmt:formatNumber value="${goodsVO.saleprice }" pattern="#,###" /></span><span class='--font-large --strong'>원</span></p>
+	                                            <c:if test="${goodsVO.disRate != 0 }">
+                                           	 		<p class='--font-mid --color-gray --line-mid'><span><fmt:formatNumber value="${goodsVO.price }" pattern="#,###" /></span><span>원</span></p>
+	                                            </c:if>
 	                                            <p class="--font-small --color-gray --strong">${goodsVO.pDescription }</p>
 	                                            <a href="../goods/goodsContent.do?productNum=${goodsVO.productNum }" class="stretched-link"></a>
 	                                        </div>
@@ -315,10 +322,16 @@
 	                                                <i class="fa-solid fa-cart-shopping"></i>
 	                                            </div>
 	                                        </div>
-	                                        <div class="card-body">
-	                                            <p class="card-text --font-large">${goodsVO.productName }</p>
-	                                            <p><span class="--color-red --font-large">${goodsVO.disRate }%</span><span id='saleprice${status.index+1 }' class='--font-large --strong' style='margin-left:10px;'>${goodsVO.saleprice }</span><span class='--font-large --strong'>원</span></p>
-	                                            <p class='--font-mid --color-gray --line-mid'><span>${goodsVO.price }</span><span>원</span></p>
+		                                        <div class="card-body">
+	                                            <p class="card-text --font-large product-name">${goodsVO.productName }</p>
+	                                            <p>
+	                                            	<c:if test="${goodsVO.disRate != 0 }">
+			                                            <span class="--color-red --font-large disRate">${goodsVO.disRate }%</span>
+		                                            </c:if>
+	                                            <span id='saleprice${status.index+1 }' class='--font-large --strong saleprice'><fmt:formatNumber value="${goodsVO.saleprice }" pattern="#,###" /></span><span class='--font-large --strong'>원</span></p>
+	                                            <c:if test="${goodsVO.disRate != 0 }">
+                                           	 		<p class='--font-mid --color-gray --line-mid'><span><fmt:formatNumber value="${goodsVO.price }" pattern="#,###" /></span><span>원</span></p>
+	                                            </c:if>
 	                                            <p class="--font-small --color-gray --strong">${goodsVO.pDescription }</p>
 	                                            <a href="../goods/goodsContent.do?productNum=${goodsVO.productNum }" class="stretched-link"></a>
 	                                        </div>

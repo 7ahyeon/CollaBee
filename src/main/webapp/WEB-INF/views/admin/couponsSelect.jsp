@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +18,6 @@
     <style>
 
         .list-group-item a{
-        letter-spacing: -2px; 
         text-decoration: none;
         color:black;
         }
@@ -43,17 +42,16 @@
         font-weight: bold;
         color: black;
         }
-        h2{font-weight: bold;
-        letter-spacing: -2.5px;
+        h2{
+        font-weight: bold;
         }
-        h4{font-weight: bolder;
-            letter-spacing: -3px; 
-            word-spacing: 5px;
+        h4{
+        font-weight: bolder;
         } 
-        h4 span{letter-spacing: -1px;
-        word-spacing: 2px;
+        h4 span{
         vertical-align: middle;
-        font-size: small; color: gray;
+        font-size: small;
+        color: gray;
         }
         .main{
         padding-bottom: 24px;
@@ -104,9 +102,7 @@ function setThumbnail(event) {
 }
 
 
-function edit_coupon() {
-	
-	if ($("#coupon-edit-btn-1").css("display") != "none"){
+	function edit_coupon() {
 		$(".edit-form").each(function(){
 			$(this).attr("disabled", false);
 		});
@@ -117,8 +113,9 @@ function edit_coupon() {
 		$(".second-show").each(function(){
 			$(this).css("display", "inline-block");
 		});
-		
-	} else {
+	} 
+	
+	function edit_coupon2() {
 		$(".edit-form").each(function(){
 			$(this).attr("disabled", true);
 		});
@@ -130,11 +127,24 @@ function edit_coupon() {
 			$(this).css("display", "none");
 		});
 	}
-}
 
-function update_coupon(){
-	location.href = "couponsModify.do?couponNum=${coupons.couponNum }";
-}
+
+	function update_coupon(){
+		location.href = "couponsModify.do?couponNum=${coupons.couponNum }";
+	}
+	
+	
+	/* const input = document.querySelector('#number');
+		input.addEventListener('keyup', function(e) {
+			let value = e.target.value;
+			value = Number(value.replaceAll(',', ''));
+			if(isNan(value)) {
+				input.value = 0;
+			} else {
+				const formatValue = value.toLocaleString('ko-KR');
+				input.value = formatValue;
+			}
+	}); */
 </script>
 </head>
 
@@ -159,11 +169,7 @@ function update_coupon(){
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
 	    <div class="col-sm-2"></div>
 	    <div class="col-sm-2">
-	        <div style="width: 250px;">
-		        <h2>관리자 목록</h2>
-		        <br>
 	        	<%@ include file = "./adminSideNav.jspf" %>
-	        </div>
     	</div>
 
 
@@ -175,11 +181,11 @@ function update_coupon(){
 			            <h4>쿠폰 조회</h4>
 			        </div>
 			        <br>
-			                쿠폰번호 <input type="number" class="form-control edit-form" name="couponNum" value="${coupons.couponNum}" disabled/>
+			                쿠폰번호 <input type="number" class="form-control" name="couponNum" value="${coupons.couponNum}" readonly/>
 			                <br>
 			                쿠폰명 <input type="text" class="form-control edit-form" name="couponName" value="${coupons.couponName}" disabled/>
 			                <br>
-			                할인금액 <input type="number" class="form-control edit-form" name="disPrice" value="${coupons.disPrice}" disabled/>
+			                할인금액 <input type="number" id="number" class="form-control edit-form" name="disPrice" value="${coupons.disPrice}" disabled/>
 			                <br>
 			                수량 <input type="number" class="form-control edit-form" name="count" value="${coupons.count}" disabled/>
 			                <br>
@@ -190,14 +196,14 @@ function update_coupon(){
 			                
 			                <br>
 			                <br>
-			                최소 구매금액 <input type="number" class="form-control edit-form" name="leastCost" value="${coupons.leastCost}" disabled/>
+			                최소 구매금액 <input type="number" id="number" class="form-control edit-form" name="leastCost" value="${coupons.leastCost}" disabled/>
 			                <br>  
-			
+			<!-- ${fn:substring(content.couponDate,0,10) } -->
 				    <div style="display: flex; justify-content: center;">
 				        <button id="coupon-edit-btn" class="inquiry_btn first-show" onclick="edit_coupon()" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px;">수정</button>
 				        <button class="inquiry_btn first-show" onclick="javascript:location.href='couponsDelete.do?couponNum=${coupons.couponNum }'" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px;">삭제</button>
 				        <button class="inquiry_btn second-show" onclick="update_coupon(this.form)" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px; display: none;">저장</button>
-				        <button class="inquiry_btn second-show" onclick="edit_coupon()" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px; display: none;">취소</button>
+				        <button id="cancle" class="inquiry_btn second-show" onclick="edit_coupon2()" type="button" style="width: 60px; height: 44; border-radius: 3; margin-left: 10px; font-size: 15px; display: none;">취소</button>
 				    </div>
 			    </div>
 			</form>

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/header.css?SS" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/common.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/footer.css" type="text/css">
 <script src="https://kit.fontawesome.com/ae242928e2.js" crossorigin="anonymous"></script>
@@ -16,7 +16,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<script src="${pageContext.request.contextPath }/resources/js/header.js?sss" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath }/resources/js/header.js?ss" type="text/javascript"></script>
 
 <!-- favicon -->
 <link rel="icon" href="${pageContext.request.contextPath }/resources/imgs/member/favicon.png">

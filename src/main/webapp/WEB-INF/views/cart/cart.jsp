@@ -515,8 +515,7 @@ footer {
 										<div class="item" style="margin-left:30px;">
 											<img class="productImgCart"  src="../resources/imgs/goods/${cartGoods.thumSysFilename }"  width="80px"
 											style="opacity:0.5;">
-											<span class="text-dark font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
-												<a href="${cartGoods.productNum }" class="text-dark" style="text-decoration: none !important;">
+											<span class="text-secondary font-weight-bold" style="margin:0 10px;font-size:0.95rem;">
 									 				<c:if test="${cartGoods.productName.length() > 25 }">
 									 					${cartGoods.productName.substring(0,25) }<br>
 									 					${cartGoods.productName.substring(25,cartGoods.productName.length()) }
@@ -524,7 +523,6 @@ footer {
 									 				<c:if test="${cartGoods.productName.length() <= 25 }">
 									 					${cartGoods.productName }
 									 				</c:if>
-									 			</a>
 											</span>
 										</div>
 										<div class="item  "  style="margin-top:24px;">
@@ -1089,14 +1087,15 @@ var splitStr = "/";
 			}); 
 		}
 		
-		// 결제 박스
 		var currentPosition = parseInt($(".quickPayMenu").css("top"));
+		// 결제 박스
 		$(window).scroll(function() {
 			var position = $(window).scrollTop();
 			var newPosition = position + currentPosition - 100 + "px";
 			var endPosition = position + currentPosition - 450 + "px";
+
 			// 일정 위치에서 멈추기
-			if (Math.round( $(window).scrollTop()) + 300 > $(document).height() - $(window).height()) {
+			if (Math.round( $(window).scrollTop()) > $(document).height() - $(window).height()) {
 				$(".quickPayMenu").stop().animate({"top":endPosition},800);
 			} else {
 	   			$(".quickPayMenu").stop().animate({"top":newPosition},800);

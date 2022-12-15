@@ -1,6 +1,7 @@
 package com.spring.collabee.biz.coupons;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CouponsService{
 
@@ -10,5 +11,7 @@ public interface CouponsService{
 	CouponsVO couponsSelect(CouponsVO vo);
 	List<CouponsVO> couponsList(CouponsVO vo);
 	List<CouponsVO> couponsListAvail();
+	void insertCouponIntoCustom(Map<String, Object> map);
+	List<CouponsVO> couponsDoubleCheck(Map<String, Object> map);
 
 }

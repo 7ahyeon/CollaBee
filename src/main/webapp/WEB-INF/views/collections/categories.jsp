@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>콜라비</title>
 
     <%@ include file = "../common/bootstrap.jspf" %>
 
@@ -15,7 +15,7 @@
     #category-page #category-box {
         border: solid var(--border-faint-color) 1px;
         margin: 50px 0px;
-        width: 100%;
+        width: 1200px;
 
     }
 
@@ -25,7 +25,8 @@
         overflow: auto;
         flex-wrap: wrap;
         padding: 20px 50px;
-        margin: 0px;
+        width: 1500px;
+        margin: auto;
     }
 
     #category-page #category-box ul li {
@@ -50,28 +51,56 @@
 
     <script>
     
-        /* $(function(){
-            $(".sub-category-opt").click(function(event){
-                changeSubCategoryColor();
-                console.log(event.target);
-                event.target.style.color = 'var(--main-color)';
-            });
-        });
-
-        function changeSubCategoryColor(){
-            $(".sub-category-opt").each(function(){
-                $(this).css('color', 'var(--font-basic-color)');
-            })
-        } */
+ 	// 더보기 버튼 클릭 유무 체킹 변수
+    let checkMoreItemClick = false;
+    let morePlus = 5;
+    let moreStartNum = 1;
+    let moreEndNum = moreStartNum + morePlus;
+    let moreCycle = 1;
+    
+       $().ready(function(){
+    	  
+    	   getCategoryName(${division.categoryNum });
+       });
         
-        
-        
+       
+       function getCategoryName(categoryNum) {
+       	
+	       	console.log("getCategoryName 들어옴")
+	   		$.ajax("../collections/getCategoryName.do", {
+	   			type: "get",
+	   			data: {
+	   				categoryNum : categoryNum
+	   			}, 
+	   			dataType: "json",
+	   			success: function(data){
+					$("#categoryNameSection").html(data.category);
+	   				
+				},
+				error: function(){
+					alert("getCategoryName실패!~~");
+				}
+			}); 
+		}
+		        
 		function getJsonGoodsListByCategory() {
+			
+			if (checkMoreItemClick == false) {
+        		moreStartNum = 1;
+				moreEndNum = moreStartNum + morePlus;
+				
+				
+				
+				$("#alert-search-end").css('display', 'none');
+				moreCycle = 1;
+        	}
+			
+			$("#more-item-start").val(moreStartNum );
+    		$("#more-item-end").val(moreStartNum + morePlus);
 	        	
-        	console.log("getJsonGoodsListByCategory 들어옴")
-    		console.log("넘기는 옵션" + $("#options-form").serialize())
     		$.ajax("../collections/getJsonGoodsListByCategory.do", {
     			type: "get",
+    			contentType: 'text',
     			data: $("#options-form").serialize(), 
     			dataType: "json",
     			success: function(data){
@@ -79,42 +108,87 @@
     				console.log(data);
     				
     				let dispHtml = "";
-    				let sequence = 1;
-    				for (let goodsVO of data) {
-    					dispHtml += "<form id='item-box-form"+sequence+"'>";
-	   					dispHtml += "<div class='card item-box'>";
-	   					dispHtml += "<img class='card-img-top' src='../resources/imgs/goods/"+goodsVO.thumSysFilename+"' alt='Card image'>";
-	   					dispHtml += "<div class='icon-cart-box-box' style='position:relative; height:0px;'>";			
-	   					dispHtml += "<div type='button' data-toggle='modal' data-target='#cart-modal' class='btn btn-primary icon-cart-box' data-productname='"+goodsVO.productName+"' data-saleprice='"+goodsVO.saleprice+"' data-productnum='"+goodsVO.productNum+"'>";			
-	   					dispHtml += "<i class='fa-solid fa-cart-shopping'></i>";			
-	   					dispHtml += "</div></div>";			
-	   					dispHtml += "<div class='card-body'>";
-	   					dispHtml += "<p class='card-text --font-large' style='height:54px;'>"+goodsVO.productName+"</p>";
-	   					dispHtml += "<p><span class='--color-red --font-large'>"+goodsVO.disRate+"</span><span class='--color-red --font-large'>%</span><span id='saleprice"+sequence+"' class='--font-large --strong' style='margin-left:10px;'>"+(Math.floor(goodsVO.price*(1-goodsVO.disRate*0.01)/10) *10)+"</span><span class='--font-large --strong'>원</span></p>";
-	   					dispHtml += "<p class='--font-mid --color-gray --line-mid'><span>"+goodsVO.price+"</span><span>원</span></p>";
-	   					dispHtml += "<p class='--font-small --color-gray --strong'>"+goodsVO.pDescription+"</p>";
-	   					dispHtml += "<a href='../goods/goodsContent.do?productNum="+goodsVO.productNum+"' class='stretched-link'></a>";
-	   					dispHtml += "<input name='productNum' type='hidden' value='"+goodsVO.productNum+"'>";
-	   					dispHtml += "</div>";
-	   					dispHtml += "</div>";
-	   					dispHtml += "</form>";
-	   					
-	   					sequence++;
-	   					
-	   					/* $("#saleprice" + sequence) */
-    				} 
     				
-    				$("#new-item-box").html(dispHtml);
-    				$("#search-result-amount").html("총 " +data.length+"건");
-    				setColorNowDivision();
+    				if (data.length > 0) {
+    					
+    					$("#moreButton").css("display", 'block');
+    					moreCycle++;
+    					
+	    				let sequence = 1;
+	    				
+	    				for (let goodsVO of data) {
+	    					dispHtml += "<form id='item-box-form"+sequence+"'>";
+		   					dispHtml += "<div class='card item-box'>";
+		   					dispHtml += "<img class='card-img-top' src='../resources/imgs/goods/"+goodsVO.thumSysFilename+"' alt='Card image'>";
+		   					dispHtml += "<div class='icon-cart-box-box' style='position:relative; height:0px;'>";			
+		   					dispHtml += "<div type='button' data-toggle='modal' data-target='#cart-modal' class='btn btn-primary icon-cart-box' data-productname='"+goodsVO.productName+"' data-saleprice='"+goodsVO.saleprice+"' data-productnum='"+goodsVO.productNum+"'>";			
+		   					dispHtml += "<i class='fa-solid fa-cart-shopping'></i>";			
+		   					dispHtml += "</div></div>";			
+		   					dispHtml += "<div class='card-body'>";
+		   					dispHtml += "<p class='card-text --font-large product-name' style='height:40px;'>"+goodsVO.productName+"</p>";
+		   					dispHtml += "<p>";
+		   					if (goodsVO.disRate != 0) {
+		   						dispHtml += "<span class='--color-red --font-large disRate'>"+goodsVO.disRate+"</span><span class='--color-red --font-large' style='margin-right: 10px;'>%</span>";
+		   					}
+		   					dispHtml += "<span id='saleprice"+sequence+"' class='--font-large --strong'>"+priceToString(goodsVO.saleprice)+"</span><span class='--font-large --strong'>원</span></p>";
+		   					
+		   					if (goodsVO.disRate != 0) {
+		   						dispHtml += "<p class='--font-mid --color-gray --line-mid'><span>"+priceToString(goodsVO.price)+"</span><span>원</span></p>";
+		   					}
+		   					dispHtml += "<p class='--font-small --color-gray --strong saleprice'>"+goodsVO.pDescription+"</p>";
+		   					dispHtml += "<a href='../goods/goodsContent.do?productNum="+goodsVO.productNum+"' class='stretched-link'></a>";
+		   					dispHtml += "<input name='productNum' type='hidden' value='"+goodsVO.productNum+"'>";
+		   					dispHtml += "</div>";
+		   					dispHtml += "</div>";
+		   					dispHtml += "</form>";
+		   					
+		   					sequence++;
+	    				}
+    				} else if(data.length == 0 && moreCycle == 1){
+    					dispHtml += "<p style='font-size: 30px; font-align: center'><i class='fa-solid fa-magnifying-glass'></i> 검색된 상품이 없습니다. </p>";
+    					$("#moreButton").css("display", 'none');
+    				}
     				
-    			},
-    			error: function(){
-    				alert("getJsonGoodsListByCategory실패!~~");
-    				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-    			}
-    		}); 
+    				
+    				if (data.length < morePlus+1 && moreCycle != 1) {
+     					$("#alert-search-end").css('display', 'block');
+     					$("#moreButton").css("display", 'none');
+     				} 
+    				
+    				if (checkMoreItemClick == true) {
+	    				$("#new-item-box").append(dispHtml);
+   					} else {
+	    				$("#new-item-box").html(dispHtml);
+   					}
+    				moreStartNum = moreEndNum + 1;
+    				moreEndNum = moreStartNum + morePlus;
+    				
+    				run_show_more('OUT');
+    				
+	    			},
+	    			error: function(){
+	    				alert("getJsonGoodsListByCategory실패!~~");
+	    			}
+	    		}); 
+    		
+    			setColorNowDivision();
+	    	}
+		
+		
+		// 더보기 버튼 동작 함수
+    	function run_show_more(direction) {
+    		if (direction == 'IN') {
+	    		checkMoreItemClick = true;
+	    		$("#more-item-start").val(moreStartNum);
+	    		$("#more-item-end").val(moreEndNum);
+	    		getJsonGoodsListByCategory();
+    		} else {
+	    		checkMoreItemClick = false;
+    		}
     	}
+		
+		
+		
 	
 		function addNowDivision(divisionNum) {
 			$("#jsonData-divisionNum").val(divisionNum);
@@ -136,23 +210,29 @@
 			getJsonGoodsListByCategory();
 		}
 		
-		$().ready(function(){
-			console.log("rURL : ${rURL }");
-		});
-
+		// 판매량순, 낮은가격순, 높은 가격순 필터 값 input value 넣는 함수
+        function setSearchFilter(type) {
+        	console.log("setSearchFilter" + type);
+        	$("#filterType-input").val(type);
+        	getJsonGoodsListByCategory();
+        }
+		
+        function setFilterType(type){
+       		$("input[name=filterType]").val(type);
+       		getJsonGoodsListByCategory()
+       	}
+		
     </script>
     
 </head>
-<body>
+<body style="width:1900px; margin: auto;">
 
 	<!-- 모달 -->
 	<!-- 쇼핑카트 모달 -->
     <%@ include file = "../common/modal/addShoppingCartModal.jspf" %>
 
     <!-- header -->
-    <header>
-	    <%@ include file = "../common/header.jspf" %>
-	</header>
+    <%@ include file = "../common/header.jspf" %>
     
 
 	<section id="category-page">
@@ -163,7 +243,7 @@
 	        <div class="col-sm-2"></div>
 	        <div class="col-sm-8">
 				
-	    				<h4 class="text-center" style="margin-top: 50px;"> <카테고리명> </h4>
+	    				<h4 id="categoryNameSection" class="text-center" style="margin-top: 50px;"> <카테고리명> </h4>
 			            <div id="category-box">
 			                <ul>
 			                	<li><button value="0" onclick="resetDivision()" class="sub-category-opt">전체보기</button></li>
@@ -191,7 +271,12 @@
 		        	<%@ include file = "./sidebar.jspf" %>
 		            <!-- categoryNum 폼에 넘기는 부분 -->
 		            <input type="hidden" name="categoryNum" value="${division.categoryNum }">
+		            <input id="filterType-input" type="hidden" name="filterType" value="">
 		            <input id="jsonData-divisionNum" type="hidden" name="divisionNum" value="${division.divisionNum }">
+		            <input id="usingPage-input" type="hidden" name="usingPage" value="${usingPage }">
+		            <input id="show-more-count" type="hidden" name="moreBegin" value="1">
+            	<input id="more-item-start" type="hidden" name="moreStartNum" value="">
+            	<input id="more-item-end" type="hidden" name="moreEndNum" value="">
 		            
 	        	</form>
 	            
@@ -200,23 +285,18 @@
 	        <div class="col-sm-6">
 	            <ul class="list-group list-group-flush  side-bar-box">
 	                <li class="list-group-item  d-flex justify-content-between search-filter-top" style="padding: 0px 0px 15px 0px;">
-	                    <div id="search-result-amount">총 -건</div>
+	                    <div id="search-result-amount"><!-- 총 -건 --></div>
 	                    <div> 
 	                        <ul>
-	                            <li><div class="form-check filter-top" style="display: inline-block;">
-									<label class="form-check-label" for="o-opt1">
-									    <input class="form-check-input p-opt opt" type="checkbox" value="" id="o-opt1">
-								    	추천순
-									</label>
-		                    	</div>
+	                            <li><button onclick="setSearchFilter('recommend')">추천순</button>
                                 <div class="dropdown" style="display: inline-block; margin-left:5px; height: 30px; width: 20px;">
                                     <i class="fa-regular fa-circle-question"></i>
                                 	<div class="dropdown-menu" style="padding: 20px; width: 300px; border: solid 1px black; position: relative; z-index: 5; right: -300px; top: 0px;"> 소비자 인기도(판매량, 조회수, 상품출시일)를 종합적으로 고려한 순서입니다.</div>
                                 </div>
                             </li> 
-	                            <li><a href="#">판매량순</a></li>
-	                            <li><a href="#">낮은가격순</a></li>
-	                            <li><a href="#">높은가격순</a></li>
+	                            <li><button onclick="setSearchFilter('sales')">판매량순</button></li>
+	                            <li><button onclick="setSearchFilter('lowPrice')">낮은가격순</button></li>
+	                            <li><button onclick="setSearchFilter('highPrice')">높은가격순</button></li>
 	
 	                        </ul>
 	                    </div>
@@ -224,6 +304,12 @@
 	            </ul>
 	            <div id="new-item-box" class="item-container" style="width: 100%;">
 	            </div>
+	            <div id="show-more-area" style="display: flex; justify-content: center;">
+            	<button id="moreButton" onclick="run_show_more('IN')" style="width: 180px; height: 60px; font-size: 20px; color: white; background-color: #9A30AE; font-weight: 800;">더보기</button>
+            	<p id="alert-search-end" style='font-size: 30px; display: none;'> 상품조회의 끝입니다. </p>
+            </div>
+	            
+	            
 	        </div>
 	        
 	

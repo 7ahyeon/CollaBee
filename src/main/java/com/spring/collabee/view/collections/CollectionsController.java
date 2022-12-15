@@ -6,15 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -40,10 +37,10 @@ public class CollectionsController {
 	
 	@ResponseBody
 	@RequestMapping("/getJsonGoodsListByCategory.do")
-	public List<GoodsVO> getJsonGoodsListByCategory(GoodsVO goods, DivisionVO division) {
+	public List<GoodsVO> getJsonGoodsListByCategory(GoodsVO goods, DivisionVO division, String filterType, String usingPage) {
 		System.out.println(">>> 카테고리 Json 실행");
 		
-		Map<String, Object> map = processJsonData(null, "categories", goods, division);
+		Map<String, Object> map = processJsonData(null, goods, division, filterType, "categories");
 		List<GoodsVO> list = collectionsService.goodsListByCategory(map);
 		return list;
 	}
@@ -52,12 +49,22 @@ public class CollectionsController {
 	public String goCategories(DivisionVO vo, Model model) {
 		System.out.println(">>> 카테고리별 상품조회페이지");
 		
-		System.out.println("카테고리별 상품조회 페이지 로딩시 DivisionVO : " + vo);
+		//System.out.println("카테고리별 상품조회 페이지 로딩시 DivisionVO : " + vo);
 		model.addAttribute("divisionVOList", collectionsService.getDivisionByCategory(vo));
-		System.out.println("카테고리별 상품조회 페이지 로딩시 divisionVOList : " + collectionsService.getDivisionByCategory(vo));
+		//System.out.println("카테고리별 상품조회 페이지 로딩시 divisionVOList : " + collectionsService.getDivisionByCategory(vo));
 		model.addAttribute("division", vo);
+		model.addAttribute("usingPage", "categories");
 		
 		return "/collections/categories";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getCategoryName.do")
+	public DivisionVO getCategoryName(DivisionVO vo) {
+		System.out.println(">>> 카테고리명 조회 컨트롤");
+		//System.out.println("받아온 카테고리넘버 : " + vo.getCategoryNum());
+		//System.out.println("DB에서 가져온 카테고리명 : " + collectionsService.getCategoryName(vo));
+		return collectionsService.getCategoryName(vo);
 	}
 	
 	
@@ -89,6 +96,7 @@ public class CollectionsController {
 	public String goMarketNewProduct(Model model) {
 		System.out.println(">>> 신상품페이지");
 		
+		model.addAttribute("usingPage", "newItem");
 		return "/collections/new_item";
 	}
 	
@@ -99,15 +107,17 @@ public class CollectionsController {
 		
 		System.out.println("키워드 : " + sword);
 		model.addAttribute("sword", sword);
+		model.addAttribute("usingPage", "searching");
 		return "/collections/new_item";
 	}
 	
 	
 	@RequestMapping("/market-best.do") 
-	public String goMarketBest() {
+	public String goMarketBest(Model model) {
 		System.out.println(">>> 베스트페이지");
 		
-		return "/collections/best";
+		model.addAttribute("usingPage", "best");
+		return "/collections/new_item";
 	}
 	
 	@RequestMapping("/event.do") 
@@ -133,21 +143,36 @@ public class CollectionsController {
 	}
 	
 	
+	
 	@ResponseBody
 	@RequestMapping("/getJsonGoodsList.do")
-	public Map<String, Object> getJsonGoodsList(Model model, String sword, GoodsVO goods, DivisionVO division) {
+	public Map<String, Object> getJsonGoodsList(Model model, String sword, GoodsVO goods, DivisionVO division, String filterType, String usingPage
+												, String moreStartNum, String moreEndNum) {
 		System.out.println(">>> 신상품 제이슨 실행");
+		System.out.println("받아온 필터 타입 : " + filterType);
 		
-		Map<String, Object> map = processJsonData(sword, "newItem", goods, division);
+		Map<String, Object> map = processJsonData(sword, goods, division, filterType, usingPage);
+		map.put("moreStartNum", moreStartNum);
+		map.put("moreEndNum", moreEndNum);
+		System.out.println("생성된 map 출력 : " + map);
 		model.addAttribute("paging", map);
 		
 		List<GoodsVO> list = collectionsService.getGoodsList(map);
 		
+		System.out.println("매퍼 갔다옴옴옴ㅇ모!~!!!!!!!!!!");
 		map = new HashMap<String, Object>();
 		map.put("GoodsVOList", list);
 		
 		
 		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getGood.do", method= {RequestMethod.POST})
+	public GoodsVO getGood(@RequestBody GoodsVO goods) {
+		System.out.println("받아온 goods : " + goods);
+		System.out.println("받아온 한개의 goodsVO : " + collectionsService.getOneGood(goods));
+		return collectionsService.getOneGood(goods);
 	}
 	
 	
@@ -174,7 +199,7 @@ public class CollectionsController {
 		return collectionsService.getSpecialCat();
 	}
 	
-	public Map<String, Object> processJsonData(String sword, String type, GoodsVO goods, DivisionVO division) {
+	public Map<String, Object> processJsonData(String sword, GoodsVO goods, DivisionVO division, String filterType, String usingPage) {
 		
 		String[] arr = new String[2];
 		if (goods.getPriceRange() != null) {
@@ -187,14 +212,14 @@ public class CollectionsController {
 		Map<String, Object> map = new HashMap<>();
 		List<GoodsVO> list = null;
 		
-		if ("categories".equals(type)) {
+		if ("categories".equals(usingPage)) {
 			
 			map.put("categoryNum", division.getCategoryNum());
 			map.put("goods", goods);
+			map.put("filterType", filterType);
 			
-			list = collectionsService.goodsListByCategory(map);
 			
-		} else if ("newItem".equals(type) || "search".equals(type)) {
+		} else if ("newItem".equals(usingPage) || "searching".equals(usingPage) || "best".equals(usingPage)) {
 			
 			ArrayList<String> typeList = null;
 			
@@ -204,12 +229,15 @@ public class CollectionsController {
 				System.out.println("타입리스트: " + typeList);
 			}
 			
+			if ("newItem".equals(usingPage)) {
+				map.put("searchType", "newItem");
+			}
+			
 			map.put("goods", goods);
 			map.put("sword", sword);
+			map.put("filterType", filterType);
 			
-			System.out.println("생성된 map 출력 : " + map);
 		}
-		
 		return map;
 	}
 	

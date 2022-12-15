@@ -298,6 +298,18 @@ public class MemberController {
 		MemberVO loginMember = memberService.login(mvo); 
 		System.out.println("[아이디,비번 일치하는 사용자 정보] : " + loginMember);
 		
+		int accumulRate = 0;
+		
+		if (loginMember.getGrade() == 1) {
+			accumulRate = 7;
+		} else if (loginMember.getGrade() == 2) {
+			accumulRate = 3;
+		} else {
+			accumulRate = 1;
+		}
+		
+		loginMember.setAccumulRate(accumulRate);
+		
 		session.setAttribute("loginMethod", "collabee");
 		session.setAttribute("loginMember", loginMember);
 		
@@ -368,7 +380,7 @@ public class MemberController {
 			response.addCookie(cookie);
 		}
 		
-		return "redirect:/mypage/order.do";
+		return "redirect:/collections/main.do";
 	}
 	
 	
@@ -385,8 +397,9 @@ public class MemberController {
 			System.out.println("네이버 로그인 accessToken 무효화 처리");
 			accessTocken = null;
 		} 
-		//sessionStatus.isComplete();
-		session.invalidate();		
+		sessionStatus.isComplete();
+		session.invalidate();
+		sessionStatus.setComplete();
 		return "redirect:/member/login.do";
 	}
 	

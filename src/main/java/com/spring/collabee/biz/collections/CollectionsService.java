@@ -16,5 +16,7 @@ public interface CollectionsService {
 		List<GoodsVO> getSpecial(int specialNum);
 		List<SpecialCatVO> getSpecialCat();
 		int getJsonGoodsListCount();
+		DivisionVO getCategoryName(DivisionVO vo);
+		GoodsVO getOneGood(GoodsVO vo);
 
 }

@@ -24,7 +24,8 @@
 	    <typeAlias alias="goodsReview" type="com.spring.collabee.biz.goods.GoodsReviewVO"/>
    		<typeAlias alias="goodsQnA" type="com.spring.collabee.biz.goods.GoodsQnAVO"/>
    		<typeAlias alias="specialCat" type="com.spring.collabee.biz.collections.SpecialCatVO"/>
-   		
+   		<typeAlias alias="paging" type="com.spring.collabee.biz.admingoods.adminPaginationVO"/>
+		
    		<typeAlias alias="memberVO" type="com.spring.collabee.biz.member.MemberVO"/>
    		<typeAlias alias="couponBoxVO" type="com.spring.collabee.biz.mycouponbox.MyCouponBoxVO"/>
    		<typeAlias alias="emoneyUsageVO" type="com.spring.collabee.biz.emoneyusage.EmoneyUsageVO"/>
@@ -34,6 +35,7 @@
 		<typeAlias alias="proReviewVO"	type="com.spring.collabee.biz.myreview.ProReviewVO"/>
 		<typeAlias alias="myproQnaVO"	type="com.spring.collabee.biz.proqna.MyProQnaVO"/>
   </typeAliases>
+  
 
   
   

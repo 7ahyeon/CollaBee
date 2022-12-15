@@ -10,7 +10,6 @@
   <%@ include file="../common/bootstrap.jspf" %>
   <style>
     .list-group-item a {
-      letter-spacing: -2px;
       text-decoration: none;
       color: black;
     }
@@ -44,18 +43,13 @@
 
     h2 {
       font-weight: bold;
-      letter-spacing: -2.5px;
     }
 
     h4 {
       font-weight: bolder;
-      letter-spacing: -3px;
-      word-spacing: 5px;
     }
 
     h4 span {
-      letter-spacing: -1px;
-      word-spacing: 2px;
       vertical-align: middle;
       font-size: small;
       color: gray;
@@ -122,14 +116,10 @@
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
       <div class="col-sm-2"></div>
       <div class="col-sm-2">
-       <div style="width: 250px;">
         <!-- 관리자일때 -->
         <c:if test="${loginMember.id eq 'admin'}"> 
-        <h2>관리자 목록</h2>
-        <br>
 		<%@ include file = "../admin/adminSideNav.jspf" %>
        </c:if>
-      </div>
       </div>
       <div class="col-sm-6">
         <div class="main" style="border-bottom:2px solid black">
@@ -199,7 +189,6 @@
 	        alert("답변을 입력해주세요.");
 	      return false;
 	    } else {
-	    	alert("답변 수정되었습니다.");
 	      	frm.action="answerInquiry.do?inquiryNum="+inquiryNum;
 	      	frm.submit();
 	    }

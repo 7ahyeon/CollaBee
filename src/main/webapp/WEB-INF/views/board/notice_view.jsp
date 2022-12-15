@@ -14,13 +14,9 @@
     h4 {
       font-weight: bolder;
       font-size: 28px;
-      letter-spacing: -3px;
-      word-spacing: 5px;
     }
 
     p {
-      letter-spacing: -1px;
-      word-spacing: 2px;
       vertical-align: middle;
       font-size: 14px;
     }

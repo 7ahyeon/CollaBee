@@ -16,7 +16,6 @@
     <style>
 
         .list-group-item a{
-        letter-spacing: -2px; 
         text-decoration: none;
         color:black;
         }
@@ -42,16 +41,13 @@
         color: black;
         }
         h2{font-weight: bold;
-        letter-spacing: -2.5px;
         }
         h4{font-weight: bolder;
-            letter-spacing: -3px; 
-            word-spacing: 5px;
         } 
-        h4 span{letter-spacing: -1px;
-        word-spacing: 2px;
+        h4 span{
         vertical-align: middle;
-        font-size: small; color: gray;
+        font-size: small; 
+        color: gray;
         }
         .main{
         padding-bottom: 24px;
@@ -116,12 +112,7 @@ function setThumbnail(event) {
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
     <div class="col-sm-2"></div>
     <div class="col-sm-2">
-        <div style="width: 250px;">
-        <h2>관리자 목록</h2>
-        <br>
         	<%@ include file = "./adminSideNav.jspf" %>
-
-        </div>
     </div>
 
     <!-- 메인 -->

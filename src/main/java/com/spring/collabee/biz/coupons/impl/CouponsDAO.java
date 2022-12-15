@@ -1,6 +1,7 @@
 package com.spring.collabee.biz.coupons.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,18 @@ public class CouponsDAO {
 		System.out.println(">> Mybatis 사용 couponsListAvail() 실행");
 		
 		return mybatis.selectList("couponsDAO.couponsListAvail");
+	}
+
+
+	public Object insertCouponIntoCustom(Map<String, Object> map) {
+		System.out.println("매퍼 진입 전 map : " +map);
+		return mybatis.insert("couponsDAO.insertCouponIntoCustom", map);
+	}
+
+
+	public List<CouponsVO> couponsDoubleCheck(Map<String, Object> map) {
+		System.out.println("매퍼진입 전 더블첵 : " + map);
+		return mybatis.selectList("couponsDAO.couoponsDoubleCheck", map);
 	}
 
 }

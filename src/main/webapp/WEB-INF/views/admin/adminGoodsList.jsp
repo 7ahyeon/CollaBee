@@ -1,7 +1,7 @@
 <%@page import="com.fasterxml.jackson.annotation.JsonInclude.Include"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>   
 
 <!DOCTYPE html>
 <html>
@@ -20,9 +20,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
 	
 	<%@ include file = "../common/bootstrap.jspf" %>
-  <style>
+	<style>
       .list-group-item a{
-        letter-spacing: -2px; 
         text-decoration: none;
         color:black;
       }
@@ -50,15 +49,12 @@
       }
 
       h2{font-weight: bold;
-        letter-spacing: -2.5px;}
+        }
 
       h4{font-weight: bolder;
-        letter-spacing: -3px; 
-        word-spacing: 5px;
         }
         
-      h4 span{letter-spacing: -1px;
-        word-spacing: 2px;
+      h4 span{
         vertical-align: middle;
         font-size: small; color: gray;
       }
@@ -66,13 +62,6 @@
         padding-bottom: 24px;
         padding-top: 10px ;
       }
-      /* thead {
-        background-color: #FEF7FF;
-      } */
-
-      /* table > tbody:hover {
-        background-color: #FEF7FF;
-      } */
       
       #th_checkAll {
       	background-color: #B03FE3;
@@ -141,47 +130,38 @@
       	text-align: right;
       }
 
-  </style> 
-  
-  <script>
-    /* $(function(){
-      $("#th_checkAll").click(function() {
-        console.log($(this).is(":checked"));
-        if ($(this).is(":checked")) {
-          $(".chk:not(checked)").each(function() {
-            $(this).prop("checked", true);
-          });
-        } else {
-          $(".chk:checked").each(function() {
-            $(this).prop("checked",false);
-          });
-        }
-      });
-    }); */
-  </script>
+	</style> 
+	<script>
+		function admin_go_search(){
+			let sword = $("#productSearch").val();
+			location.href = "../adminGoods/productSearch.do?sword=" + sword;
+		}
+		
+		console.log("${goodsList }");
+		
+	</script>
+ 
   </head>
 
   <body style="width:1900px; margin: auto; margin-top: 50px; padding: 0px;">
-
     <div class="container-fluid">
     <!-- header -->
     <header>
 	    <%@ include file = "../common/header.jspf" %>
 	</header>
-		
+
     <div class="row" style="padding-top:50px; padding-bottom: 50px">
         <div class="col-sm-2"></div>
         <div class="col-sm-2">
-          <div style="width: 250px;">
-            <h2>관리자 목록</h2>
-            <br>
             <%@ include file = "./adminSideNav.jspf" %>
-
-          </div>
         </div>
         <div class="col-sm-6">
-            <div class="main" style="border-bottom:2px solid black";>
+            <div class="main" style="border-bottom:2px solid black; padding-bottom: 50px;">
                 <h4>등록상품 목록</h4>
+                <div style="float: right;">
+	                <input id="productSearch" class="search-box" type="text" placeholder="상품명을 검색하세요." onkeypress="if(event.keyCode == 13){admin_go_search();}">
+	                <button style="position: relative; border: 1px solid gray" onclick="admin_go_search()">검색</button>
+                </div>
             </div>
               <form id="form" name="form" method="post">
                 <table class="table table-hover" style="vertical-align:middle">
@@ -208,23 +188,23 @@
                   </thead>
                   <tbody id="listDisp">
                   <c:if test="${not empty goodsList }">
-					<c:forEach var="goods" items="${goodsList }" >
+					<c:forEach var="product" items="${goodsList }" >
 						<tr>
 							<%-- <td class="center"><input type="checkbox" class="chk" name="checkRow" value="${content.IDX}" style="width: 20px; height: 20px;"></td> --%>
-							<td class="center">${goods.productNum }</td>
-							<td class="center"><img src="../resources/imgs/goods/${goods.thumSysFilename }" style="width: 75px; height: 100px;" alt="상품"></td>
-							<td class="center"><a href="adminGoodsSelect.do?productNum=${goods.productNum }" style="color: black;">${goods.productName }</a></td>
-							<td class="center right">${goods.saleprice }</td>
-							<td class="center">${goods.condition }</td>
-							<td class="center">${goods.deliveryType }</td>
-							<td class="center">${goods.stock }</td>
+							<td class="center">${product.productNum}</td>
+							<td class="center"><img src="../resources/imgs/goods/${product.thumSysFilename }" style="width: 75px; height: 100px;" alt="상품"></td>
+							<td class="center"><a href="adminGoodsSelect.do?productNum=${product.productNum }" style="color: black;">${product.productName }</a></td>
+							<td class="center right"><fmt:formatNumber value="${product.saleprice }" pattern="#,###" /></td>
+							<td class="center">${product.condition }</td>
+							<td class="center">${product.deliveryType }</td>
+							<td class="center">${product.stock }</td>
 						</tr>
 					</c:forEach>
 				  </c:if>
                   </tbody>
              	</table>
 		              <div class="btn_list">    
-		                <div class="btns">        
+		               <div class="btns">        
 		                  <button class="btn1" disabled>
 		                    <i class="bi bi-chevron-left"></i>
 		                  </button>
@@ -232,10 +212,10 @@
 		                    <i class="bi bi-chevron-right"></i>
 		                  </button>
 							<input type="button" value="상품등록" class="goods_btn" onclick="javascript:location.href='adminGoodsInsertPage.do'">    				
-		                </div>
-		              </div>
-          	</form>     
-            <div class="col-sm-2"></div>
+		               <!--  </div> -->
+		    </div>
+         </form>     
+        <div class="col-sm-2"></div>
       </div>
           
           <!-- <div class="text-center">
@@ -247,19 +227,18 @@
                 <li class="page-item"><a class="page-link" href="#">다음</a></li>
             </ul>
         </div> -->
+        
       </div>
     </div>
     
     <script>
      function getJsonGoodsListData(form) {
-			alert("getJsonGoodsListData() 실행1");
 			console.log($(form).serialize());
 			$.ajax("getJsonGoodsList.do", {
 				type: "get",
 				data: $(form).serialize(),
 				dataType: "json",
 				success: function(data) {
-					alert("성공~~~");
 					console.log(data);
 					
 					let dispHtml = "";
@@ -267,7 +246,7 @@
 						dispHtml += "<tr>";
 						dispHtml += "<td class='center'>" + goods.productNum + "</td>";
 						dispHtml += "<td class='center'><img src='../resources/imgs/goods/'" + goods.thumSysFilename + "style='width: 75px; height: 100px;' alt='상품'></td>";
-						dispHtml += "<td class='center'><a href='adminGoodsSelect.do?productNum = '" + goods.productNum + "style='color: black;'>" + goods.productName + "</a></td>";
+						dispHtml += "<td class='center'><a href='adminGoodsSelect.do?productNum='" + goods.productNum + "'style='color: black;'>" + goods.productName + "</a></td>";
 						dispHtml += "<td class='center right'>" + goods.saleprice + "</td>";
 						dispHtml += "<td class='center'>" + goods.condition + "</td>";
 						dispHtml += "<td class='center'>" + goods.deliveryType + "</td>";
@@ -282,7 +261,7 @@
 			});
 		}
     </script>
-    
+    	
   </body>
 <br><br>
     <!-- footer -->

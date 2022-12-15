@@ -12,7 +12,9 @@
 <%@ include file= "../common/bootstrap.jspf"%>
 <%@ include file= "../common/modal/insertQnA.jspf"%>
 <%@ include file= "../common/modal/insertReview.jspf"%>
-<%@ include file= "../common/modal/answer.jspf"%>
+<%@ include file= "../common/modal/imgModal.jspf"%>
+<%@ include file= "../common/modal/insertReviewConfirm.jspf"%>
+<%@ include file= "../common/modal/reviewDoubleAlert.jspf"%>
 <%@ include file= "../common/modal/updateQnA.jspf"%>
 <%@ include file= "../common/modal/updateReview.jspf"%>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -708,126 +710,89 @@
       font-weight: lighter;
     }
     
+    .item-count-btn button {
+	    background-color: white;
+	    font-size: 20px;
+	    font-weight: 1200px;
+	    
+	}
+	
+	.item-count-btn * {
+	    height: 30px;
+	    line-height: 32px;
+	    font-weight: 700;
+	}
+    
     
 
 </style>  
   
 <script>
 
-    //후기 추천순/최근등록순
-    $(function(){
-            $(".review-opt").click(function(){
-                changeFontWeight();
-                console.log(event.target);
-                event.target.style.fontWeight = '900';
-            });
-        });
     
-    function changeFontWeight(){
-        $(".review-opt").each(function(){
-            $(this).css('fontWeight', '200');
-        })
-    }
-
-    //찜하기
-     /* $(document).on("click", "#btn-heart", function(){
-    	if (${member.id} == null || ${member.id == ""}) {
-    		href = "/login.do";
-    	} else if (${member.id} != null || ${memeber.id != ""}) {
-	    	$.ajax({
-	    		url : "../mypage/picklist.do",
-	    		type : "GET",
-	    		data : JSON.stringify({memberNum : ${memberVO.memberNum}, productNum : productNum}),
-	    		contentType: "application/json",
-	            dataType: "json",
-	    		success : function(selectHeart){
-	    			let html = '';
-	    			html += '<span>';
-	    			if(buttonHeart == "clicked") {
-	    				html += '<i class="bi bi-heart" style="color:#9A30AE"></i>'
-	    			} else {
-	    				html += '<i class="bi bi-heart"></i>'
-	    			}
-	    			html += '</span>'
-	    		}
-	    	})
-	    })
-    		
-    	}  */
-    
-$(function(){
+	function checkReviewNotYet(){
     	
-     function getJsonHeart(memberId, goodsNum) {
-    	var sendData = {
-    			id : memberId,
-    			productNum : goodsNum
+    	let localData = {
+    			memberNum : '${loginMember.memberNum }',
+    			productNum : '${goods.productNum }'
     	};
     	
     	$.ajax({
-    		type: "POST",
-    		url: "picklist.do",
-    		data: JSON.stringify(sendData),
+    		type: "GET",
+    		url: "checkReviewNotYet.do",
+    		data: {
+    			memberNum : '${loginMember.memberNum }',
+    			productNum : '${goods.productNum }'
+    	},
     		contentType: "application/json",
     		dataType: "json",
     		success: function(data){
-    			alert("성공");
+    			
     		},
     		error: function() {
-    			alert("실패");
     		}
     	});
-    } 	
-  });
-    		
-    	/* alert("getJsonHeart() 실행 ~");
-    	
-    	$.ajax("../mypage/picklist.do"), {
-    		type: "get",
-    		data: $(frm).serialize(),
-    		contentType: "application/json",
-    		dataType: "json",
-    		success: function(data){
-    			alert("성공 ~~");
-    			console.log(data);
-    			
-    			let dispHtml = "";
-    			dispHtml += '<span>'
-    			if()
-    		}
-    	}
-    }  */
-    	
-    //문의 비밀글
-    $(document).on("click", "#btn-secret", function(){
-    	
-    })
-    
-    //클릭시 찜하기/알람버튼 색 변경
-    /* $(document).ready(function(){
-      $(".bu1").click(function(){
-        $(".i-heart").toggleClass("main");
-      });
-    }); */
-    
-    $(document).ready(function(){
-        $(".bu2").click(function(){
-            $(".i-bell").toggleClass("main2");
-        });
-    });
-    
-    //클릭시 추천수 색 변경
-    $(document).ready(function(){
-        $(".rec_btn").click(function(){
-            $(this).toggleClass("main3");
-        });
-    });
-    
-    function recBtn () {
-        var tmp = document.getElementById("thumbsup").toggleClass;
-        tmp++;
-        
-        document.getElementById("thumbsup").value = tmp;
     }
+	
+	  //찜하기 (수진)
+    // 
+   	function addPickList (){{
+   		alert("찜하기 클릭")
+	      	if (${loinMember } == "" ) {
+	      		location.href = "../member/login.do";
+	      	} else {     		
+	      		var addPickInfo {
+	      			"memberNum" : ${loinMember.memberNum },
+	      			"productNum" : ${goods.productNum}
+	      			}
+	 	    	let htmlTag = '';
+	  	    	$.ajax({
+	  	    		url : "../mypage/addPickList.do",
+	  	    		type : "post",
+	  	    		data : JSON.stringify(addPickInfo),
+	  	    		contentType: "application/json",
+	  	            dataType: "json",
+	  	    		success : function(data){
+	  	    			console.log(data)
+	  	    			htmlTag += '<span>';
+	  	    			if (data == 0) {
+	  	    				htmlTag += '<i class="bi bi-heart" style="color:#9A30AE"></i>'  	    				
+	  	    			}
+	  	    			if (data == 1) {
+	  	    				htmlTag += '<i class="bi bi-heart"></i>'
+	  	    			}
+	  	    			htmlTag += '</span>'
+	  	    			
+	  	    			$('#pickStatus').html(htmlTag);
+	  	    		},
+	  	    		error : function () {
+	  	    			alert("알수없는 오류로 찜하기 실패")
+	  	    		}
+	  	    	});//ajax 끝
+	      		
+	      	}//else끝
+	      	
+ 	 	}
     
     
     //닫기/자세히보기
@@ -841,43 +806,7 @@ $(function(){
         });
     });
     
-    
-    //수량증가
-    function minus(){
-        var tmp = document.getElementById("su").value;
-        
-        if(document.getElementById("su").value == 1) {
-            $(".minus").prop('disabled', true);
-        } else {
-            $(".minus").prop('disabled', false);
-            tmp--;
-            document.getElementById("su").value = tmp;
-        }  
-    };
-    
-    function plus(){
-        var tmp2 = document.getElementById("su").value;
-        tmp2++;
-        
-        document.getElementById("su").value = tmp2;
-    }
-    
-    // 수량에 따른 총 가격 증가/감소
-    $().ready(function(){
-        $(".amount").change(changePrice);
-    });
-    
-    function changePrice() {
-        let totalValue = parseInt($("#total").val());
-        
-        if(this.onclick == plus) {
-            totalValue += parseInt(this.value);
-        } else if (this.onclick == minus) {
-            totalValue -= parseInt($(this).val());
-        }
-        //최종 금액
-        $("#total").val(totalValue);
-    }
+
     
     //아코디언
     window.onload = function () {
@@ -898,72 +827,27 @@ $(function(){
         });
       };
 
-      btnAllClose.addEventListener('click', function() {
+      /* btnAllClose.addEventListener('click', function() {
         // 버튼 클릭시 처리할 일  
         for(let i=0; i < panelFaqAnswer.length; i++) {
             panelFaqAnswer[i].classList.remove('active');
         };
-      });
+      }); */
     }
     
-    //리뷰 삭제
-     /* $(".re-delete").click(function(){
-    	var reviewNum = $(this).prop('value');
-    	var productName = $(this).prop('name');
-    	if (productName.length > 22) {
-    		var productName1 = productName.substring(0, 22);
-    		var productName2 = productName.substring(22, productName.length+1);
-    		var productN = productName1 + '<br/>' + productName2;
-    	} else {
-    		var productN = productName;
-    	}
-	    	Swal.fire({
-	            title: '삭제하시겠습니까?',
-	            text: "삭제하시면 다시 복구시킬 수 없습니다.",
-	            icon: 'warning',
-	            showCancelButton: true,
-	            confirmButtonColor: '#9A30AE',
-	            cancelButtonColor: '#FFCD4A',
-	            confirmButtonText: 'YES',    
-	          }).then((result) => {
-	            if (result.isConfirmed) {
-	            	delete_one(reviewNum);
-	              Swal.fire(
-	            		  icon: 'success',
-	            		  title:'삭제되었습니다.',
-	            		  showConfirmButton: false,
-	            		  timer: 1500
-	              )
-	            }
-	          });
-    	
-    	
-    });
     
-    function delete_one(reviewNum) {
-    	var del = new Array();
-    	$.ajax({
-    		type: "POST",
-    		url: "deleteReview.do",
-    		success: function(result){
-    			alert("성공");
-    			if (result == 1) {
-    				location.reload();
-    			}
-    		},
-    		error: function(){
-    			alert("실패";)
-    		}
-    	})
-    }  */
-    
+    function tryInsertReview(checkVal) {
+    	
+    	$('#myModal').modal('show');
+    }
     
     //insertReview
     function insertReview(){
 		var frm = document.getElementById('frm2');
-		alert("후기 작성");
-		console.log(frm);
+	
 		frm.action="insertReview.do";
+		frm.method="POST";
+		
 		frm.submit();
 	}
     
@@ -974,26 +858,36 @@ $(function(){
     	frm.action ="updateReview.do";
     	frm.submit();
     } 
+    
+    function reviewDoubleCheck(){
+    	
+    	let result;
+    	
+    	let localData = {
+    			memberNum : '${loginMember.memberNum }',
+    			productNum : '${goods.productNum }'
+    	};
+    	
+    	$.ajax({
+    		type: "GET",
+    		url: "reviewDoubleCheck.do",
+    		data: {
+    			memberNum : '${loginMember.memberNum }',
+    			productNum : '${goods.productNum }'
+    	},
+    		contentType: "application/json",
+    		dataType: "json",
+    		success: function(data){
+    			
+    			result = data.result;
+    			tryInsertReview(result);
+    		},
+    		error: function() {
+    		}
+    	});
+    }
+    
 
-	//파일명가져오기
-	
-
-	/* function insertQuestion() {
-		var frm = document.frm;
-		console.log(frm);
-		if (frm.qTitle.value == "" || frm.qContent.value == ""){
-			if(frm.qTitle.value == ""){
-				alert("제목을 입력해 주세요.")
-			} else if(frm.qContent == ""){
-				alert("내용을 입력해 주세요.");
-			}
-			return false;
-		} else {
-			frm.action = "insertQnA.do"
-			frm.submit();
-			alert("문의 등록 완료 ~");
-		}
-	} */
 	
 	//insertQnA
 	function insertQuestion(){
@@ -1003,76 +897,117 @@ $(function(){
 		frm.submit();
 	}
 	
-	/* $(".updateQna").click(function(){
-		var data = $(this).data('num');
-		$("#text-title.text").val(data);
-		$("#comment.textarea").html(data);
-	}) */
 	
-	
-	 /* function updateQuestion(){
+	  function updateQuestion(){
 		var frm = document.getElementById('updateQ');
 		console.log(frm);
 		frm.action ="updateQnA.do";
 		frm.submit();
-	}  */
+	}  
 	
 	
-	
-	
-	//문의 삭제
-	
-	/*  $(".q-delete").click(function(){
-    	var qnaNum = $(this).prop('value');
-    	var productName = $(this).prop('name');
-    	if (productName.length > 22) {
-    		var productName1 = productName.substring(0, 22);
-    		var productName2 = productName.substring(22, productName.length+1);
-    		var productN = productName1 + '<br/>' + productName2;
-    	} else {
-    		var productN = productName;
-    	}
-	    	Swal.fire({
-	            title: '삭제하시겠습니까?',
-	            text: "삭제하시면 다시 복구시킬 수 없습니다.",
-	            icon: 'warning',
-	            showCancelButton: true,
-	            confirmButtonColor: '#9A30AE',
-	            cancelButtonColor: '#FFCD4A',
-	            confirmButtonText: 'YES',    
-	          }).then((result) => {
-	            if (result.isConfirmed) {
-	            	delete_qna(qnaNum);
-	              Swal.fire(
-	            		  icon: 'success',
-	            		  title:'삭제되었습니다.',
-	            		  showConfirmButton: false,
-	            		  timer: 1500
-	              )
-	            }
-	          });
-    	
-    	
-    });
     
-    function delete_qna(qnaNum) {
-    	var del = new Array();
-    	$.ajax({
-    		type: "GET",
-    		url: "deleteReview.do",
-    		success: function(result){
-    			alert("성공");
-    			if (result == 1) {
-    				location.reload();
-    			}
-    		},
-    		error: function(){
-    			alert("실패";)
-    		}
-    	})
-    }  */
-	
-	
+    
+    function add_shoppingcart(){
+    	var goodsNum = Number(${goods.productNum});
+    	var goodsCount = Number($("#cart-cnt").html());
+    	
+    	var sendCart = {
+				productNum : goodsNum,
+				count : goodsCount
+		};
+		
+		// 장바구니 상품 존재 여부 확인 후 추가
+		$.ajax({
+			type: "POST",
+			url: "../cart/cartAdd.do",
+			data: JSON.stringify(sendCart),
+			contentType: "application/json",
+			dataType: "json",
+			success: function(result){
+				if (result == 1) {
+					alert("장바구니에 담겼습니다.");
+				} else if (result == 2) {
+					alert("이미 장바구니에 있습니다.");
+				} else if (result == 3) {
+					alert("최대 수량입니다");
+				} else if (result == 0) {
+				}
+			},
+			error: function(){
+			}
+		}); 
+    }
+    
+    let total;
+    let price;
+    let cnt = 1;
+
+    function cartCal(param){
+    	
+    	
+        if ($(param).attr("name") == 'plus') {
+            cnt = Number($(param).prev().html()) + 1;
+        } else {
+            cnt = Number($(param).next().html()) - 1;
+        }
+        $("#cart-cnt").html(cnt);
+        $("#cart-total").html(setCommaRegular(cnt * Number(${goods.saleprice })));
+        /* $("#accumulate").html(setCommaRegular(cnt * Math.round(total * ${loginMember.accumulRate } / 100)));  */
+        
+    	check_under_one()
+    }
+
+    
+   
+        
+        // 모달 내부 내용을 input과 form으로 구현한 경우 모달이 닫힐 때 실행될 함수를 적는 부분
+        /* $("#cart-modal").on('hidden.bs.modal', function(event){
+       		$(this).find("#cart-modal-form")[0].reset();
+        });  */
+        
+    
+    function close_modal_reset(){
+    	$("#cart-cnt").html(1);
+    }
+    
+   	function check_under_one() {
+   		if ($("#cart-cnt").html() == 1) {
+	    	$("#cart-modal-minus").css("color", "lightgray");
+	    	console.log($("button[name=minus]")[0]);
+	    	$("#cart-modal-minus").attr("disabled", "disabled");
+	    } else {
+	    	$("#cart-modal-minus").css("color", "black");
+	    	$("#cart-modal-minus").removeAttr("disabled");
+	    }
+   		
+   		
+   		if ($("#cart-cnt").html() == 10) {
+	    	$("#cart-modal-plus").css("color", "lightgray");
+	    	console.log($("button[name=plus]")[0]);
+	    	$("#cart-modal-plus").attr("disabled", "disabled");
+	    } else {
+	    	$("#cart-modal-plus").css("color", "black");
+	    	$("#cart-modal-plus").removeAttr("disabled");
+	    }
+   	}
+   	
+   	function setCommaRegular(data){
+   		return data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+   	}
+   	
+   	$().ready(function(){
+   		
+   		check_under_one();
+   		
+   		$("#cart-price").html(setCommaRegular(${goods.saleprice }));
+    	$("#cart-total").html(setCommaRegular(cnt * ${goods.saleprice }));
+    	
+    	
+ 			/* $("#accumulate").html(setCommaRegular(Math.round(toModal_saleprice * ${loginMember.accumulRate } / 100)));  */
+   	});
+    
+    
     
 </script>    
 </head>
@@ -1087,7 +1022,7 @@ $(function(){
     <div class="col-2" style="background-color:white;"></div>
 	    <!-- 상세 메인 -->  
 	    <div class="col-3" style="width: 550px; height: 708px;">
-	        <img src="../resources/imgs/goods/${goods.thumSysFilename }" alt="크림파스타">  
+	        <img src="../resources/imgs/goods/${goods.thumSysFilename }" alt="상품사진">  
 	    </div>
 	    
     	<div class="col-1"></div>
@@ -1102,30 +1037,29 @@ $(function(){
 	                <h2 class="text-secondary">${goods.pDescription }</h2>    
 	        </div>
 	            <h2 class="price">
-		            <c:if test="${not empty goods.disRate }">
 		            <div style="display: flex; flex-direction: column; justify-content: center; float: left; margin-right: 10px;">	
 		            	<div>
+		            <c:if test="${goods.disRate != 0 }">
 		                <span style="color: red; margin-right: 10px;">${goods.disRate }%</span>
+		            </c:if>
 		                <span class="pr"><fmt:formatNumber value="${goods.saleprice }" pattern="#,###" /></span>
 		                <span class="ice">원</span>
 		                </div>
+		            <c:if test="${goods.disRate != 0 }">
 		                <div>
 				            <span style="text-decoration:line-through; font-size: 18px;" class="text-secondary"><fmt:formatNumber value="${goods.price }" pattern="#,###" />원</span>
 		                </div>
+		            </c:if>
 		            </div>  
-		            </c:if>
-		            <c:if test="${empty goods.disRate }">
-		            	<span><fmt:formatNumber value="${goods.price }" pattern="#,###" />원</span>
-		            </c:if>
 	            </h2> 
 	        <div class="bo">
-	        	<c:if test="${not empty login.id }">
-		            <span id="bo1" class="text-secondary"> ${member.grade } ${membership.saverate }일반 0.1% &nbsp;|&nbsp; </span>
-		            <span class="bo2">개당
-		                <strong> 8원 적립</strong>
+	        	<c:if test="${not empty loginMember.id }">
+		            <span id="bo1" class="text-secondary"> ${loginMember.grade }  &nbsp;|&nbsp; </span>
+		            <span class="bo2">
+		                <strong> ${loginMember.accumulRate }%</strong> 적립
 		            </span>	
 	        	</c:if>
-	        	<c:if test="${empty login.id }">
+	        	<c:if test="${empty loginMember.id }">
 	        		<span id="bo1" class="text-secondary">로그인 후, 적립 혜택이 제공됩니다.</span>
 	        	</c:if>
 	        </div>
@@ -1145,7 +1079,6 @@ $(function(){
 	                <dt id="dt2" class="text-dark">포장타입</dt>
 	                <dd class="dd2">
 	                    <p class="p3">${goods.condition }</p>
-	                    <p class="p4">택배배송 ~~~~</p>
 	                </dd>
 	            </dl>
 	    </div>
@@ -1157,18 +1090,16 @@ $(function(){
 	                <div class="container">
 	                    <span class="border">${goods.productName }</span>
 	                    <div class="btn1">
-	                    <div class="button">
-	                        <button type="button" class="minus amount" onclick="minus()">
-	                            <i class="bi bi-dash"></i>
-	                        </button>
-	                        <input type="text" id="su" value="1" style="border: none;" />
-	                        <button type="button" class="plus amount" onclick="plus()">
-	                            <i class="bi bi-plus"></i>
-	                        </button>
-	                    </div>
+	                    <div class="item-count-btn" style="display: flex; width: 110px; height: 35px; border: solid 1px lightgray; border-radius: 5px; justify-content:space-between;">
+                            <button type="button" id="cart-modal-minus" style="height: 30px; border: 0; line-height: 28px;" name="minus" onclick="cartCal(this)">-</button>
+                            <div id="cart-cnt">1</div>
+                            <button type="button" id="cart-modal-plus" style="height: 30px; border: 0; line-height: 28px;" name="plus" onclick="cartCal(this)">+</button>
+                        </div>
 	                    <div>
+	                    	<c:if test="${goods.disRate ne 0}">
 	                        <span style="text-decoration:line-through; font-size:14px;"><fmt:formatNumber value="${goods.price }" pattern="#,###" />원</span>
-	                        <span class="price2" style="font-size:14px;"><fmt:formatNumber value="${goods.saleprice }" pattern="#,###" />원</span>
+	                        </c:if>
+	                        <span id="cart-price" class="price2" style="font-size:14px;"><fmt:formatNumber value="${goods.saleprice }" pattern="#,###" />원</span>
 	                    </div>
 	                    </div>    
 	                </div>    
@@ -1179,53 +1110,33 @@ $(function(){
 	            <div class="box2">
 	                <div class="box3">
 	                    <span class="sp1">총 상품금액 : </span>
-	                    <c:if test="${not empty goods.disRate }">
-	                    <span class="sp2" id="total"><fmt:formatNumber value="${goods.saleprice }" pattern="#,###" /></span>
+	                    <span class="sp2" id="cart-total"></span>
 	                    <span class="sp3">원</span>
-	                    </c:if>
-	                    <c:if test="${empty goods.disRate }">
-		            	<span><fmt:formatNumber value="${goods.price }" pattern="#,###" />원</span>
-		            	</c:if>
 	                </div>
-	                <c:if test="${not empty login.id }">
+	                <c:if test="${not empty loginMember.id }">
 	                <div class="box4">
 	                    <span class="sp4">적립</span>
 	                    <span id="sp5" class="text-dark">구매 시
-	                        <strong class="str">8원 적립</strong>
+	                        <strong class="str">${loginMember.accumulRate }% 적립</strong>
 	                    </span>
 	                </div>
 	                </c:if>
-	                <c:if test="${empty login.id }">
+	                <c:if test="${empty loginMember.id }">
 	                	<span id="bo1" class="text-secondary" style="margin-left: 335px;">로그인 후, 적립 혜택이 제공됩니다.</span>
 	                </c:if>
 	            </div>
 	        </div>
 	        
+	        <!-- 찜하기 수진 수정  -->	        
 	        <div class="box5">
-	            <button class="bu1" id="btn-heart" type="button" 
-	            onclick="getJsonHeart('${memberVO.id}','${goods.productNum}')">
+	            <button class="bu1" id="btn-heart" type="button" onclick="addPickList()">
 	                <div class="i-heart">
 	                    <i id="heart " class="bi bi-heart"></i>
 	                </div>
 	            </button>
-	            <c:if test="${goods.stock != 0 }">
-	            <button class="bu2" disabled type="button" disabled>
-	                <div class="i-bell">
-	                <i id="bell" class="bi bi-bell"></i>
-	                </div>    
-	            </button>
-	            </c:if>
-	            <c:if test="${goods.stock == 0 }">
-	            <button class="bu2" disabled type="button">
-	                <div class="i-bell">
-	                <i id="bell" class="bi bi-bell"></i>
-	                </div>    
-	            </button>
-	            </c:if>
 	            <div class="btn">
-	                <input class="btn btn-primary3 active" type="button" style="width: 400px; height: 55px; 
-	                color: white; background-color: #692498; border: #692498; text-align: center" value="장바구니 담기">
-	                <input type="hidden" name="id" value="${member.id}">
+	                <button class="btn btn-primary3 active" type="button" onclick="add_shoppingcart()" style="width: 450px; height: 55px; margin-left: 20px; 
+	                color: white; background-color: #692498; border: #692498; text-align: center">장바구니 담기</button>
 	            </div>
 	       		</form> 
 	        </div>
@@ -1265,7 +1176,7 @@ $(function(){
             <hr>
             <div class="container">
                 
-                <div class="border" style="width: 950px; height: 55px;">
+                <div class="border" style="width: 1080px; height: 55px;">
                   <strong style="color: #692498; float: left; margin-right: 30px;">교환 및 환불 안내</strong>
                   <p style="float: left;">교환 및 환불이 필요하신 경우 고객행복센터로 문의해주세요.</p>
                    
@@ -1318,7 +1229,7 @@ $(function(){
             <hr>
 
             <div class="container">
-                <div class="border" style="width: 950px; height: 75px;">
+                <div class="border" style="width: 1080px; height: 75px;">
               <strong style="color: #692498; float: left; margin-right: 30px;">주문취소안내</strong>
               <p style="float: left;">
                 <strong>- [주문완료] 상태일 경우에만 주문 취소 가능합니다. <br>
@@ -1357,7 +1268,7 @@ $(function(){
             <hr>
 
             <div class="container">
-                <div class="border" style="width: 950px; height: 55px;">
+                <div class="border" style="width: 1080px; height: 55px;">
                   <strong style="color: #692498; float: left; margin-right: 30px;">배송관련 안내</strong>
                   <p style="float: left;">배송 과정 중 기상 악화 및 도로교통 상황에 따라 부득이하게 지연 배송이 발생될 수 있습니다.</p>
                 </div>
@@ -1368,13 +1279,16 @@ $(function(){
         <br><br><br><br><br>
     <div class="review">
         <a id="pro-re"></a>
-        <div>
-            <button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModal" 
-            style="float: right; margin-right: 70px; background-color: #692498; border: 1px solid #692498; 
-            color: white; font-weight: 700; width: 130px; height: 40px; border-radius: 0;">
-            <span>리뷰작성</span></button>
-            
-        </div>
+        <c:if test="${orderReviewList ne null && not empty orderReviewList}">
+	        <div>
+	            <button type="button" class="btn btn-primary2" onclick="reviewDoubleCheck();" 
+	            style="float: right; margin-right: 70px; background-color: #692498; border: 1px solid #692498; 
+	            color: white; font-weight: 700; width: 130px; height: 40px; border-radius: 0;">
+	            <span>리뷰작성</span></button>
+	            
+	        </div>
+        </c:if>
+        <c:if test="${empty order.orderNum }"></c:if>
         <section class="sec2">
             <header style="margin-bottom: 10px;">
                 <strong style="font-size: 20px;">상품후기</strong>
@@ -1385,13 +1299,6 @@ $(function(){
                 <li>후기 작성은 배송완료일로부터 30일 이내 가능합니다.</li>
                 <li>작성하신 후기는 바로 적립금이 지급됩니다.</li>
             </ul>
-            <div style="margin-top: 25px; margin-bottom: 20px;">
-                <span class="re_sp">총 14,646개</span>
-                <div id="review-re" class="re_bu">
-                    <button class="review-opt recommend" onclick="window.open('getRecommend.do')">추천순</button> | 
-                    <button class="review-opt recent" onclick="window.open('getRecent.do')">최근등록순</button>
-                </div>
-            </div>    
             <div class="container" style="width: 100%; margin-left: -20px;">
 
                 <tr>
@@ -1401,7 +1308,7 @@ $(function(){
                         <span class="notice">공지</span> &nbsp;&nbsp;&nbsp;
                         	금주의 베스트 후기 안내
                         </p>
-                      <div class="panel-faq-answer">
+                      <div class="panel-faq-answer" style="background-color: lightgray;">
                         <p>* 베스트 후기 당첨자 안내
                            	 안녕하세요~~ <br></p>
                       </div>
@@ -1417,7 +1324,7 @@ $(function(){
                         <span class="notice">공지</span> &nbsp;&nbsp;&nbsp;
                         	상품 후기 적립금 정책 안내
                         </p>
-                      <div class="panel-faq-answer">
+                      <div class="panel-faq-answer" style="background-color: lightgray;">
                         <p> [금주의 Best 후기 및 상품 후기 적립금 정책 변경 안내]
                             	고객님 안녕하세요~~<br></p>
                       </div>
@@ -1432,8 +1339,8 @@ $(function(){
             <div class="div_re">
                 <div>
                     <div>
-                        <span class="grade">${memberVO.grade }</span>
-                        <span>${memberVO.name }</span>
+                        <span class="grade">${loginMember.grade }</span>
+                        <span>${loginMember.name }</span>
                     </div>
                 </div>
                 <article>
@@ -1446,41 +1353,38 @@ $(function(){
                         </p>
                         <div>
                         <c:if test="${goodsReview.rSysFilename != null}">
-                           	<button style="width: 75px; height: 75px;">${goodsReview.rSysFilename }</button>
+                           	<button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModalImg" style="border: none;">
+                           	<img src="../resources/imgs/review/${goodsReview.rSysFilename }" style="width: 95px; height: 95px;">
+                           	</button>
                         </c:if>
                         <c:if test="${goodsReview.rSysFilename == null}"></c:if>
                         </div>
                         <footer style="margin-top: 15px;">
+                        <c:if test="${goodsReview.memberNum == loginMember.memberNum }">
                             <div>
                                 <span>${goodsReview.rDate }</span>
                                 <div style="float: right;">
                                 <div style="margin-right: 30px; font-size: 14px;">
-                                    <button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModal4" 
-                                    class="update" style="border: none; background-color: transparent; font-size: 14px;">수정</button> |
-                                    <button class="re-delete" name="${goods.productName }" value="${goodsReview.reviewNum }" 
-                                    style="border: none; background-color: transparent; 
-                                    font-size: 14px;">삭제</button>
-                                    <a href="deleteReview.do?reviewNum=${goodsReview.reviewNum }">삭제</a>
+                                    <a href="deleteReview.do?reviewNum=${goodsReview.reviewNum }&productNum=${goods.productNum }" 
+                                    style="text-decoration: none; color: black; font-size: 1em; margin-left: 5px;">삭제</a>
                                 </div>
-                                <div>
-                            <button class="rec_btn" style="float: right; margin-right:30px;" onclick="recBtn">
-                                <div class="thumbs-up">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                                <span class="thum">도움돼요</span>
-                                <input type="text" value="1" id="thumbsup" style="border: none; 
-                                background-color: transparent; width: 20px;">    
-                                <!--<span>0</span>-->
-                                </div>    
-                            </button>
                             </div>
                             </div>
-                            </div>
-
+						</c:if>
                         </footer>
                     </div>
                 </article>
             </div>
             </c:forEach>
+            
+            <div class="find-btn" style="margin-left:100px; margin-right: 150px;">
+                <button class="find-btn1" disabled>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button class="find-btn1">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
             </c:if>
             
             <!-- 상품 후기 없을 때 -->
@@ -1492,31 +1396,24 @@ $(function(){
             </c:if>
            </div> 
            
-            <div class="find-btn" style="margin-left:100px; margin-right: 50px;">
-                <button class="find-btn1" disabled>
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-                <button class="find-btn1">
-                    <i class="bi bi-chevron-right"></i>
-                </button>
-            </div>
             
             
         </section>  
     </div>
       <br><br><br>
       
-    <!-- 상품 문의 -->    
+      <!-- 상품 문의 -->    
     <div class="qna" style="margin-bottom: 20px;">
         <a id="pro-q"></a>
         <div>
             <div>
+            	<c:if test="${not empty loginMember.id }">
                 <button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModal2" 
                 id="promptStart" style="float: right; margin-right: 70px; background-color: #692498; 
                 border: 1px solid #692498; color: white; font-weight: 700; width: 130px; height: 40px; border-radius: 0;">
                 <span>문의하기</span>
                 </button>
- 
+            	</c:if> 
             </div>
             <div>
                 <strong style="font-size: 20px;">상품 문의</strong>
@@ -1531,12 +1428,11 @@ $(function(){
               <section>
                 <div class="d-flex inquiryPro-col">
                   <div class="Q_titleWrap">제목</div>
-                  <div class="Q_writer">작성자</div>       
                   <div class="Q_date">작성일</div>
                   <div class="Q_state">답변상태</div>
                 </div>
                 
-                <ul style="padding: 0px;">
+                <ul style="padding: 0px; ">
                 
 
                  <!-- 상품 문의 있을 때 -->
@@ -1544,7 +1440,7 @@ $(function(){
                  <c:if test="${not empty qlist }">
                   <!-- 데이터 있는 만큼 반복 -->    
                   <c:forEach var="goodsQnA" items="${qlist }">
-                  <section class="inquiryRow${goodsQnA.proQnaNum }">  
+                  <section class="inquiryRow">  
                     <button type="button" class="btn" data-toggle="collapse" data-target="#demo${goodsQnA.proQnaNum }" style="width: 1100px;">
                       <li class="d-flex inquiryPro-row" onclick="showAnswer()">
                         
@@ -1552,177 +1448,82 @@ $(function(){
                           <div class="pro_name">${goods.productName } </div><br>
                           <div class="Q_title" style="font-weight: bold;">${goodsQnA.qTitle }</div>
                         </div>
-                          <div class="Q_writer" style="padding-top: 20px; margin-left: -20px; width: 180px;">${memberVO.name }</div>
-                        <div class="Q_date minusPoint" style="padding-top: 20px; width: 180px; margin-left: 20px;">${goodsQnA.qDate }</div>
+                        <div class="Q_date minusPoint" style="padding-top: 20px; width: 200px; margin-left: 20px; margin-right: 10px;">${goodsQnA.qDate }</div>
                         <!-- 답변여부에 따라 변경-->
-                        <div class="Q_state plusPoint" style="padding-top: 20px; width: 180px; margin-left: 0px;">
-                        	<c:choose>
-                        	<c:when test="${member.grade == 0 }">
-                        		<button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModal3">답변하기</button>
-                        	</c:when>
-                        	<c:otherwise>
-                        	<c:if test="${goodsQnA.qStatus != null }">답변완료</c:if>
-                        	<c:if test="${goodsQnA.qStatus == null }">답변대기</c:if>
-                        	</c:otherwise>
-                        	</c:choose>
+                        <div class="Q_state plusPoint" style="padding-top: 20px; width: 220px; margin-left: 0px; text-align: center;">
+                        	<c:if test="${goodsQnA.aAnswer != null }"><p style="font-weight: bolder; color: purple;">답변완료</p></c:if>
+                        	
+                        	<c:if test="${goodsQnA.aAnswer == null }">답변대기</c:if>
                         </div>
                       </li>
                     </button>
 
                     <li class="answerPro">
                       <div class="collapse answerPro-row" id="demo${goodsQnA.proQnaNum }">
-					<c:if test="${goodsQnA.qStatus != null }">
+					<c:if test="${goodsQnA.aAnswer == null }">
                         <div class="inquiryPro-Area d-flex">
                           <div>
-                            <span class="icon"><img src="image/icons8-%EB%8F%99%EA%B7%B8%EB%9D%BC%EB%AF%B8-q-48.png" style="width: 25px;"></span>
+                            <span class="icon"><img src="../resources/imgs/goods/icons8-%EB%8F%99%EA%B7%B8%EB%9D%BC%EB%AF%B8-q-48.png" style="width: 25px;"></span>
                           </div>
                           <div class="content">
                           	<c:out value="${fn:replace(goodsQnA.qContent, newline, '<br>')}" escapeXml="false"/>
                           </div>
-                          <c:if test="${goodsQnA.memberNum == memberVO.memberNum }">
+                          <c:if test="${goodsQnA.memberNum == loginMember.memberNum }">
                             <div style="margin-left: 50px; text-align: right;">
                         <span style="text-align: right; margin-right: 30px; font-size: 14px;">
-                            <button type="button" class="btn btn-primary2 updateQnA" data-toggle="modal" data-target="#myModal5" 
-                            data-proqnanum="${goodsQnA.proQnaNum }" data-qtitle="${goodsQnA.qTitle }" data-qContent="${goodsQnA.qContent }"
-                            style="border: none;  background-color: transparent; font-size: 14px;">수정</button> |
-                            <a class="q-delete" style="border: none; background-color: transparent;" 
-                            href="deleteQnA.do?proQnaNum=${goodsQnA.proQnaNum }">삭제</a>
-                            <button class="q-delete" style="border: none; background-color: transparent;" onclick="q_delete()">삭제</button>
+                            <a class="q-delete" style="text-align: right; border: none; background-color: transparent; text-decoration: none; color: black; font-size: 1em; margin-left: 5px;" 
+                            href="deleteQnA.do?proQnaNum=${goodsQnA.proQnaNum }&productNum=${goods.productNum }">삭제</a>
                         </span>
-                        </div>
+                        	</div>
                         </c:if>
+                        
+                        <c:if test="${goodsQnA.memberNum != loginMember.memberNum }"></c:if>
+                        
                         </div>
 
                         <div class="answerPro-Area d-flex hide">
                             <div>
-                              <span class="icon"><img src="../resources/imgs/goods/${goods.thumSysFilename }" style="width: 25px; float: left; margin-right: 5px;"></span>
-                            </div>
-                            <div class="content">
-                            	${proComment.aContent }
-                              	안녕하세요 고객님, 먼저 저희 콜라비를 이용해 주셔서 감사합니다.
-                              <br> 품절된 또는 판매가 종료된 상품의 경우 협력사 협의 하에 따라 입고 여부 및 일정 등 결정 되고 있어, 별도 확인이 어려워 안내드리기 어려운 점 너른 양해 부탁드립니다.
-                              <br> 암튼 죄송합니당 
-                            <div class="css-1kna94k etpoi031">2022.11.23</div>
-                            </div>
-                        </div>
-
-                    </c:if>
-                    <c:if test="${goodsQnA.qStatus == null }">
-                    	<div class="inquiryPro-Area d-flex">
-                          <div>
-                            <span class="icon"><img src="image/icons8-%EB%8F%99%EA%B7%B8%EB%9D%BC%EB%AF%B8-q-48.png" style="width: 25px;"></span>
-                          </div>
-                          <div class="content">
-                          	<c:out value="${fn:replace(goodsQnA.qContent, newline, '<br>')}" escapeXml="false"/>
-                          </div>
-                            <div style="margin-left: 50px; text-align: right;">
-                        <span style="text-align: right; margin-right: 30px; font-size: 14px;">
-                            <button type="button" class="btn btn-primary2 updateQnA" data-toggle="modal" data-target="#myModal5" 
-                            data-proqnanum="${goodsQnA.proQnaNum }" data-qtitle="${goodsQnA.qTitle }" data-qContent="${goodsQnA.qContent }"
-                            style="border: none;  background-color: transparent; font-size: 14px;">수정</button> |
-                            <a class="q-delete" style="border: none; background-color: transparent;" 
-                            href="deleteQnA.do?proQnaNum=${goodsQnA.proQnaNum }">삭제</a>
-                            <button class="q-delete" style="border: none; background-color: transparent;" onclick="q_delete()">삭제</button>
-                        </span>
-                        </div>
-                        </div>
-                        
-                    	<div class="answerPro-Area d-flex hide">
-                            <div>
-                              <span class="icon"><img src="../resources/imgs/goods/${goods.thumSysFilename }" style="width: 25px; float: left; margin-right: 5px;"></span>
+                              <span class="icon"><img src="../resources/imgs/goods/icons8-%EB%8F%99%EA%B7%B8%EB%9D%BC%EB%AF%B8-a-48.png" style="width: 25px; float: left; margin-right: 5px;"></span>
                             </div>
                             <div class="content">
                             	<p>등록된 답변이 없습니다.</p>
-                            <div class="css-1kna94k etpoi031">2022.11.23</div>
                             </div>
                         </div>
-                    </c:if>
-                      </div>
-                    </li>
-                  </section>
-                  
-                  </c:forEach> 
-                  
-                  
-                  
-            <!-- 비밀글일 때 -->
-          	<c:if test="${goodsQnA.qSecret == 1 }">
-          		<section class="inquiryRow">                                                                   <!--여기 바뀌어야함-->
-                    <button type="button" class="btn" id="btn-secret" data-toggle="collapse" data-target="#demo" style="width: 1100px;">
-                      <li class="d-flex inquiryPro-row" onclick="showAnswer()">
-                        
-                        <div class="Q_titleWrapCon" style="width: 600px;">
-                          <div class="pro_name">[맨날먹는] 맛있는 반나나나 </div>
-                          <div class="Q_title">비밀글 입니다</div>
-                        </div>
-                          <div class="Q_writer" style="padding-top: 20px; margin-left: -20px; width: 180px;">홍길동</div>
-                        <div class="Q_date minusPoint" style="padding-top: 20px; width: 180px; margin-left: 20px;">22.11.23</div>
-                        <!-- 답변여부에 따라 변경-->
-                        <div class="Q_state plusPoint" style="padding-top: 20px; width: 180px; margin-left: 0px;">
-                        	<c:choose>
-                        	<c:when test="${member.grade == 0 }">
-                        		<button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModal3">답변하기</button>
-                        	</c:when>
-                        	<c:otherwise>
-                        	<c:if test="${goodsQnA.qStatus != null }">답변완료</c:if>
-                        	<c:if test="${goodsQnA.qStatus == null }">답변대기</c:if>
-                        	</c:otherwise>
-                        	</c:choose>
-                        </div>
-                      </li>
-                    </button>
-                    <fieldset>
-                    <!-- 회원은 비밀번호 입력시 보여짐 -->
-                    <c:if test="${member.id && member.grade != 0 }">
-                    	<legend>비밀글보기</legend>
-                    	<p class="password"><label for="secure_password">비밀번호</label> {$form.secure_password}</p>
-		                <p class="button">
-		                    <a href="#none" onclick="{$action_secure}"><p style="border: ">확인</p></a>
-		                </p>
-		            </c:if>    
-		            <!-- 관리자는 그냥 보여짐 -->
-		            <c:if test="${member.grade == 0 }">
-		            	
-		            </c:if>
-                    </fieldset>
 
-                    <li class="answerPro">
-                      <div class="collapse answerPro-row" id="demo">
-                        <div class="inquiryPro-Area d-flex">
+                    </c:if>
+                    <c:if test="${goodsQnA.aAnswer != null }">
+                    	<div class="inquiryPro-Area d-flex">
                           <div>
-                            <span class="icon"><img src="image/icons8-%EB%8F%99%EA%B7%B8%EB%9D%BC%EB%AF%B8-q-48.png" style="width: 25px;"></span>
+                            <span class="icon"><img src="../resources/imgs/goods/icons8-%EB%8F%99%EA%B7%B8%EB%9D%BC%EB%AF%B8-q-48.png" style="width: 25px;"></span>
                           </div>
-                          <div class="content">바나나 안 익어야지 맛있는데 ㅋ</div>
+                          <div class="content">
+                          	<c:out value="${fn:replace(goodsQnA.qContent, newline, '<br>')}" escapeXml="false"/>
+                          </div>
+                          <c:if test="${goodsQnA.memberNum != loginMember.memberNum }"></c:if>
+                            <c:if test="${goodsQnA.memberNum == loginMember.memberNum }">
                             <div style="margin-left: 50px; text-align: right;">
                         <span style="text-align: right; margin-right: 30px; font-size: 14px;">
-                            <button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModal5" 
-                            class="update" style="border: none; background-color: transparent; font-size: 14px;">수정</button> |
-                            <a class="q-delete" style="border: none; background-color: transparent;" 
-                            href="deleteQnA.do?proQnaNum=${goodsQnA.proQnaNum }">삭제</a>
-                            <button class="q-delete" style="border: none; background-color: transparent;">삭제</button>
+                            <a class="q-delete" style="border: none; background-color: transparent; text-decoration: none; color: black; font-size: 1em; margin-left: 5px;" 
+                            href="deleteQnA.do?proQnaNum=${goodsQnA.proQnaNum }&productNum=${goods.productNum }">삭제</a>
                         </span>
+                        	</div>
+                        	</c:if>
                         </div>
-                        </div>
-  
-                        <div class="answerPro-Area d-flex hide">
+                    	<div class="answerPro-Area d-flex hide">
                             <div>
-                              <span class="icon"><img src="../resources/imgs/goods/${goods.thumSysFilename }" style="width: 25px; float: left; margin-right: 5px;"></span>
+                              <span class="icon"><img src="../resources/imgs/goods/icons8-%EB%8F%99%EA%B7%B8%EB%9D%BC%EB%AF%B8-a-48.png" style="width: 25px; float: left; margin-right: 5px;"></span>
                             </div>
                             <div class="content">
-                              	안녕하세요 고객님, 먼저 저희 콜라비를 이용해 주셔서 감사합니다.
-                              <br> 품절된 또는 판매가 종료된 상품의 경우 협력사 협의 하에 따라 입고 여부 및 일정 등 결정 되고 있어, 별도 확인이 어려워 안내드리기 어려운 점 너른 양해 부탁드립니다.
-                              <br> 암튼 죄송합니당 
-                            <div class="css-1kna94k etpoi031">2022.11.23</div>
+                            <p><c:out value="${fn:replace(goodsQnA.aAnswer, newline, '<br>')}" escapeXml="false"/></p>
                             </div>
                         </div>
-
+                  		</c:if>
                       </div>
                     </li>
                   </section>
-          	</c:if>
-            
-            
-           
+               </c:forEach> 
+              </c:if>
+                  
             <div class="find-btn" style="margin-right: 50px;">
                 <button class="find-btn1" disabled>
                     <i class="bi bi-chevron-left"></i>
@@ -1731,7 +1532,6 @@ $(function(){
                     <i class="bi bi-chevron-right"></i>
                 </button>
             </div>
-             </c:if>
             
             <!-- 상품 문의 없을 때 -->
             <c:if test="${empty qlist }">
