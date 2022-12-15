@@ -437,7 +437,7 @@ function requestLeave () {
 	</div>
 
     <footer>
-     <jsp:include page="../common/footer.jspf" flush="true" />
+    	<%@ include file= "../common/footer.jspf" %>
     </footer>
     
  </body>

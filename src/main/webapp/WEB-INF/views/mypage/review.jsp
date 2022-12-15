@@ -27,15 +27,12 @@
 $(function(){
   let beforeWriteArea = document.querySelector('.beforeWriteArea');
   let writtenArea = document.querySelector('.writtenArea');
-
   console.log("before writeArea" + beforeWriteArea);
   beforeWriteArea.classList.remove('hide');
   writtenArea.classList.add('hide');
   
   $('#beforeWrite').attr('style', "border-bottom:none; color: #692498");
   $('#written').attr('style', "background-color: #FEF7FF;");
-
-
   var reviewInfo = { 
  				 memberNum : ${loginMember.getMemberNum()},
  				 reviewStatus :'N'
@@ -50,7 +47,6 @@ $(function(){
      writtenArea.classList.add('hide'); //숨김
      $('#beforeWrite').attr('style', "border-bottom:none; color: #692498");
      $('#written').attr('style', "background-color: #FEF7FF;");
-
      var reviewInfo = { 
     				 memberNum : ${loginMember.getMemberNum()},
     				 reviewStatus :'N'
@@ -87,7 +83,7 @@ $(function(){
 						htmlTag += '<div class="review-container" id="review" style="">';
 						htmlTag += '<div id="reviewContent">';
 						htmlTag += '<li class="d-flex inquiryPro-row" style="padding: 20px;">';
-						htmlTag += 		'<div class="pro_img"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumSysFilename +'" style="width: 60px; height: 60px; border-radius: 5px;"></div>';
+						htmlTag += 		'<div class="pro_img"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumOriFilename +'" style="width: 60px; height: 60px; border-radius: 5px;"></div>';
 						htmlTag += 		'<div class="pro_title" style="width: 560px; text-align: left;padding-left:20px" >';
 						htmlTag += 		'<div class="pro_name font-weight-bold">'+ reviewList.productName + '</div>';
 						htmlTag += 		'<div class="">' + reviewList.deliveryPick.substring(0,10)+ ' ' + reviewList.deliveryStatus + '</div>';
@@ -117,7 +113,7 @@ $(function(){
 						htmlTag += '<input type="hidden" name="memberNum" id="memberNum" value="'+reviewList.memberNum+'">';
 						htmlTag += '<div class="productInfo d-flex align-content-between" style="margin-bottom: 20px;">';
 		
-						htmlTag += '<div class="writeProImg" style="margin: 0px 20px"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumSysFilename +'"></div>';
+						htmlTag += '<div class="writeProImg" style="margin: 0px 20px"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumOriFilename +'"></div>';
 						htmlTag += '<div class="writeProName">'+ reviewList.productName + '</div>';
 						htmlTag += '</div>';
 						htmlTag += '<div class="writeArea d-flex">';
@@ -134,7 +130,6 @@ $(function(){
 						htmlTag += '<div class="fileIconBox" style="margin-right: 20px;">';
 						htmlTag += '<label for="file"><img src="https://cdn-icons-png.flaticon.com/512/1829/1829371.png" style="width: 60px; height: 60px;" alt="카메라" ></label>';
 						htmlTag += '</div>';
-
 						htmlTag += '<div><input type="file" id="file"  name="rOriFilename" onchange="setThumbnail(event)"></div>';
 						htmlTag += '<div border:1px solid purple">';						
 						htmlTag += '<label for="thumb"><img id="thumb" src="${pageContext.request.contextPath }/resources/imgs/member/blankBox.PNG" style="width: 60px; height: 60px;"></label>';			
@@ -198,7 +193,6 @@ $(function(){
 				console.log ("작성한 리뷰 갯수 : " + writeReviewCnt)
 				
 				let htmlTag = "";
-
 				if (data.length == 0) {
 					console.log("작성한 리뷰  없음")
 					htmlTag += '<div class="orderList">';
@@ -354,7 +348,6 @@ $(function(){
       text-align: left;
       margin: 20px 0px 30px 0px;
     }
-
      label { 
          display: block; 
          margin-top: 20px; 
@@ -375,11 +368,9 @@ $(function(){
          font-size: 0.9em; 
          color: #3a3a3a; 
      } 
-
     input:focus, textarea:focus{ 
         border: 1px solid #97d6eb; 
     } 
-
     /*리뷰 내용 적는 부분*/
      textarea {
       width: 530px;
@@ -412,7 +403,6 @@ $(function(){
          background-color: #692498; 
          opacity: 0.9; 
      }
-
     .review-modal { 
          position: fixed; 
          left: 0; 
@@ -464,7 +454,6 @@ $(function(){
         font-weight: bold;
     }
     
-
     .filebox, .buttonBox {
       width: 100%;
     }

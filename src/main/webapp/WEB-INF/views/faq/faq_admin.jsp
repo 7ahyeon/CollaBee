@@ -15,53 +15,43 @@
       text-decoration: none;
       color: black;
     }
-
     .list-group-item:hover {
       background-color: #FEF7FF;
     }
-
     .list-group-item:hover>a {
       font-weight: bold;
       text-decoration: none;
       color: #B03FE3;
     }
-
     .list-group-item:hover>span {
       font-weight: bold;
       text-decoration: none;
       color: #B03FE3;
     }
-
     .list-group-item a {
       width: 100%;
       display: block;
     }
-
     li span {
       font-size: large;
       font-weight: bold;
       color: black;
     }
-
     h2 {
       font-weight: bold;
     }
-
     h4 {
       font-weight: bolder;
     }
-
     h4 span {
       vertical-align: middle;
       font-size: small;
       color: #rgb(152,152,152);
     }
-
     .main {
       padding-bottom: 24px;
       padding-top: 10px;
     }
-
     .faq {
       display: flex;
       width: 100%;
@@ -69,54 +59,44 @@
       text-align: center;
       height: 61px;
     }
-
     .faq_top {
       padding: 10px;
       font-size: 11pt;
       vertical-align: middle;
       font-weight: bolder;
     }
-
     .card {
       border: white;
     }
-
     .card-header {
       background-color: white;
       height: 55px;
       padding-top: 13px;
     }
-
     .card-header a {
       color: black;
       text-decoration: none;
       vertical-align: middle;
     }
-
     .card-header span {
       text-align: center;
       font-size: 10.5pt;
     }
-
     .card-header:hover {
       color: black;
       text-decoration: none;
       background-color: white;
     }
-
     .card-body {
       border-top-color: white;
     }
-
     .card_answer {
       padding: 30px 30px 30px 70px;
       font-size: 14px;
     }
-
     .btn_list {
       padding-top: 45px;
     }
-
     .btn1 {
       display: inline-block;
       border: black;
@@ -124,11 +104,9 @@
       height: 44px;
       border-radius: 0.5em;
     }
-
     .btn1:hover {
       border: solid 1px darkgray;
     }
-
     .btn2 {
       display: inline-block;
       border: black;
@@ -136,15 +114,12 @@
       height: 44px;
       border-radius: 0.5em;
     }
-
     .btn2:hover {
       border: solid 1px darkgray;
     }
-
     .btns {
       text-align: center;
     }
-
     .faq_btn {
       padding: 0px 10px;
       text-align: center;
@@ -171,7 +146,6 @@
     $().ready(function(){
     	getFaqList();
     });
-
 	function getFaqList() {
 		var dataSend = {
 				faqType : $("select[name=location]").val()
@@ -198,8 +172,8 @@
 				  dispHtml += FaqVO.faqContent
 				  dispHtml += "</div>";
 				  dispHtml += "<div style='text-align: right;'>";    
-				  dispHtml += "<a href='faq_modify.do?faqNum="+FaqVO.faqNum+"' style='font-size:9pt; color: darkgray; text-decoration: none;'>수정</a>";
-				  dispHtml += "<a onclick='faq_delete("+FaqVO.faqNum+")' style='font-size:9pt; color: darkgray; text-decoration: none;'> 삭제</a>";
+				  dispHtml += "<a href='faq_modify.do?faqNum="+FaqVO.faqNum+"' style='font-size:9pt; color: darkgray; text-decoration: none;'>수정 |</a>";
+				  dispHtml += "<a onclick='faq_delete("+FaqVO.faqNum+")' style='font-size:9pt; color: red; text-decoration: none;'> 삭제</a>";
 				  dispHtml += "</div></div></div>";
 			} 
 			$("#type_faq").html(dispHtml);
@@ -208,8 +182,6 @@
 		}
 	}); 
 }
-
-
 </script>
 	
 

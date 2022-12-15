@@ -1,13 +1,17 @@
 package com.spring.collabee.view.mypage;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.spring.collabee.biz.emoneyusage.EmoneyUsageService;
 import com.spring.collabee.biz.member.MemberService;
+import com.spring.collabee.biz.member.MemberVO;
 import com.spring.collabee.biz.myreview.MyReviewService;
 
 @Controller
@@ -73,7 +77,20 @@ public class MypageController {
 	}
 	
 	
-	
+	//1215 수진 수정	
+	//회원탈퇴
+	@RequestMapping("/leaveCollabee.do")
+	public String leaveAjax(HttpServletRequest request, SessionStatus sessionStatus) {
+		String id = request.getParameter("id");
+		String password = request.getParameter("password");
+		System.out.println("leaveCollabee.do 실행 > ");
+		MemberVO mvo = new MemberVO();
+		mvo.setId(id);
+		mvo.setPassword(password);
+		memberService.leave(mvo);
+		return "redirect:/member/logout.do";
+	}
+		
 	
 
 	

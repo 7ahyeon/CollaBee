@@ -17,9 +17,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
-
 $(function(){ //document load
-
 	//카카오 지도
    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
@@ -47,18 +45,7 @@ $(function(){ //document load
 	var month= document.getElementById("birthMonth");
 	var day= document.getElementById("birthDay");
 	
-	
-	year.onkeyup = function(){
-		 yearChk (year.value) 
-	}
-
-	month.onkeyup = function(){
-		console.log("month 검사")
-		monthChk (month.value)
-	}
-
     var signupFrm = document.getElementsByName("signupFrm");
-
     // 아이디 성공, 실패 메시지
     let failuremessage = document.querySelector('.failure-message');
     let duplicateMsg = document.querySelector('.duplicateId-message');
@@ -109,7 +96,6 @@ $(function(){ //document load
             
         }	
     }// id.onkeyup끝
-
     // 아이디 4글자 이상 확인
     function isMoreThan4Length(value) {
         return value.length >= 4;
@@ -130,11 +116,9 @@ $(function(){ //document load
     	}
     }
     
-
     // 비밀번호 일치 불일치 체크
     let mismatchmessage = document.querySelector('.mismatch-message')
     let matchmessage = document.querySelector('.match-message');
-
     password2.onkeyup = function () {
 	    if ( isMatch(password.value, password2.value) ) {
 	        mismatchmessage.classList.add('hide')
@@ -145,7 +129,6 @@ $(function(){ //document load
 	        matchmessage.classList.add('hide')
 	    }
     }
-
     //비밀번호 값과 비밀번호 확인값 일치 확인
     function isMatch (password, password2) {
         if ( password === password2 ) {
@@ -154,16 +137,15 @@ $(function(){ //document load
             return false;
         }
     }
-
    	// 이메일 형식
    	 email.onkeyup = function () {
-	   	var emailReg = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;	   
-  		let failureMsg = document.querySelector('.failure-message-message');
-	  	var email = document.getElementById("email");
-	    console.log ("email : " + email.value);   
-	    if (!emailReg.test(email)){
+	   	//var emailReg = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;	   
+  		//let failureMsg = document.querySelector('.failure-message-message');
+	  	//var email = document.getElementById("email");
+	   console.log ("email : " + email.value);   
+	    /* if (!emailReg.test(email)){
    			failureMsg.classList.remove('hide');
-   		} 
+   		}  */
    	}
     
    	phone.onkeyup = function () {
@@ -188,12 +170,10 @@ $(function(){ //document load
    	
     // 휴대폰 번호만 입력
     let numberchkmessage = document.querySelector('.numberchk-message');
-
     $("input[onlyNumber]").on('keyup', function(){
         $(this).val($(this).val().replace(/[^0-9]/g, ""));
     });
 	
-
     //전체동의 클릭
     $("#allchk").click(function(){
         if($("#allchk").is(":checked")) {
@@ -202,7 +182,6 @@ $(function(){ //document load
             $(".chk").prop("checked", false);
         }
     }); 
-
     //전체동의 중 체크박스 하나 풀었을때 전체 체크 해제
     $(".chk").click(function(){
         if($("input[name='chk']:checked").length == 4) {
@@ -213,7 +192,6 @@ $(function(){ //document load
     });
     
 }); //document load끝
-
 	//이메일 중복검사
 	function confirmEmail () {
 		 var email = document.getElementById("email");	
@@ -263,8 +241,6 @@ $(function(){ //document load
 			}); //ajax끝
 		}// else 끝
 	}
-
-
    // 회원가입 폼 유효성 검사 및 데이터 전송
 	function signupChk() { 
 		//alert("회원가입클릭");	    
@@ -282,8 +258,6 @@ $(function(){ //document load
 		var day= document.getElementById("birthDay");
 		var birthday = year.value + month.value + day.value;
 		console.log("birth :  " + birthday);
-
-
         if (id.value == "") { //해당 입력값이 없을 경우 같은말: if(!uid.value)
             alert("아이디를 입력하세요.");
             id.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
@@ -310,35 +284,29 @@ $(function(){ //document load
             password2.focus();
             return false;
         }
-
         //이름 정규식 한글/2자 이상	
       	var regname = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
         
        if(!regname.test(name.value)) {    
            return false;
         }
-
         if (name.value == "") {
             alert("이름을 입력하세요.");
             name.focus();
             return false;
         };
         
-
         if (email.value == "") {
             alert("이메일 주소를 입력하세요.");
             email.focus();
             return false;
         }
-
         if (address.value == "") {
             alert("주소를 입력하세요.");
             address.focus();
             return false;
         }
-
         
-
         
         //(필수)체크박스 미체크시 
         if (!agree1.checked || !agree2.checked || !agree4.checked) { 
@@ -346,7 +314,6 @@ $(function(){ //document load
             agree.focus();
             return false;
         }
-
         console.log("mvo만들기");
         //입력 값 전송     
         var mvo = {	id: id.value, password: password.value, name: name.value,
@@ -354,7 +321,7 @@ $(function(){ //document load
         			gender: gender , birth: birthday, 
         			addressDetail: addressDetail.value };
     
- 		console.log("mvo: " + mvo);
+ 		console.log("회원가입 입력 데이터 : " + mvo);
  		console.log("JSON.stringify(mvo) : " + JSON.stringify(mvo));
     	
    	
@@ -367,13 +334,14 @@ $(function(){ //document load
 					console.log("data: " +data);
 					let signupFrmArea = document.querySelector('.signupFrmArea');
 					let signupResultArea = document.querySelector('.signupResultArea');
-
+					
 					if (data == false) {
 						alert("알수없는 오류로 회원가입에 실패했습니다.");
 					}
 					if (data == true) {
 						signupResultArea.classList.remove('hide');
 						signupFrmArea.classList.add('hide');
+						$('#signupId').html(id.value);
 					}
 			},
 			erroer: function(){
@@ -383,10 +351,9 @@ $(function(){ //document load
         
         
 	}	
-
    function login () {
-	   alert("로그인버튼클릭");
-	   location.href="/login.do";
+	   //alert("로그인버튼클릭");
+	   location.href="../member/login.do";
    }
    
 </script>
@@ -679,7 +646,7 @@ $(function(){ //document load
 				<div class="signupResultArea text-center hide">
 					<h3>회원가입 성공</h3>
 					<br>
-					<div><div>아이디</div><div><input type="text" name="signupId" class="form-control-plaintext" value="${singUpId }" readonly></div></div>
+					<div><div>아이디</div><div><span id="signupId"></span></div></div>
 					<br>
 					<div class="col-xs-8 col-xs-offset-4 text-center">
                          <button type="button" onclick="login()" class="btn text-center" style="background-color: #692498; color: white; width: 240px; height: 56px;"><b>콜라비와 쇼핑하기</b></button>

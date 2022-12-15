@@ -1,3 +1,4 @@
+<%@page import="com.spring.collabee.biz.member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,33 +12,34 @@
 	
 	<script src="${pageContext.request.contextPath }/resources/js/mypageScript.js"></script>
 	
+	<% MemberVO loginMember = (MemberVO)session.getAttribute("loginMember"); 	%>
 <script>
 $(function(){
-	if (${empty loginMember}) {
+	
+	if (${loginMember.memberNum} == "" ) {
 		alert("로그인 정보가 없습니다. 로그인화면으로 이동합니다.");
 		location.href = "../member/login.do";
 	} 	
 });
-
 	function leaveCollabee () {
-		alert("탈퇴버튼 클릭");
+		//alert("탈퇴버튼 클릭");
 		let leaveFrm = document.leaveFrm;
-		var memberPassword = ${loginMember.password};
+		var memberPassword = '${loginMember.password}';
 		var password = String(document.getElementById("password").value);
-		/*
+		
 		console.log("memberPassword : " + memberPassword);
 		console.log("탈퇴.password : " + password);
 		console.log("=====>타입체크 session, 입력");
 		console.log(typeof memberPassword);
 		console.log(typeof password);
-		*/
+	
 		if (memberPassword != password) {
 		    alert("비밀번호가 다릅니다");
 		    return false;
 		}
 		if (memberPassword == password) {
 			alert("탈퇴 처리 되었습니다.");
-			leaveFrm.action= "leaveCollabee.do?id=${loginMember.id}";
+			leaveFrm.action= "leaveCollabee.do";
 			leaveFrm.submit();	
 		}
  
@@ -47,7 +49,6 @@ $(function(){
     alert("탈퇴취소, 이전페이지로 이동합니다.");
     location.href="info.do";
   }
-
 </script> 
 
 <style>
@@ -167,17 +168,13 @@ $(function(){
                   <div class="form-group">
                     <div class="d-flex leaveRow">
                       <div class="title"><label for="password">비밀번호 입력</label></div>
-                      <div class="content"><input type="password" id="password" name="password" placeholder="현재 비밀번호를 입력해주세요" style="width: 332px; height: 46px; padding: 10px"></div>
+                      <div class="content">
+                      	<input type="hidden" id="id" name="id" value="${loginMember.id }">
+                      	<input type="password" id="password" name="password" placeholder="현재 비밀번호를 입력해주세요" style="width: 332px; height: 46px; padding: 10px">
+                      	</div>
                     </div>
                   </div>
-                <!-- 
-                  <div class="form-group">
-                    <div class="d-flex leaveRow">
-                      <div class="title">무엇이 불편하셨나요?</div>
-                      <div class="content"><textarea placeholder="고객님의 진심어린 충고? 지적? 부탁드립니다?"></textarea></div>
-                    </div>
-                  </div>
-                  -->          
+           
                   <div class="form-group">
                     <div class="col-xs-8 col-xs-offset-4 text-center">
                         <button type="button" onclick="cancellation()" class="btn text-center" id="whiteBtn"><small><b>취소</b></small></button>
@@ -197,7 +194,7 @@ $(function(){
     
     
     <footer>
-    	<jsp:include page="../common/footer.jspf" flush="true" />
+    	 <%@ include file= "../common/footer.jspf" %>
     </footer>
   </body>
 </html>

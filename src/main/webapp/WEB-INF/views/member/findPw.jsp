@@ -153,7 +153,7 @@ $(function(){ //document load
 
 </head>
 <body>
-   <header>
+   <header style="margin-bottom: 100px">
 		<%@ include file= "../common/header.jspf"%>
     </header>
     <div id="container">
@@ -221,7 +221,7 @@ $(function(){ //document load
     </div>    
     
     
-    <footer>
+    <footer style="margin-top: 200px">
 		<%@ include file= "../common/footer.jspf" %>
 		
     </footer>

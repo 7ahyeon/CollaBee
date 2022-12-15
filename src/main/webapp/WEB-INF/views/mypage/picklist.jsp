@@ -56,7 +56,7 @@ $(function(){
 						htmlTag += 
 						htmlTag += '<div class="d-flex align-content-between pick-item-container" style="padding: 20px 0px;">';
 						htmlTag += '<div class="item-col1">';
-						htmlTag += '<div class="pick-item-img"><img src="../'+ pick.thumOriFilename + '" style="width: 60px; height: 78px;"></div>';
+						htmlTag += '<div class="pick-item-img"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ pick.thumOriFilename + '" style="width: 60px; height: 78px;"></div>';
 						htmlTag += '</div>';
 						htmlTag += '<div class="item-col2" style="width:600px; height: 79px; margin-left: 20px; margin-right: 100px; border: 2px soild #B03FE3;">';
 						htmlTag += '<div class="pick-item-info-proname">'+ pick.productName +'</b></div>';
@@ -127,7 +127,7 @@ $(function(){
 	}
 	
 	function delPickList(productNum) {
-		alert("찜목록에서 삭제");
+		//alert("찜목록에서 삭제");
 		
 		var memberNum = ${loginMember.getMemberNum()}
 		var pickInfo = { "memberNum": memberNum, "productNum" : productNum }
@@ -178,7 +178,7 @@ $(function(){
 						$("#pickCnt").html(pickCnt);
 					},
 					erroer: function(){
-						alert("쿠폰 목록 불러오기 실패");
+						alert("찜한상품 불러오기 실패");
 					}
 				}); //ajax끝 
 

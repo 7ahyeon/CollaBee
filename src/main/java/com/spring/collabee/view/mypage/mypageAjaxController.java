@@ -94,13 +94,11 @@ public class mypageAjaxController {
 		
 	}
 
-	
-	@RequestMapping("/leaveAjax.do")
-	public String leaveAjax(MemberVO mvo, SessionStatus sessionStatus) {
-		System.out.println("leaveAjax.do 실행 > mvo : " + mvo );
-		memberService.leave(mvo);
-		return "mypage/logout.do";
-	}
+	/*
+	 * @RequestMapping("/leaveAjax.do") public String leaveAjax(MemberVO mvo,
+	 * SessionStatus sessionStatus) { System.out.println("leaveAjax.do 실행 > mvo : "
+	 * + mvo ); memberService.leave(mvo); return "mypage/logout.do"; }
+	 */
 	
 	
 	//마이페이지 상단 쿠폰 갯수
