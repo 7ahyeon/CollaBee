@@ -44,7 +44,8 @@ public class MypageReviewController {
 		prvo.setOrderNum(request.getParameter("orderNum"));
 		prvo.setProductNum(Integer.parseInt(request.getParameter("productNum")));
 		prvo.setMemberNum(Integer.parseInt(request.getParameter("memberNum")));
-		prvo.setrContent(request.getParameter("R_content"));
+		prvo.setrContent(request.getParameter("Rcontent"));
+		System.out.println(prvo.toString());
      
 		if(rOriFilename == null) {
 			System.out.println("파일업로드 안함");

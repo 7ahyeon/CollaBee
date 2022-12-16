@@ -113,7 +113,7 @@ $(function(){
 						htmlTag += '<input type="hidden" name="memberNum" id="memberNum" value="'+reviewList.memberNum+'">';
 						htmlTag += '<div class="productInfo d-flex align-content-between" style="margin-bottom: 20px;">';
 		
-						htmlTag += '<div class="writeProImg" style="margin: 0px 20px"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumOriFilename +'"></div>';
+						htmlTag += '<div class="writeProImg" style="border:none;margin: 0px 20px"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumOriFilename +'" style="width: 60px; height: 60px; border-radius: 5px;"></div>';
 						htmlTag += '<div class="writeProName">'+ reviewList.productName + '</div>';
 						htmlTag += '</div>';
 						htmlTag += '<div class="writeArea d-flex">';
@@ -121,7 +121,7 @@ $(function(){
 						htmlTag += 		'<label for="R_content"style="width: 80px; text-align: left;  margin: 0px; margin-right: 20px;">내용</label> ';
 						htmlTag += '</div>';
 						htmlTag += '<div>'
-						htmlTag += '<textarea type="text" name="R_content" placeholder="상품 특성에 맞는 후기를 작성해주세요. 예)레시피, 겉포장 속 실제 구성품 사진, 플레이팅, 화장품 사용자의 피부타입 등 " required="required"></textarea>';
+						htmlTag += '<textarea type="text" name="Rcontent" placeholder="상품 특성에 맞는 후기를 작성해주세요. 예)레시피, 겉포장 속 실제 구성품 사진, 플레이팅, 화장품 사용자의 피부타입 등 " required="required"></textarea>';
 						htmlTag += '</div>';
 						htmlTag += ' </div>';
 						htmlTag += '<div class="filebox d-flex align-content-between" style="margin-top:20px">';
@@ -132,7 +132,7 @@ $(function(){
 						htmlTag += '</div>';
 						htmlTag += '<div><input type="file" id="file"  name="rOriFilename" onchange="setThumbnail(event)"></div>';
 						htmlTag += '<div border:1px solid purple">';						
-						htmlTag += '<label for="thumb"><img id="thumb" src="${pageContext.request.contextPath }/resources/imgs/member/blankBox.PNG" style="width: 60px; height: 60px;"></label>';			
+						htmlTag += '<label for="thumb"><img class="thumb" src="${pageContext.request.contextPath }/resources/imgs/member/blankBox.PNG" style="width: 60px; height: 60px;"></label>';			
 						htmlTag += '</div>';
 						
 						htmlTag += '</div>';
@@ -207,7 +207,8 @@ $(function(){
 					$.each(data, function(index, reviewList){ 
 						htmlTag += '<div class="review-container" style="">';
 						htmlTag += '<li class="d-flex inquiryPro-row" style="padding: 20px;">';
-						htmlTag += '<div class="pro_img"><img src="" style="width: 60px; height: 60px; border-radius: 5px;"></div>';
+						htmlTag += '<div class="pro_img"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumOriFilename +'" style="width: 60px; height: 60px; border-radius: 5px;"></div>';
+						
 						htmlTag += '<div class="pro_title" style="width: 560px; text-align: left;padding-left:20px">';
 						htmlTag += '<div class="pro_name font-weight-bold">' + reviewList.productName + '</div>';
 						htmlTag += 		'<div>' + reviewList.deliveryPick.substring(0,10)+ '  ' + reviewList.deliveryStatus + '</div>';
@@ -239,7 +240,7 @@ $(function(){
 						htmlTag += '<input type="hidden" name="memberNum" id="memberNum" value="'+reviewList.memberNum+'">';
 						
 						htmlTag += '<div class="productInfo d-flex align-content-between" style="margin-bottom: 20px;">';
-							htmlTag += '<div class="writeProImg" style="margin: 0px 20px"><img src="#"></div>';
+							htmlTag += '<div class="writeProImg" style="border:none;margin: 0px 20px"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ reviewList.thumOriFilename +'" style="width: 60px; height: 60px; border-radius: 5px;"></div>';
 							htmlTag += '<div class="writeProName">'+ reviewList.productName + '</div>';
 						htmlTag += '</div>';
 						
@@ -254,12 +255,12 @@ $(function(){
 						htmlTag += '</div>';
 						
 						htmlTag += '<div class="filebox d-flex align-content-between" style="margin-top:20px">';
-						htmlTag += '<div style="width: 80px; text-align: left; margin-top: 15px border: 1px solid #692498;">사진첨부</div>';
+						htmlTag += '<div style="width: 100px; text-align: left; margin-top: 15px;">사진첨부</div>';
 						
 						htmlTag += '<div class="fileIconBox">';
 						//htmlTag += '<img src="c:/Users/ITWILL/git/collabee/src/main/webapp/resources/imgs/review/'+ reviewList.rSysFilename +'" style="width: 60px; height: 60px; " alt="상품" >'
 						//htmlTag += '<label for="file"><img src="https://cdn-icons-png.flaticon.com/512/1829/1829371.png" style="width: 60px; height: 60px; " alt="카메라" ></label>';
-						htmlTag += '<label for="thumb"><img id="thumb" src="${pageContext.request.contextPath }/resources/imgs/review/'+ reviewList.thumSysFilename +'" style="width: 60px; height: 60px;"></label>';			
+						htmlTag += '<label for="thumb"><img class="thumb" src="${pageContext.request.contextPath }/resources/imgs/member/blankBox.PNG" style="width: 60px; height: 60px;"></label>';
 						htmlTag += '</div>';
 						
 						//htmlTag += '</div>';
@@ -311,14 +312,14 @@ $(function(){
 	function setThumbnail(event) {
 		var reader = new FileReader();
 		reader.onload = function(event) {
-		    var img = document.getElementById("thumb");
+		    var img = $(".thumb");
 		    img.setAttribute("src", event.target.result); //이미지 주소를 변경해줌
 		    };
 		reader.readAsDataURL(event.target.files[0]);
 	}
 	 
 	function writeProReview() {
-		alert("리뷰 작성 실행");	
+		//alert("리뷰 작성 실행");	
 		var reviewFrm = document.getElementById("reviewFrm");
 		reviewFrm.action = "writeProReview.do";
 		reviewFrm.submit();		
@@ -331,7 +332,7 @@ $(function(){
 	}
 	
 	function saveReview(){
-		alert("리뷰 수정 실행");	
+		//alert("리뷰 수정 실행");	
 		mdfyReviewFrm = document.getElementById("mdfyReviewFrm");
 		mdfyReviewFrm.action ="modifyProReview.do";
 		mdfyReviewFrm.submit();
