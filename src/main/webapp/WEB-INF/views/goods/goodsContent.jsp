@@ -756,7 +756,7 @@
 	
 	  //찜하기 (수진)
     // 
-   	function addPickList (){{
+/*    	function addPickList (){{
    		alert("찜하기 클릭")
 	      	if (${loinMember } == "" ) {
 	      		location.href = "../member/login.do";
@@ -792,7 +792,7 @@
 	      		
 	      	}//else끝
 	      	
- 	 	}
+ 	 	} */
     
     
     //닫기/자세히보기
@@ -926,12 +926,13 @@
 			dataType: "json",
 			success: function(result){
 				if (result == 1) {
-					alert("장바구니에 담겼습니다.");
+					getBtnSignal(${goods.productNum}, 1);
 				} else if (result == 2) {
-					alert("이미 장바구니에 있습니다.");
+					getBtnSignal(${goods.productNum}, 2);
 				} else if (result == 3) {
-					alert("최대 수량입니다");
+					getBtnSignal(${goods.productNum}, 3);
 				} else if (result == 0) {
+					alert("오류");
 				}
 			},
 			error: function(){
@@ -1339,8 +1340,8 @@
             <div class="div_re">
                 <div>
                     <div>
-                        <span class="grade">${loginMember.grade }</span>
-                        <span>${loginMember.name }</span>
+                        <span class="grade">${goodsReview.grade }</span>
+                        <span>${goodsReview.name }</span>
                     </div>
                 </div>
                 <article>

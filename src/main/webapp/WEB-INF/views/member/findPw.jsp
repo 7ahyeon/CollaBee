@@ -79,7 +79,7 @@ $(function(){ //document load
 		dataType: "json", //서버로부터 응답받는 데이터형식
 		success: function(data) {
 			console.log(data);			
-			if (data == null) {
+			if (data.password === null) {
 				alert("정보를 다시 입력해주세요");
 				emailFrm.reset();
 				id.focus();
@@ -122,7 +122,7 @@ $(function(){ //document load
   
   
   function authChk() {
-	alert("authChk 클릭");
+	//alert("authChk 클릭");
 	var resultArea = $('.resultArea'); // 인증완료 후 비밀번호 확인
 	var mailAuthArea = $('.mailAuthArea'); // 인증완료 후 비밀번호 확인
 	var authNum = $('#authNum').val();
@@ -192,8 +192,8 @@ $(function(){ //document load
                 <div>
 					<input class="form-control mailChk" id="authNum" placeholder="인증번호 6자리를 입력해주세요!" maxlength="6">
                 </div>
-                <div>
-                	<button type="button" id="authChkbtn" onclick="authChk()">인증번호 확인</button>
+                <div  style="margin-left:30px">
+                	<button type="button" id="authChkbtn" onclick="authChk()" >인증번호 확인</button>
                 </div>
 				<div>
 					<div class="correct-message hide purple-message">인증번호가 일치합니다</div>

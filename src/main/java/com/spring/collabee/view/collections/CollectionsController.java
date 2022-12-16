@@ -125,6 +125,7 @@ public class CollectionsController {
 		System.out.println(">>> 베스트페이지");
 		
 		model.addAttribute("usingPage", "best");
+		model.addAttribute("filterType", "recommend");
 		return "/collections/new_item";
 	}
 	

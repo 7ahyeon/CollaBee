@@ -134,6 +134,11 @@
        		$("input[name=filterType]").val(type);
        		getJsonGoodsList()
        	}
+     	
+     	$().ready(function(){
+     		
+     		$("#filterType-input").val("recommend");
+     	});
         
     </script>
 

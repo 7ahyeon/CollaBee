@@ -55,7 +55,7 @@ $(function(){
 						htmlTag += '<section class="inquiryRow">';
 						htmlTag += '<button type="button" class="btn" data-toggle="collapse" data-target="#qna'+proQnaList.proQnaNum+'" style="width: 860px;">';
 						htmlTag += '<li class="d-flex inquiryPro-row">';
-						htmlTag += '<div class="Q_proImg"><img src=""></div>';
+						htmlTag += '<div class="Q_proImg"><img src=" ${pageContext.request.contextPath }/resources/imgs/goods/'+ pick.thumSysFilename  + '"style="width: 60px; height: 78px;" ></div>';
 						htmlTag += '<div class="Q_titleWrapCon">';
 						htmlTag += '<div class="pro_name">' + proQnaList.productName +'</div>';
 						htmlTag += '<div class="Q_title">' + proQnaList.qTitle +'</div>';
@@ -164,7 +164,7 @@ $(function(){
                 <ul style="padding: 0px;" id="inquiryArea">
                  
                   <!-- 데이터 있는 만큼 반복 -->     
-                 <section class="inquiryRow">                                                                   <!--여기 바뀌어야함-->
+                 <!-- <section class="inquiryRow">                                                                   여기 바뀌어야함
                     <button type="button" class="btn" data-toggle="collapse" data-target="#demo" style="width: 860px;">
                       <li class="d-flex inquiryPro-row" onclick="showAnswer()">
                         <div class="Q_proImg"><img src=""></div>
@@ -173,9 +173,9 @@ $(function(){
                           <div class="Q_title">바나나 안익은거도 보내주시나요?</div>
                         </div>
                         <div class="Q_date minusPoint" style="padding-top: 20px;">22.11.23</div>
-                        <!-- 답변여부에 따라 변경-->
+                        답변여부에 따라 변경
                         <div class="Q_state plusPoint" style="padding-top: 20px;">답변완료</div>
-                        <!-- <div class="Q_state minusPoint">답변대기</div> -->
+                        <div class="Q_state minusPoint">답변대기</div>
                       </li>
                     </button>
 
@@ -202,7 +202,7 @@ $(function(){
 
                       </div>
                     </li>
-                  </section>
+                  </section> -->
                   <!-- 반복 끝-->
            
                 </ul>

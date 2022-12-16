@@ -398,8 +398,8 @@ public class MemberController {
 			accessTocken = null;
 		} 
 		sessionStatus.isComplete();
-		session.invalidate();
 		sessionStatus.setComplete();
+		session.invalidate();
 		return "redirect:/member/login.do";
 	}
 	

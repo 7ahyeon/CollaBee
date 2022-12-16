@@ -56,7 +56,7 @@ $(function(){
 						htmlTag += 
 						htmlTag += '<div class="d-flex align-content-between pick-item-container" style="padding: 20px 0px;">';
 						htmlTag += '<div class="item-col1">';
-						htmlTag += '<div class="pick-item-img"><img src="${pageContext.request.contextPath }/resources/imgs/goods/'+ pick.thumOriFilename + '" style="width: 60px; height: 78px;"></div>';
+						htmlTag += '<div class="pick-item-img"><img src=" ${pageContext.request.contextPath }/resources/imgs/goods/'+ pick.thumSysFilename + '" style="width: 60px; height: 78px;"></div>';
 						htmlTag += '</div>';
 						htmlTag += '<div class="item-col2" style="width:600px; height: 79px; margin-left: 20px; margin-right: 100px; border: 2px soild #B03FE3;">';
 						htmlTag += '<div class="pick-item-info-proname">'+ pick.productName +'</b></div>';
@@ -90,7 +90,7 @@ $(function(){
 		location.href="../collections/main.do"
 	}
 	function addCart(goodsNum) {
-		alert("카트에 담기!"); //카트에담으면 찜목록에서 사라짐!
+		//alert("카트에 담기!"); //카트에담으면 찜목록에서 사라짐!
 			// 상품 개수
 			var goodsCount = 1;
 			
@@ -107,13 +107,13 @@ $(function(){
 				contentType: "application/json",
 				dataType: "json",
 				success: function(result){
-					alert("성공");
+					//alert("성공");
 					if (result == 1) {
-						alert("장바구니 추가 성공 알림 보내기");
+						getBtnSignal(goodsNum, 1);
 					} else if (result == 2) {
-						alert("이미 장바구니에 있는 상품 수량 추가 알림 보내기");
+						getBtnSignal(goodsNum, 2);
 					} else if (result == 3) {
-						alert("이미 최대 수량입니다");
+						getBtnSignal(goodsNum, 3);
 					} else if (result == 0) {
 						alert("오류");
 					}

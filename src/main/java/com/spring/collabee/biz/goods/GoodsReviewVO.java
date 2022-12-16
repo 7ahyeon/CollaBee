@@ -6,6 +6,8 @@ public class GoodsReviewVO {
 	private int productNum, memberNum, rec, point;
 	private String orderNum, reviewNum, rContent, rOriFilename, rSysFilename;
 	private Date rDate;
+	private int grade;
+	private String name;
 
 	public GoodsReviewVO() {
 		System.out.println("GoodsReview() 객체 생성");
@@ -68,9 +70,18 @@ public class GoodsReviewVO {
 	public void setrDate(Date rDate) {
 		this.rDate = rDate;
 	}
-	
-	
-	
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getPoint() {
 		return point;
 	}
@@ -87,11 +98,13 @@ public class GoodsReviewVO {
 	}
 	@Override
 	public String toString() {
-		return "GoodsReviewVO [reviewNum=" + reviewNum + ", orderNum=" + orderNum + ", productNum=" + productNum
-				+ ", memberNum=" + memberNum + ", rec=" + rec + ", point=" + point + ", rContent=" + rContent
-				+ ", rOriFilename=" + rOriFilename + ", rSysFilename=" + rSysFilename + ", rDate=" + rDate
-				+ ", uploadFile=" + uploadFile + "]";
+		return "GoodsReviewVO [productNum=" + productNum + ", memberNum=" + memberNum + ", rec=" + rec + ", point="
+				+ point + ", orderNum=" + orderNum + ", reviewNum=" + reviewNum + ", rContent=" + rContent
+				+ ", rOriFilename=" + rOriFilename + ", rSysFilename=" + rSysFilename + ", rDate=" + rDate + ", grade="
+				+ grade + ", name=" + name + ", uploadFile=" + uploadFile + "]";
 	}
+
+	
 	
 	
 	

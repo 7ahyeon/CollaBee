@@ -219,6 +219,11 @@
        		$("input[name=filterType]").val(type);
        		getJsonGoodsListByCategory()
        	}
+        
+        $().ready(function(){
+        	
+        	$("#filterType-input").val("recommend");
+        });
 		
     </script>
     

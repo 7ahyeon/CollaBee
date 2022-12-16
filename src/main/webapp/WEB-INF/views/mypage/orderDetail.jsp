@@ -49,81 +49,80 @@ $(function(){
 					        + '</div>';
 					        
 					        
-					        
-					        
-				htmlTag2 += '<div><h5 class="infoTitle">결제정보</h5></div>';
-				htmlTag2 +=  '<ul class="infoContent">';
-				htmlTag2 += '<li>'
-							 + '<span class="title1">상품금액</span>'
-							 + '<span class="content">' + orderList.totGoodsprice + '<span class="content">원</span> </span>'
-						 + '</li>';
-						 
-				htmlTag2 += '<li><span class="title1">배송비</span>'
-							+ '<span class="content">' + orderList.deliveryFee + '<span class="content">원</span> </span>'
-							+ '</li>';
-					
-				htmlTag2 += '<li><span class="title1">결제금액</span>'
-               				  + '<span class="content">' + orderList.totPrice + '<span class="content">원</span></span>'
-			               + '</li>';
-			               
-				htmlTag2 +=  '<li><span class="title1">적립금액</span>' 
-				    				+ '<span class="content">' + orderList.amount + '<span class="content">원</span></span>'
-							+ '</li>';
-							
-				htmlTag2 += '<li><span class="title1">결제방법</span>'
-								+'<span class="content">' + orderList.ptDetailname + '</span>'
-                			+'</li>';	
-                
-				htmlTag2 += '</ul>';
-
-
-            <!-- 주문정보 / 주문번호, 주문자, 결제 일시 -->
-	            htmlTag2 += '<div><h5 class="infoTitle">주문정보</h5></div>'
-				htmlTag2 += '<ul class="infoContent">';
-				htmlTag2 += '<li>'
-							+ '<span class="title2">주문번호</span>'
-							+ ' <span class="content">' + orderList.orderNum + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '<li>'
-							+ '<span class="title2">보내는 분</span>'
-							+ ' <span class="content">' + orderList.orderName + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '<li>'
-							+ '<span class="title2">결제일시</span>'
-							+ ' <span class="content">' + orderList.orderDate + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '</ul>';
-            
-            <!-- 배송정보 / 받는사람, 연락처 주소, 장소 포장?-->
-				htmlTag2 += '<div class="css-1bsokvi e1jm6dy15"><h5 class="infoTitle">배송정보</h5></div>';
-           
-				htmlTag2 += '<ul class="infoContent">';
-				htmlTag2 += '<li>'
-							+ '<span class="title2">받는분</span>'
-							+ ' <span class="content">' + orderList.orderName + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '<li>'
-							+ '<span class="title2">핸드폰</span>'
-							+ ' <span class="content">' + orderList.orderPhone + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '<li>'
-							+ '<span class="title2">주소</span>'
-							+ ' <span class="content">' + orderList.orderAddr + ' ' + orderList.orderAddrDetail + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '<li>'
-							+ '<span class="title2">받으실 장소</span>'
-							+ ' <span class="content">' + orderList.orderPlace + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '<li>'
-							+ '<span class="title2">공동현관 출입방법</span>'
-							+ ' <span class="content">' + orderList.orderRequest + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '<li>'
-							+ '<span class="title2">포장 방법</span>'
-							+ ' <span class="content">' + orderList.condition + '</span>'
-						+ ' </li>';	
-				htmlTag2 += '</ul>';
-          
+		        if(index == 0){ 
+					htmlTag2 += '<div><h5 class="infoTitle">결제정보</h5></div>';
+					htmlTag2 +=  '<ul class="infoContent">';
+					htmlTag2 += '<li>'
+								 + '<span class="title1">상품금액</span>'
+								 + '<span class="content">' + orderList.totGoodsprice + '<span class="content">원</span> </span>'
+							 + '</li>';
+							 
+					htmlTag2 += '<li><span class="title1">배송비</span>'
+								+ '<span class="content">' + orderList.deliveryFee + '<span class="content">원</span> </span>'
+								+ '</li>';
+						
+					htmlTag2 += '<li><span class="title1">결제금액</span>'
+	               				  + '<span class="content">' + orderList.totPrice + '<span class="content">원</span></span>'
+				               + '</li>';
+				               
+					htmlTag2 +=  '<li><span class="title1">적립금액</span>' 
+					    				+ '<span class="content">' + orderList.amount + '<span class="content">원</span></span>'
+								+ '</li>';
+								
+					htmlTag2 += '<li><span class="title1">결제방법</span>'
+									+'<span class="content">' + orderList.ptDetailname + '</span>'
+	                			+'</li>';	
+	                
+					htmlTag2 += '</ul>';
+	
+	
+	            <!-- 주문정보 / 주문번호, 주문자, 결제 일시 -->
+		            htmlTag2 += '<div><h5 class="infoTitle">주문정보</h5></div>'
+					htmlTag2 += '<ul class="infoContent">';
+					htmlTag2 += '<li>'
+								+ '<span class="title2">주문번호</span>'
+								+ ' <span class="content">' + orderList.orderNum + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '<li>'
+								+ '<span class="title2">보내는 분</span>'
+								+ ' <span class="content">' + orderList.orderName + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '<li>'
+								+ '<span class="title2">결제일시</span>'
+								+ ' <span class="content">' + orderList.orderDate + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '</ul>';
+	            
+	            <!-- 배송정보 / 받는사람, 연락처 주소, 장소 포장?-->
+					htmlTag2 += '<div class="css-1bsokvi e1jm6dy15"><h5 class="infoTitle">배송정보</h5></div>';
+	           
+					htmlTag2 += '<ul class="infoContent">';
+					htmlTag2 += '<li>'
+								+ '<span class="title2">받는분</span>'
+								+ ' <span class="content">' + orderList.orderName + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '<li>'
+								+ '<span class="title2">핸드폰</span>'
+								+ ' <span class="content">' + orderList.orderPhone + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '<li>'
+								+ '<span class="title2">주소</span>'
+								+ ' <span class="content">' + orderList.orderAddr + ' ' + orderList.orderAddrDetail + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '<li>'
+								+ '<span class="title2">받으실 장소</span>'
+								+ ' <span class="content">' + orderList.orderPlace + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '<li>'
+								+ '<span class="title2">공동현관 출입방법</span>'
+								+ ' <span class="content">' + orderList.orderRequest + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '<li>'
+								+ '<span class="title2">포장 방법</span>'
+								+ ' <span class="content">' + orderList.condition + '</span>'
+							+ ' </li>';	
+					htmlTag2 += '</ul>';
+		        }
            
 			$("#orderDetail1").html(htmlTag1);   
 			$("#orderDetail2").html(htmlTag2);   
@@ -165,7 +164,7 @@ $(function(){
 			contentType: "application/json",
 			dataType: "json",
 			success: function(result){
-				alert("성공");
+				//alert("성공");
 				if (result == 1) {
 					getBtnSignal(goodsNum, 1);
 				} else if (result == 2) {
@@ -200,15 +199,15 @@ $(function(){
 			contentType: "application/json",
 			dataType: "json",
 			success: function(result){
-				alert("성공");
+				//alert("성공");
 				if (result == 1) {
-					alert("장바구니 추가 성공 알림 보내기");
+					//alert("장바구니 추가 성공 알림 보내기");
 				} else if (result == 2) {
-					alert("이미 장바구니에 있는 상품 수량 추가 알림 보내기");
+					//alert("이미 장바구니에 있는 상품 수량 추가 알림 보내기");
 				} else if (result == 3) {
 					alert("이미 최대 수량입니다");
 				} else if (result == 0) {
-					alert("오류");
+					//alert("오류");
 				}
 			},
 			error: function(){
@@ -219,7 +218,7 @@ $(function(){
 	
 	//전체 주문 취소
 	function orderCancel(){
-		alert("전체 주문 취소");
+		alert("전체 주문 취소 - 준비중입니다.");
 	}
 	
 	
