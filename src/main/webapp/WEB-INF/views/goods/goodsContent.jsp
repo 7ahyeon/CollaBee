@@ -12,7 +12,6 @@
 <%@ include file= "../common/bootstrap.jspf"%>
 <%@ include file= "../common/modal/insertQnA.jspf"%>
 <%@ include file= "../common/modal/insertReview.jspf"%>
-<%@ include file= "../common/modal/imgModal.jspf"%>
 <%@ include file= "../common/modal/insertReviewConfirm.jspf"%>
 <%@ include file= "../common/modal/reviewDoubleAlert.jspf"%>
 <%@ include file= "../common/modal/updateQnA.jspf"%>
@@ -587,7 +586,7 @@
     .active {
       display: block;
       /* 높이를 정해줘야지만 transition이 적용됨 */
-      height: 300px;
+      height: 600px;
     }
     tbody tr {
         border-bottom-color: lightgray;
@@ -756,7 +755,7 @@
 	
 	  //찜하기 (수진)
     // 
-/*    	function addPickList (){{
+   	/* function addPickList (){{
    		alert("찜하기 클릭")
 	      	if (${loinMember } == "" ) {
 	      		location.href = "../member/login.do";
@@ -926,11 +925,11 @@
 			dataType: "json",
 			success: function(result){
 				if (result == 1) {
-					getBtnSignal(${goods.productNum}, 1);
+					getBtnSignal(${goods.productNum }, 1);
 				} else if (result == 2) {
-					getBtnSignal(${goods.productNum}, 2);
+					getBtnSignal(${goods.productNum }, 2);
 				} else if (result == 3) {
-					getBtnSignal(${goods.productNum}, 3);
+					getBtnSignal(${goods.productNum }, 3);
 				} else if (result == 0) {
 					alert("오류");
 				}
@@ -1307,32 +1306,38 @@
                     <div class="panel-faq-container">
                       <p class="panel-faq-title">
                         <span class="notice">공지</span> &nbsp;&nbsp;&nbsp;
-                        	금주의 베스트 후기 안내
+                        	상품 후기 적립금 정책 안내 
                         </p>
-                      <div class="panel-faq-answer" style="background-color: lightgray;">
-                        <p>* 베스트 후기 당첨자 안내
-                           	 안녕하세요~~ <br></p>
+                      <div class="panel-faq-answer" style="background-color: #e9e9e9;">
+                        <p>[ 상품 후기 적립금 정책 변경 안내 ] <br><br>
+
+							고객님 안녕하세요. 콜라비 입니다. <br>
+							적립금 지급 정책을 안내드리니 콜라비 이용에 참고 부탁드립니다. <br><br>
+							
+							■ 적립금 지급 정책 ■ <br><br>
+							
+							1. 일반 후기 <br>
+							-글 후기 50원/건 <br>
+							-사진 후기 100원/건 <br>
+							*콜라비 고객님께는 더블 후기 적립금이 지급됩니다. <br>
+							*지급에 영업일 기준 1~2일 소요됩니다. <br>
+							→ 금~일 작성 시, 월요일 지급 <br><br>
+							
+							2. 후기 적립금 지급 유의 사항 <br>
+							콜라비는 믿을 수 있는 후기문화를 함께 만들어가고자 합니다. 따라서 후기 내용이 아래에 해당하는 경우에는 검토 후 삭제 및 적립금 회수 조치될 수 있습니다. <br><br>
+							
+							1. 욕설, 폭력성, 음란성, 상업성 등 업체나 타인에게 불쾌한 내용을 작성한 경우 <br>
+							2. 구매한 상품과 무관한 내용이나 동일 문자/단순 초성의 반복 등 부적합한 내용을 작성한 경우 <br>
+							3. 상품의 기능이나 효과 등에 오해의 소지가 있는 내용을 작성한 경우 <br>
+							4. 저작권, 초상권 등 타인의 권리를 침해하는 이미지, 동영상을 사용한 경우 <br>
+							5. 구매한 상품이 아닌 캡쳐 사진, 포장 박스 사진 등 상품과 관련 없는 이미지, 동영상을 사용한 경우 <br><br>
+							
+							또한, 비정상적인 방법을 통해 후기를 작성하고 적립금을 취득한 경우 작성자에 법적 책임의 소지가 있음을 알려드립니다. <br></p>
                       </div>
                     </div>
                   </td>
                 </tr>
             </div><br>
-                <div class="container" style="margin-left: -20px;">
-                <tr>
-                  <td class="text-left" width="50%">
-                    <div class="panel-faq-container">
-                      <p class="panel-faq-title">
-                        <span class="notice">공지</span> &nbsp;&nbsp;&nbsp;
-                        	상품 후기 적립금 정책 안내
-                        </p>
-                      <div class="panel-faq-answer" style="background-color: lightgray;">
-                        <p> [금주의 Best 후기 및 상품 후기 적립금 정책 변경 안내]
-                            	고객님 안녕하세요~~<br></p>
-                      </div>
-                    </div>
-                  </td>
-                </tr>      
-                </div>
              
              <div class="reviewLoad">  
               <c:if test="${not empty rlist }">  
@@ -1354,24 +1359,23 @@
                         </p>
                         <div>
                         <c:if test="${goodsReview.rSysFilename != null}">
-                           	<button type="button" class="btn btn-primary2" data-toggle="modal" data-target="#myModalImg" style="border: none;">
-                           	<img src="../resources/imgs/review/${goodsReview.rSysFilename }" style="width: 95px; height: 95px;">
-                           	</button>
+                           	<img src="../resources/imgs/review/${goodsReview.rSysFilename }" style="width: 250px; height: 250px;">
+                           	
                         </c:if>
                         <c:if test="${goodsReview.rSysFilename == null}"></c:if>
                         </div>
                         <footer style="margin-top: 15px;">
-                        <c:if test="${goodsReview.memberNum == loginMember.memberNum }">
                             <div>
                                 <span>${goodsReview.rDate }</span>
+                        <c:if test="${goodsReview.memberNum == loginMember.memberNum }">
                                 <div style="float: right;">
                                 <div style="margin-right: 30px; font-size: 14px;">
                                     <a href="deleteReview.do?reviewNum=${goodsReview.reviewNum }&productNum=${goods.productNum }" 
                                     style="text-decoration: none; color: black; font-size: 1em; margin-left: 5px;">삭제</a>
                                 </div>
                             </div>
-                            </div>
 						</c:if>
+                            </div>
                         </footer>
                     </div>
                 </article>
@@ -1523,9 +1527,8 @@
                     </li>
                   </section>
                </c:forEach> 
-              </c:if>
                   
-            <div class="find-btn" style="margin-right: 50px;">
+            <div class="find-btn" style="margin-right: -50px;">
                 <button class="find-btn1" disabled>
                     <i class="bi bi-chevron-left"></i>
                 </button>
@@ -1533,10 +1536,11 @@
                     <i class="bi bi-chevron-right"></i>
                 </button>
             </div>
+              </c:if>
             
             <!-- 상품 문의 없을 때 -->
             <c:if test="${empty qlist }">
-            	     
+            	     <p style="margin-top:50px; text-align: center; vertical-align: middle; font-size: 15px;">작성된 문의가 없습니다</p>
             </c:if> 
             </div>
           </ul>  

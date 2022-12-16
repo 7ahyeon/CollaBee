@@ -71,7 +71,6 @@ $(function(){ //document load
     //console.log("이메일 : -" + email.value + "-");
 
     var mvo = { id: id.value, email: email.value };
-    alert("JSON.stringify(mvo): " +JSON.stringify(mvo))
 	$.ajax("findPwAjax.do", {
 		type: "post",
 		data: JSON.stringify(mvo), // 서버쪽으로 JSON 문자열 전달 
