@@ -400,7 +400,7 @@ public class MemberController {
 		sessionStatus.isComplete();
 		sessionStatus.setComplete();
 		session.invalidate();
-		return "redirect:/member/login.do";
+		return "/member/login";
 	}
 	
 	@GetMapping("/findId.do")

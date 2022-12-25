@@ -63,9 +63,9 @@
 		
 		<!-- Modal footer -->
 		<div class="modal-footer" style="border:none;margin-top:0px;">
-			<button type="button" class="btn btn-secondary font-weight-bold" onclick="orderChk()"
+			<button type="button" class="btn btn-secondary font-weight-bold" onclick="order_Chk()"
 				style="width:80px;border:1px solid #9A30AE;background-color:#9A30AE;border-radius:3px;padding:10px;color:white;font-size:1rem;">
-				 저장
+				 조회
 			</button>
 		</div>
 		   
@@ -73,57 +73,5 @@
 	</div>
 </div>
 <script>
-$(function() {
-	//휴대폰 11글자 입력 표기 
-	$("#nOrderPhone").keyup(function(e) {
-		if ($('#nOrderPhone').val().length != 11){
-			$('.chkPhone').css('display', 'block');
-		} else {
-			$('.chkPhone').css('display', 'none');
-		}
-	});
-	function orderChk(){
-		$('#orderChkModal').modal('hide');
-		/* if ($('.nOrderName').val().replace(/\s/gi, "") != '') {
-			if ($('.nOrderPhone').val().replace(/\s/gi, "") != '') {
-				if ($('.nOrderPhone').val().length == 11) {
-					var orderNameChk = $('.nOrderName').val();
-					var orderPhoneChk = $('.nOrderPhone').val();
-					
-					var sendOrderChkData = {
-							orderName : orderNameChk,
-							orderPhone : orderPhoneChk,
-						};
-					$.ajax({
-						type: "POST",
-						url: "../order/orderChk.do",
-						data: JSON.stringify(sendOrderChkData),
-						contentType: "application/json",
-						success: function(data){
-							$('#orderChkModal').modal('hide');
-							$('#orderChkModal').modal('show');
-						},
-						error: function(){
-						}
-					}); 
-				} else {
-					alertWarning('휴대폰 번호 11자리를 모두 입력해주세요.');
-				}
-			} else {
-				alertWarning('휴대폰 번호를 입력해주세요.');
-			}
-		} else {
-			alertWarning('이름을 입력해주세요.');
-		} */
-	}
-	function alertWarning(msg) {
-		Swal.fire({
-			icon: 'warning',
-			title: '', 
-			text: msg,
-			showConfirmButton: false,
-			timer: 1500
-		});
-	}
-});
+
 </script>

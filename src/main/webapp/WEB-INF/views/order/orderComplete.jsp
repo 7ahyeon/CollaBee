@@ -8,6 +8,7 @@
 <title>콜라비</title>
 <%@ include file= "../common/bootstrap.jspf"%>
 <%@ include file= "../common/modal/orderChkModal.jspf"%>
+<%@ include file= "../common/modal/nMemberOrderModal.jspf"%>
 <style>
 	header {
 		margin-bottom:100px;
@@ -164,6 +165,5 @@
 	<footer>
 		<%@ include file= "../common/footer.jspf"%>
 	</footer>
-
 </body>
 </html>

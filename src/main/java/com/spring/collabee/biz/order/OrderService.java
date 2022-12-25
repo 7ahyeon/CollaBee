@@ -6,6 +6,8 @@ import com.spring.collabee.biz.cart.CartVO;
 import com.spring.collabee.biz.emoneyusage.EmoneyUsageVO;
 
 public interface OrderService {
+	List<CartVO> getNMemberOrderList(OrderVO vo);
+	OrderVO getNMember(OrderVO vo);
 	
 	int getCouponCntN(OrderVO vo);
 	List<OrderCouponVO> getCouponListN(OrderVO vo);

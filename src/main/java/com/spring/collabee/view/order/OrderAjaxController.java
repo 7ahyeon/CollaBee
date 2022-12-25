@@ -1,7 +1,9 @@
 package com.spring.collabee.view.order;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -219,8 +221,19 @@ public class OrderAjaxController {
 	}
 	
 	@RequestMapping(value="/orderChk.do", method= RequestMethod.POST)
-	public void orderChk(@RequestBody OrderVO orderChk) {
-		
+	public Map<String, Object> orderChk(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response, @RequestBody OrderVO orderChk, OrderVO nOrders, Map<String, Object> map) {
+		if (orderService.getNMember(orderChk) != null) {
+			nOrders = orderService.getNMember(orderChk);
+			List<CartVO> nOrderGoods = new ArrayList<CartVO>();
+			nOrderGoods = orderService.getNMemberOrderList(nOrders);
+			
+			map = new HashMap<String, Object>();
+			map.put("nOrders", nOrders);
+			map.put("nOrderGoods", nOrderGoods);
+			map.put("result", 1);
+		} else {
+			map.put("result", 0);
+		}
+		return map;
 	}
-	
 }

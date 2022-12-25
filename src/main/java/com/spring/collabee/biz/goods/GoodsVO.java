@@ -35,7 +35,7 @@ public class GoodsVO {
 	
 	
 	public GoodsVO() {
-		System.out.println("GoodsVO 객체 생성~");
+		//System.out.println("GoodsVO 객체 생성~");
 	}
 
 

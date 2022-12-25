@@ -64,7 +64,111 @@
 			}); 
 	} 
 	
-   
+	$(function() {
+		
+		//휴대폰 11글자 입력 표기 
+		$("#nOrderPhone").keyup(function(e) {
+			if ($('#nOrderPhone').val().length != 11){
+				$('.chkPhone').css('display', 'block');
+			} else {
+				$('.chkPhone').css('display', 'none');
+			}
+		});
+		
+	});
+	// 숫자 1000단위 표기
+	function addComma(value){
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return value; 
+	}
+	function order_Chk(){
+		if ($('#nOrderName').val().replace(/\s/gi, "") != '') {
+			if ($('#nOrderPhone').val().replace(/\s/gi, "") != '') {
+				if ($('#nOrderPhone').val().length == 11) {
+					var orderNameChk = $('#nOrderName').val();
+					var orderPhoneChk = $('#nOrderPhone').val();
+					
+					var sendOrderChkData = {
+							orderName : orderNameChk,
+							orderPhone : orderPhoneChk,
+						};
+					$.ajax({
+						type: "POST",
+						url: "../order/orderChk.do",
+						data: JSON.stringify(sendOrderChkData),
+						contentType: "application/json",
+						success: function(data){
+							if (data.result == 1) {
+								$('#orderChkModal').modal('hide');
+								$('#nMemberOrderModal').modal('show');
+								
+								var phoneSub = data.nOrders.orderPhone.substring(0,3) + '-' + data.nOrders.orderPhone.substring(3,7) + '-' + data.nOrders.orderPhone.substring(7,11);
+								var delSub = data.nOrders.deliveryPick.substring(8,10) + '일 ' + data.nOrders.deliveryPick.substring(11,13) + '시 예정';
+								
+								$('#nMemberOrderNum').html(data.nOrders.orderNum);
+								$('#nMemberOrderName').html(data.nOrders.orderName);
+								$('#nMemberOrderPhone').html(phoneSub);
+								$('#nMemberOrderAddr').html(data.nOrders.orderAddr + ' ' + data.nOrders.orderAddrDetail);
+								$('#nMemberOrderDelivery').html(delSub);
+								
+								var totSub = '총 결제 금액 <span class="text-dark text-right" style="font-size:1.2rem;"> ' + addComma(String(data.nOrders.totPrice)) + ' 원</span>';
+								$('#nMemberTotPrice').html(totSub);
+								var nMemberOrderGoods = '';
+								$.each(data.nOrderGoods, function(index, goods){
+									nMemberOrderGoods += '<tr>';
+									nMemberOrderGoods += '<th class="text-secondary" colspan="2">';
+									nMemberOrderGoods += goods.productName;
+									nMemberOrderGoods += '</tr>';
+									nMemberOrderGoods += '<tr>';
+									nMemberOrderGoods += '<th class="text-center text-secondary">';
+									nMemberOrderGoods += goods.count + ' 개';
+									nMemberOrderGoods += '</th>';
+									nMemberOrderGoods += '<td class="text-dark">';
+									
+									var	nMgoodsPrice = goods.price * goods.count;
+									
+									if (goods.saleprice == goods.price) {
+										nMemberOrderGoods += '<span class="text-right text-secondary" style="width:200px;">';
+										nMemberOrderGoods += addComma(String(nMgoodsPrice)) + ' 원';
+										nMemberOrderGoods += '</span>';
+									} else {
+										var nMgoodsSalePrice = goods.saleprice * goods.count;
+										nMemberOrderGoods += '<span class="text-right text-secondary" style="width:200px;">';
+										nMemberOrderGoods += addComma(String(nMgoodsSalePrice)) + ' 원';
+										nMemberOrderGoods += '<span class="text-secondary text-right" style="font-size:0.8rem;"><del>';
+										nMemberOrderGoods += addComma(String(nMgoodsPrice)) + ' 원';
+										nMemberOrderGoods += '</del></span></span>';
+									}
+									nMemberOrderGoods += '</td>';
+									nMemberOrderGoods += '</tr>';
+								});
+								$('.nMemeberOrderTb2').html(nMemberOrderGoods);
+							} else {
+								alertWarning('주문 정보가 존재하지 않습니다.');
+							}
+						},
+						error: function(){
+						}
+					}); 
+				} else {
+					alertWarning('휴대폰 번호 11자리를 모두 입력해주세요.');
+				}
+			} else {
+				alertWarning('휴대폰 번호를 입력해주세요.');
+			}
+		} else {
+			alertWarning('이름을 입력해주세요.');
+		} 
+	}
+	function alertWarning(msg) {
+		Swal.fire({
+			icon: 'warning',
+			title: '', 
+			text: msg,
+			showConfirmButton: false,
+			timer: 1500
+		});
+	}
 </script> 
 <style>
 
@@ -102,7 +206,8 @@
 	}
 	
 </style>
-	
+	<%@ include file= "../common/modal/orderChkModal.jspf"%>
+	<%@ include file= "../common/modal/nMemberOrderModal.jspf"%>
 	<!-- 최상단 이동 버튼 -->
 	<button id="moveTopBtn" style="border: solid 1px black;"><i class="fa-solid fa-arrow-up"></i></button>
 	<!-- 장바구니 토스트 실행 버튼 -->
@@ -136,6 +241,7 @@
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/board/notice.do">공지사항</a>
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/faq/faq.do">자주하는 질문</a>
 			                    <a class="dropdown-item" href="${pageContext.request.contextPath }/inquiry/inquiry.do">1:1문의</a>
+			                    <a class="dropdown-item" data-toggle="modal" data-target="#orderChkModal">비회원 주문 조회</a>
 			                    </div>
 			                </div>
 			            </li>

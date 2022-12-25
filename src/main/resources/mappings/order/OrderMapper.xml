@@ -3,6 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orderDAO">
+
+	<select id="getNMember" parameterType="order" resultType="order">
+		SELECT *
+		FROM (SELECT *
+				FROM ORDERS
+				WHERE ORDER_NAME = #{orderName}
+				AND ORDER_PHONE = #{orderPhone}
+				ORDER BY ORDER_DATE DESC)
+		WHERE ROWNUM = 1
+	</select>
+	<select id="getNMemberOrderList" parameterType="order" resultType="cart">
+		SELECT O.*, P.PRODUCT_NAME PRODUCT_NAME
+		FROM ORDER_PRODUCT O, PRODUCT P
+		WHERE O.ORDER_NUM = #{orderNum}
+		AND P.PRODUCT_NUM = O.PRODUCT_NUM
+	</select>
+	
 	<update id="updateStock" parameterType="cart">
 		UPDATE PRODUCT
 		SET STOCK = STOCK - #{count},

@@ -20,6 +20,12 @@ public class OrderDAO {
 	
 	public OrderDAO() {
 	}
+	public OrderVO getNMember(OrderVO vo) {
+		return mybatis.selectOne("orderDAO.getNMember", vo);
+	}
+	public List<CartVO> getNMemberOrderList(OrderVO vo) {
+		return mybatis.selectList("orderDAO.getNMemberOrderList", vo);
+	}
 	public int getCouponCntN(OrderVO vo) {
 		return mybatis.selectOne("orderDAO.getCouponCntN", vo);
 	}

@@ -20,6 +20,15 @@ public class OrderServiceImpl implements OrderService {
 	
 	public OrderServiceImpl() {
 	}
+	
+	@Override
+	public OrderVO getNMember(OrderVO vo) {
+		return orderDao.getNMember(vo);
+	}
+	@Override
+	public List<CartVO> getNMemberOrderList(OrderVO vo) {
+		return orderDao.getNMemberOrderList(vo);
+	}
 
 	@Override
 	public int getCouponCntN(OrderVO vo) {
