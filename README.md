@@ -39,21 +39,21 @@
 ![16](https://user-images.githubusercontent.com/107123698/209477660-a1e4dd42-cb34-4840-b11b-fe6bdc26aadc.png)
 
 ## 조아현
-<img width="520" alt="슬라이드0055" src="https://user-images.githubusercontent.com/107123698/209477877-5ebbd302-4135-4dc5-909c-1cbbf1c25a66.png">
-<img width="520" alt="슬라이드0056" src="https://user-images.githubusercontent.com/107123698/209477880-1a6d2564-6174-4197-9162-f8e50f245636.png">
-<img width="520" alt="슬라이드0057" src="https://user-images.githubusercontent.com/107123698/209477881-f6f0c10d-2163-4240-9cb7-b0151a6c93a8.png">
-<img width="520" alt="슬라이드0058" src="https://user-images.githubusercontent.com/107123698/209477882-ae3f2536-b251-41fd-893c-527d057ba3e4.png">
-<img width="520" alt="슬라이드0059" src="https://user-images.githubusercontent.com/107123698/209477886-bdc14823-a738-413d-9b04-9d91bdc0cf46.png">
-<img width="520" alt="슬라이드0060" src="https://user-images.githubusercontent.com/107123698/209477888-e1356c96-66e3-446b-978a-753c1fec3779.png">
-<img width="520" alt="슬라이드0061" src="https://user-images.githubusercontent.com/107123698/209477889-c02143b9-cb0c-4f17-b39b-28b503e964dd.png">
-<img width="520" alt="슬라이드0062" src="https://user-images.githubusercontent.com/107123698/209477891-3d54472e-ba33-4ded-af53-3e96fff5cd77.png">
-<img width="520" alt="슬라이드0063" src="https://user-images.githubusercontent.com/107123698/209477893-df989b4b-0e7c-4b72-b37b-42905ed5b3c8.png">
-<img width="520" alt="슬라이드0064" src="https://user-images.githubusercontent.com/107123698/209477894-df6bdaed-f74e-4fcb-b73e-c9b0aed8928f.png">
-<img width="520" alt="슬라이드0065" src="https://user-images.githubusercontent.com/107123698/209477897-8b8733d4-899c-4424-8f41-47b7c5bc04df.png">
-<img width="520" alt="슬라이드0066" src="https://user-images.githubusercontent.com/107123698/209477898-b20acea4-9023-4e43-8595-99d9409dfe23.png">
-<img width="520" alt="슬라이드0067" src="https://user-images.githubusercontent.com/107123698/209477900-dcb12b84-b38a-44d1-9f0a-a3eaa79a57ad.png">
-<img width="520" alt="슬라이드0068" src="https://user-images.githubusercontent.com/107123698/209477902-27473dbe-4a00-493d-aaaa-e4f32ea4054a.png">
-<img width="520" alt="슬라이드0069" src="https://user-images.githubusercontent.com/107123698/209477904-e7f7e3c9-277b-48dc-9c4a-3b2da0e9644a.png">
+<img alt="슬라이드0055" src="https://user-images.githubusercontent.com/107123698/209477877-5ebbd302-4135-4dc5-909c-1cbbf1c25a66.png">
+<img alt="슬라이드0056" src="https://user-images.githubusercontent.com/107123698/209477880-1a6d2564-6174-4197-9162-f8e50f245636.png">
+<img alt="슬라이드0057" src="https://user-images.githubusercontent.com/107123698/209477881-f6f0c10d-2163-4240-9cb7-b0151a6c93a8.png">
+<img alt="슬라이드0058" src="https://user-images.githubusercontent.com/107123698/209477882-ae3f2536-b251-41fd-893c-527d057ba3e4.png">
+<img alt="슬라이드0059" src="https://user-images.githubusercontent.com/107123698/209477886-bdc14823-a738-413d-9b04-9d91bdc0cf46.png">
+<img alt="슬라이드0060" src="https://user-images.githubusercontent.com/107123698/209477888-e1356c96-66e3-446b-978a-753c1fec3779.png">
+<img alt="슬라이드0061" src="https://user-images.githubusercontent.com/107123698/209477889-c02143b9-cb0c-4f17-b39b-28b503e964dd.png">
+<img alt="슬라이드0062" src="https://user-images.githubusercontent.com/107123698/209477891-3d54472e-ba33-4ded-af53-3e96fff5cd77.png">
+<img alt="슬라이드0063" src="https://user-images.githubusercontent.com/107123698/209477893-df989b4b-0e7c-4b72-b37b-42905ed5b3c8.png">
+<img alt="슬라이드0064" src="https://user-images.githubusercontent.com/107123698/209477894-df6bdaed-f74e-4fcb-b73e-c9b0aed8928f.png">
+<img alt="슬라이드0065" src="https://user-images.githubusercontent.com/107123698/209477897-8b8733d4-899c-4424-8f41-47b7c5bc04df.png">
+<img alt="슬라이드0066" src="https://user-images.githubusercontent.com/107123698/209477898-b20acea4-9023-4e43-8595-99d9409dfe23.png">
+<img alt="슬라이드0067" src="https://user-images.githubusercontent.com/107123698/209477900-dcb12b84-b38a-44d1-9f0a-a3eaa79a57ad.png">
+<img alt="슬라이드0068" src="https://user-images.githubusercontent.com/107123698/209477902-27473dbe-4a00-493d-aaaa-e4f32ea4054a.png">
+<img alt="슬라이드0069" src="https://user-images.githubusercontent.com/107123698/209477904-e7f7e3c9-277b-48dc-9c4a-3b2da0e9644a.png">
 
 
 
