@@ -1,7 +1,8 @@
 # 온라인 쇼핑몰 'Collabee'
 <img width="483" alt="메인" src="https://user-images.githubusercontent.com/107123698/209476624-89e6c4d0-ed1c-431e-abf1-c5a0688b274a.PNG">
 ## 주제
-![주제](https://user-images.githubusercontent.com/107123698/209476753-2935a3b2-2f0d-4ab1-8d7e-493f15c610a9.png)
+![1조 Collabee](https://user-images.githubusercontent.com/107123698/209477543-83b9808d-e0e1-41cd-8310-564b4b686c31.png)
+
 비회원 주문과 검색 기능, 배송 시간 선택 등의 **소비자 친화적 기능**을 갖춘 온라인 쇼핑몰 웹사이트
 ## 메뉴 구성
 + **회원 관리**: 회원가입, 로그인, 아이디 찾기, 비밀번호 찾기, 회원정보 수정, 회원탈퇴
@@ -18,6 +19,7 @@
 + **이외**: Ajax(사용 기법), jQuery(라이브러리)
 + **API**: i'mport 결제(카드/카카오페이), 카카오 주소찾기, 카카오 로그인, 네이버 로그인, 자바메일
 ## 역할 분담
-![역할 분담](https://user-images.githubusercontent.com/107123698/209477438-4401ed7f-98ef-4b47-8d25-059ab8056653.png)
+![1조 Collabee (1)](https://user-images.githubusercontent.com/107123698/209477555-27bd44e8-9db0-4c35-bba2-5c04806efc35.png)
+
 + **조아현(팀원)**: DB 설계, 프론트엔드와 백엔드 개발( 장바구니, 회원/비회원 주문/결제)
 ## DB 설계
