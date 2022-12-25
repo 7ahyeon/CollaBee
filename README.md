@@ -30,3 +30,9 @@
 
 + **조아현(팀원)**: DB 설계, 프론트엔드와 백엔드 개발( 장바구니, 회원/비회원 주문/결제)
 ## DB 설계
+![11](https://user-images.githubusercontent.com/107123698/209477645-ee42b67b-eba6-4808-9449-78b0ac48504c.png)
+![12](https://user-images.githubusercontent.com/107123698/209477650-2a91f392-a7e8-4ae2-9ef6-a4a58c48bf2b.png)
+![13](https://user-images.githubusercontent.com/107123698/209477652-63700a4a-5eb7-4986-b583-1535b16062ab.png)
+![14](https://user-images.githubusercontent.com/107123698/209477655-39f368a3-c6ee-4e59-9835-8ee46fa334b6.png)
+![15](https://user-images.githubusercontent.com/107123698/209477658-359503cb-b674-4879-88d8-9471c480b2df.png)
+![16](https://user-images.githubusercontent.com/107123698/209477660-a1e4dd42-cb34-4840-b11b-fe6bdc26aadc.png)
