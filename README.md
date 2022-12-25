@@ -1,8 +1,8 @@
 # 온라인 쇼핑몰 'Collabee'
 <img width="483" alt="메인" src="https://user-images.githubusercontent.com/107123698/209476624-89e6c4d0-ed1c-431e-abf1-c5a0688b274a.PNG">
 ## 주제
-![1조 Collabee](https://user-images.githubusercontent.com/107123698/209477543-83b9808d-e0e1-41cd-8310-564b4b686c31.png)
 
+![1조 Collabee](https://user-images.githubusercontent.com/107123698/209477543-83b9808d-e0e1-41cd-8310-564b4b686c31.png)
 비회원 주문과 검색 기능, 배송 시간 선택 등의 **소비자 친화적 기능**을 갖춘 온라인 쇼핑몰 웹사이트
 ## 메뉴 구성
 + **회원 관리**: 회원가입, 로그인, 아이디 찾기, 비밀번호 찾기, 회원정보 수정, 회원탈퇴
