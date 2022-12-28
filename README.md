@@ -12,7 +12,7 @@
 + **개발 웹서버**: Apache Tomcat 9.0
 + **개발 프레임워크**: Spring 4.3.16, MyBatis, Maven, Bootstrap4.6
 + **개발 툴**: Eclipse IDE, Oracle SQL Developer
-+ **사용 언어**: Java(JDK 1.8), SQL, JSP & Servlet, HTML/CSS, JavaScript
++ **사용 언어**: Java(JDK 1.8), SQL, Servlets & JSP, HTML/CSS, JavaScript
 + **이외**: Ajax(사용 기법), jQuery(라이브러리)
 + **API**: i'mport 결제(카드/카카오페이), 카카오 주소찾기, 카카오 로그인, 네이버 로그인, 자바메일
 
