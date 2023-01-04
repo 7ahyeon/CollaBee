@@ -56,7 +56,22 @@
 						님의 주문이 완료되었습니다.
 					</div>
 					<div class="font-weight-bold"  style="color: #9A30AE;margin-top:5px;font-size:1.1rem;">
-						${orders.deliveryPick.substring(8,10) }일 ${orders.deliveryPick.substring(11,13) }시에 만나요!
+						<c:if test="${orders.deliveryPick.substring(6,7) == '-'}">
+						<c:if test="${orders.deliveryPick.substring(8,9) == ' '}">
+							${orders.deliveryPick.substring(7,8) }일 ${orders.deliveryPick.substring(9,11) }시에 만나요!
+						</c:if>
+						<c:if test="${orders.deliveryPick.substring(8,9) != ' '}">
+							${orders.deliveryPick.substring(7,9) }일 ${orders.deliveryPick.substring(10,12) }시에 만나요!
+						</c:if>
+					</c:if>
+					<c:if test="${orders.deliveryPick.substring(6,7) != '-'}">
+						<c:if test="${orders.deliveryPick.substring(9,10) == ' '}">
+							${orders.deliveryPick.substring(8,9) }일 ${orders.deliveryPick.substring(10,12) }시에 만나요!
+						</c:if>
+						<c:if test="${orders.deliveryPick.substring(9,10) != ' '}">
+							${orders.deliveryPick.substring(8,10) }일 ${orders.deliveryPick.substring(11,13) }시에 만나요!
+						</c:if>
+					</c:if>
 					</div>
 				</div>
 				<div class="card-body bg-white">
